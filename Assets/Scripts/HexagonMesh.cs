@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//HexagonMesh is a what turns cells into their hexagon shapes
+
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class HexagonMesh : MonoBehaviour {
 
@@ -18,7 +20,7 @@ public class HexagonMesh : MonoBehaviour {
         triangles = new List<int>();
 	}
 
-    public void Triangulate(HexagonCell[] cells)
+    public void Triangulate(HexagonCell[] cells) // Triangulate clears all of the initial data and triangulates every cell on the board again
     {
         hexMesh.Clear();
         vertices.Clear();
@@ -33,7 +35,7 @@ public class HexagonMesh : MonoBehaviour {
         hexMesh.RecalculateNormals();
     }
 
-    void AddTriangle(Vector3 v1, Vector3 v2, Vector3 v3)
+    void AddTriangle(Vector3 v1, Vector3 v2, Vector3 v3)// AddTriangle takes three points and makes them the vertices of a triangle
     {
         int vertexIndex = vertices.Count;
         vertices.Add(v1);
@@ -44,7 +46,7 @@ public class HexagonMesh : MonoBehaviour {
         triangles.Add(vertexIndex + 2);
     }
 
-    void Triangulate(HexagonCell cell)
+    void Triangulate(HexagonCell cell)//Triangulate finds the center point of the cell and creates the hexagon based off of that point
     {
         Vector3 center = cell.transform.localPosition;
         Quaternion rotation = Quaternion.Euler(90f, 0f,0f);
