@@ -19,7 +19,7 @@ public class Grid : MonoBehaviour {
     public Color defaultColor = Color.white;
     public Color touchedColor = Color.magenta;
 
-    HexagonCell[] cells;
+    public HexagonCell[] cells;
     Canvas gridCanvas;
     HexagonMesh hexMesh;
 
@@ -66,32 +66,40 @@ public class Grid : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
-		if(Input.GetMouseButtonDown(0))
-        {
-            HandleInput();
-        }
-	}
+	//void Update () {
+	//	if(Input.GetMouseButtonDown(0))
+ //       {
+ //           HandleInput();
+ //       }
+	//}
 
-    void HandleInput()
-    {
-        Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(inputRay, out hit))
-        {
-            TouchCell(hit.point);
-        }
-    }
+ //   void HandleInput()
+ //   {
+ //       Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+ //       RaycastHit hit;
+ //       if (Physics.Raycast(inputRay, out hit))
+ //       {
+ //           TouchCell(hit.point);
+ //       }
+ //   }
 
     void TouchCell(Vector3 position)
     {
         position = transform.InverseTransformPoint(position);
         HexagonCoord coordinates = HexagonCoord.FromPosition(position);
         int index = coordinates.X_coord + coordinates.Z_coord * width + coordinates.Z_coord / 2;
+        Debug.Log(index);
         HexagonCell cell = cells[index];
         cell.color = touchedColor;
         hexMesh.Triangulate(cells);
-        Debug.Log("touched at " + coordinates.ToString());
-        Debug.Log("touched at " + position);
+    }
+
+    public HexagonCell GetCell (Vector3 position)
+    {
+        position = transform.InverseTransformPoint(position);
+        HexagonCoord coordinates = HexagonCoord.FromPosition(position);
+        int index = coordinates.X_coord + coordinates.Z_coord * width + coordinates.Z_coord / 2;
+        return cells[index];
+        
     }
 }
