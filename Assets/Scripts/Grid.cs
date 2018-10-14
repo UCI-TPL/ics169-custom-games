@@ -16,6 +16,9 @@ public class Grid : MonoBehaviour {
 
     public Text cellLabelPrefab;
 
+    public Color defaultColor = Color.white;
+    public Color touchedColor = Color.magenta;
+
     HexagonCell[] cells;
     Canvas gridCanvas;
     HexagonMesh hexMesh;
@@ -53,6 +56,7 @@ public class Grid : MonoBehaviour {
         cell.transform.SetParent(transform, false);
         cell.transform.localPosition = position;
         cell.coords = HexagonCoord.FromOffsetCoordinates(a, b);
+        cell.color = defaultColor;
 
         Text label = Instantiate<Text>(cellLabelPrefab);
         label.rectTransform.SetParent(gridCanvas.transform);
@@ -69,13 +73,25 @@ public class Grid : MonoBehaviour {
         }
 	}
 
-    //void HandleInput()
-    //{
-    //    Ray2D inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-    //    RaycastHit2D hit;
-    //    if(Physics2D.Raycast(inputRay, out hit))
-    //    {
+    void HandleInput()
+    {
+        Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(inputRay, out hit))
+        {
+            TouchCell(hit.point);
+        }
+    }
 
-    //    }
-    //}
+    void TouchCell(Vector3 position)
+    {
+        position = transform.InverseTransformPoint(position);
+        HexagonCoord coordinates = HexagonCoord.FromPosition(position);
+        int index = coordinates.X_coord + coordinates.Z_coord * width + coordinates.Z_coord / 2;
+        HexagonCell cell = cells[index];
+        cell.color = touchedColor;
+        hexMesh.Triangulate(cells);
+        Debug.Log("touched at " + coordinates.ToString());
+        Debug.Log("touched at " + position);
+    }
 }
