@@ -13,6 +13,7 @@ public class HexagonMapEditor : MonoBehaviour {
 
     public StartUnit unit;
     public bool unitAlive = false;
+    public HexagonCell unitCell; // cell the unit is on
 
     HexagonCell previousCell;
 
@@ -44,10 +45,9 @@ public class HexagonMapEditor : MonoBehaviour {
     {
         HexagonCell currentCell = GetCellUnderCursor();
         int index = currentCell.coords.X_coord + currentCell.coords.Z_coord * hexGrid.width + currentCell.coords.Z_coord / 2;
-        Debug.Log(index);
         if(unitAlive)
         {
-            unit.transform.position = hexGrid.cells[index].transform.position;
+            MoveUnit(index);
         }
         //if (currentCell)
         //{
@@ -88,7 +88,25 @@ public class HexagonMapEditor : MonoBehaviour {
             Debug.Log("create boi");
             unit = Instantiate(unitPrefab);
             unitAlive = true;
+            unitCell = hexGrid.cells[0];
             unit.transform.position = hexGrid.cells[0].transform.position;
+        }
+    }
+
+    void MoveUnit(int index)
+    {
+        int distance = unitCell.coords.FindDistanceTo(hexGrid.cells[index].coords);
+        //Debug.Log("Distance From: " + unitCell.coords.ToString() + " To: " +
+        //hexGrid.cells[index].coords.ToString() +
+        //" = " + distance.ToString()); //for debugging distance
+        if (unit.mobility >= distance)
+        {
+            unit.transform.position = hexGrid.cells[index].transform.position;
+            unitCell = hexGrid.cells[index];
+        }
+        else
+        {
+            Debug.LogError("CAN'T MOVE THATS TOO FAR FOR THE UNIT");
         }
     }
 }

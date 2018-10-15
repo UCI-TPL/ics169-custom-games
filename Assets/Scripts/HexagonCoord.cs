@@ -28,12 +28,12 @@ public struct HexagonCoord{
 
     public override string ToString() // to use for visualization of coordinates
     {
-        return "(" + X_coord.ToString() + ", " + Z_coord + ")";
+        return "(" + X_coord.ToString() + ", " + Y_coord + ", " + Z_coord + ")";
     }
 
     public string ToStringSeparateLines() // to use for visualization of coordinates
     {
-        return X_coord.ToString() + "\n" + Z_coord.ToString();
+        return X_coord.ToString() + "\n" + Y_coord.ToString() + "\n" + Z_coord.ToString();
     }
 
     public static HexagonCoord FromPosition(Vector3 position)
@@ -48,9 +48,17 @@ public struct HexagonCoord{
         int iX = Mathf.RoundToInt(x);
         int iY = Mathf.RoundToInt(y);
         int iZ = Mathf.RoundToInt(-x - y);
-        Debug.Log(iX);
-        Debug.Log(iZ);
+        //Debug.Log(iX);
+        //Debug.Log(iZ);
         return new HexagonCoord(iX, iZ);
+    }
+
+    public int FindDistanceTo(HexagonCoord other)
+    {
+        return
+            ((X_coord < other.X_coord ? other.X_coord - X_coord : X_coord - other.X_coord) +
+            (Y_coord < other.Y_coord ? other.Y_coord - Y_coord : Y_coord - other.Y_coord) +
+            (Z_coord < other.Z_coord ? other.Z_coord - Z_coord : Z_coord - other.Z_coord)) / 2;
     }
 
 }

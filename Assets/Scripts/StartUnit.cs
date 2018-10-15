@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class StartUnit : MonoBehaviour {
 
+    public int mobility;
+    public int health;
+
 	// Use this for initialization
 	void Start () {
 		
