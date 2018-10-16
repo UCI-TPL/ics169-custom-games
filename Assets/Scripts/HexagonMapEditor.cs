@@ -13,7 +13,10 @@ public class HexagonMapEditor : MonoBehaviour {
 
     public StartUnit SelectedUnit;
     public bool isUnitSelected = false;
-    public HexagonCell unitCell; // cell the unit is on
+    public HexagonCell unitCell; // cell the selected unit is on
+
+    public bool attacking = false;
+    public bool whileAttacking = false;
 
     HexagonCell previousCell;
 
@@ -42,6 +45,11 @@ public class HexagonMapEditor : MonoBehaviour {
             CreateUnit();
             return;
         }
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            if(isUnitSelected) // only attack phase if a unit is selected
+                AttackPhase();
+        }
         previousCell = null;
 	}
 
@@ -49,26 +57,44 @@ public class HexagonMapEditor : MonoBehaviour {
     {
         HexagonCell currentCell = GetCellUnderCursor();
         int index = currentCell.coords.X_coord + currentCell.coords.Z_coord * hexGrid.width + currentCell.coords.Z_coord / 2;
-        if(currentCell.occupied) // if clicked and there is a unit there
+        if(currentCell.occupied && attacking) // if attacking and cell is occupied
+        {
+            if(!whileAttacking)
+                StartCoroutine(AttackUnit(currentCell, index));
+        }
+        else if (currentCell.occupied) // if clicked and there is a unit there
         {
             SelectUnit(currentCell, index); // make the selected unit that unit
         }
-        else if(!currentCell.occupied && isUnitSelected) // a unit is already selected
+        else if(!currentCell.occupied && isUnitSelected && !attacking) // a unit is already selected
         {
             MoveUnit(index);//move that selected unit
         }
 
     }
+    void AttackPhase()
+    {
+        if(attacking)
+        {
+            attacking = false;
+            hexGrid.ShowPath(unitCell, SelectedUnit.mobility, hexGrid.touchedColor);
+        }
+        else // not attacking yet
+        {
+            attacking = true;
+            hexGrid.ShowPath(unitCell, SelectedUnit.attackRange, hexGrid.attackColor);
+        }
+    }
 
-    void SelectUnit(HexagonCell current, int index)
+    void SelectUnit(HexagonCell current, int index) // sets variables to the clicked position's unit
     {
         SelectedUnit = current.unitOnTile;
         unitCell = hexGrid.cells[index];
         isUnitSelected = true;
-        hexGrid.ShowPath(unitCell, SelectedUnit.mobility);
+        hexGrid.ShowPath(unitCell, SelectedUnit.mobility, hexGrid.touchedColor);
     }
 
-    void DeselectUnit()
+    void DeselectUnit() // clears all variables to the clicked position
     {
         SelectedUnit = null;
         unitCell = null;
@@ -76,22 +102,25 @@ public class HexagonMapEditor : MonoBehaviour {
         hexGrid.ClearPath();
     }
 
-    //public void ShowPath(HexagonCell current, int mobility)
-    //{
-    //    for(int i =  0; i < (hexGrid.width * hexGrid.height); i++)
-    //    {
-    //        if(current.coords.FindDistanceTo(hexGrid.cells[i].coords) <= mobility)
-    //        {
-    //            hexGrid.cells[i].color = hexGrid.touchedColor;
-    //        }
-    //    }
-    //    hexGrid.
-    //}
+    IEnumerator AttackUnit(HexagonCell current, int index)
+    {
+        whileAttacking = true;
+        int distance = unitCell.coords.FindDistanceTo(hexGrid.cells[index].coords); //distance from attack to attacked unit
+        if (distance <= SelectedUnit.attackRange)
+        {
+            current.unitOnTile.health -= 5;
+        }
+        else
+        {
+            Debug.LogError("CAN'T ATTACK THERE TOO FAR AWAY");
+        }
+        yield return new WaitForSeconds(0.5f);
+        attacking = false;
+        hexGrid.ShowPath(unitCell, SelectedUnit.mobility, hexGrid.touchedColor);
+        whileAttacking = false;
 
-    //public void SelectColor(int index)
-    //{
-    //    activeColor = colors[index];
-    //}
+    }
+
 
     HexagonCell GetCellUnderCursor()
     {

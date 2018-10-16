@@ -17,7 +17,8 @@ public class Grid : MonoBehaviour {
     public Text cellLabelPrefab;
 
     public Color defaultColor = Color.white;
-    public Color touchedColor = Color.magenta;
+    public Color touchedColor = Color.cyan;
+    public Color attackColor = Color.red;
 
     public HexagonCell[] cells;
     Canvas gridCanvas;
@@ -83,13 +84,13 @@ public class Grid : MonoBehaviour {
     //       }
     //   }
 
-    public void ShowPath(HexagonCell current, int mobility)
+    public void ShowPath(HexagonCell current, int mobility,Color color)
     {
         for (int i = 0; i < (width * height); i++)
         {
             if (current.coords.FindDistanceTo(cells[i].coords) <= mobility)
             {
-                cells[i].color = touchedColor;
+                cells[i].color = color;
             }
             else
             {
