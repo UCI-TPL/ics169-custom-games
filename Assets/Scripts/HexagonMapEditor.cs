@@ -109,6 +109,10 @@ public class HexagonMapEditor : MonoBehaviour {
         if (distance <= SelectedUnit.attackRange)
         {
             current.unitOnTile.health -= 5;
+            if(current.unitOnTile.health <= 0)
+            {
+                RemoveUnitInfo(current, index);
+            }
         }
         else
         {
@@ -119,6 +123,13 @@ public class HexagonMapEditor : MonoBehaviour {
         hexGrid.ShowPath(unitCell, SelectedUnit.mobility, hexGrid.touchedColor);
         whileAttacking = false;
 
+    }
+
+    void RemoveUnitInfo(HexagonCell current, int index)
+    {
+        current.unitOnTile.dead = true;
+        current.occupied = false;
+        current.unitOnTile = null;
     }
 
 
