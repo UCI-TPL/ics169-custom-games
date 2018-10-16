@@ -99,6 +99,15 @@ public class Grid : MonoBehaviour {
         hexMesh.Triangulate(cells);
     }
 
+    public void ClearPath()
+    {
+        for (int i = 0; i < (width * height); i++)
+        {
+            cells[i].color = defaultColor;
+        }
+        hexMesh.Triangulate(cells);
+    }
+
     void TouchCell(Vector3 position)
     {
         position = transform.InverseTransformPoint(position);

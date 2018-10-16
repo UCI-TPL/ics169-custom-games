@@ -33,9 +33,7 @@ public class HexagonMapEditor : MonoBehaviour {
             }
             if(Input.GetMouseButton(1))
             {
-                SelectedUnit = null;
-                unitCell = null;
-                isUnitSelected = false;
+                DeselectUnit();
                 return;
             }
         }
@@ -68,6 +66,14 @@ public class HexagonMapEditor : MonoBehaviour {
         unitCell = hexGrid.cells[index];
         isUnitSelected = true;
         hexGrid.ShowPath(unitCell, SelectedUnit.mobility);
+    }
+
+    void DeselectUnit()
+    {
+        SelectedUnit = null;
+        unitCell = null;
+        isUnitSelected = false;
+        hexGrid.ClearPath();
     }
 
     //public void ShowPath(HexagonCell current, int mobility)
