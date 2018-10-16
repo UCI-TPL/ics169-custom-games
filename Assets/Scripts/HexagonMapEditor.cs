@@ -11,15 +11,14 @@ public class HexagonMapEditor : MonoBehaviour {
 
     public StartUnit unitPrefab;
 
-    public StartUnit unit;
-    public bool unitAlive = false;
+    public StartUnit SelectedUnit;
+    public bool isUnitSelected = false;
     public HexagonCell unitCell; // cell the unit is on
 
     HexagonCell previousCell;
 
 	// Use this for initialization
 	void Awake () {
-        SelectColor(0);
 		
 	}
 	
@@ -30,6 +29,13 @@ public class HexagonMapEditor : MonoBehaviour {
             if(Input.GetMouseButton(0))
             {
                 HandleInput();
+                return;
+            }
+            if(Input.GetMouseButton(1))
+            {
+                SelectedUnit = null;
+                unitCell = null;
+                isUnitSelected = false;
                 return;
             }
         }
@@ -45,24 +51,41 @@ public class HexagonMapEditor : MonoBehaviour {
     {
         HexagonCell currentCell = GetCellUnderCursor();
         int index = currentCell.coords.X_coord + currentCell.coords.Z_coord * hexGrid.width + currentCell.coords.Z_coord / 2;
-        if(unitAlive)
+        if(currentCell.occupied) // if clicked and there is a unit there
         {
-            MoveUnit(index);
+            SelectUnit(currentCell, index); // make the selected unit that unit
         }
-        //if (currentCell)
-        //{
+        else if(!currentCell.occupied && isUnitSelected) // a unit is already selected
+        {
+            MoveUnit(index);//move that selected unit
+        }
 
-        //}
-        //else
-        //{
-        //    previousCell = null;
-        //}
     }
 
-    public void SelectColor(int index)
+    void SelectUnit(HexagonCell current, int index)
     {
-        activeColor = colors[index];
+        SelectedUnit = current.unitOnTile;
+        unitCell = hexGrid.cells[index];
+        isUnitSelected = true;
+        hexGrid.ShowPath(unitCell, SelectedUnit.mobility);
     }
+
+    //public void ShowPath(HexagonCell current, int mobility)
+    //{
+    //    for(int i =  0; i < (hexGrid.width * hexGrid.height); i++)
+    //    {
+    //        if(current.coords.FindDistanceTo(hexGrid.cells[i].coords) <= mobility)
+    //        {
+    //            hexGrid.cells[i].color = hexGrid.touchedColor;
+    //        }
+    //    }
+    //    hexGrid.
+    //}
+
+    //public void SelectColor(int index)
+    //{
+    //    activeColor = colors[index];
+    //}
 
     HexagonCell GetCellUnderCursor()
     {
@@ -83,13 +106,14 @@ public class HexagonMapEditor : MonoBehaviour {
         //    StartUnit unit = Instantiate(unitPrefab);
         //    unit.transform.SetParent(hexGrid.transform, false);
         //}
-        if (!unitAlive)
+        if (!isUnitSelected) // only create units when not selecting one
         {
-            Debug.Log("create boi");
-            unit = Instantiate(unitPrefab);
-            unitAlive = true;
+            SelectedUnit = Instantiate(unitPrefab);
+            isUnitSelected = true;
             unitCell = hexGrid.cells[0];
-            unit.transform.position = hexGrid.cells[0].transform.position;
+            SelectedUnit.transform.position = hexGrid.cells[0].transform.position;
+            unitCell.occupied = true;
+            unitCell.unitOnTile = SelectedUnit;
         }
     }
 
@@ -99,10 +123,14 @@ public class HexagonMapEditor : MonoBehaviour {
         //Debug.Log("Distance From: " + unitCell.coords.ToString() + " To: " +
         //hexGrid.cells[index].coords.ToString() +
         //" = " + distance.ToString()); //for debugging distance
-        if (unit.mobility >= distance)
+        if (SelectedUnit.mobility >= distance)
         {
-            unit.transform.position = hexGrid.cells[index].transform.position;
+            unitCell.occupied = false;
+            unitCell.unitOnTile = null;
+            SelectedUnit.transform.position = hexGrid.cells[index].transform.position;
             unitCell = hexGrid.cells[index];
+            hexGrid.cells[index].occupied = true;
+            hexGrid.cells[index].unitOnTile = SelectedUnit;
         }
         else
         {

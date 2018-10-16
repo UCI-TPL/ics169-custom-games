@@ -7,8 +7,12 @@ using UnityEngine;
 public class HexagonCell : MonoBehaviour {
 
     public Color color;
+
+    public bool occupied = false;
     
     public HexagonCoord coords;
+
+    public StartUnit unitOnTile;
 
     private void Start()
     {

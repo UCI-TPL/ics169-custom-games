@@ -64,24 +64,40 @@ public class Grid : MonoBehaviour {
         label.text = cell.coords.ToStringSeparateLines();
 
     }
-	
-	// Update is called once per frame
-	//void Update () {
-	//	if(Input.GetMouseButtonDown(0))
- //       {
- //           HandleInput();
- //       }
-	//}
 
- //   void HandleInput()
- //   {
- //       Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
- //       RaycastHit hit;
- //       if (Physics.Raycast(inputRay, out hit))
- //       {
- //           TouchCell(hit.point);
- //       }
- //   }
+    // Update is called once per frame
+    //void Update () {
+    //	if(Input.GetMouseButtonDown(0))
+    //       {
+    //           HandleInput();
+    //       }
+    //}
+
+    //   void HandleInput()
+    //   {
+    //       Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+    //       RaycastHit hit;
+    //       if (Physics.Raycast(inputRay, out hit))
+    //       {
+    //           TouchCell(hit.point);
+    //       }
+    //   }
+
+    public void ShowPath(HexagonCell current, int mobility)
+    {
+        for (int i = 0; i < (width * height); i++)
+        {
+            if (current.coords.FindDistanceTo(cells[i].coords) <= mobility)
+            {
+                cells[i].color = touchedColor;
+            }
+            else
+            {
+                cells[i].color = defaultColor;
+            }
+        }
+        hexMesh.Triangulate(cells);
+    }
 
     void TouchCell(Vector3 position)
     {
