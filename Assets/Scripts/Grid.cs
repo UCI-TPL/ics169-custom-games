@@ -16,7 +16,7 @@ public class Grid : MonoBehaviour {
 
     public Text cellLabelPrefab;
 
-    public Color defaultColor = Color.white;
+    public Color defaultColor = Color.gray;
     public Color touchedColor = Color.cyan;
     public Color attackColor = Color.red;
 
@@ -43,7 +43,7 @@ public class Grid : MonoBehaviour {
 
     private void Start() // runs after awake()
     {
-        hexMesh.Triangulate(cells);
+        //hexMesh.Triangulate(cells);
     }
 
     void CreateCell(int a, int b, int c) // should only be called once when initializing the map 
@@ -57,7 +57,8 @@ public class Grid : MonoBehaviour {
         cell.transform.SetParent(transform, false);
         cell.transform.localPosition = position;
         cell.coords = HexagonCoord.FromOffsetCoordinates(a, b);
-        cell.color = defaultColor;
+        cell.spriteRenderer.color = defaultColor;
+        //cell.color = defaultColor;
 
         Text label = Instantiate<Text>(cellLabelPrefab);
         label.rectTransform.SetParent(gridCanvas.transform);
@@ -90,23 +91,23 @@ public class Grid : MonoBehaviour {
         {
             if (current.coords.FindDistanceTo(cells[i].coords) <= mobility)
             {
-                cells[i].color = color;
+                cells[i].spriteRenderer.color = color;
             }
             else
             {
-                cells[i].color = defaultColor;
+                cells[i].spriteRenderer.color = defaultColor;
             }
         }
-        hexMesh.Triangulate(cells);
+        //hexMesh.Triangulate(cells);
     }
 
     public void ClearPath()
     {
         for (int i = 0; i < (width * height); i++)
         {
-            cells[i].color = defaultColor;
+            cells[i].spriteRenderer.color = defaultColor;
         }
-        hexMesh.Triangulate(cells);
+        //hexMesh.Triangulate(cells);
     }
 
     void TouchCell(Vector3 position)

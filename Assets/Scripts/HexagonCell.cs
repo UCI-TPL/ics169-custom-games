@@ -14,6 +14,13 @@ public class HexagonCell : MonoBehaviour {
 
     public StartUnit unitOnTile;
 
+    public SpriteRenderer spriteRenderer;
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
     private void Start()
     {
         
