@@ -9,60 +9,146 @@ public class HexagonMapEditor : MonoBehaviour {
     public Grid hexGrid;
     private Color activeColor;
 
-    public StartUnit unitPrefab;
+    public StartUnit unit1Prefab;
+    public StartUnit unit2Prefab;
 
-    public StartUnit SelectedUnit;
-    public bool isUnitSelected = false;
+    public List<StartUnit> P1Team = new List<StartUnit>(); // list of player 1 team
+    public List<StartUnit> P2Team = new List<StartUnit>(); // list of player 2 team
+    public List<StartUnit> MoveableUnits; // mulitpurpose list to hold units with actions
+     
+    public StartUnit SelectedUnit; // the current unit that is selected
+    public bool isUnitSelected = false; // boolean to tell if a unit is selected
     public HexagonCell unitCell; // cell the selected unit is on
+
+    public bool initializing = true;
 
     public bool attacking = false;
     public bool whileAttacking = false;
 
-    HexagonCell previousCell;
+    public bool moveInProgress = false;
+
+    public enum TurnStates
+    {
+        START,
+        P1_MOVE,
+        P1_ATTACK,
+        P2_MOVE,
+        P2_ATTACK,
+        P1_WIN,
+        P2_WIN,
+        END
+    }
+
+    [SerializeField] private TurnStates currentState = TurnStates.START;
 
 	// Use this for initialization
 	void Awake () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if(!EventSystem.current.IsPointerOverGameObject())
-        {
-            if(Input.GetMouseButton(0))
-            {
-                HandleInput();
-                return;
-            }
-            if(Input.GetMouseButton(1))
-            {
-                DeselectUnit();
-                return;
-            }
-        }
-        if(Input.GetKeyDown(KeyCode.U))
-        {
-            CreateUnit();
-            return;
-        }
-        if(Input.GetKeyDown(KeyCode.T))
-        {
-            if(isUnitSelected) // only attack phase if a unit is selected
-                AttackPhase();
-        }
-        previousCell = null;
 	}
 
-    void HandleInput()
+    // Update is called once per frame
+    void Update()
+    {
+        switch (currentState)
+        {
+            case (TurnStates.START):
+                if (initializing) // stop loop if already doing it
+                {
+                    InitialPhase(2, unit1Prefab);
+                    InitialPhase(2, unit2Prefab);
+                    FindTeam("Player 1"); // find the units for player 1's team
+                    FindTeam("Player 2"); // "             " for player 2's team
+                }
+                MoveableUnits = new List<StartUnit>(P1Team); // put player 1's team in since they're going first
+                currentState = TurnStates.P1_MOVE;  // go to next phase
+                break;
+            case (TurnStates.P1_MOVE):
+                if (MoveableUnits.Count == 0) // once all units move break
+                {
+                    currentState = TurnStates.P1_ATTACK;
+                    MoveableUnits = new List<StartUnit>(P2Team);
+                }
+                MovePhase();
+                break;
+            case (TurnStates.P1_ATTACK):
+                if (!attacking) // only call once
+                {
+                    attacking = true;
+                    AttackPhase(P1Team); // handles all attacking for player 1
+                    attacking = false;
+                    currentState = TurnStates.P2_MOVE;
+                }
+                break;
+            case (TurnStates.P2_MOVE):
+                if (MoveableUnits.Count == 0)
+                {
+                    currentState = TurnStates.P2_ATTACK;
+                    MoveableUnits = new List<StartUnit>(P1Team);
+                }
+                MovePhase();
+                break;
+            case (TurnStates.P2_ATTACK):
+                if (!attacking)
+                {
+                    attacking = true;
+                    AttackPhase(P2Team);
+                    attacking = false;
+                    currentState = TurnStates.P1_MOVE;
+                }
+
+                break;
+            case (TurnStates.P1_WIN):
+                break;
+            case (TurnStates.P2_WIN):
+                break;
+            case (TurnStates.END):
+                break;
+        }   
+    }
+
+    public void FindTeam(string team_name) // places teams in the correct list for later use
+    {
+        GameObject[] l = GameObject.FindGameObjectsWithTag(team_name);
+        foreach(GameObject g in l)
+        {
+            if (team_name == "Player 1")
+                P1Team.Add(g.GetComponent<StartUnit>());
+            else
+                P2Team.Add(g.GetComponent<StartUnit>());
+        }
+    }
+
+    public void MovePhase() // handles input from the player to correctly move the unit
+    {
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            if (Input.GetMouseButton(0))
+            {
+                HandleInput();
+            }
+            if (Input.GetMouseButton(1))
+            {
+                DeselectUnit();
+            }
+        }
+    }
+
+    public void AttackPhase(List<StartUnit> attackingTeam) // handles input from the player to correctly attack
+    {
+
+        foreach(StartUnit unit in attackingTeam)
+        {
+            SelectedUnit = unit;
+            unitCell = hexGrid.GetCell(unit.transform.position);
+            isUnitSelected = true;
+            StartCoroutine(AttackUnit());
+        }
+    }
+     
+    void HandleInput() // get the current cell and depending on what phase, move, or select a unit
     {
         HexagonCell currentCell = GetCellUnderCursor2D();
         int index = currentCell.coords.X_coord + currentCell.coords.Z_coord * hexGrid.width + currentCell.coords.Z_coord / 2;
-        if(currentCell.occupied && attacking) // if attacking and cell is occupied
-        {
-            if(!whileAttacking)
-                StartCoroutine(AttackUnit(currentCell, index));
-        }
-        else if (currentCell.occupied) // if clicked and there is a unit there
+        if (currentCell.occupied) // if clicked and there is a unit there
         {
             SelectUnit(currentCell, index); // make the selected unit that unit
         }
@@ -72,7 +158,18 @@ public class HexagonMapEditor : MonoBehaviour {
         }
 
     }
-    void AttackPhase()
+
+    void HandleAttack() // similar to HandleInput() but for the attack phase only
+    {
+        HexagonCell currentCell = GetCellUnderCursor2D();
+        int index = currentCell.coords.X_coord + currentCell.coords.Z_coord * hexGrid.width + currentCell.coords.Z_coord / 2;
+        if (currentCell.occupied && attacking) // if attacking and cell is occupied
+        {
+            if (!whileAttacking)
+                StartCoroutine(AttackUnit());
+        }
+    }
+    void AttackToggle()  // switches between the display of the movement and attack range, not necessary currently
     {
         if(attacking)
         {
@@ -102,38 +199,47 @@ public class HexagonMapEditor : MonoBehaviour {
         hexGrid.ClearPath();
     }
 
-    IEnumerator AttackUnit(HexagonCell current, int index)
+    IEnumerator AttackUnit()
     {
         whileAttacking = true;
-        int distance = unitCell.coords.FindDistanceTo(hexGrid.cells[index].coords); //distance from attack to attacked unit
-        if (distance <= SelectedUnit.attackRange)
+        List<HexagonCell> targetable = new List<HexagonCell>();
+        foreach(HexagonCell cell in hexGrid.cells)
         {
-            current.unitOnTile.health -= 5;
-            if(current.unitOnTile.health <= 0)
+            if (unitCell.coords.FindDistanceTo(cell.coords) <= SelectedUnit.attackRange  && unitCell.coords.FindDistanceTo(cell.coords) > 0 && cell.occupied)
+                targetable.Add(cell);
+        }
+        if (targetable.Count >= 1)
+        {
+            int rand_index = Random.Range(0, targetable.Count);
+            targetable[rand_index].unitOnTile.health -= 5;
+            if (targetable[rand_index].unitOnTile.health <= 0)
             {
-                RemoveUnitInfo(current, index);
+                int index = targetable[rand_index].coords.X_coord + targetable[rand_index].coords.Z_coord * hexGrid.width + targetable[rand_index].coords.Z_coord / 2;
+                RemoveUnitInfo(targetable[rand_index], index);
             }
-        }
-        else
-        {
-            Debug.LogError("CAN'T ATTACK THERE TOO FAR AWAY");
-        }
+       }
         yield return new WaitForSeconds(0.5f);
-        attacking = false;
-        hexGrid.ShowPath(unitCell, SelectedUnit.mobility, hexGrid.touchedColor);
+        //hexGrid.ShowPath(unitCell, SelectedUnit.mobility, hexGrid.touchedColor);
         whileAttacking = false;
 
     }
 
-    void RemoveUnitInfo(HexagonCell current, int index)
+    void RemoveUnitInfo(HexagonCell current, int index)  // when a unit dies use this function to remove it from the grid
     {
+        if (current.unitOnTile.tag == "Player 1")
+            P1Team.Remove(current.unitOnTile);
+        else
+            P2Team.Remove(current.unitOnTile);
+        if (MoveableUnits.Contains(current.unitOnTile))
+            MoveableUnits.Remove(current.unitOnTile);
         current.unitOnTile.dead = true;
         current.occupied = false;
         current.unitOnTile = null;
+        
     }
 
 
-    HexagonCell GetCellUnderCursor()
+    HexagonCell GetCellUnderCursor() // find the cell under the cursor (outdated)
     {
         Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -144,7 +250,7 @@ public class HexagonMapEditor : MonoBehaviour {
         return null;
     }
 
-    HexagonCell GetCellUnderCursor2D()
+    HexagonCell GetCellUnderCursor2D() // findn the cell under the cursor thats 2D
     {
         Vector2 rayPos = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
         RaycastHit2D hit = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
@@ -156,33 +262,41 @@ public class HexagonMapEditor : MonoBehaviour {
         }
         else return null;
     }
-
-    void CreateUnit()
+    void InitialPhase(int numUnits, StartUnit team) // creates random units on the grid it sometimes repeats the units on tiles but not important cause will change later
     {
-        //HexagonCell cell = GetCellUnderCursor();
-        //if (cell)
-        //{
-        //    StartUnit unit = Instantiate(unitPrefab);
-        //    unit.transform.SetParent(hexGrid.transform, false);
-        //}
-        if (!isUnitSelected) // only create units when not selecting one
+        initializing = false;
+        int[] rand_nums = new int[numUnits];
+        for(int i = 0; i < numUnits; i++)
         {
-            SelectedUnit = Instantiate(unitPrefab);
-            isUnitSelected = true;
-            unitCell = hexGrid.cells[0];
-            SelectedUnit.transform.position = hexGrid.cells[0].transform.position;
-            unitCell.occupied = true;
-            unitCell.unitOnTile = SelectedUnit;
+            int rand = (Random.Range(1,hexGrid.width) * Random.Range(1,hexGrid.height)) - 1;
+            for(int j = 0; j < rand_nums.Length; j++)
+            {
+                if(rand == rand_nums[j])
+                    rand = (Random.Range(1, hexGrid.width) * Random.Range(1, hexGrid.height)) - 1;
+            }
+            rand_nums[i] = rand;
+            Debug.Log(rand);
+            CreateUnit(rand, team);
         }
+    }
+    void CreateUnit(int index, StartUnit unit)
+    {
+        SelectedUnit = Instantiate(unit);
+        isUnitSelected = true;
+        unitCell = hexGrid.cells[index];
+        SelectedUnit.transform.position = hexGrid.cells[index].transform.position;
+        unitCell.occupied = true;
+        unitCell.unitOnTile = SelectedUnit;
     }
 
     void MoveUnit(int index)
     {
+
         int distance = unitCell.coords.FindDistanceTo(hexGrid.cells[index].coords);
         //Debug.Log("Distance From: " + unitCell.coords.ToString() + " To: " +
         //hexGrid.cells[index].coords.ToString() +
         //" = " + distance.ToString()); //for debugging distance
-        if (SelectedUnit.mobility >= distance)
+        if (SelectedUnit.mobility >= distance && MoveableUnits.Contains(SelectedUnit))
         {
             unitCell.occupied = false;
             unitCell.unitOnTile = null;
@@ -190,6 +304,7 @@ public class HexagonMapEditor : MonoBehaviour {
             unitCell = hexGrid.cells[index];
             hexGrid.cells[index].occupied = true;
             hexGrid.cells[index].unitOnTile = SelectedUnit;
+            MoveableUnits.Remove(SelectedUnit);
         }
         else
         {
