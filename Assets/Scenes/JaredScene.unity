@@ -439,12 +439,14 @@ MonoBehaviour:
     type: 2}
   P1Team: []
   P2Team: []
+  MoveableUnits: []
   SelectedUnit: {fileID: 0}
   isUnitSelected: 0
   unitCell: {fileID: 0}
   initializing: 1
   attacking: 0
   whileAttacking: 0
+  moveInProgress: 0
   currentState: 0
 --- !u!114 &330579868
 MonoBehaviour:
@@ -1025,13 +1027,15 @@ MonoBehaviour:
   unit2Prefab: {fileID: 0}
   P1Team: []
   P2Team: []
+  MoveableUnits: []
   SelectedUnit: {fileID: 0}
   isUnitSelected: 0
   unitCell: {fileID: 0}
   initializing: 1
   attacking: 0
   whileAttacking: 0
-  currentState: 1
+  moveInProgress: 0
+  currentState: 0
 --- !u!1001 &1338684693
 Prefab:
   m_ObjectHideFlags: 0
