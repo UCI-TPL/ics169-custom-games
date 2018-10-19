@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class HexagonMapEditor : MonoBehaviour {
 
@@ -34,6 +35,7 @@ public class HexagonMapEditor : MonoBehaviour {
         P1_ATTACK,
         P2_MOVE,
         P2_ATTACK,
+        CHECK,
         P1_WIN,
         P2_WIN,
         END
@@ -43,7 +45,8 @@ public class HexagonMapEditor : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-	}
+
+    }
 
     // Update is called once per frame
     void Update()
@@ -92,15 +95,30 @@ public class HexagonMapEditor : MonoBehaviour {
                     attacking = true;
                     AttackPhase(P2Team);
                     attacking = false;
-                    currentState = TurnStates.P1_MOVE;
+                    currentState = TurnStates.CHECK;
                 }
 
                 break;
+            case (TurnStates.CHECK):
+                if (P1Team.Count == 0)
+                    currentState = TurnStates.P2_WIN;
+                else if (P2Team.Count == 0)
+                    currentState = TurnStates.P1_WIN;
+                else
+                {
+                    currentState = TurnStates.P1_MOVE;
+                }
+                break;
             case (TurnStates.P1_WIN):
+                Debug.Log("PLAYER 1 WINS");
+                currentState = TurnStates.END;
                 break;
             case (TurnStates.P2_WIN):
+                Debug.Log("PLAYER 2 WINS");
+                currentState = TurnStates.END;
                 break;
             case (TurnStates.END):
+                //SceneManager.LoadScene("VictoryScene"); // breaks game
                 break;
         }   
     }
@@ -205,7 +223,10 @@ public class HexagonMapEditor : MonoBehaviour {
         List<HexagonCell> targetable = new List<HexagonCell>();
         foreach(HexagonCell cell in hexGrid.cells)
         {
-            if (unitCell.coords.FindDistanceTo(cell.coords) <= SelectedUnit.attackRange  && unitCell.coords.FindDistanceTo(cell.coords) > 0 && cell.occupied)
+            if (unitCell.coords.FindDistanceTo(cell.coords) <= SelectedUnit.attackRange  
+                && unitCell.coords.FindDistanceTo(cell.coords) > 0 
+                && cell.occupied
+                && SelectedUnit.tag != cell.unitOnTile.tag)
                 targetable.Add(cell);
         }
         if (targetable.Count >= 1)

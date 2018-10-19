@@ -67,23 +67,6 @@ public class Grid : MonoBehaviour {
 
     }
 
-    // Update is called once per frame
-    //void Update () {
-    //	if(Input.GetMouseButtonDown(0))
-    //       {
-    //           HandleInput();
-    //       }
-    //}
-
-    //   void HandleInput()
-    //   {
-    //       Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-    //       RaycastHit hit;
-    //       if (Physics.Raycast(inputRay, out hit))
-    //       {
-    //           TouchCell(hit.point);
-    //       }
-    //   }
 
     public void ShowPath(HexagonCell current, int mobility,Color color)
     {
