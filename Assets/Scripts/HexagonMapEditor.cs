@@ -211,8 +211,23 @@ public class HexagonMapEditor : MonoBehaviour {
         if (targetable.Count >= 1)
         {
             int rand_index = Random.Range(0, targetable.Count);
-            targetable[rand_index].unitOnTile.health -= 5;
-            if (targetable[rand_index].unitOnTile.health <= 0)
+            float random_val = Random.value;
+            int damage = SelectedUnit.attack;
+            if (random_val < SelectedUnit.crit)
+                damage = SelectedUnit.attack * 2;
+
+            targetable[rand_index].unitOnTile.current_health -= damage;
+
+            if (targetable[rand_index].unitOnTile.current_attack > 10)
+            {
+                float percenthealth = targetable[rand_index].unitOnTile.current_health / targetable[rand_index].unitOnTile.health;
+                Debug.Log(percenthealth);
+                Debug.Log("HP");
+                targetable[rand_index].unitOnTile.current_attack *= percenthealth;
+            }
+
+
+            if (targetable[rand_index].unitOnTile.current_health <= 0)
             {
                 int index = targetable[rand_index].coords.X_coord + targetable[rand_index].coords.Z_coord * hexGrid.width + targetable[rand_index].coords.Z_coord / 2;
                 RemoveUnitInfo(targetable[rand_index], index);
