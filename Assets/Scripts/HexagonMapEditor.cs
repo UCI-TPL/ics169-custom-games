@@ -6,10 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class HexagonMapEditor : MonoBehaviour {
 
-    public Color[] colors;
     public Grid hexGrid;
     public BattleUI UI;
-    private Color activeColor;
 
     public StartUnit unit1Prefab;
     public StartUnit unit2Prefab;
@@ -159,6 +157,14 @@ public class HexagonMapEditor : MonoBehaviour {
         {
             AttackToggle();
         }
+
+        if(Input.GetKeyDown(KeyCode.Y))
+        {
+            if(MoveableUnits.Contains(SelectedUnit))
+            {
+                MoveableUnits.Remove(SelectedUnit);
+            }
+        }
     }
 
     public void AttackPhase(List<StartUnit> attackingTeam) // handles input from the player to correctly attack
@@ -177,6 +183,7 @@ public class HexagonMapEditor : MonoBehaviour {
     {
         HexagonCell currentCell = GetCellUnderCursor2D();
         int index = currentCell.coords.X_coord + currentCell.coords.Z_coord * hexGrid.width + currentCell.coords.Z_coord / 2;
+        int distance = unitCell.coords.FindDistanceTo(hexGrid.cells[index].coords);
         if (currentCell.occupied) // if clicked and there is a unit there
         {
             SelectUnit(currentCell, index); // make the selected unit that unit
@@ -218,7 +225,7 @@ public class HexagonMapEditor : MonoBehaviour {
         unitCell = hexGrid.cells[index];
         isUnitSelected = true;
         hexGrid.ShowPath(unitCell, SelectedUnit.mobility, hexGrid.touchedColor);
-        UI.name.text = SelectedUnit.name.ToString();
+        UI.name.text =  "UNIT:"+ SelectedUnit.name.ToString();
         UI.stats.text = "HEALTH:" + SelectedUnit.health + "\nATTACK:" + SelectedUnit.attackRange;
 
     }
@@ -229,6 +236,8 @@ public class HexagonMapEditor : MonoBehaviour {
         unitCell = null;
         isUnitSelected = false;
         hexGrid.ClearPath();
+        UI.name.text = "UNIT:";
+        UI.stats.text = "HEALTH:\nATTACK:";
     }
 
     IEnumerator AttackUnit()
