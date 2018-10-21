@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class HexagonMapEditor : MonoBehaviour {
 
     public Color[] colors;
     public Grid hexGrid;
+    public BattleUI UI;
     private Color activeColor;
 
     public StartUnit unit1Prefab;
@@ -34,16 +36,31 @@ public class HexagonMapEditor : MonoBehaviour {
         P1_ATTACK,
         P2_MOVE,
         P2_ATTACK,
+        CHECK,
         P1_WIN,
         P2_WIN,
         END
     }
 
-    [SerializeField] private TurnStates currentState = TurnStates.START;
+    [SerializeField] private TurnStates currentState;
 
 	// Use this for initialization
-	void Awake () {
-	}
+	void Start () {
+
+        initializing = true;
+        
+        UI = GetComponentInChildren<BattleUI>();
+        if (initializing) // stop loop if already doing it
+        {
+            InitialPhase(2, unit1Prefab);
+            InitialPhase(2, unit2Prefab);
+            FindTeam("Player 1"); // find the units for player 1's team
+            FindTeam("Player 2"); // "             " for player 2's team
+        }
+        MoveableUnits = new List<StartUnit>(P1Team); // put player 1's team in since they're going first
+        currentState = TurnStates.P1_MOVE;
+
+    }
 
     // Update is called once per frame
     void Update()
@@ -51,15 +68,8 @@ public class HexagonMapEditor : MonoBehaviour {
         switch (currentState)
         {
             case (TurnStates.START):
-                if (initializing) // stop loop if already doing it
-                {
-                    InitialPhase(2, unit1Prefab);
-                    InitialPhase(2, unit2Prefab);
-                    FindTeam("Player 1"); // find the units for player 1's team
-                    FindTeam("Player 2"); // "             " for player 2's team
-                }
-                MoveableUnits = new List<StartUnit>(P1Team); // put player 1's team in since they're going first
-                currentState = TurnStates.P1_MOVE;  // go to next phase
+                
+                //currentState = TurnStates.P1_MOVE;  // go to next phase
                 break;
             case (TurnStates.P1_MOVE):
                 if (MoveableUnits.Count == 0) // once all units move break
@@ -92,15 +102,30 @@ public class HexagonMapEditor : MonoBehaviour {
                     attacking = true;
                     AttackPhase(P2Team);
                     attacking = false;
-                    currentState = TurnStates.P1_MOVE;
+                    currentState = TurnStates.CHECK;
                 }
 
                 break;
+            case (TurnStates.CHECK):
+                if (P1Team.Count == 0)
+                    currentState = TurnStates.P2_WIN;
+                else if (P2Team.Count == 0)
+                    currentState = TurnStates.P1_WIN;
+                else
+                {
+                    currentState = TurnStates.P1_MOVE;
+                }
+                break;
             case (TurnStates.P1_WIN):
+                Debug.Log("PLAYER 1 WINS");
+                currentState = TurnStates.END;
                 break;
             case (TurnStates.P2_WIN):
+                Debug.Log("PLAYER 2 WINS");
+                currentState = TurnStates.END;
                 break;
             case (TurnStates.END):
+                SceneManager.LoadScene("VictoryScene"); // breaks game
                 break;
         }   
     }
@@ -129,6 +154,10 @@ public class HexagonMapEditor : MonoBehaviour {
             {
                 DeselectUnit();
             }
+        }
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            AttackToggle();
         }
     }
 
@@ -189,6 +218,9 @@ public class HexagonMapEditor : MonoBehaviour {
         unitCell = hexGrid.cells[index];
         isUnitSelected = true;
         hexGrid.ShowPath(unitCell, SelectedUnit.mobility, hexGrid.touchedColor);
+        UI.name.text = SelectedUnit.name.ToString();
+        UI.stats.text = "HEALTH:" + SelectedUnit.health + "\nATTACK:" + SelectedUnit.attackRange;
+
     }
 
     void DeselectUnit() // clears all variables to the clicked position
@@ -205,7 +237,10 @@ public class HexagonMapEditor : MonoBehaviour {
         List<HexagonCell> targetable = new List<HexagonCell>();
         foreach(HexagonCell cell in hexGrid.cells)
         {
-            if (unitCell.coords.FindDistanceTo(cell.coords) <= SelectedUnit.attackRange  && unitCell.coords.FindDistanceTo(cell.coords) > 0 && cell.occupied)
+            if (unitCell.coords.FindDistanceTo(cell.coords) <= SelectedUnit.attackRange  
+                && unitCell.coords.FindDistanceTo(cell.coords) > 0 
+                && cell.occupied
+                && SelectedUnit.tag != cell.unitOnTile.tag)
                 targetable.Add(cell);
         }
         if (targetable.Count >= 1)
@@ -290,7 +325,7 @@ public class HexagonMapEditor : MonoBehaviour {
                     rand = (Random.Range(1, hexGrid.width) * Random.Range(1, hexGrid.height)) - 1;
             }
             rand_nums[i] = rand;
-            Debug.Log(rand);
+            //Debug.Log(rand);
             CreateUnit(rand, team);
         }
     }
