@@ -123,7 +123,7 @@ public class HexagonMapEditor : MonoBehaviour {
                 currentState = TurnStates.END;
                 break;
             case (TurnStates.END):
-                SceneManager.LoadScene("VictoryScene"); // breaks game
+                SceneManager.LoadScene("VictoryScene");
                 break;
         }   
     }
@@ -153,10 +153,10 @@ public class HexagonMapEditor : MonoBehaviour {
                 DeselectUnit();
             }
         }
-        if(Input.GetKeyDown(KeyCode.T))
-        {
-            AttackToggle();
-        }
+        //if(Input.GetKeyDown(KeyCode.T))
+        //{
+        //    AttackToggle();
+        //}
 
         if(Input.GetKeyDown(KeyCode.Y))
         {
@@ -205,28 +205,28 @@ public class HexagonMapEditor : MonoBehaviour {
                 StartCoroutine(AttackUnit());
         }
     }
-    void AttackToggle()  // switches between the display of the movement and attack range, not necessary currently
-    {
-        if(attacking)
-        {
-            attacking = false;
-            hexGrid.ShowPath(unitCell, SelectedUnit.mobility, hexGrid.touchedColor);
-        }
-        else // not attacking yet
-        {
-            attacking = true;
-            hexGrid.ShowPath(unitCell, SelectedUnit.attackRange, hexGrid.attackColor);
-        }
-    }
+    //void AttackToggle()  // switches between the display of the movement and attack range, not necessary currently
+    //{
+    //    if(attacking)
+    //    {
+    //        attacking = false;
+    //        hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor,hexGrid.attackColor);
+    //    }
+    //    else // not attacking yet
+    //    {
+    //        attacking = true;
+    //        hexGrid.ShowPath(unitCell, SelectedUnit.attackRange, hexGrid.attackColor);
+    //    }
+    //}
 
     void SelectUnit(HexagonCell current, int index) // sets variables to the clicked position's unit
     {
         SelectedUnit = current.unitOnTile;
         unitCell = hexGrid.cells[index];
         isUnitSelected = true;
-        hexGrid.ShowPath(unitCell, SelectedUnit.mobility, hexGrid.touchedColor);
+        hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
         UI.name.text =  "UNIT:"+ SelectedUnit.name.ToString();
-        UI.stats.text = "HEALTH:" + SelectedUnit.health + "\nATTACK:" + SelectedUnit.attackRange;
+        UI.stats.text = "HEALTH:" + SelectedUnit.current_health + "\nATTACK:" + SelectedUnit.current_attack;
 
     }
 
