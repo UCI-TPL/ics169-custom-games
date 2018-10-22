@@ -179,7 +179,6 @@ public class HexagonMapEditor : MonoBehaviour {
     {
         HexagonCell currentCell = GetCellUnderCursor2D();
         int index = currentCell.coords.X_coord + currentCell.coords.Z_coord * hexGrid.width + currentCell.coords.Z_coord / 2;
-        int distance = unitCell.coords.FindDistanceTo(hexGrid.cells[index].coords);
         if (currentCell.occupied) // if clicked and there is a unit there
         {
             SelectUnit(currentCell, index); // make the selected unit that unit

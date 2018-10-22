@@ -13,8 +13,8 @@ public class Cursor : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Vector3 pos = transform.position;
-        pos.x += Input.GetAxis("J1_X");
-        pos.y += Input.GetAxis("J1_Y");
+        pos.x += Input.GetAxis("J1 Left Horizontal");
+        pos.y += Input.GetAxis("J1 Left Vertical");
         transform.position = pos;
 	}
 }
