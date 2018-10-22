@@ -211,15 +211,19 @@ public class HexagonMapEditor : MonoBehaviour {
         SelectedUnit = current.unitOnTile;
         unitCell = hexGrid.cells[index];
         isUnitSelected = true;
-<<<<<<< HEAD
-        hexGrid.ShowPath(unitCell, SelectedUnit.mobility, hexGrid.touchedColor);
-        UI.name.text = SelectedUnit.name.ToString();
+
+        //hexGrid.ShowPath(unitCell, SelectedUnit.mobility, hexGrid.touchedColor);
+        //UI.name.text = SelectedUnit.name.ToString();
         UI.stats.text = "HEALTH:" + SelectedUnit.current_health + "\nATTACK:" + (int)SelectedUnit.current_attack;
-=======
+
         hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
         UI.obj_name.text =  "UNIT:"+ SelectedUnit.name.ToString();
         UI.stats.text = "HEALTH:" + SelectedUnit.current_health + "\nATTACK:" + SelectedUnit.current_attack;
->>>>>>> 645da6d5ce6e17127aa5420d208eddd3254e5936
+
+        hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
+        UI.obj_name.text =  "UNIT:"+ SelectedUnit.name.ToString();
+        UI.stats.text = "HEALTH:" + SelectedUnit.current_health + "\nATTACK:" + SelectedUnit.current_attack;
+
 
     }
 
