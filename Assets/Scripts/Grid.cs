@@ -93,7 +93,6 @@ public class Grid : MonoBehaviour {
         {
             cells[i].spriteRenderer.color = defaultColor;
         }
-        //hexMesh.Triangulate(cells);
     }
 
     void TouchCell(Vector3 position)

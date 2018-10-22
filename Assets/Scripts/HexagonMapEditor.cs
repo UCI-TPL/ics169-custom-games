@@ -153,10 +153,6 @@ public class HexagonMapEditor : MonoBehaviour {
                 DeselectUnit();
             }
         }
-        //if(Input.GetKeyDown(KeyCode.T))
-        //{
-        //    AttackToggle();
-        //}
 
         if(Input.GetKeyDown(KeyCode.Y))
         {
@@ -205,19 +201,6 @@ public class HexagonMapEditor : MonoBehaviour {
                 StartCoroutine(AttackUnit());
         }
     }
-    //void AttackToggle()  // switches between the display of the movement and attack range, not necessary currently
-    //{
-    //    if(attacking)
-    //    {
-    //        attacking = false;
-    //        hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor,hexGrid.attackColor);
-    //    }
-    //    else // not attacking yet
-    //    {
-    //        attacking = true;
-    //        hexGrid.ShowPath(unitCell, SelectedUnit.attackRange, hexGrid.attackColor);
-    //    }
-    //}
 
     void SelectUnit(HexagonCell current, int index) // sets variables to the clicked position's unit
     {
@@ -311,6 +294,7 @@ public class HexagonMapEditor : MonoBehaviour {
 
     HexagonCell GetCellUnderCursor2D() // findn the cell under the cursor thats 2D
     {
+        // use Cursor.point.position here instead of input.mouseposition
         Vector2 rayPos = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
         RaycastHit2D hit = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
 

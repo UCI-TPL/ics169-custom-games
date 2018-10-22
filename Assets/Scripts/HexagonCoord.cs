@@ -48,8 +48,6 @@ public struct HexagonCoord{
         int iX = Mathf.RoundToInt(x);
         int iY = Mathf.RoundToInt(y);
         int iZ = Mathf.RoundToInt(-x - y);
-        //Debug.Log(iX);
-        //Debug.Log(iZ);
         return new HexagonCoord(iX, iZ);
     }
 
