@@ -13,7 +13,7 @@ public class StartUnit : MonoBehaviour {
     //public int check_dmg; // check if dmg is greater than this amount to know if you lower the dmg or not
     public float current_health;
     public float current_attack;
-
+    public GameObject FloatingTextPrefab;
     public bool dead = false;
 
 

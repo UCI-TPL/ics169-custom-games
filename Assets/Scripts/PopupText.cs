@@ -1,21 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PopupText : MonoBehaviour {
-    public Animator animator;
-    private Text damagetext;
-
-	// Use this for initialization
-	void OnEnable() {
-        AnimatorClipInfo[] clipinfo = animator.GetCurrentAnimatorClipInfo(0);
-        Destroy(gameObject, clipinfo[0].clip.length);
-        damagetext = animator.GetComponent<Text>();
-	}
+    public float DestroyTime;
+    Vector3 startPosition;
+    public AnimationClip animator;
+    // Use this for initialization
+    void Start () {
+        startPosition = transform.localPosition;
+        DestroyTime = animator.length;
+    }
 	
-    public void SetText(string text)
+	// Update is called once per frame
+	void Update () {
+        Destroy(gameObject, DestroyTime);
+    }
+    private void LateUpdate()
     {
-        damagetext.text = text;
+        transform.localPosition += startPosition;
     }
 }

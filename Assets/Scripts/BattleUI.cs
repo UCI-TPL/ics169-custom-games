@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class BattleUI : MonoBehaviour {
 
-    public Text name;
+    public Text obj_name;
     public Text stats;
+    public Text turn;
 
 	// Use this for initialization
 	void Start () {

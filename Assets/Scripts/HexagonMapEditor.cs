@@ -6,10 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class HexagonMapEditor : MonoBehaviour {
 
-    public Color[] colors;
     public Grid hexGrid;
     public BattleUI UI;
-    private Color activeColor;
+    public Cursor cursor;
 
     public StartUnit unit1Prefab;
     public StartUnit unit2Prefab;
@@ -29,6 +28,7 @@ public class HexagonMapEditor : MonoBehaviour {
 
     public bool moveInProgress = false;
 
+
     public enum TurnStates
     {
         START,
@@ -46,7 +46,6 @@ public class HexagonMapEditor : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
         initializing = true;
         
         UI = GetComponentInChildren<BattleUI>();
@@ -77,6 +76,7 @@ public class HexagonMapEditor : MonoBehaviour {
                     currentState = TurnStates.P1_ATTACK;
                     MoveableUnits = new List<StartUnit>(P2Team);
                 }
+                UI.turn.text = "TURN:PLAYER 1";
                 MovePhase();
                 break;
             case (TurnStates.P1_ATTACK):
@@ -94,6 +94,7 @@ public class HexagonMapEditor : MonoBehaviour {
                     currentState = TurnStates.P2_ATTACK;
                     MoveableUnits = new List<StartUnit>(P1Team);
                 }
+                UI.turn.text = "TURN:PLAYER 2";
                 MovePhase();
                 break;
             case (TurnStates.P2_ATTACK):
@@ -125,7 +126,7 @@ public class HexagonMapEditor : MonoBehaviour {
                 currentState = TurnStates.END;
                 break;
             case (TurnStates.END):
-                SceneManager.LoadScene("VictoryScene"); // breaks game
+                SceneManager.LoadScene("VictoryScene");
                 break;
         }   
     }
@@ -146,18 +147,24 @@ public class HexagonMapEditor : MonoBehaviour {
     {
         if (!EventSystem.current.IsPointerOverGameObject())
         {
-            if (Input.GetMouseButton(0))
-            {
+            //if (Input.GetMouseButton(0))
+            //{
+            //    HandleInput();
+            //}
+            if (Input.GetButtonDown("J1 X Button"))
                 HandleInput();
-            }
-            if (Input.GetMouseButton(1))
+            if (Input.GetButtonDown("J1 B Button"))
             {
                 DeselectUnit();
             }
         }
-        if(Input.GetKeyDown(KeyCode.T))
+
+        if(Input.GetButtonDown("J1 A Button"))
         {
-            AttackToggle();
+            if(MoveableUnits.Contains(SelectedUnit))
+            {
+                MoveableUnits.Remove(SelectedUnit);
+            }
         }
     }
 
@@ -198,28 +205,21 @@ public class HexagonMapEditor : MonoBehaviour {
                 StartCoroutine(AttackUnit());
         }
     }
-    void AttackToggle()  // switches between the display of the movement and attack range, not necessary currently
-    {
-        if(attacking)
-        {
-            attacking = false;
-            hexGrid.ShowPath(unitCell, SelectedUnit.mobility, hexGrid.touchedColor);
-        }
-        else // not attacking yet
-        {
-            attacking = true;
-            hexGrid.ShowPath(unitCell, SelectedUnit.attackRange, hexGrid.attackColor);
-        }
-    }
 
     void SelectUnit(HexagonCell current, int index) // sets variables to the clicked position's unit
     {
         SelectedUnit = current.unitOnTile;
         unitCell = hexGrid.cells[index];
         isUnitSelected = true;
+<<<<<<< HEAD
         hexGrid.ShowPath(unitCell, SelectedUnit.mobility, hexGrid.touchedColor);
         UI.name.text = SelectedUnit.name.ToString();
-        UI.stats.text = "HEALTH:" + SelectedUnit.health + "\nATTACK:" + SelectedUnit.attackRange;
+        UI.stats.text = "HEALTH:" + SelectedUnit.current_health + "\nATTACK:" + (int)SelectedUnit.current_attack;
+=======
+        hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
+        UI.obj_name.text =  "UNIT:"+ SelectedUnit.name.ToString();
+        UI.stats.text = "HEALTH:" + SelectedUnit.current_health + "\nATTACK:" + SelectedUnit.current_attack;
+>>>>>>> 645da6d5ce6e17127aa5420d208eddd3254e5936
 
     }
 
@@ -229,6 +229,8 @@ public class HexagonMapEditor : MonoBehaviour {
         unitCell = null;
         isUnitSelected = false;
         hexGrid.ClearPath();
+        UI.obj_name.text = "UNIT:";
+        UI.stats.text = "HEALTH:\nATTACK:";
     }
 
     IEnumerator AttackUnit()
@@ -247,17 +249,20 @@ public class HexagonMapEditor : MonoBehaviour {
         {
             int rand_index = Random.Range(0, targetable.Count);
             float random_val = Random.value;
-            int damage = SelectedUnit.attack;
+            float damage = SelectedUnit.attack;
             if (random_val < SelectedUnit.crit)
-                damage = SelectedUnit.attack * 2;
-
+                damage = SelectedUnit.current_attack * 2;
+            int dmg_txt = (int)damage;
+            if (targetable[rand_index].unitOnTile.FloatingTextPrefab)
+            {
+                GameObject damagetext = Instantiate(targetable[rand_index].unitOnTile.FloatingTextPrefab, targetable[rand_index].unitOnTile.transform.position, Quaternion.identity, transform);               
+                damagetext.GetComponent<TextMesh>().text = dmg_txt.ToString();
+            }
             targetable[rand_index].unitOnTile.current_health -= damage;
 
             if (targetable[rand_index].unitOnTile.current_attack > 10)
             {
                 float percenthealth = targetable[rand_index].unitOnTile.current_health / targetable[rand_index].unitOnTile.health;
-                Debug.Log(percenthealth);
-                Debug.Log("HP");
                 targetable[rand_index].unitOnTile.current_attack *= percenthealth;
             }
 
@@ -302,12 +307,10 @@ public class HexagonMapEditor : MonoBehaviour {
 
     HexagonCell GetCellUnderCursor2D() // findn the cell under the cursor thats 2D
     {
-        Vector2 rayPos = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
-        RaycastHit2D hit = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
-
+        RaycastHit2D hit = Physics2D.Raycast(cursor.point.transform.position, Vector2.zero, 0f);
         if (hit)
         {
-            //Debug.Log(hit.transform.gameObject.GetComponent<HexagonCell>()); // debug stuff
+            Debug.Log(hit.transform.gameObject.GetComponent<HexagonCell>()); // debug stuff
             return hit.transform.gameObject.GetComponent<HexagonCell>();
         }
         else return null;

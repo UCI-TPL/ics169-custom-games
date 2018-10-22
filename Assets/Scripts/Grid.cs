@@ -18,7 +18,7 @@ public class Grid : MonoBehaviour {
 
     public Color defaultColor = Color.gray;
     public Color touchedColor = Color.cyan;
-    public Color attackColor = Color.red;
+    public Color attackColor = Color.green;
 
     public HexagonCell[] cells;
     Canvas gridCanvas;
@@ -68,20 +68,23 @@ public class Grid : MonoBehaviour {
     }
 
 
-    public void ShowPath(HexagonCell current, int mobility,Color color)
+    public void ShowPath(HexagonCell current, int mobility, int range,Color color_m, Color color_a)
     {
         for (int i = 0; i < (width * height); i++)
         {
             if (current.coords.FindDistanceTo(cells[i].coords) <= mobility)
             {
-                cells[i].spriteRenderer.color = color;
+                cells[i].spriteRenderer.color = color_m;
+            }
+            else if(current.coords.FindDistanceTo(cells[i].coords) <= mobility + range)
+            {
+                cells[i].spriteRenderer.color = color_a;
             }
             else
             {
                 cells[i].spriteRenderer.color = defaultColor;
             }
         }
-        //hexMesh.Triangulate(cells);
     }
 
     public void ClearPath()
@@ -90,7 +93,6 @@ public class Grid : MonoBehaviour {
         {
             cells[i].spriteRenderer.color = defaultColor;
         }
-        //hexMesh.Triangulate(cells);
     }
 
     void TouchCell(Vector3 position)
