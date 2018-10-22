@@ -12,9 +12,9 @@ public class Cursor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Vector3 pos = transform.position;
-        pos.x += Input.GetAxis("J1 Left Horizontal");
-        pos.y += Input.GetAxis("J1 Left Vertical");
-        transform.position = pos;
+        //Debug.Log(Input.GetButtonDown("J1 X Button"));
+        transform.position += new Vector3(Input.GetAxis("J1 Left Horizontal"), -Input.GetAxis("J1 Left Vertical"), 0) * Time.deltaTime * 90;
+
 	}
 }
+
