@@ -28,6 +28,7 @@ public class HexagonMapEditor : MonoBehaviour {
 
     public bool moveInProgress = false;
 
+
     public enum TurnStates
     {
         START,
@@ -45,7 +46,6 @@ public class HexagonMapEditor : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
         initializing = true;
         
         UI = GetComponentInChildren<BattleUI>();
@@ -211,9 +211,19 @@ public class HexagonMapEditor : MonoBehaviour {
         SelectedUnit = current.unitOnTile;
         unitCell = hexGrid.cells[index];
         isUnitSelected = true;
+
+        //hexGrid.ShowPath(unitCell, SelectedUnit.mobility, hexGrid.touchedColor);
+        //UI.name.text = SelectedUnit.name.ToString();
+        UI.stats.text = "HEALTH:" + SelectedUnit.current_health + "\nATTACK:" + (int)SelectedUnit.current_attack;
+
         hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
         UI.obj_name.text =  "UNIT:"+ SelectedUnit.name.ToString();
         UI.stats.text = "HEALTH:" + SelectedUnit.current_health + "\nATTACK:" + SelectedUnit.current_attack;
+
+        hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
+        UI.obj_name.text =  "UNIT:"+ SelectedUnit.name.ToString();
+        UI.stats.text = "HEALTH:" + SelectedUnit.current_health + "\nATTACK:" + SelectedUnit.current_attack;
+
 
     }
 
@@ -243,17 +253,20 @@ public class HexagonMapEditor : MonoBehaviour {
         {
             int rand_index = Random.Range(0, targetable.Count);
             float random_val = Random.value;
-            int damage = SelectedUnit.attack;
+            float damage = SelectedUnit.attack;
             if (random_val < SelectedUnit.crit)
-                damage = SelectedUnit.attack * 2;
-
+                damage = SelectedUnit.current_attack * 2;
+            int dmg_txt = (int)damage;
+            if (targetable[rand_index].unitOnTile.FloatingTextPrefab)
+            {
+                GameObject damagetext = Instantiate(targetable[rand_index].unitOnTile.FloatingTextPrefab, targetable[rand_index].unitOnTile.transform.position, Quaternion.identity, transform);               
+                damagetext.GetComponent<TextMesh>().text = dmg_txt.ToString();
+            }
             targetable[rand_index].unitOnTile.current_health -= damage;
 
             if (targetable[rand_index].unitOnTile.current_attack > 10)
             {
                 float percenthealth = targetable[rand_index].unitOnTile.current_health / targetable[rand_index].unitOnTile.health;
-                Debug.Log(percenthealth);
-                Debug.Log("HP");
                 targetable[rand_index].unitOnTile.current_attack *= percenthealth;
             }
 
