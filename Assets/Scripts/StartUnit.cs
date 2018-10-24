@@ -15,10 +15,12 @@ public class StartUnit : MonoBehaviour {
     public float current_attack;
     public GameObject FloatingTextPrefab;
     public bool dead = false;
+    Animator anim;
 
 
 	// Use this for initialization
 	void Start () {
+        anim = GetComponent<Animator>();
         current_health = health;
         current_attack = attack;
     }
@@ -33,5 +35,27 @@ public class StartUnit : MonoBehaviour {
     {
         yield return new WaitForSeconds(0.5f);
         Destroy(this.gameObject);   
+    }
+
+    public IEnumerator Attack()
+    {
+        anim.SetBool("Attacking", true);
+        yield return new WaitForSeconds(0.5f);
+        anim.SetBool("Attacking", false);
+
+    }
+    public IEnumerator Hit()
+    {
+        anim.SetBool("Hurt", true);
+        yield return new WaitForSeconds(0.4f);
+        anim.SetBool("Hurt", false);
+    }
+
+    public IEnumerator Moving()
+    {
+        Debug.Log("moving");
+        anim.SetBool("Moving", true);
+        yield return new WaitForSeconds(0.4f);
+        anim.SetBool("Moving", false);
     }
 }

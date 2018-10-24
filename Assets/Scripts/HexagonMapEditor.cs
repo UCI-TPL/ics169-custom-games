@@ -47,7 +47,7 @@ public class HexagonMapEditor : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         initializing = true;
-        
+
         UI = GetComponentInChildren<BattleUI>();
         if (initializing) // stop loop if already doing it
         {
@@ -58,12 +58,14 @@ public class HexagonMapEditor : MonoBehaviour {
         }
         MoveableUnits = new List<StartUnit>(P1Team); // put player 1's team in since they're going first
         currentState = TurnStates.P1_MOVE;
+        //StartCoroutine(InitializingTeams());
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(currentState);
         switch (currentState)
         {
             case (TurnStates.START):
@@ -147,10 +149,6 @@ public class HexagonMapEditor : MonoBehaviour {
     {
         if (!EventSystem.current.IsPointerOverGameObject())
         {
-            //if (Input.GetMouseButton(0))
-            //{
-            //    HandleInput();
-            //}
             if (Input.GetButtonDown("J1 X Button"))
                 HandleInput();
             if (Input.GetButtonDown("J1 B Button"))
@@ -190,7 +188,7 @@ public class HexagonMapEditor : MonoBehaviour {
         }
         else if(!currentCell.occupied && isUnitSelected && !attacking) // a unit is already selected
         {
-            MoveUnit(index);//move that selected unit
+            StartCoroutine(MoveUnit(index));//move that selected unit
         }
 
     }
@@ -218,11 +216,11 @@ public class HexagonMapEditor : MonoBehaviour {
 
         hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
         UI.obj_name.text =  "UNIT:"+ SelectedUnit.name.ToString();
-        UI.stats.text = "HEALTH:" + SelectedUnit.current_health + "\nATTACK:" + SelectedUnit.current_attack;
+        UI.stats.text = "HEALTH:" + SelectedUnit.current_health + "\nATTACK:" + (int)SelectedUnit.current_attack;
 
-        hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
-        UI.obj_name.text =  "UNIT:"+ SelectedUnit.name.ToString();
-        UI.stats.text = "HEALTH:" + SelectedUnit.current_health + "\nATTACK:" + SelectedUnit.current_attack;
+        //hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
+        //UI.obj_name.text =  "UNIT:"+ SelectedUnit.name.ToString();
+        //UI.stats.text = "HEALTH:" + SelectedUnit.current_health + "\nATTACK:" + SelectedUnit.current_attack;
 
 
     }
@@ -251,6 +249,7 @@ public class HexagonMapEditor : MonoBehaviour {
         }
         if (targetable.Count >= 1)
         {
+            StartCoroutine(SelectedUnit.Attack());
             int rand_index = Random.Range(0, targetable.Count);
             float random_val = Random.value;
             float damage = SelectedUnit.attack;
@@ -276,9 +275,12 @@ public class HexagonMapEditor : MonoBehaviour {
                 int index = targetable[rand_index].coords.X_coord + targetable[rand_index].coords.Z_coord * hexGrid.width + targetable[rand_index].coords.Z_coord / 2;
                 RemoveUnitInfo(targetable[rand_index], index);
             }
+            else
+            {
+                yield return new WaitForSeconds(0.3f);
+                StartCoroutine(targetable[rand_index].unitOnTile.Hit());
+            }
        }
-        yield return new WaitForSeconds(0.5f);
-        //hexGrid.ShowPath(unitCell, SelectedUnit.mobility, hexGrid.touchedColor);
         whileAttacking = false;
 
     }
@@ -295,18 +297,6 @@ public class HexagonMapEditor : MonoBehaviour {
         current.occupied = false;
         current.unitOnTile = null;
         
-    }
-
-
-    HexagonCell GetCellUnderCursor() // find the cell under the cursor (outdated)
-    {
-        Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(inputRay, out hit))
-        {
-            return hexGrid.GetCell(hit.point);
-        }
-        return null;
     }
 
     HexagonCell GetCellUnderCursor2D() // findn the cell under the cursor thats 2D
@@ -346,7 +336,7 @@ public class HexagonMapEditor : MonoBehaviour {
         unitCell.unitOnTile = SelectedUnit;
     }
 
-    void MoveUnit(int index)
+    IEnumerator MoveUnit(int index)
     {
 
         int distance = unitCell.coords.FindDistanceTo(hexGrid.cells[index].coords);
@@ -355,6 +345,8 @@ public class HexagonMapEditor : MonoBehaviour {
         //" = " + distance.ToString()); //for debugging distance
         if (SelectedUnit.mobility >= distance && MoveableUnits.Contains(SelectedUnit))
         {
+            StartCoroutine(SelectedUnit.Moving());
+            yield return new WaitForSeconds(0.25f);
             unitCell.occupied = false;
             unitCell.unitOnTile = null;
             SelectedUnit.transform.position = hexGrid.cells[index].transform.position;
