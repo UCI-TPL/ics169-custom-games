@@ -216,11 +216,11 @@ public class HexagonMapEditor : MonoBehaviour {
 
         hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
         UI.obj_name.text =  "UNIT:"+ SelectedUnit.name.ToString();
-        UI.stats.text = "HEALTH:" + SelectedUnit.current_health + "\nATTACK:" + SelectedUnit.current_attack;
+        UI.stats.text = "HEALTH:" + SelectedUnit.current_health + "\nATTACK:" + (int)SelectedUnit.current_attack;
 
-        hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
-        UI.obj_name.text =  "UNIT:"+ SelectedUnit.name.ToString();
-        UI.stats.text = "HEALTH:" + SelectedUnit.current_health + "\nATTACK:" + SelectedUnit.current_attack;
+        //hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
+        //UI.obj_name.text =  "UNIT:"+ SelectedUnit.name.ToString();
+        //UI.stats.text = "HEALTH:" + SelectedUnit.current_health + "\nATTACK:" + SelectedUnit.current_attack;
 
 
     }
