@@ -6,12 +6,16 @@ using UnityEngine.SceneManagement;
 
 public class HexagonMapEditor : MonoBehaviour {
 
+    public PlayerInformation PlayerInfo;
     public Grid hexGrid;
     public BattleUI UI;
     public Cursor cursor;
 
     public StartUnit unit1Prefab;
     public StartUnit unit2Prefab;
+
+    public List<StartUnit> Player1Chosen = new List<StartUnit>();
+    public List<StartUnit> Player2Chosen = new List<StartUnit>();
 
     public List<StartUnit> P1Team = new List<StartUnit>(); // list of player 1 team
     public List<StartUnit> P2Team = new List<StartUnit>(); // list of player 2 team
@@ -43,16 +47,20 @@ public class HexagonMapEditor : MonoBehaviour {
     }
 
     [SerializeField] private TurnStates currentState;
-
-	// Use this for initialization
-	void Start () {
+    private void Awake()
+    {
+        PlayerInfo = FindObjectOfType<PlayerInformation>();
+    }
+    // Use this for initialization
+    void Start () {
         initializing = true;
 
         UI = GetComponentInChildren<BattleUI>();
         if (initializing) // stop loop if already doing it
         {
-            InitialPhase(2, unit1Prefab);
-            InitialPhase(2, unit2Prefab);
+            InitialPhase(PlayerInfo.Player1Chosen,1);
+            Debug.Log("got to here");
+            InitialPhase(Player2Chosen,2);
             FindTeam("Player 1"); // find the units for player 1's team
             FindTeam("Player 2"); // "             " for player 2's team
         }
@@ -143,6 +151,28 @@ public class HexagonMapEditor : MonoBehaviour {
             else
                 P2Team.Add(g.GetComponent<StartUnit>());
         }
+    }
+
+    void InitialPhase(List<StartUnit> team, int player) // creates random units on the grid it sometimes repeats the units on tiles but not important cause will change later
+    {
+        initializing = false;
+        if(player == 1)
+        {
+            for(int i = 0; i < team.Count; i++)
+            {
+                CreateUnit(i, team[i]);
+            }
+        }
+        else
+        {
+            int k = 0;
+            for(int j = hexGrid.cells.Length-1; j > hexGrid.cells.Length-1-team.Count; j--)
+            {
+                CreateUnit(j, team[k]);
+                k++;
+            }
+        }
+        //initializing = true;
     }
 
     public void MovePhase() // handles input from the player to correctly move the unit
@@ -309,23 +339,7 @@ public class HexagonMapEditor : MonoBehaviour {
         }
         else return null;
     }
-    void InitialPhase(int numUnits, StartUnit team) // creates random units on the grid it sometimes repeats the units on tiles but not important cause will change later
-    {
-        initializing = false;
-        int[] rand_nums = new int[numUnits];
-        for(int i = 0; i < numUnits; i++)
-        {
-            int rand = (Random.Range(1,hexGrid.width) * Random.Range(1,hexGrid.height)) - 1;
-            for(int j = 0; j < rand_nums.Length; j++)
-            {
-                if(rand == rand_nums[j])
-                    rand = (Random.Range(1, hexGrid.width) * Random.Range(1, hexGrid.height)) - 1;
-            }
-            rand_nums[i] = rand;
-            //Debug.Log(rand);
-            CreateUnit(rand, team);
-        }
-    }
+    
     void CreateUnit(int index, StartUnit unit)
     {
         SelectedUnit = Instantiate(unit);

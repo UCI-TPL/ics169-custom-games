@@ -601,6 +601,12 @@ MonoBehaviour:
     type: 2}
   unit2Prefab: {fileID: 114836417496467364, guid: c75803ab503530f429261485e7a27acb,
     type: 2}
+  Player1Chosen:
+  - {fileID: 114836417496467364, guid: 105b0ac2191a8cb4997feaf709eb235c, type: 2}
+  - {fileID: 114485811814975640, guid: f502e9e597cfb5347b5f0b10059e0ea9, type: 2}
+  Player2Chosen:
+  - {fileID: 114593018511485496, guid: 27c76a3307bb9cd4ea784909eb9de6ef, type: 2}
+  - {fileID: 114836417496467364, guid: c75803ab503530f429261485e7a27acb, type: 2}
   P1Team: []
   P2Team: []
   MoveableUnits: []
@@ -1440,6 +1446,12 @@ MonoBehaviour:
   cursor: {fileID: 0}
   unit1Prefab: {fileID: 0}
   unit2Prefab: {fileID: 0}
+  Player1Chosen:
+  - {fileID: 0}
+  - {fileID: 0}
+  Player2Chosen:
+  - {fileID: 0}
+  - {fileID: 0}
   P1Team: []
   P2Team: []
   MoveableUnits: []
