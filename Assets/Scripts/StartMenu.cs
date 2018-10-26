@@ -13,15 +13,15 @@ public class StartMenu : MonoBehaviour {
 	}
     public void ChangeScenes(string scene)
     {
-       //if(Input.GetButtonDown(ctr_num + " A Button"))
-        if (Input.GetMouseButtonDown(0))
+       if(Input.GetButtonDown(ctr_num + " A Button"))
+        //if (Input.GetMouseButtonDown(0))
             SceneManager.LoadScene(scene);
 
     }
     public void Exitgame()
     {
-        //if(Input.GetButtonDown(ctr_num + " A Button"))
-        if (Input.GetMouseButtonDown(0))
+        if(Input.GetButtonDown(ctr_num + " B Button"))
+        //if (Input.GetMouseButtonDown(0))
             Application.Quit();
     }
 }
