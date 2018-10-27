@@ -7,7 +7,10 @@ using UnityEngine.SceneManagement;
 public class HexagonMapEditor : MonoBehaviour {
 
     public Grid hexGrid;
-    public BattleUI UI;
+    public GameObject UI_P1;
+    public GameObject UI_P2;
+    public BattleUI BattleUI_P1;
+    public BattleUI BattleUI_P2;
     public Cursor cursor;
 
     public StartUnit unit1Prefab;
@@ -48,7 +51,8 @@ public class HexagonMapEditor : MonoBehaviour {
 	void Start () {
         initializing = true;
 
-        UI = GetComponentInChildren<BattleUI>();
+        BattleUI_P1 = UI_P1.GetComponent<BattleUI>();
+        BattleUI_P2 = UI_P2.GetComponent<BattleUI>();
         if (initializing) // stop loop if already doing it
         {
             InitialPhase(2, unit1Prefab);
@@ -78,7 +82,7 @@ public class HexagonMapEditor : MonoBehaviour {
                     currentState = TurnStates.P1_ATTACK;
                     MoveableUnits = new List<StartUnit>(P2Team);
                 }
-                UI.turn.text = "TURN:PLAYER 1";
+                BattleUI_P1.turn.text = "TURN:PLAYER 1";
                 MovePhase();
                 break;
             case (TurnStates.P1_ATTACK):
@@ -96,7 +100,7 @@ public class HexagonMapEditor : MonoBehaviour {
                     currentState = TurnStates.P2_ATTACK;
                     MoveableUnits = new List<StartUnit>(P1Team);
                 }
-                UI.turn.text = "TURN:PLAYER 2";
+                BattleUI_P1.turn.text = "TURN:PLAYER 2";
                 MovePhase();
                 break;
             case (TurnStates.P2_ATTACK):
@@ -215,14 +219,15 @@ public class HexagonMapEditor : MonoBehaviour {
         //UI.stats.text = "HEALTH:" + (int)SelectedUnit.current_health + "\nATTACK:" + (int)SelectedUnit.current_attack;
 
         hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
-        UI.obj_name.text =  "UNIT:"+ SelectedUnit.name.ToString();
-        UI.stats.text = "HEALTH:" + (int)SelectedUnit.current_health + "\nATTACK:" + (int)SelectedUnit.current_attack;
+        BattleUI_P1.obj_name.text =  "" + SelectedUnit.name.ToString();
+        BattleUI_P1.stats.text = "ATK: " + (int)SelectedUnit.current_attack + "\nMOV:" + SelectedUnit.mobility;
+        BattleUI_P1.stats_2.text = "RNG: " + SelectedUnit.attackRange + "\nCRIT:" + (int)SelectedUnit.crit;
 
         //hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
         //UI.obj_name.text =  "UNIT:"+ SelectedUnit.name.ToString();
         //UI.stats.text = "HEALTH:" + SelectedUnit.current_health + "\nATTACK:" + SelectedUnit.current_attack;
 
-
+        BattleUI_P1.Show();
     }
 
     void DeselectUnit() // clears all variables to the clicked position
@@ -231,8 +236,9 @@ public class HexagonMapEditor : MonoBehaviour {
         unitCell = null;
         isUnitSelected = false;
         hexGrid.ClearPath();
-        UI.obj_name.text = "UNIT:";
-        UI.stats.text = "HEALTH:\nATTACK:";
+        BattleUI_P1.Hide();
+        BattleUI_P1.obj_name.text = "UNIT:";
+        BattleUI_P1.stats.text = "HEALTH:\nATTACK:";
     }
 
     IEnumerator AttackUnit()
