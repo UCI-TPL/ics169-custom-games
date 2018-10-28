@@ -212,11 +212,11 @@ public class HexagonMapEditor : MonoBehaviour {
 
         //hexGrid.ShowPath(unitCell, SelectedUnit.mobility, hexGrid.touchedColor);
         //UI.name.text = SelectedUnit.name.ToString();
-        UI.stats.text = "HEALTH:" + SelectedUnit.current_health + "\nATTACK:" + (int)SelectedUnit.current_attack;
+        //UI.stats.text = "HEALTH:" + (int)SelectedUnit.current_health + "\nATTACK:" + (int)SelectedUnit.current_attack;
 
         hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
         UI.obj_name.text =  "UNIT:"+ SelectedUnit.name.ToString();
-        UI.stats.text = "HEALTH:" + SelectedUnit.current_health + "\nATTACK:" + (int)SelectedUnit.current_attack;
+        UI.stats.text = "HEALTH:" + (int)SelectedUnit.current_health + "\nATTACK:" + (int)SelectedUnit.current_attack;
 
         //hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
         //UI.obj_name.text =  "UNIT:"+ SelectedUnit.name.ToString();
@@ -252,7 +252,7 @@ public class HexagonMapEditor : MonoBehaviour {
             StartCoroutine(SelectedUnit.Attack());
             int rand_index = Random.Range(0, targetable.Count);
             float random_val = Random.value;
-            float damage = SelectedUnit.attack;
+            float damage = SelectedUnit.current_attack;
             if (random_val < SelectedUnit.crit)
                 damage = SelectedUnit.current_attack * 2;
             int dmg_txt = (int)damage;
