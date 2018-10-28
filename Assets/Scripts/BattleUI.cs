@@ -18,7 +18,7 @@ public class BattleUI : MonoBehaviour {
     private Renderer[] cur_renderers;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         cur_renderers = GetComponentsInChildren<Renderer>(true);
         
     }
@@ -29,17 +29,20 @@ public class BattleUI : MonoBehaviour {
 	}
 
     public void Hide () {
-        SetRendererEnabled(false);
+        Debug.Log("Attempt_To_Hide");
+        this.gameObject.SetActive(false);
+        //SetRendererEnabled(false);
     }
 
     public void Show()
     {
-        SetRendererEnabled(true);
+        Debug.Log("Attempt_To_Show");
+        this.gameObject.SetActive(true);
+        //SetRendererEnabled(true);
     }
 
     private void SetRendererEnabled(bool enableRenderer)
     {
-
         for (int x = 0; x < cur_renderers.Length; x++)
             cur_renderers[x].enabled = enableRenderer;
     }

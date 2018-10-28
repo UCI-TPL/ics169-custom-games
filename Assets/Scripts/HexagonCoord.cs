@@ -8,7 +8,7 @@ using UnityEngine;
 public struct HexagonCoord{
 
     [SerializeField]
-    private int x, z;
+    public int x, z;
 
     public int X_coord { get { return x; } }
     public int Z_coord { get { return z; } }

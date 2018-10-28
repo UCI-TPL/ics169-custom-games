@@ -15,6 +15,7 @@ public class StartUnit : MonoBehaviour {
     public float current_attack;
     public GameObject FloatingTextPrefab;
     public bool dead = false;
+    public GameObject health_bar;
     Animator anim;
 
 

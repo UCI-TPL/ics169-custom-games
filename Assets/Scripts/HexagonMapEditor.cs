@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class HexagonMapEditor : MonoBehaviour {
 
     public Grid hexGrid;
     public GameObject UI_P1;
     public GameObject UI_P2;
+    public GameObject UI_Turn;
     public BattleUI BattleUI_P1;
     public BattleUI BattleUI_P2;
+    public BattleUI BattleUI_Turn;
+    public Color32 P1_Color;
+    public Color32 P2_Color;
     public Cursor cursor;
 
     public StartUnit unit1Prefab;
@@ -53,6 +58,9 @@ public class HexagonMapEditor : MonoBehaviour {
 
         BattleUI_P1 = UI_P1.GetComponent<BattleUI>();
         BattleUI_P2 = UI_P2.GetComponent<BattleUI>();
+        BattleUI_P1.Hide();
+        BattleUI_P2.Hide();
+        BattleUI_Turn = UI_Turn.GetComponent<BattleUI>();
         if (initializing) // stop loop if already doing it
         {
             InitialPhase(2, unit1Prefab);
@@ -82,7 +90,8 @@ public class HexagonMapEditor : MonoBehaviour {
                     currentState = TurnStates.P1_ATTACK;
                     MoveableUnits = new List<StartUnit>(P2Team);
                 }
-                BattleUI_P1.turn.text = "TURN:PLAYER 1";
+                BattleUI_Turn.turn.text = "TURN:PLAYER 1";
+                BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P1_Color;
                 MovePhase();
                 break;
             case (TurnStates.P1_ATTACK):
@@ -100,7 +109,8 @@ public class HexagonMapEditor : MonoBehaviour {
                     currentState = TurnStates.P2_ATTACK;
                     MoveableUnits = new List<StartUnit>(P1Team);
                 }
-                BattleUI_P1.turn.text = "TURN:PLAYER 2";
+                BattleUI_Turn.turn.text = "TURN:PLAYER 2";
+                BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P2_Color;
                 MovePhase();
                 break;
             case (TurnStates.P2_ATTACK):
@@ -219,15 +229,31 @@ public class HexagonMapEditor : MonoBehaviour {
         //UI.stats.text = "HEALTH:" + (int)SelectedUnit.current_health + "\nATTACK:" + (int)SelectedUnit.current_attack;
 
         hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
-        BattleUI_P1.obj_name.text =  "" + SelectedUnit.name.ToString();
-        BattleUI_P1.stats.text = "ATK: " + (int)SelectedUnit.current_attack + "\nMOV:" + SelectedUnit.mobility;
-        BattleUI_P1.stats_2.text = "RNG: " + SelectedUnit.attackRange + "\nCRIT:" + (int)SelectedUnit.crit;
 
+        if(SelectedUnit.CompareTag("Player 1"))
+        {
+            BattleUI_P1.obj_name.text = "" + SelectedUnit.name.ToString();
+            BattleUI_P1.health_slider.value = SelectedUnit.current_health / SelectedUnit.health;
+            BattleUI_P1.health_text.text = "" + (int)SelectedUnit.current_health + "/" + (int)SelectedUnit.health;
+            BattleUI_P1.stats.text = "ATK: " + (int)SelectedUnit.current_attack + "\nMOV:" + SelectedUnit.mobility;
+            BattleUI_P1.stats_2.text = "RNG: " + SelectedUnit.attackRange + "\nCRIT:" + (int)SelectedUnit.crit;
+            BattleUI_P1.Show();
+        }
+        
+        if(SelectedUnit.CompareTag("Player 2"))
+        {
+            BattleUI_P2.obj_name.text = "" + SelectedUnit.name.ToString();
+            BattleUI_P2.health_slider.value = SelectedUnit.current_health / SelectedUnit.health;
+            BattleUI_P2.health_text.text = "" + (int)SelectedUnit.current_health + "/" + (int)SelectedUnit.health;
+            BattleUI_P2.stats.text = "ATK: " + (int)SelectedUnit.current_attack + "\nMOV:" + SelectedUnit.mobility;
+            BattleUI_P2.stats_2.text = "RNG: " + SelectedUnit.attackRange + "\nCRIT:" + (int)SelectedUnit.crit;
+            BattleUI_P2.Show();
+        }
         //hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
         //UI.obj_name.text =  "UNIT:"+ SelectedUnit.name.ToString();
         //UI.stats.text = "HEALTH:" + SelectedUnit.current_health + "\nATTACK:" + SelectedUnit.current_attack;
 
-        BattleUI_P1.Show();
+        
     }
 
     void DeselectUnit() // clears all variables to the clicked position
@@ -237,8 +263,9 @@ public class HexagonMapEditor : MonoBehaviour {
         isUnitSelected = false;
         hexGrid.ClearPath();
         BattleUI_P1.Hide();
-        BattleUI_P1.obj_name.text = "UNIT:";
-        BattleUI_P1.stats.text = "HEALTH:\nATTACK:";
+        BattleUI_P2.Hide();
+        //BattleUI_P1.obj_name.text = "UNIT:";
+        //BattleUI_P1.stats.text = "HEALTH:\nATTACK:";
     }
 
     IEnumerator AttackUnit()
@@ -267,7 +294,9 @@ public class HexagonMapEditor : MonoBehaviour {
                 GameObject damagetext = Instantiate(targetable[rand_index].unitOnTile.FloatingTextPrefab, targetable[rand_index].unitOnTile.transform.position, Quaternion.identity, transform);               
                 damagetext.GetComponent<TextMesh>().text = dmg_txt.ToString();
             }
+            StartUnit attacked_unit = targetable[rand_index].unitOnTile;
             targetable[rand_index].unitOnTile.current_health -= damage;
+            attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health;
 
             if (targetable[rand_index].unitOnTile.current_attack > 10)
             {
