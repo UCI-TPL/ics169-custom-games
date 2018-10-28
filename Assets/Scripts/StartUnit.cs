@@ -17,9 +17,14 @@ public class StartUnit : MonoBehaviour {
     public bool dead = false;
     Animator anim;
 
+    public AudioClip attackSound;
+    public AudioSource attackPlayer;
+
 
 	// Use this for initialization
 	void Start () {
+        attackPlayer.playOnAwake = false;
+        attackPlayer.clip = attackSound;
         anim = GetComponent<Animator>();
         current_health = health;
         current_attack = attack;
@@ -40,6 +45,7 @@ public class StartUnit : MonoBehaviour {
     public IEnumerator Attack()
     {
         anim.SetBool("Attacking", true);
+        attackPlayer.Play();
         yield return new WaitForSeconds(0.5f);
         anim.SetBool("Attacking", false);
 

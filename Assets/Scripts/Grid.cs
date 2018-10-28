@@ -8,8 +8,9 @@ using UnityEngine.UI;
 public class Grid : MonoBehaviour {
 
     // variables
-    public int width = 6;
-    public int height = 6;
+    public int width = 20;
+    public int height = 20;
+    List<int> hexlist;
 
     // prefabs cell and cellLabel should be children of grid
     public HexagonCell cellPrefab;
@@ -28,18 +29,8 @@ public class Grid : MonoBehaviour {
 	void Awake () {
         gridCanvas = GetComponentInChildren<Canvas>();
         hexMesh = GetComponentInChildren<HexagonMesh>();
-        
-        cells = new HexagonCell[height * width]; // create an array of correct length
-
-        for(int b = 0,c = 0; b < height; b++) // fill the array with actual hexagon cells
-        {
-            
-            for(int a = 0; a < width; a++)
-            {
-                CreateCell(a, b, c++);
-            }
-        }
-	}
+        CreateGrid();
+    }
 
     private void Start() // runs after awake()
     {
@@ -72,18 +63,22 @@ public class Grid : MonoBehaviour {
     {
         for (int i = 0; i < (width * height); i++)
         {
-            if (current.coords.FindDistanceTo(cells[i].coords) <= mobility)
+            if (cells[i].gameObject.tag != "Wall")
             {
-                cells[i].spriteRenderer.color = color_m;
+                if (current.coords.FindDistanceTo(cells[i].coords) <= mobility)
+                {
+                    cells[i].spriteRenderer.color = color_m;
+                }
+                else if (current.coords.FindDistanceTo(cells[i].coords) <= mobility + range)
+                {
+                    cells[i].spriteRenderer.color = color_a;
+                }
+                else
+                {
+                    cells[i].spriteRenderer.color = defaultColor;
+                }
             }
-            else if(current.coords.FindDistanceTo(cells[i].coords) <= mobility + range)
-            {
-                cells[i].spriteRenderer.color = color_a;
-            }
-            else
-            {
-                cells[i].spriteRenderer.color = defaultColor;
-            }
+
         }
     }
 
@@ -113,5 +108,51 @@ public class Grid : MonoBehaviour {
         int index = coordinates.X_coord + coordinates.Z_coord * width + coordinates.Z_coord / 2;
         return cells[index];
         
+    }
+
+    public HexagonCell[] CreateGrid()
+    {
+        cells = new HexagonCell[height * width]; // create an array of correct length
+
+        for (int b = 0, c = 0; b < height; b++) // fill the array with actual hexagon cells
+        {
+
+            for (int a = 0; a < width; a++)
+            {
+                CreateCell(a, b, c++);
+            }
+        }
+        List<int> hex_list = CreateList();
+        HexagonCell[] result = ChangeHexInfo(cells,hex_list);
+        return cells;
+    }
+
+    public HexagonCell[] ChangeHexInfo(HexagonCell[] cells_, List<int> hexlist_)
+    {
+        for (int i = 0; i <= hexlist_.Count; i++)
+        {
+            //cells_[hexlist_[i]].gameObject.tag = "Wall";
+            //cells_[hexlist_[i]].gameObject.GetComponent<PolygonCollider2D>().enabled = false;
+            cells_[hexlist_[i]].gameObject.SetActive(false);
+        }
+        return cells_;
+    }
+
+    public List<int> CreateList()
+    {
+        List<int> hex_list = new List<int>();
+        hex_list.Add(18);
+        hex_list.Add(23);
+        hex_list.Add(24);
+        hex_list.Add(36);
+        hex_list.Add(42);
+        hex_list.Add(47);
+        hex_list.Add(52);
+        hex_list.Add(57);
+        hex_list.Add(63);
+        hex_list.Add(75);
+        hex_list.Add(76);
+        hex_list.Add(81);
+        return hex_list;
     }
 }
