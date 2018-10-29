@@ -917,6 +917,11 @@ MonoBehaviour:
   FloatingTextPrefab: {fileID: 1120425126322546, guid: 093bcb706ed94e3428f7bd3526dbc7e6,
     type: 2}
   dead: 0
+  health_bar: {fileID: 0}
+  attackSound: {fileID: 82165443778633730, guid: 3a3ede134eba540bd94a0fd3820fb7a3,
+    type: 2}
+  hitSound: {fileID: 82602591348260040, guid: 3649aa7f80872485a83240681d528f4c, type: 2}
+  moveSound: {fileID: 82046697451656666, guid: b5e96a333859c41e5b2810abed5c72cb, type: 2}
 --- !u!114 &114497129739726910
 MonoBehaviour:
   m_ObjectHideFlags: 1
