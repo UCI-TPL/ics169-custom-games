@@ -53,7 +53,7 @@ public class StartUnit : MonoBehaviour {
 
     public IEnumerator Moving()
     {
-        Debug.Log("moving");
+        //Debug.Log("moving");
         anim.SetBool("Moving", true);
         yield return new WaitForSeconds(0.4f);
         anim.SetBool("Moving", false);

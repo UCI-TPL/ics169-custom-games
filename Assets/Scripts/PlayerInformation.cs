@@ -30,7 +30,12 @@ public class PlayerInformation : MonoBehaviour
     public int p2ScrollValue;
 
     public float p1PickTime;
+    public float p2PickTime;
 
+    public bool nextScene = false;
+
+    //____________________________________________shortcuts______________________________________
+    public bool one_player;
     public bool pool = false;
 
 
@@ -52,8 +57,10 @@ public class PlayerInformation : MonoBehaviour
         current_scene = SceneManager.GetActiveScene(); // terrible coding fix later
         if (current_scene.name == "CMapping")
         {
-            //if (ctrsSet.Contains(1) && ctrsSet.Contains(2)) // both players ready
-            if (ctrsSet.Contains(1))
+
+            if (ctrsSet.Contains(1) && ctrsSet.Contains(2) && !one_player) // both players ready
+                SceneManager.LoadScene(2);
+            else if (ctrsSet.Contains(1) && one_player)
                 SceneManager.LoadScene(2);
             else
             {
@@ -62,8 +69,16 @@ public class PlayerInformation : MonoBehaviour
         }
         if (current_scene.name == "SelectCharacter")
         {
-            if (Player1Chosen.Count == 3)
+            if (Player1Chosen.Count == 3 && Player2Chosen.Count == 3 && !nextScene && !one_player)
+            {
+                nextScene = true;
                 SceneManager.LoadScene(3);
+            }
+            if(Player1Chosen.Count == 3 && one_player)
+            {
+                nextScene = true;
+                SceneManager.LoadScene(3);
+            }
             ChooseCharacter();
             DraftPick();
         }
@@ -104,7 +119,7 @@ public class PlayerInformation : MonoBehaviour
             }
             else if (Input.GetButtonDown("J2 A Button") && !ctrsSet.Contains(2))
             {
-                display.text += "PLAYER 2 READY\n";
+                display.text += "PLAYER 1 READY\n";
                 plr1Set = true;
                 player1 = "J2 ";
                 ctrsSet.Add(2);
@@ -114,7 +129,7 @@ public class PlayerInformation : MonoBehaviour
         {
             if (Input.GetButtonDown("J1 A Button") && !ctrsSet.Contains(1))
             {
-                display.text += "PLAYER 1 READY\n";
+                display.text += "PLAYER 2 READY\n";
                 plr2Set = true;
                 player2 = "J1 ";
                 ctrsSet.Add(1);
@@ -150,7 +165,7 @@ public class PlayerInformation : MonoBehaviour
         if (plr1Set)
         {
             value = Input.GetAxis(player1 + "Left Horizontal");
-            Debug.Log(value);
+            //Debug.Log(value);
             if (value != 0.0f && p1ScrollTime <= Time.time)
             {
                 p1ScrollTime = Time.time + 0.25f;
@@ -167,7 +182,7 @@ public class PlayerInformation : MonoBehaviour
 
         if (plr2Set)
         {
-            value = Input.GetAxis(player1 + "Left Horizontal");
+            value = Input.GetAxis(player2 + "Left Horizontal");
             if (value != 0.0f && p2ScrollTime <= Time.time)
             {
                 p2ScrollTime = Time.time + 0.5f;
@@ -200,13 +215,19 @@ public class PlayerInformation : MonoBehaviour
                 }
             }
         }
-        //if (Player2Chosen.Count < 3)
-        //{
-        //    if (Input.GetButton(player2 + "A Button"))
-        //    {
-        //        Player2Chosen.Add(AllP2Units[p2ScrollValue]);
-        //    }
-        //}
+        if (Player2Chosen.Count < 3)
+        {
+            if (Input.GetButton(player2 + "A Button") && p2PickTime <= Time.time)
+            {
+                p2PickTime = Time.time + 1f;
+                Player2Chosen.Add(AllP2Units[p2ScrollValue]);
+                if (pool)
+                {
+                    PoolUnits.Remove(AllP1Units[p2ScrollValue]);
+                    CheckUnits();
+                }
+            }
+        }
 
 
     }

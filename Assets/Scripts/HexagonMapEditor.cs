@@ -32,6 +32,8 @@ public class HexagonMapEditor : MonoBehaviour {
 
     public bool moveInProgress = false;
 
+    public bool onePlayer;
+
 
     public enum TurnStates
     {
@@ -54,13 +56,15 @@ public class HexagonMapEditor : MonoBehaviour {
     // Use this for initialization
     void Start () {
         initializing = true;
-
         UI = GetComponentInChildren<BattleUI>();
         if (initializing) // stop loop if already doing it
         {
+            //initializing = false;
             InitialPhase(PlayerInfo.Player1Chosen,1);
-            Debug.Log("got to here");
-            InitialPhase(Player2Chosen,2);
+            if(PlayerInfo.one_player)
+                InitialPhase(Player2Chosen,2);
+            else
+                InitialPhase(PlayerInfo.Player2Chosen, 2);
             FindTeam("Player 1"); // find the units for player 1's team
             FindTeam("Player 2"); // "             " for player 2's team
         }
@@ -73,7 +77,7 @@ public class HexagonMapEditor : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(currentState);
+        //Debug.Log(currentState);
         switch (currentState)
         {
             case (TurnStates.START):
@@ -87,7 +91,7 @@ public class HexagonMapEditor : MonoBehaviour {
                     MoveableUnits = new List<StartUnit>(P2Team);
                 }
                 UI.turn.text = "TURN:PLAYER 1";
-                MovePhase();
+                MovePhase(PlayerInfo.player1);
                 break;
             case (TurnStates.P1_ATTACK):
                 if (!attacking) // only call once
@@ -105,7 +109,10 @@ public class HexagonMapEditor : MonoBehaviour {
                     MoveableUnits = new List<StartUnit>(P1Team);
                 }
                 UI.turn.text = "TURN:PLAYER 2";
-                MovePhase();
+                if(PlayerInfo.one_player)
+                    MovePhase(PlayerInfo.player1);
+                else
+                    MovePhase(PlayerInfo.player2);
                 break;
             case (TurnStates.P2_ATTACK):
                 if (!attacking)
@@ -158,9 +165,10 @@ public class HexagonMapEditor : MonoBehaviour {
         initializing = false;
         if(player == 1)
         {
-            for(int i = 0; i < team.Count; i++)
+            for(int i = 0; i < team.Count;i++)
             {
                 CreateUnit(i, team[i]);
+               
             }
         }
         else
@@ -175,19 +183,19 @@ public class HexagonMapEditor : MonoBehaviour {
         //initializing = true;
     }
 
-    public void MovePhase() // handles input from the player to correctly move the unit
+    public void MovePhase(string joystick) // handles input from the player to correctly move the unit
     {
         if (!EventSystem.current.IsPointerOverGameObject())
         {
-            if (Input.GetButtonDown("J1 X Button"))
+            if (Input.GetButtonDown(joystick + "X Button"))
                 HandleInput();
-            if (Input.GetButtonDown("J1 B Button"))
+            if (Input.GetButtonDown(joystick + "B Button"))
             {
                 DeselectUnit();
             }
         }
 
-        if(Input.GetButtonDown("J1 A Button"))
+        if(Input.GetButtonDown(joystick + "A Button"))
         {
             if(MoveableUnits.Contains(SelectedUnit))
             {

@@ -594,6 +594,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b27dec12953e184bb379207da174392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerInfo: {fileID: 0}
   hexGrid: {fileID: 1152803764}
   UI: {fileID: 0}
   cursor: {fileID: 630863162}
@@ -617,6 +618,7 @@ MonoBehaviour:
   attacking: 0
   whileAttacking: 0
   moveInProgress: 0
+  onePlayer: 1
   currentState: 0
 --- !u!114 &330579868
 MonoBehaviour:
@@ -1436,11 +1438,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1152803763}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b27dec12953e184bb379207da174392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerInfo: {fileID: 0}
   hexGrid: {fileID: 0}
   UI: {fileID: 0}
   cursor: {fileID: 0}
@@ -1462,6 +1465,7 @@ MonoBehaviour:
   attacking: 0
   whileAttacking: 0
   moveInProgress: 0
+  onePlayer: 0
   currentState: 0
 --- !u!1001 &1338684693
 Prefab:
