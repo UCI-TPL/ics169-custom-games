@@ -359,7 +359,6 @@ MonoBehaviour:
   ctrsSet: 
   player1: 
   player2: 
-  display: {fileID: 0}
   plr1Set: 0
   plr2Set: 0
   AllP1Units:
@@ -371,15 +370,11 @@ MonoBehaviour:
   - {fileID: 114207389280180398, guid: fc8b2defb282e494991856dbaea89531, type: 2}
   - {fileID: 114593018511485496, guid: 27c76a3307bb9cd4ea784909eb9de6ef, type: 2}
   PoolUnits: []
-  p1ScrollTime: 0
-  p2ScrollTime: 0
-  p1ScrollValue: 0
-  p2ScrollValue: 0
   p1PickTime: 0
   p2PickTime: 0
   nextScene: 0
   one_player: 1
-  pool: 0
+  pool: 1
 --- !u!4 &1666635607
 Transform:
   m_ObjectHideFlags: 0

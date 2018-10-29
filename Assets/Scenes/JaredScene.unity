@@ -890,12 +890,10 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4283061699
   cursor: {fileID: 630863162}
-  unit1Prefab: {fileID: 114836417496467364, guid: 105b0ac2191a8cb4997feaf709eb235c,
-    type: 2}
-  unit2Prefab: {fileID: 114836417496467364, guid: c75803ab503530f429261485e7a27acb,
-    type: 2}
   Player1Chosen: []
-  Player2Chosen: []
+  Player2Chosen:
+  - {fileID: 114811462125714160, guid: 59372a342fa954aa4b6dcbc8e55d7a3d, type: 2}
+  - {fileID: 114340554476262174, guid: 1c3c7a90aaf6546d984b3e7f697dc4ae, type: 2}
   P1Team: []
   P2Team: []
   MoveableUnits: []
@@ -2495,8 +2493,6 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 0
   cursor: {fileID: 0}
-  unit1Prefab: {fileID: 0}
-  unit2Prefab: {fileID: 0}
   Player1Chosen: []
   Player2Chosen: []
   P1Team: []
@@ -3007,7 +3003,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
+  m_SubmitButton: 
   m_CancelButton: Cancel
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5

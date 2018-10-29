@@ -19,9 +19,6 @@ public class HexagonMapEditor : MonoBehaviour {
     public Color32 P2_Color;
     public Cursor cursor;
 
-    public StartUnit unit1Prefab;
-    public StartUnit unit2Prefab;
-
     public List<StartUnit> Player1Chosen = new List<StartUnit>();
     public List<StartUnit> Player2Chosen = new List<StartUnit>();
 

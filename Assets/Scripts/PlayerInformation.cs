@@ -14,9 +14,9 @@ public class PlayerInformation : MonoBehaviour
     public string player1; // player 1 string to map to the correct input
     public string player2; // player 2 string to map to the correct input
 
-    public Text display;
+    private Text display;
 
-    public Scene current_scene;
+    private Scene current_scene;
 
     public bool plr1Set, plr2Set;
     //___________________________________________________________________________________________
@@ -24,15 +24,20 @@ public class PlayerInformation : MonoBehaviour
     public List<StartUnit> AllP2Units = new List<StartUnit>();
 
     public List<StartUnit> PoolUnits = new List<StartUnit>(); // random  pool of units
-    public float p1ScrollTime;
-    public float p2ScrollTime;
-    public int p1ScrollValue;
-    public int p2ScrollValue;
+    private float p1ScrollTime;
+    private float p2ScrollTime;
+    private int p1ScrollValue;
+    private int p2ScrollValue;
 
     public float p1PickTime;
     public float p2PickTime;
 
+    private Text p1Text;
+    private Text p2Text;
+
     public bool nextScene = false;
+
+    private bool doSelect = false;
 
     //____________________________________________shortcuts______________________________________
     public bool one_player;
@@ -45,10 +50,7 @@ public class PlayerInformation : MonoBehaviour
         display = FindObjectOfType<Text>();
         DontDestroyOnLoad(this.gameObject);
         current_scene = SceneManager.GetActiveScene();
-        if(pool)
-        {
-            RandomPool();
-        }
+        
     }
 
     // Update is called once per frame
@@ -69,6 +71,17 @@ public class PlayerInformation : MonoBehaviour
         }
         if (current_scene.name == "SelectCharacter")
         {
+            if(!doSelect)
+            {
+                doSelect = true;
+                display = GameObject.Find("Text").GetComponent<Text>();
+                if (pool)
+                {
+                    RandomPool();
+                }
+                p1Text = GameObject.Find("Player1Text").GetComponent<Text>();
+                p2Text = GameObject.Find("Player2Text").GetComponent<Text>();
+            }
             if (Player1Chosen.Count == 3 && Player2Chosen.Count == 3 && !nextScene && !one_player)
             {
                 nextScene = true;
@@ -88,10 +101,21 @@ public class PlayerInformation : MonoBehaviour
 
     private void CheckPool()
     {
-        for(int i = 0; i < PoolUnits.Count; i++)
+        int[] counts = new int[AllP1Units.Count];
+        for (int j = 0; j < AllP1Units.Count; j++)
         {
-           
+            for (int i = 0; i < PoolUnits.Count; i++)
+            {
+                if(PoolUnits[i] == AllP1Units[j])
+                    counts[j]++;
+            }
         }
+        string result = "";
+        for(int k = 0; k < counts.Length; k++)
+        {
+            result += AllP1Units[k].name + " x" + counts[k] + "\n";
+        }
+        display.text = result;
     }
 
     public void RandomPool()
@@ -182,10 +206,12 @@ public class PlayerInformation : MonoBehaviour
                 if (value > 0.0f)
                 {
                     p1ScrollValue = ChangeCharacter(p1ScrollValue, 1);
+                    p1Text.text = AllP1Units[p1ScrollValue].name;
                 }
                 else
                 {
                     p1ScrollValue = ChangeCharacter(p1ScrollValue, -1);
+                    p1Text.text = AllP1Units[p1ScrollValue].name;
                 }
             }
         }
@@ -199,10 +225,12 @@ public class PlayerInformation : MonoBehaviour
                 if (value > 0.0f)
                 {
                     p2ScrollValue = ChangeCharacter(p2ScrollValue, 1);
+                    p2Text.text = AllP1Units[p2ScrollValue].name;
                 }
                 else
                 {
                     p2ScrollValue = ChangeCharacter(p2ScrollValue, -1);
+                    p2Text.text = AllP1Units[p2ScrollValue].name;
                 }
             }
         }
