@@ -1517,6 +1517,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 1897378469550912, guid: f880458d5215e40f68a969ed299b7104, type: 2}
+      propertyPath: m_Name
+      value: Game Music
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f880458d5215e40f68a969ed299b7104, type: 2}
   m_IsPrefabAsset: 0
@@ -1764,48 +1768,8 @@ MonoBehaviour:
   coords:
     x: 0
     z: 0
---- !u!1001 &692085844
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4316044864359134, guid: 1c46ca78dce3546f59ad0df3db4a3771, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 197.31877
-      objectReference: {fileID: 0}
-    - target: {fileID: 4316044864359134, guid: 1c46ca78dce3546f59ad0df3db4a3771, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 274.78156
-      objectReference: {fileID: 0}
-    - target: {fileID: 4316044864359134, guid: 1c46ca78dce3546f59ad0df3db4a3771, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -6.16131
-      objectReference: {fileID: 0}
-    - target: {fileID: 4316044864359134, guid: 1c46ca78dce3546f59ad0df3db4a3771, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4316044864359134, guid: 1c46ca78dce3546f59ad0df3db4a3771, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4316044864359134, guid: 1c46ca78dce3546f59ad0df3db4a3771, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4316044864359134, guid: 1c46ca78dce3546f59ad0df3db4a3771, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4316044864359134, guid: 1c46ca78dce3546f59ad0df3db4a3771, type: 2}
-      propertyPath: m_RootOrder
-      value: 17
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 1c46ca78dce3546f59ad0df3db4a3771, type: 2}
-  m_IsPrefabAsset: 0
+  _Grid: {fileID: 0}
+  time_increment: 0.5
 --- !u!1 &768086078
 GameObject:
   m_ObjectHideFlags: 0
@@ -1928,7 +1892,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &799336341
 GameObject:
@@ -2062,7 +2026,7 @@ GameObject:
   - component: {fileID: 826911293}
   - component: {fileID: 826911292}
   m_Layer: 0
-  m_Name: Audio Source
+  m_Name: Game Music
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
