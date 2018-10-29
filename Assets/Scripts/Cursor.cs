@@ -23,58 +23,49 @@ public class Cursor : MonoBehaviour {
         float H_Axis = Input.GetAxis("J1 Left Horizontal");
         float V_Axis = Input.GetAxis("J1 Left Vertical");
 
-        if (H_Axis >= 0.8f && V_Axis <= 0.2f && V_Axis >= -0.2f && Time.time >= time)
+        if (Time.time >= time)
         {
-            _Move("x", 1);
-            time = Time.time + time_increment;
-            Debug.Log("Up_X");
-        }
-        else if (H_Axis <= -0.8f && V_Axis <= 0.2f && V_Axis >= -0.2f && Time.time >= time)
-        {
-            _Move("x", -1);
-            time = Time.time + time_increment;
-            Debug.Log("Down_X");
-        }
-        else if (H_Axis >= 0.4f && V_Axis <= -0.4f && Time.time >= time)
-        {
-            _Move("z", 1);
-            time = Time.time + time_increment;
-            Debug.Log("Up_Z");
-        }
-        else if (H_Axis <= -0.4f && V_Axis >= 0.4f && Time.time >= time)
-        {
-            _Move("z", -1);
-            time = Time.time + time_increment;
-            Debug.Log("Up_Z");
-        }
-        else if (H_Axis <= -0.4f && V_Axis <= -0.4f && Time.time >= time)
-        {
-            _Move("y", 1);
-            time = Time.time + time_increment;
-            Debug.Log("Up_Z");
-        }
-        else if (H_Axis >= 0.4f && V_Axis >= 0.4f && Time.time >= time)
-        {
-            _Move("y", -1);
-            time = Time.time + time_increment;
-            Debug.Log("Up_Z");
-        }
+            if ((Mathf.Pow(H_Axis, 2) + Mathf.Pow(V_Axis, 2)) <= 0.08f)
+            {
+                //Dead Zone
+            }
+            else
+            {
+                float Angle = Mathf.Atan2(H_Axis, V_Axis) * Mathf.Rad2Deg;
+                //0 -> 180 (right)   0 -> -180 (left)
 
-        if (Input.GetButtonDown("Fire1"))
-        {
-            _Move("z", 1);
+                if (Angle > 60 && Angle < 120)
+                {
+                    _Move("x", 1);
+                    time = Time.time + time_increment;
+                }
+                else if (Angle < -60 && Angle > -120)
+                {
+                    _Move("x", -1);
+                    time = Time.time + time_increment;
+                }
+                else if (Angle < 180 && Angle > 120)
+                {
+                    _Move("z", 1);
+                    time = Time.time + time_increment;
+                }
+                else if (Angle > -180 && Angle < -120)
+                {
+                    _Move("y", 1);
+                    time = Time.time + time_increment;
+                }
+                else if (Angle > -60 && Angle < 0)
+                {
+                    _Move("z", -1);
+                    time = Time.time + time_increment;
+                }
+                else if (Angle < 60 && Angle > 0)
+                {
+                    _Move("y", -1);
+                    time = Time.time + time_increment;
+                }
+            }
         }
-
-        if (Input.GetButtonDown("Fire2"))
-        {
-            _Move("x", 1);
-        }
-
-        if (Input.GetButtonDown("Jump"))
-        {
-            _Move("y", 1);
-        }
-
     }
 
     private void _Move(string dir, int sign) {
@@ -125,10 +116,10 @@ public class Cursor : MonoBehaviour {
         }
            
 
-        Debug.Log("Current X " + coords.X_coord);
-        Debug.Log("Current Y " + coords.Y_coord);
-        Debug.Log("Current Z " + coords.Z_coord);
-        Debug.Log(_Grid.Get_Cell_Index(coords).gameObject.transform.position);
+        //Debug.Log("Current X " + coords.X_coord);
+        //Debug.Log("Current Y " + coords.Y_coord);
+        //Debug.Log("Current Z " + coords.Z_coord);
+        //Debug.Log(_Grid.Get_Cell_Index(coords).gameObject.transform.position);
     }
 }
 
