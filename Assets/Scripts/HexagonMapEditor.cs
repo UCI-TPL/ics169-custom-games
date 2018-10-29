@@ -65,7 +65,7 @@ public class HexagonMapEditor : MonoBehaviour {
     void Start () {
         initializing = true;
 
-        UI = GetComponentInChildren<BattleUI>();
+        //UI = GetComponentInChildren<BattleUI>();
 
 
         BattleUI_P1 = UI_P1.GetComponent<BattleUI>();
@@ -107,11 +107,12 @@ public class HexagonMapEditor : MonoBehaviour {
                     currentState = TurnStates.P1_ATTACK;
                     MoveableUnits = new List<StartUnit>(P2Team);
                 }
-                UI.turn.text = "TURN:PLAYER 1";
-                MovePhase(PlayerInfo.player1);
+                //UI.turn.text = "TURN:PLAYER 1";
+                
                 BattleUI_Turn.turn.text = "TURN:PLAYER 1";
                 BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P1_Color;
-                MovePhase();
+                MovePhase(PlayerInfo.player1);
+                //MovePhase();
 
                 break;
             case (TurnStates.P1_ATTACK):
@@ -130,15 +131,16 @@ public class HexagonMapEditor : MonoBehaviour {
                     MoveableUnits = new List<StartUnit>(P1Team);
                 }
 
-                UI.turn.text = "TURN:PLAYER 2";
-                if(PlayerInfo.one_player)
-                    MovePhase(PlayerInfo.player1);
-                else
-                    MovePhase(PlayerInfo.player2);
+                //UI.turn.text = "TURN:PLAYER 2";
+                
 
                 BattleUI_Turn.turn.text = "TURN:PLAYER 2";
                 BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P2_Color;
-                MovePhase();
+                if (PlayerInfo.one_player)
+                    MovePhase(PlayerInfo.player1);
+                else
+                    MovePhase(PlayerInfo.player2);
+                //MovePhase();
 
                 break;
             case (TurnStates.P2_ATTACK):
