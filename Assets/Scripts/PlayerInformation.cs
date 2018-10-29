@@ -79,8 +79,18 @@ public class PlayerInformation : MonoBehaviour
                 nextScene = true;
                 SceneManager.LoadScene(3);
             }
+            if(pool)
+                CheckPool();
             ChooseCharacter();
             DraftPick();
+        }
+    }
+
+    private void CheckPool()
+    {
+        for(int i = 0; i < PoolUnits.Count; i++)
+        {
+           
         }
     }
 
