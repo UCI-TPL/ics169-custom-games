@@ -19,6 +19,10 @@ public class StartUnit : MonoBehaviour {
     Animator anim;
 
 
+    //Attack, Hit, and Move sounds
+    public AudioSource attackSound, hitSound, moveSound;
+
+
 	// Use this for initialization
 	void Start () {
         anim = GetComponent<Animator>();
@@ -41,6 +45,7 @@ public class StartUnit : MonoBehaviour {
     public IEnumerator Attack()
     {
         anim.SetBool("Attacking", true);
+        attackSound.Play();
         yield return new WaitForSeconds(0.5f);
         anim.SetBool("Attacking", false);
 
@@ -48,6 +53,7 @@ public class StartUnit : MonoBehaviour {
     public IEnumerator Hit()
     {
         anim.SetBool("Hurt", true);
+        hitSound.Play();
         yield return new WaitForSeconds(0.4f);
         anim.SetBool("Hurt", false);
     }
@@ -56,6 +62,7 @@ public class StartUnit : MonoBehaviour {
     {
         Debug.Log("moving");
         anim.SetBool("Moving", true);
+        moveSound.Play(); 
         yield return new WaitForSeconds(0.4f);
         anim.SetBool("Moving", false);
     }
