@@ -1406,6 +1406,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 10
   height: 10
+  sprite: {fileID: 21300000, guid: de64c35b70fc16a44870f718a6978a35, type: 3}
+  TeamBuffTile: {fileID: 21300000, guid: de64c35b70fc16a44870f718a6978a35, type: 3}
+  power_up_prefab: {fileID: 114379875048826628, guid: 3a35e6aab09a96545864795f4d1fc99c,
+    type: 2}
+  GridMap: {fileID: 1152803765}
   cellPrefab: {fileID: 114090098638288174, guid: 9d4ee7f126fd0534f8d63d538fcd7dad,
     type: 2}
   cellLabelPrefab: {fileID: 114148509972465178, guid: c709a0f5b9aff584e9e0233db47b0073,

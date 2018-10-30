@@ -353,6 +353,16 @@ public class HexagonMapEditor : MonoBehaviour {
             unitCell = hexGrid.cells[index];
             hexGrid.cells[index].occupied = true;
             hexGrid.cells[index].unitOnTile = SelectedUnit;
+            if(hexGrid.cells[index].tag == "TeamBuff" && hexGrid.cells[index].occupied)
+            {
+               // hexGrid.cells[index].occupied = true;
+               // hexGrid.cells[index].unitOnTile = SelectedUnit;
+                hexGrid.cells[index].GetComponent<TeamPowerupTiles>().is_occupied = true;
+                if (hexGrid.cells[index].unitOnTile.tag == "Player 1")
+                    hexGrid.cells[index].GetComponent<TeamPowerupTiles>().UnitsTeam = P1Team;
+                if(hexGrid.cells[index].unitOnTile.tag == "Player 2")
+                    hexGrid.cells[index].GetComponent<TeamPowerupTiles>().UnitsTeam = P2Team;
+            }
             MoveableUnits.Remove(SelectedUnit);
         }
         else

@@ -10,7 +10,9 @@ public class Grid : MonoBehaviour {
     // variables
     public int width = 20;
     public int height = 20;
-    List<int> hexlist;
+    public Sprite sprite, TeamBuffTile;
+    public HexagonCell power_up_prefab;
+    public Transform GridMap;
 
     // prefabs cell and cellLabel should be children of grid
     public HexagonCell cellPrefab;
@@ -123,25 +125,47 @@ public class Grid : MonoBehaviour {
             }
         }
         List<int> hex_list = CreateList();
-        HexagonCell[] result = ChangeHexInfo(cells,hex_list);
+        List<int> power_ups = PowerUpList();
+        HexagonCell[] result = ChangeHexInfo(cells, hex_list, power_ups);
         return cells;
     }
 
-    public HexagonCell[] ChangeHexInfo(HexagonCell[] cells_, List<int> hexlist_)
+    public HexagonCell[] ChangeHexInfo(HexagonCell[] cells_, List<int> hexlist_, List<int> powercells_)
     {
-        for (int i = 0; i <= hexlist_.Count; i++)
+        if (hexlist_.Count != 0)
         {
-            //cells_[hexlist_[i]].gameObject.tag = "Wall";
-            //cells_[hexlist_[i]].gameObject.GetComponent<PolygonCollider2D>().enabled = false;
-            cells_[hexlist_[i]].gameObject.SetActive(false);
+            for (int i = 0; i < hexlist_.Count; i++)
+            {
+                cells_[hexlist_[i]].gameObject.tag = "Wall";
+                cells_[hexlist_[i]].gameObject.GetComponent<PolygonCollider2D>().enabled = false;
+                cells_[hexlist_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = sprite;
+                //cells_[hexlist_[i]].gameObject.SetActive(false);
+            }
+        }
+        if(powercells_.Count != 0)
+        {
+            for(int i = 0; i < powercells_.Count; i++)
+            {
+                cells_[powercells_[i]].gameObject.AddComponent<TeamPowerupTiles>();
+                cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = TeamBuffTile;
+                cells_[powercells_[i]].tag = "TeamBuff";
+                //HexagonCell newobject = Instantiate(power_up_prefab, cells_[powercells_[i]].transform);
+                //newobject.GetComponent<HexagonCell>().coords = cells_[powercells_[i]].GetComponent<HexagonCell>().coords;
+                //cells_[powercells_[i]].transform.DetachChildren();
+                //cells_[powercells_[i]].gameObject.SetActive(false);
+                //newobject.transform.SetParent(GridMap);
+
+              //  cells_[powercells_[i]].gameObject.SetActive(false);
+
+            }
         }
         return cells_;
     }
 
     public List<int> CreateList()
-    {
+    {//list of wall tiles
         List<int> hex_list = new List<int>();
-        hex_list.Add(18);
+       // hex_list.Add(18);
         hex_list.Add(23);
         hex_list.Add(24);
         hex_list.Add(36);
@@ -152,7 +176,14 @@ public class Grid : MonoBehaviour {
         hex_list.Add(63);
         hex_list.Add(75);
         hex_list.Add(76);
-        hex_list.Add(81);
+        //hex_list.Add(81);
         return hex_list;
+    }
+    public List<int> PowerUpList()
+    {
+        List<int> powerups = new List<int>();
+        powerups.Add(18);
+        powerups.Add(81);
+        return powerups;
     }
 }
