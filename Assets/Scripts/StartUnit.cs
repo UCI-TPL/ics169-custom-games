@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StartUnit : MonoBehaviour {
 
@@ -18,6 +19,8 @@ public class StartUnit : MonoBehaviour {
     public GameObject health_bar;
     Animator anim;
 
+    public HexagonMapEditor editor;
+
 
     //Attack, Hit, and Move sounds
     public AudioSource attackSound, hitSound, moveSound;
@@ -25,6 +28,8 @@ public class StartUnit : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        editor = FindObjectOfType<HexagonMapEditor>();
+        //health_bar = transform.Find("Health_BG").gameObject;
         anim = GetComponent<Animator>();
         current_health = health;
         current_attack = attack;
@@ -42,10 +47,61 @@ public class StartUnit : MonoBehaviour {
         Destroy(this.gameObject);   
     }
 
+    public IEnumerator BasicAttack(Grid hexGrid, HexagonCell unitCell) // return bool yes if dead false if no
+    {
+        List<HexagonCell> targetable = new List<HexagonCell>();
+        foreach (HexagonCell cell in hexGrid.cells)
+        {
+            if (unitCell.coords.FindDistanceTo(cell.coords) <= attackRange
+                && unitCell.coords.FindDistanceTo(cell.coords) > 0
+                && cell.occupied
+                && tag != cell.unitOnTile.tag)
+                targetable.Add(cell);
+        }
+        if (targetable.Count >= 1)
+        {
+            StartCoroutine(Attack());
+            int rand_index = Random.Range(0, targetable.Count);
+            float random_val = Random.value;
+            float damage = current_attack;
+            if (random_val < crit)
+                damage = current_attack * 2;
+            int dmg_txt = (int)damage;
+            if (targetable[rand_index].unitOnTile.FloatingTextPrefab)
+            {
+                GameObject damagetext = Instantiate(targetable[rand_index].unitOnTile.FloatingTextPrefab, targetable[rand_index].unitOnTile.transform.position, Quaternion.identity, transform);
+                damagetext.GetComponent<TextMesh>().text = dmg_txt.ToString();
+            }
+            StartUnit attacked_unit = targetable[rand_index].unitOnTile;
+            targetable[rand_index].unitOnTile.current_health -= damage;
+            //attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
+
+            if (targetable[rand_index].unitOnTile.current_attack > 10)
+            {
+                float percenthealth = targetable[rand_index].unitOnTile.current_health / targetable[rand_index].unitOnTile.health;
+                targetable[rand_index].unitOnTile.current_attack *= percenthealth;
+            }
+
+            Debug.Log("he dead");
+            if (targetable[rand_index].unitOnTile.current_health <= 0)
+            {
+                
+                int index = targetable[rand_index].coords.X_coord + targetable[rand_index].coords.Z_coord * hexGrid.width + targetable[rand_index].coords.Z_coord / 2;
+                editor.RemoveUnitInfo(targetable[rand_index], index);
+            }
+            else
+            {
+                yield return new WaitForSeconds(0.3f);
+                StartCoroutine(targetable[rand_index].unitOnTile.Hit());
+            }
+        }
+    }
+
+
     public IEnumerator Attack()
     {
         anim.SetBool("Attacking", true);
-        attackSound.Play();
+        //attackSound.Play();
         yield return new WaitForSeconds(0.5f);
         anim.SetBool("Attacking", false);
 
@@ -53,16 +109,16 @@ public class StartUnit : MonoBehaviour {
     public IEnumerator Hit()
     {
         anim.SetBool("Hurt", true);
-        hitSound.Play();
+        //hitSound.Play();
         yield return new WaitForSeconds(0.4f);
         anim.SetBool("Hurt", false);
     }
 
     public IEnumerator Moving()
     {
-        Debug.Log("moving");
+        //Debug.Log("moving");
         anim.SetBool("Moving", true);
-        moveSound.Play(); 
+        //moveSound.Play(); 
         yield return new WaitForSeconds(0.4f);
         anim.SetBool("Moving", false);
     }
