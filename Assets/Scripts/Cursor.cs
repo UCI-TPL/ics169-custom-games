@@ -12,8 +12,8 @@ public class Cursor : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         point = GameObject.Find("Point");
-        coords.x = -3;
-        coords.z = 3;
+        coords.x = 0;
+        coords.z = 0;
 	}
 	
 	// Update is called once per frame
@@ -23,42 +23,58 @@ public class Cursor : MonoBehaviour {
         float H_Axis = Input.GetAxis("J1 Left Horizontal");
         float V_Axis = Input.GetAxis("J1 Left Vertical");
 
-        if (H_Axis >= 0.8f && V_Axis <= 0.2 && V_Axis >= -0.2 && Time.time >= time)
+        if (Time.time >= time)
         {
-            _Move("x", 1);
-            time = Time.time + time_increment;
-        }
+            if ((Mathf.Pow(H_Axis, 2) + Mathf.Pow(V_Axis, 2)) <= 0.08f)
+            {
+                //Dead Zone
+            }
+            else
+            {
+                float Angle = Mathf.Atan2(H_Axis, V_Axis) * Mathf.Rad2Deg;
+                //0 -> 180 (right)   0 -> -180 (left)
 
-        if (H_Axis <= -0.8f && V_Axis <= 0.2 && V_Axis >= -0.2 && Time.time >= time)
-        {
-            _Move("x", -1);
-            time = Time.time + time_increment;
+                if (Angle > 60 && Angle < 120)
+                {
+                    _Move("x", 1);
+                    time = Time.time + time_increment;
+                }
+                else if (Angle < -60 && Angle > -120)
+                {
+                    _Move("x", -1);
+                    time = Time.time + time_increment;
+                }
+                else if (Angle < 180 && Angle > 120)
+                {
+                    _Move("z", 1);
+                    time = Time.time + time_increment;
+                }
+                else if (Angle > -180 && Angle < -120)
+                {
+                    _Move("y", 1);
+                    time = Time.time + time_increment;
+                }
+                else if (Angle > -60 && Angle < 0)
+                {
+                    _Move("z", -1);
+                    time = Time.time + time_increment;
+                }
+                else if (Angle < 60 && Angle > 0)
+                {
+                    _Move("y", -1);
+                    time = Time.time + time_increment;
+                }
+            }
         }
-
-        if (H_Axis >= 0.5f && V_Axis >= 0.5 && Time.time >= time)
-        {
-            _Move("z", 1);
-            time = Time.time + time_increment;
-        }
-
-        if (Input.GetButtonDown("Fire1"))
-        {
-            _Move("z", 1);
-        }
-
-        if (Input.GetButtonDown("Fire2"))
-        {
-            _Move("x", 1);
-        }
-
-        if (Input.GetButtonDown("Jump"))
-        {
-            _Move("y", 1);
-        }
-
     }
 
     private void _Move(string dir, int sign) {
+        //Deal with indexing errors by checking len of cell array.
+        //When going up or down on the stick just go in the y then z.
+
+        int prev_coord_x = coords.X_coord;
+        int prev_coord_z = coords.Z_coord;
+
         if (dir.Equals("z"))
         {
             coords.z += sign;
@@ -75,12 +91,35 @@ public class Cursor : MonoBehaviour {
             coords.z += sign;
         }
 
-        gameObject.transform.position = _Grid.Get_Cell_Index(coords).gameObject.transform.position;
+        HexagonCoord next_cell;
+        try
+        {
+            next_cell = _Grid.Get_Cell_Index(coords).coords;
 
-        Debug.Log("Current X " + coords.X_coord);
-        Debug.Log("Current Y " + coords.Y_coord);
-        Debug.Log("Current Z " + coords.Z_coord);
-        Debug.Log(_Grid.Get_Cell_Index(coords).gameObject.transform.position);
+            if (coords.X_coord == next_cell.X_coord && coords.Z_coord == next_cell.Z_coord)
+            {
+                //It found a real tile.
+                gameObject.transform.position = _Grid.Get_Cell_Index(coords).gameObject.transform.position;
+            }
+            else
+            {
+                //It found a not-real tile. Revert Change.
+                coords.x = prev_coord_x;
+                coords.z = prev_coord_z;
+            }
+        }
+        catch(System.IndexOutOfRangeException e)
+        {
+            coords.x = prev_coord_x;
+            coords.z = prev_coord_z;
+            Debug.Log(e.Message);
+        }
+           
+
+        //Debug.Log("Current X " + coords.X_coord);
+        //Debug.Log("Current Y " + coords.Y_coord);
+        //Debug.Log("Current Z " + coords.Z_coord);
+        //Debug.Log(_Grid.Get_Cell_Index(coords).gameObject.transform.position);
     }
 }
 

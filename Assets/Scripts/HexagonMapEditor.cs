@@ -17,6 +17,7 @@ public class HexagonMapEditor : MonoBehaviour {
     public BattleUI BattleUI_Turn;
     public Color32 P1_Color;
     public Color32 P2_Color;
+    public Color32 Greyed_Unit_Color;
     public Cursor cursor;
 
     public List<StartUnit> Player1Chosen = new List<StartUnit>();
@@ -103,6 +104,15 @@ public class HexagonMapEditor : MonoBehaviour {
                 {
                     currentState = TurnStates.P1_ATTACK;
                     MoveableUnits = new List<StartUnit>(P2Team);
+                    //Turn Units Back To Normal Color
+                    for(int i = 0; i < MoveableUnits.Count; i++)
+                    {
+                        Anima2D.SpriteMeshInstance[] Unit_Sprites = MoveableUnits[i].gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
+                        for(int k = 0; k < Unit_Sprites.Length; k++)
+                        {
+                            Unit_Sprites[k].color = Color.white;
+                        }
+                    }
                 }
                 //UI.turn.text = "TURN:PLAYER 1";
                 
@@ -126,6 +136,14 @@ public class HexagonMapEditor : MonoBehaviour {
                 {
                     currentState = TurnStates.P2_ATTACK;
                     MoveableUnits = new List<StartUnit>(P1Team);
+                    for (int i = 0; i < MoveableUnits.Count; i++)
+                    {
+                        Anima2D.SpriteMeshInstance[] Unit_Sprites = MoveableUnits[i].gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
+                        for (int k = 0; k < Unit_Sprites.Length; k++)
+                        {
+                            Unit_Sprites[k].color = Color.white;
+                        }
+                    }
                 }
 
                 //UI.turn.text = "TURN:PLAYER 2";
@@ -226,6 +244,12 @@ public class HexagonMapEditor : MonoBehaviour {
             if(MoveableUnits.Contains(SelectedUnit))
             {
                 MoveableUnits.Remove(SelectedUnit);
+                Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
+                for(int i = 0; i < Unit_Meshes.Length; i++)
+                {
+                    Unit_Meshes[i].color = Greyed_Unit_Color;
+                    Debug.Log("Color_Changed");
+                }
             }
         }
     }
@@ -425,6 +449,13 @@ public class HexagonMapEditor : MonoBehaviour {
             hexGrid.cells[index].occupied = true;
             hexGrid.cells[index].unitOnTile = SelectedUnit;
             MoveableUnits.Remove(SelectedUnit);
+            Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
+            for (int i = 0; i < Unit_Meshes.Length; i++)
+            {
+                Unit_Meshes[i].color = Greyed_Unit_Color;
+                Debug.Log("Color_Changed");
+            }
+
         }
         else
         {
