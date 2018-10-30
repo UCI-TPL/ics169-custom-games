@@ -306,7 +306,7 @@ public class HexagonMapEditor : MonoBehaviour {
         
     }
 
-    void DeselectUnit() // clears all variables to the clicked position
+    private void DeselectUnit() // clears all variables to the clicked position
     {
         SelectedUnit = null;
         unitCell = null;
@@ -318,59 +318,61 @@ public class HexagonMapEditor : MonoBehaviour {
         //BattleUI_P1.stats.text = "HEALTH:\nATTACK:";
     }
 
-    IEnumerator AttackUnit()
+    IEnumerator AttackUnit() // port this whole function to start unit class
     {
         whileAttacking = true;
-        List<HexagonCell> targetable = new List<HexagonCell>();
-        foreach(HexagonCell cell in hexGrid.cells)
-        {
-            if (unitCell.coords.FindDistanceTo(cell.coords) <= SelectedUnit.attackRange  
-                && unitCell.coords.FindDistanceTo(cell.coords) > 0 
-                && cell.occupied
-                && SelectedUnit.tag != cell.unitOnTile.tag)
-                targetable.Add(cell);
-        }
-        if (targetable.Count >= 1)
-        {
-            StartCoroutine(SelectedUnit.Attack());
-            int rand_index = Random.Range(0, targetable.Count);
-            float random_val = Random.value;
-            float damage = SelectedUnit.current_attack;
-            if (random_val < SelectedUnit.crit)
-                damage = SelectedUnit.current_attack * 2;
-            int dmg_txt = (int)damage;
-            if (targetable[rand_index].unitOnTile.FloatingTextPrefab)
-            {
-                GameObject damagetext = Instantiate(targetable[rand_index].unitOnTile.FloatingTextPrefab, targetable[rand_index].unitOnTile.transform.position, Quaternion.identity, transform);               
-                damagetext.GetComponent<TextMesh>().text = dmg_txt.ToString();
-            }
-            StartUnit attacked_unit = targetable[rand_index].unitOnTile;
-            targetable[rand_index].unitOnTile.current_health -= damage;
-            attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health;
+        StartCoroutine(SelectedUnit.BasicAttack(hexGrid, unitCell));
+        // List<HexagonCell> targetable = new List<HexagonCell>();
+        // foreach(HexagonCell cell in hexGrid.cells)
+        // {
+        //     if (unitCell.coords.FindDistanceTo(cell.coords) <= SelectedUnit.attackRange  
+        //         && unitCell.coords.FindDistanceTo(cell.coords) > 0 
+        //         && cell.occupied
+        //         && SelectedUnit.tag != cell.unitOnTile.tag)
+        //         targetable.Add(cell);
+        // }
+        // if (targetable.Count >= 1)
+        // {
+        //     StartCoroutine(SelectedUnit.Attack());
+        //     int rand_index = Random.Range(0, targetable.Count);
+        //     float random_val = Random.value;
+        //     float damage = SelectedUnit.current_attack;
+        //     if (random_val < SelectedUnit.crit)
+        //         damage = SelectedUnit.current_attack * 2;
+        //     int dmg_txt = (int)damage;
+        //     if (targetable[rand_index].unitOnTile.FloatingTextPrefab)
+        //     {
+        //         GameObject damagetext = Instantiate(targetable[rand_index].unitOnTile.FloatingTextPrefab, targetable[rand_index].unitOnTile.transform.position, Quaternion.identity, transform);               
+        //         damagetext.GetComponent<TextMesh>().text = dmg_txt.ToString();
+        //     }
+        //     StartUnit attacked_unit = targetable[rand_index].unitOnTile;
+        //     targetable[rand_index].unitOnTile.current_health -= damage;
+        //     attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health;
 
-            if (targetable[rand_index].unitOnTile.current_attack > 10)
-            {
-                float percenthealth = targetable[rand_index].unitOnTile.current_health / targetable[rand_index].unitOnTile.health;
-                targetable[rand_index].unitOnTile.current_attack *= percenthealth;
-            }
+        //     if (targetable[rand_index].unitOnTile.current_attack > 10)
+        //     {
+        //         float percenthealth = targetable[rand_index].unitOnTile.current_health / targetable[rand_index].unitOnTile.health;
+        //         targetable[rand_index].unitOnTile.current_attack *= percenthealth;
+        //     }
 
 
-            if (targetable[rand_index].unitOnTile.current_health <= 0)
-            {
-                int index = targetable[rand_index].coords.X_coord + targetable[rand_index].coords.Z_coord * hexGrid.width + targetable[rand_index].coords.Z_coord / 2;
-                RemoveUnitInfo(targetable[rand_index], index);
-            }
-            else
-            {
-                yield return new WaitForSeconds(0.3f);
-                StartCoroutine(targetable[rand_index].unitOnTile.Hit());
-            }
-       }
+        //    if (targetable[rand_index].unitOnTile.current_health <= 0)
+        //    {
+        //        int index = targetable[rand_index].coords.X_coord + targetable[rand_index].coords.Z_coord * hexGrid.width + targetable[rand_index].coords.Z_coord / 2;
+        //        RemoveUnitInfo(targetable[rand_index], index);
+        //    }
+        //    else
+        //    {
+        //        yield return new WaitForSeconds(0.3f);
+        //        StartCoroutine(targetable[rand_index].unitOnTile.Hit());
+        //    }
+        //}
+        yield return new WaitForSeconds(0.5f);
         whileAttacking = false;
 
     }
 
-    void RemoveUnitInfo(HexagonCell current, int index)  // when a unit dies use this function to remove it from the grid
+    public void RemoveUnitInfo(HexagonCell current, int index)  // when a unit dies use this function to remove it from the grid
     {
         if (current.unitOnTile.tag == "Player 1")
             P1Team.Remove(current.unitOnTile);

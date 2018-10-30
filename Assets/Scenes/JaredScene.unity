@@ -895,7 +895,9 @@ MonoBehaviour:
   - {fileID: 114811462125714160, guid: 59372a342fa954aa4b6dcbc8e55d7a3d, type: 2}
   - {fileID: 114340554476262174, guid: 1c3c7a90aaf6546d984b3e7f697dc4ae, type: 2}
   P1Team: []
-  P2Team: []
+  P2Team:
+  - {fileID: 114811462125714160, guid: 59372a342fa954aa4b6dcbc8e55d7a3d, type: 2}
+  - {fileID: 114207389280180398, guid: fc8b2defb282e494991856dbaea89531, type: 2}
   MoveableUnits: []
   SelectedUnit: {fileID: 0}
   isUnitSelected: 0
