@@ -18,6 +18,8 @@ public class HexagonMapEditor : MonoBehaviour {
     public Color32 P2_Color;
     public Color32 Greyed_Unit_Color;
     public Cursor cursor;
+    private int p1_unit_rotation_value;
+    private int p2_unit_rotation_value;
 
     public StartUnit unit1Prefab;
     public StartUnit unit2Prefab;
@@ -201,6 +203,76 @@ public class HexagonMapEditor : MonoBehaviour {
                     Debug.Log("Color_Changed");
                 }
             }
+        }
+
+        if(Input.GetButtonDown("J1 R Bumper"))
+        {
+            int unit_to_select_index = 0;
+            StartUnit unit_to_select;
+            switch (currentState)
+            {
+                case (TurnStates.P1_MOVE):
+                    unit_to_select_index = mod(p1_unit_rotation_value, MoveableUnits.Count);
+                    p1_unit_rotation_value = unit_to_select_index;
+                    p1_unit_rotation_value++;
+                    //select indexed unit from moveable units
+                    unit_to_select = MoveableUnits[unit_to_select_index];
+                    //get coordinates of the tile under the selected unit and give them to the cursor
+                    cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
+                    //move the cursor to the position of the newly selected tile/unit
+                    cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+                    break;
+                case (TurnStates.P2_MOVE):
+                    unit_to_select_index = mod(p2_unit_rotation_value, MoveableUnits.Count);
+                    p2_unit_rotation_value = unit_to_select_index;
+                    p2_unit_rotation_value++;
+                    //select indexed unit from moveable units
+                    unit_to_select = MoveableUnits[unit_to_select_index];
+                    //get coordinates of the tile under the selected unit and give them to the cursor
+                    cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
+                    //move the cursor to the position of the newly selected tile/unit
+                    cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+                    break;
+
+            }
+            //Debug.Log("P1 Unit To Select Index = " + p1_unit_rotation_value);
+            //Debug.Log("P2 Unit To Select Index = " + p2_unit_rotation_value);
+            Debug.Log("Unit To Select Index = " + unit_to_select_index);
+        }
+
+        if (Input.GetButtonDown("J1 L Bumper"))
+        {
+            int unit_to_select_index = 0;
+            StartUnit unit_to_select;
+            switch (currentState)
+            {
+                case (TurnStates.P1_MOVE):
+                    unit_to_select_index = mod(p1_unit_rotation_value, MoveableUnits.Count);
+                    p1_unit_rotation_value = unit_to_select_index;
+                    p1_unit_rotation_value--;
+                    //select indexed unit from moveable units
+                    unit_to_select = MoveableUnits[unit_to_select_index];
+                    //get coordinates of the tile under the selected unit and give them to the cursor
+                    cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
+                    //move the cursor to the position of the newly selected tile/unit
+                    cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+                    break;
+                case (TurnStates.P2_MOVE):
+                    unit_to_select_index = mod(p2_unit_rotation_value, MoveableUnits.Count);
+                    p2_unit_rotation_value = unit_to_select_index;
+                    p2_unit_rotation_value--;
+                    //select indexed unit from moveable units
+                    unit_to_select = MoveableUnits[unit_to_select_index];
+                    //get coordinates of the tile under the selected unit and give them to the cursor
+                    cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
+                    //move the cursor to the position of the newly selected tile/unit
+                    cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+                    break;
+     
+            }
+            //Debug.Log("P1 Unit To Select Index = " + p1_unit_rotation_value);
+            //Debug.Log("P2 Unit To Select Index = " + p2_unit_rotation_value);
+            Debug.Log("Unit To Select Index = " + unit_to_select_index);
         }
     }
 
@@ -425,5 +497,10 @@ public class HexagonMapEditor : MonoBehaviour {
         {
             Debug.LogError("CAN'T MOVE THATS TOO FAR FOR THE UNIT");
         }
+    }
+
+    int mod(int x, int m)
+    {
+        return (x % m + m) % m;
     }
 }
