@@ -29,6 +29,7 @@ public class StartUnit : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         editor = FindObjectOfType<HexagonMapEditor>();
+        //health_bar = transform.Find("Health_BG").gameObject;
         anim = GetComponent<Animator>();
         current_health = health;
         current_attack = attack;
@@ -73,7 +74,7 @@ public class StartUnit : MonoBehaviour {
             }
             StartUnit attacked_unit = targetable[rand_index].unitOnTile;
             targetable[rand_index].unitOnTile.current_health -= damage;
-            attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health;
+            //attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
 
             if (targetable[rand_index].unitOnTile.current_attack > 10)
             {
@@ -81,9 +82,10 @@ public class StartUnit : MonoBehaviour {
                 targetable[rand_index].unitOnTile.current_attack *= percenthealth;
             }
 
-
+            Debug.Log("he dead");
             if (targetable[rand_index].unitOnTile.current_health <= 0)
             {
+                
                 int index = targetable[rand_index].coords.X_coord + targetable[rand_index].coords.Z_coord * hexGrid.width + targetable[rand_index].coords.Z_coord / 2;
                 editor.RemoveUnitInfo(targetable[rand_index], index);
             }
@@ -99,7 +101,7 @@ public class StartUnit : MonoBehaviour {
     public IEnumerator Attack()
     {
         anim.SetBool("Attacking", true);
-        attackSound.Play();
+        //attackSound.Play();
         yield return new WaitForSeconds(0.5f);
         anim.SetBool("Attacking", false);
 
@@ -107,7 +109,7 @@ public class StartUnit : MonoBehaviour {
     public IEnumerator Hit()
     {
         anim.SetBool("Hurt", true);
-        hitSound.Play();
+        //hitSound.Play();
         yield return new WaitForSeconds(0.4f);
         anim.SetBool("Hurt", false);
     }
@@ -116,7 +118,7 @@ public class StartUnit : MonoBehaviour {
     {
         //Debug.Log("moving");
         anim.SetBool("Moving", true);
-        moveSound.Play(); 
+        //moveSound.Play(); 
         yield return new WaitForSeconds(0.4f);
         anim.SetBool("Moving", false);
     }

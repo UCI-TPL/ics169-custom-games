@@ -1016,12 +1016,10 @@ MonoBehaviour:
   cursor: {fileID: 630863162}
   Player1Chosen: []
   Player2Chosen:
-  - {fileID: 114811462125714160, guid: 59372a342fa954aa4b6dcbc8e55d7a3d, type: 2}
-  - {fileID: 114340554476262174, guid: 1c3c7a90aaf6546d984b3e7f697dc4ae, type: 2}
+  - {fileID: 114836417496467364, guid: c75803ab503530f429261485e7a27acb, type: 2}
+  - {fileID: 114836417496467364, guid: c75803ab503530f429261485e7a27acb, type: 2}
   P1Team: []
-  P2Team:
-  - {fileID: 114811462125714160, guid: 59372a342fa954aa4b6dcbc8e55d7a3d, type: 2}
-  - {fileID: 114207389280180398, guid: fc8b2defb282e494991856dbaea89531, type: 2}
+  P2Team: []
   MoveableUnits: []
   SelectedUnit: {fileID: 0}
   isUnitSelected: 0
@@ -2566,7 +2564,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1152803765}
   - component: {fileID: 1152803764}
-  - component: {fileID: 1152803766}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -2610,49 +2607,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1152803766
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1152803763}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b27dec12953e184bb379207da174392, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerInfo: {fileID: 0}
-  hexGrid: {fileID: 0}
-  UI_P1: {fileID: 392520809}
-  UI_P2: {fileID: 799336341}
-  UI_Turn: {fileID: 1362457286}
-  BattleUI_P1: {fileID: 0}
-  BattleUI_P2: {fileID: 0}
-  BattleUI_Turn: {fileID: 0}
-  P1_Color:
-    serializedVersion: 2
-    rgba: 0
-  P2_Color:
-    serializedVersion: 2
-    rgba: 0
-  Greyed_Unit_Color:
-    serializedVersion: 2
-    rgba: 0
-  cursor: {fileID: 0}
-  Player1Chosen: []
-  Player2Chosen: []
-  P1Team: []
-  P2Team: []
-  MoveableUnits: []
-  SelectedUnit: {fileID: 0}
-  isUnitSelected: 0
-  unitCell: {fileID: 0}
-  initializing: 1
-  attacking: 0
-  whileAttacking: 0
-  moveInProgress: 0
-  onePlayer: 0
-  currentState: 0
 --- !u!1 &1188017874
 GameObject:
   m_ObjectHideFlags: 0
