@@ -328,7 +328,9 @@ public class HexagonMapEditor : MonoBehaviour {
 
         if(SelectedUnit.CompareTag("Player 1"))
         {
+            //Change stats and unit info on the UI when unit selected
             BattleUI_P1.obj_name.text = "" + SelectedUnit.name.ToString();
+            BattleUI_P1.unit_icon.GetComponent<Image>().sprite = SelectedUnit.Icon;
             BattleUI_P1.health_slider.value = SelectedUnit.current_health / SelectedUnit.health;
             BattleUI_P1.health_text.text = "" + (int)SelectedUnit.current_health + "/" + (int)SelectedUnit.health;
             BattleUI_P1.stats.text = "ATK: " + (int)SelectedUnit.current_attack + "\nMOV:" + SelectedUnit.mobility;
@@ -338,7 +340,9 @@ public class HexagonMapEditor : MonoBehaviour {
         
         if(SelectedUnit.CompareTag("Player 2"))
         {
+            //Change stats and unit info on the UI when unit selected
             BattleUI_P2.obj_name.text = "" + SelectedUnit.name.ToString();
+            BattleUI_P2.unit_icon.GetComponent<Image>().sprite = SelectedUnit.Icon;
             BattleUI_P2.health_slider.value = SelectedUnit.current_health / SelectedUnit.health;
             BattleUI_P2.health_text.text = "" + (int)SelectedUnit.current_health + "/" + (int)SelectedUnit.health;
             BattleUI_P2.stats.text = "ATK: " + (int)SelectedUnit.current_attack + "\nMOV:" + SelectedUnit.mobility;
