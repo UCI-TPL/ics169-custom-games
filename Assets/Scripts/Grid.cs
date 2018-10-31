@@ -123,20 +123,20 @@ public class Grid : MonoBehaviour {
         //int randmap = Random.Range(0, 2);
         //if (randmap == 0)
         //{
-        //height = 10;
-        //width = 10;
-        //cells = new HexagonCell[height * width]; // create an array of correct length
+        height = 10;
+        width = 10;
+        cells = new HexagonCell[height * width]; // create an array of correct length
 
-        //for (int b = 0, c = 0; b < height; b++) // fill the array with actual hexagon cells
-        //{
+        for (int b = 0, c = 0; b < height; b++) // fill the array with actual hexagon cells
+        {
 
-        //    for (int a = 0; a < width; a++)
-        //    {
-        //        CreateCell(a, b, c++);
-        //    }
-        //}
-        //result = ChangeHexInfo(cells, wall_list1, powerlist1);
-        //}
+            for (int a = 0; a < width; a++)
+            {
+                CreateCell(a, b, c++);
+            }
+        }
+        result = ChangeHexInfo(cells, wall_list1, powerlist1);
+    //}
 
         //if(randmap == 1)
         //{
@@ -187,34 +187,34 @@ public class Grid : MonoBehaviour {
                 cells_[hexlist_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = Wall;
             }
         }
-        if(powercells_.Count != 0)
+        if (powercells_.Count != 0)
         {
-            for(int i = 0; i < powercells_.Count; i++)
+            for (int i = 0; i < powercells_.Count; i++)
             {
                 int randval = Random.Range(1, 5);
                 cells_[powercells_[i]].gameObject.AddComponent<TeamPowerupTiles>();
                 cells_[powercells_[i]].tag = "TeamBuff";
-                if(randval == 1)
+                if (randval == 1)
                 {
                     cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = AttackBuff;
                     cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().attackBuff = true;
                 }
-                if(randval == 2)
+                if (randval == 2)
                 {
                     cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = Healthbuff;
                     cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().healthBuff = true;
                 }
-                if(randval == 3)
+                if (randval == 3)
                 {
                     cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = MobilityBuff;
                     cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().mobilityBuff = true;
                 }
-                if(randval == 4)
+                if (randval == 4)
                 {
                     cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = CritBuff;
                     cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().critBuff = true;
                 }
-                if(randval == 5)
+                if (randval == 5)
                 {
                     cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = AttackRangebuff;
                     cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().attackrangeBuff = true;
@@ -222,6 +222,7 @@ public class Grid : MonoBehaviour {
             }
         }
         return cells_;
+    }
 
     public HexagonCell Get_Cell_Index(HexagonCoord coordinates)
     {
