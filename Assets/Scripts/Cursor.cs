@@ -4,17 +4,122 @@ using UnityEngine;
 
 public class Cursor : MonoBehaviour {
     public GameObject point;
+    public HexagonCoord coords;
+    public Grid _Grid;
+    private float time = 0.0f;
+    public float time_increment = 0.5f;
 
 	// Use this for initialization
 	void Start () {
         point = GameObject.Find("Point");
+        coords.x = 0;
+        coords.z = 0;
 	}
 	
 	// Update is called once per frame
 	void Update () {
         //Debug.Log(Input.GetButtonDown("J1 X Button"));
-        transform.position += new Vector3(Input.GetAxis("J1 Left Horizontal"), -Input.GetAxis("J1 Left Vertical"), 0) * Time.deltaTime * 90;
+        //transform.position += new Vector3(Input.GetAxis("J1 Left Horizontal"), -Input.GetAxis("J1 Left Vertical"), 0) * Time.deltaTime * 90;
+        float H_Axis = Input.GetAxis("J1 Left Horizontal");
+        float V_Axis = Input.GetAxis("J1 Left Vertical");
 
-	}
+        if (Time.time >= time)
+        {
+            if ((Mathf.Pow(H_Axis, 2) + Mathf.Pow(V_Axis, 2)) <= 0.08f)
+            {
+                //Dead Zone
+            }
+            else
+            {
+                float Angle = Mathf.Atan2(H_Axis, V_Axis) * Mathf.Rad2Deg;
+                //0 -> 180 (right)   0 -> -180 (left)
+
+                if (Angle > 60 && Angle < 120)
+                {
+                    _Move("x", 1);
+                    time = Time.time + time_increment;
+                }
+                else if (Angle < -60 && Angle > -120)
+                {
+                    _Move("x", -1);
+                    time = Time.time + time_increment;
+                }
+                else if (Angle < 180 && Angle > 120)
+                {
+                    _Move("z", 1);
+                    time = Time.time + time_increment;
+                }
+                else if (Angle > -180 && Angle < -120)
+                {
+                    _Move("y", 1);
+                    time = Time.time + time_increment;
+                }
+                else if (Angle > -60 && Angle < 0)
+                {
+                    _Move("z", -1);
+                    time = Time.time + time_increment;
+                }
+                else if (Angle < 60 && Angle > 0)
+                {
+                    _Move("y", -1);
+                    time = Time.time + time_increment;
+                }
+            }
+        }
+    }
+
+    private void _Move(string dir, int sign) {
+        //Deal with indexing errors by checking len of cell array.
+        //When going up or down on the stick just go in the y then z.
+
+        int prev_coord_x = coords.X_coord;
+        int prev_coord_z = coords.Z_coord;
+
+        if (dir.Equals("z"))
+        {
+            coords.z += sign;
+        }
+
+        if (dir.Equals("x"))
+        {
+            coords.x += sign;
+        }
+
+        if (dir.Equals("y"))
+        {
+            coords.x -= sign;
+            coords.z += sign;
+        }
+
+        HexagonCoord next_cell;
+        try
+        {
+            next_cell = _Grid.Get_Cell_Index(coords).coords;
+
+            if (coords.X_coord == next_cell.X_coord && coords.Z_coord == next_cell.Z_coord)
+            {
+                //It found a real tile.
+                gameObject.transform.position = _Grid.Get_Cell_Index(coords).gameObject.transform.position;
+            }
+            else
+            {
+                //It found a not-real tile. Revert Change.
+                coords.x = prev_coord_x;
+                coords.z = prev_coord_z;
+            }
+        }
+        catch(System.IndexOutOfRangeException e)
+        {
+            coords.x = prev_coord_x;
+            coords.z = prev_coord_z;
+            Debug.Log(e.Message);
+        }
+           
+
+        //Debug.Log("Current X " + coords.X_coord);
+        //Debug.Log("Current Y " + coords.Y_coord);
+        //Debug.Log("Current Z " + coords.Z_coord);
+        //Debug.Log(_Grid.Get_Cell_Index(coords).gameObject.transform.position);
+    }
 }
 

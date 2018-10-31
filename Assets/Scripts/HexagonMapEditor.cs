@@ -3,15 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class HexagonMapEditor : MonoBehaviour {
 
+    public PlayerInformation PlayerInfo;
     public Grid hexGrid;
-    public BattleUI UI;
+    public GameObject UI_P1;
+    public GameObject UI_P2;
+    public GameObject UI_Turn;
+    public BattleUI BattleUI_P1;
+    public BattleUI BattleUI_P2;
+    public BattleUI BattleUI_Turn;
+    public Color32 P1_Color;
+    public Color32 P2_Color;
+    public Color32 Greyed_Unit_Color;
     public Cursor cursor;
+    private int p1_unit_rotation_value;
+    private int p2_unit_rotation_value;
 
-    public StartUnit unit1Prefab;
-    public StartUnit unit2Prefab;
+    public List<StartUnit> Player1Chosen = new List<StartUnit>();
+    public List<StartUnit> Player2Chosen = new List<StartUnit>();
 
     public List<StartUnit> P1Team = new List<StartUnit>(); // list of player 1 team
     public List<StartUnit> P2Team = new List<StartUnit>(); // list of player 2 team
@@ -28,6 +40,8 @@ public class HexagonMapEditor : MonoBehaviour {
 
     public bool moveInProgress = false;
 
+    public bool onePlayer;
+
 
     public enum TurnStates
     {
@@ -43,16 +57,31 @@ public class HexagonMapEditor : MonoBehaviour {
     }
 
     [SerializeField] private TurnStates currentState;
-
-	// Use this for initialization
-	void Start () {
+    private void Awake()
+    {
+        PlayerInfo = FindObjectOfType<PlayerInformation>();
+    }
+    // Use this for initialization
+    void Start () {
         initializing = true;
 
-        UI = GetComponentInChildren<BattleUI>();
+        //UI = GetComponentInChildren<BattleUI>();
+
+
+        BattleUI_P1 = UI_P1.GetComponent<BattleUI>();
+        BattleUI_P2 = UI_P2.GetComponent<BattleUI>();
+        BattleUI_P1.Hide();
+        BattleUI_P2.Hide();
+        BattleUI_Turn = UI_Turn.GetComponent<BattleUI>();
+
         if (initializing) // stop loop if already doing it
         {
-            InitialPhase(2, unit1Prefab);
-            InitialPhase(2, unit2Prefab);
+            //initializing = false;
+            InitialPhase(PlayerInfo.Player1Chosen,1);
+            if(PlayerInfo.one_player)
+                InitialPhase(Player2Chosen,2);
+            else
+                InitialPhase(PlayerInfo.Player2Chosen, 2);
             FindTeam("Player 1"); // find the units for player 1's team
             FindTeam("Player 2"); // "             " for player 2's team
         }
@@ -65,7 +94,7 @@ public class HexagonMapEditor : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(currentState);
+        //Debug.Log(currentState);
         switch (currentState)
         {
             case (TurnStates.START):
@@ -77,9 +106,23 @@ public class HexagonMapEditor : MonoBehaviour {
                 {
                     currentState = TurnStates.P1_ATTACK;
                     MoveableUnits = new List<StartUnit>(P2Team);
+                    //Turn Units Back To Normal Color
+                    for(int i = 0; i < MoveableUnits.Count; i++)
+                    {
+                        Anima2D.SpriteMeshInstance[] Unit_Sprites = MoveableUnits[i].gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
+                        for(int k = 0; k < Unit_Sprites.Length; k++)
+                        {
+                            Unit_Sprites[k].color = Color.white;
+                        }
+                    }
                 }
-                UI.turn.text = "TURN:PLAYER 1";
-                MovePhase();
+                //UI.turn.text = "TURN:PLAYER 1";
+                
+                BattleUI_Turn.turn.text = "TURN:PLAYER 1";
+                BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P1_Color;
+                MovePhase(PlayerInfo.player1);
+                //MovePhase();
+
                 break;
             case (TurnStates.P1_ATTACK):
                 if (!attacking) // only call once
@@ -95,9 +138,27 @@ public class HexagonMapEditor : MonoBehaviour {
                 {
                     currentState = TurnStates.P2_ATTACK;
                     MoveableUnits = new List<StartUnit>(P1Team);
+                    for (int i = 0; i < MoveableUnits.Count; i++)
+                    {
+                        Anima2D.SpriteMeshInstance[] Unit_Sprites = MoveableUnits[i].gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
+                        for (int k = 0; k < Unit_Sprites.Length; k++)
+                        {
+                            Unit_Sprites[k].color = Color.white;
+                        }
+                    }
                 }
-                UI.turn.text = "TURN:PLAYER 2";
-                MovePhase();
+
+                //UI.turn.text = "TURN:PLAYER 2";
+                
+
+                BattleUI_Turn.turn.text = "TURN:PLAYER 2";
+                BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P2_Color;
+                if (PlayerInfo.one_player)
+                    MovePhase(PlayerInfo.player1);
+                else
+                    MovePhase(PlayerInfo.player2);
+                //MovePhase();
+
                 break;
             case (TurnStates.P2_ATTACK):
                 if (!attacking)
@@ -145,24 +206,123 @@ public class HexagonMapEditor : MonoBehaviour {
         }
     }
 
-    public void MovePhase() // handles input from the player to correctly move the unit
+    void InitialPhase(List<StartUnit> team, int player) // creates random units on the grid it sometimes repeats the units on tiles but not important cause will change later
+    {
+        initializing = false;
+        if(player == 1)
+        {
+            for(int i = 0; i < team.Count;i++)
+            {
+                CreateUnit(i, team[i]);
+               
+            }
+        }
+        else
+        {
+            int k = 0;
+            for(int j = hexGrid.cells.Length-1; j > hexGrid.cells.Length-1-team.Count; j--)
+            {
+                CreateUnit(j, team[k]);
+                k++;
+            }
+        }
+        //initializing = true;
+    }
+
+    public void MovePhase(string joystick) // handles input from the player to correctly move the unit
     {
         if (!EventSystem.current.IsPointerOverGameObject())
         {
-            if (Input.GetButtonDown("J1 X Button"))
+            if (Input.GetButtonDown(joystick + "X Button"))
                 HandleInput();
-            if (Input.GetButtonDown("J1 B Button"))
+            if (Input.GetButtonDown(joystick + "B Button"))
             {
                 DeselectUnit();
             }
         }
 
-        if(Input.GetButtonDown("J1 A Button"))
+        if(Input.GetButtonDown(joystick + "A Button"))
         {
             if(MoveableUnits.Contains(SelectedUnit))
             {
                 MoveableUnits.Remove(SelectedUnit);
+                Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
+                for(int i = 0; i < Unit_Meshes.Length; i++)
+                {
+                    Unit_Meshes[i].color = Greyed_Unit_Color;
+                    Debug.Log("Color_Changed");
+                }
             }
+        }
+
+        if(Input.GetButtonDown("J1 R Bumper"))
+        {
+            int unit_to_select_index = 0;
+            StartUnit unit_to_select;
+            switch (currentState)
+            {
+                case (TurnStates.P1_MOVE):
+                    unit_to_select_index = mod(p1_unit_rotation_value, MoveableUnits.Count);
+                    p1_unit_rotation_value = unit_to_select_index;
+                    p1_unit_rotation_value++;
+                    //select indexed unit from moveable units
+                    unit_to_select = MoveableUnits[unit_to_select_index];
+                    //get coordinates of the tile under the selected unit and give them to the cursor
+                    cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
+                    //move the cursor to the position of the newly selected tile/unit
+                    cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+                    break;
+                case (TurnStates.P2_MOVE):
+                    unit_to_select_index = mod(p2_unit_rotation_value, MoveableUnits.Count);
+                    p2_unit_rotation_value = unit_to_select_index;
+                    p2_unit_rotation_value++;
+                    //select indexed unit from moveable units
+                    unit_to_select = MoveableUnits[unit_to_select_index];
+                    //get coordinates of the tile under the selected unit and give them to the cursor
+                    cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
+                    //move the cursor to the position of the newly selected tile/unit
+                    cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+                    break;
+
+            }
+            //Debug.Log("P1 Unit To Select Index = " + p1_unit_rotation_value);
+            //Debug.Log("P2 Unit To Select Index = " + p2_unit_rotation_value);
+            Debug.Log("Unit To Select Index = " + unit_to_select_index);
+        }
+
+        if (Input.GetButtonDown("J1 L Bumper"))
+        {
+            int unit_to_select_index = 0;
+            StartUnit unit_to_select;
+            switch (currentState)
+            {
+                case (TurnStates.P1_MOVE):
+                    unit_to_select_index = mod(p1_unit_rotation_value, MoveableUnits.Count);
+                    p1_unit_rotation_value = unit_to_select_index;
+                    p1_unit_rotation_value--;
+                    //select indexed unit from moveable units
+                    unit_to_select = MoveableUnits[unit_to_select_index];
+                    //get coordinates of the tile under the selected unit and give them to the cursor
+                    cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
+                    //move the cursor to the position of the newly selected tile/unit
+                    cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+                    break;
+                case (TurnStates.P2_MOVE):
+                    unit_to_select_index = mod(p2_unit_rotation_value, MoveableUnits.Count);
+                    p2_unit_rotation_value = unit_to_select_index;
+                    p2_unit_rotation_value--;
+                    //select indexed unit from moveable units
+                    unit_to_select = MoveableUnits[unit_to_select_index];
+                    //get coordinates of the tile under the selected unit and give them to the cursor
+                    cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
+                    //move the cursor to the position of the newly selected tile/unit
+                    cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+                    break;
+     
+            }
+            //Debug.Log("P1 Unit To Select Index = " + p1_unit_rotation_value);
+            //Debug.Log("P2 Unit To Select Index = " + p2_unit_rotation_value);
+            Debug.Log("Unit To Select Index = " + unit_to_select_index);
         }
     }
 
@@ -215,91 +375,104 @@ public class HexagonMapEditor : MonoBehaviour {
         //UI.stats.text = "HEALTH:" + (int)SelectedUnit.current_health + "\nATTACK:" + (int)SelectedUnit.current_attack;
 
         hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
-        UI.obj_name.text =  "UNIT:"+ SelectedUnit.name.ToString();
-        UI.stats.text = "HEALTH:" + (int)SelectedUnit.current_health + "\nATTACK:" + (int)SelectedUnit.current_attack;
 
+        if(SelectedUnit.CompareTag("Player 1"))
+        {
+            //Change stats and unit info on the UI when unit selected
+            BattleUI_P1.obj_name.text = "" + SelectedUnit.name.ToString();
+            BattleUI_P1.unit_icon.GetComponent<Image>().sprite = SelectedUnit.Icon;
+            BattleUI_P1.health_slider.value = SelectedUnit.current_health / SelectedUnit.health;
+            BattleUI_P1.health_text.text = "" + (int)SelectedUnit.current_health + "/" + (int)SelectedUnit.health;
+            BattleUI_P1.stats.text = "ATK: " + (int)SelectedUnit.current_attack + "\nMOV:" + SelectedUnit.mobility;
+            BattleUI_P1.stats_2.text = "RNG: " + SelectedUnit.attackRange + "\nCRIT:" + (int)SelectedUnit.crit;
+            BattleUI_P1.Show();
+        }
+        
+        if(SelectedUnit.CompareTag("Player 2"))
+        {
+            //Change stats and unit info on the UI when unit selected
+            BattleUI_P2.obj_name.text = "" + SelectedUnit.name.ToString();
+            BattleUI_P2.unit_icon.GetComponent<Image>().sprite = SelectedUnit.Icon;
+            BattleUI_P2.health_slider.value = SelectedUnit.current_health / SelectedUnit.health;
+            BattleUI_P2.health_text.text = "" + (int)SelectedUnit.current_health + "/" + (int)SelectedUnit.health;
+            BattleUI_P2.stats.text = "ATK: " + (int)SelectedUnit.current_attack + "\nMOV:" + SelectedUnit.mobility;
+            BattleUI_P2.stats_2.text = "RNG: " + SelectedUnit.attackRange + "\nCRIT:" + (int)SelectedUnit.crit;
+            BattleUI_P2.Show();
+        }
         //hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
         //UI.obj_name.text =  "UNIT:"+ SelectedUnit.name.ToString();
         //UI.stats.text = "HEALTH:" + SelectedUnit.current_health + "\nATTACK:" + SelectedUnit.current_attack;
 
-
+        
     }
 
-    void DeselectUnit() // clears all variables to the clicked position
+    private void DeselectUnit() // clears all variables to the clicked position
     {
         SelectedUnit = null;
         unitCell = null;
         isUnitSelected = false;
         hexGrid.ClearPath();
-        UI.obj_name.text = "UNIT:";
-        UI.stats.text = "HEALTH:\nATTACK:";
+        BattleUI_P1.Hide();
+        BattleUI_P2.Hide();
+        //BattleUI_P1.obj_name.text = "UNIT:";
+        //BattleUI_P1.stats.text = "HEALTH:\nATTACK:";
     }
 
-    IEnumerator AttackUnit()
+    IEnumerator AttackUnit() // port this whole function to start unit class
     {
         whileAttacking = true;
-        List<HexagonCell> targetable = new List<HexagonCell>();
-        foreach(HexagonCell cell in hexGrid.cells)
-        {
-            if (unitCell.coords.FindDistanceTo(cell.coords) <= SelectedUnit.attackRange  
-                && unitCell.coords.FindDistanceTo(cell.coords) > 0 
-                && cell.occupied
-                && SelectedUnit.tag != cell.unitOnTile.tag)
-                targetable.Add(cell);
-        }
-        if (targetable.Count >= 1)
-        {
-            StartCoroutine(SelectedUnit.Attack());
-            int rand_index = Random.Range(0, targetable.Count);
-            float random_val = Random.value;
-            float randval = Random.value;
-            float damage = SelectedUnit.current_attack;
+        StartCoroutine(SelectedUnit.BasicAttack(hexGrid, unitCell));
+        // List<HexagonCell> targetable = new List<HexagonCell>();
+        // foreach(HexagonCell cell in hexGrid.cells)
+        // {
+        //     if (unitCell.coords.FindDistanceTo(cell.coords) <= SelectedUnit.attackRange  
+        //         && unitCell.coords.FindDistanceTo(cell.coords) > 0 
+        //         && cell.occupied
+        //         && SelectedUnit.tag != cell.unitOnTile.tag)
+        //         targetable.Add(cell);
+        // }
+        // if (targetable.Count >= 1)
+        // {
+        //     StartCoroutine(SelectedUnit.Attack());
+        //     int rand_index = Random.Range(0, targetable.Count);
+        //     float random_val = Random.value;
+        //     float damage = SelectedUnit.current_attack;
+        //     if (random_val < SelectedUnit.crit)
+        //         damage = SelectedUnit.current_attack * 2;
+        //     int dmg_txt = (int)damage;
+        //     if (targetable[rand_index].unitOnTile.FloatingTextPrefab)
+        //     {
+        //         GameObject damagetext = Instantiate(targetable[rand_index].unitOnTile.FloatingTextPrefab, targetable[rand_index].unitOnTile.transform.position, Quaternion.identity, transform);               
+        //         damagetext.GetComponent<TextMesh>().text = dmg_txt.ToString();
+        //     }
+        //     StartUnit attacked_unit = targetable[rand_index].unitOnTile;
+        //     targetable[rand_index].unitOnTile.current_health -= damage;
+        //     attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health;
 
-            if (random_val < SelectedUnit.crit)
-                damage = SelectedUnit.current_attack * SelectedUnit.crit_multiplier;
+        //     if (targetable[rand_index].unitOnTile.current_attack > 10)
+        //     {
+        //         float percenthealth = targetable[rand_index].unitOnTile.current_health / targetable[rand_index].unitOnTile.health;
+        //         targetable[rand_index].unitOnTile.current_attack *= percenthealth;
+        //     }
 
-            if (randval < SelectedUnit.miss)
-            {
-                damage = 0;
-            }
 
-            if (targetable[rand_index].unitOnTile.FloatingTextPrefab && damage == 0)
-            {
-                GameObject damagetext = Instantiate(targetable[rand_index].unitOnTile.FloatingTextPrefab, targetable[rand_index].unitOnTile.transform.position, Quaternion.identity, transform);
-                damagetext.GetComponent<TextMesh>().text = "MISS";
-            }
-
-            int dmg_txt = (int)damage;
-            if (targetable[rand_index].unitOnTile.FloatingTextPrefab && damage != 0)
-            {
-                GameObject damagetext = Instantiate(targetable[rand_index].unitOnTile.FloatingTextPrefab, targetable[rand_index].unitOnTile.transform.position, Quaternion.identity, transform);               
-                damagetext.GetComponent<TextMesh>().text = dmg_txt.ToString();
-            }
-
-            targetable[rand_index].unitOnTile.current_health -= damage;
-
-            if (targetable[rand_index].unitOnTile.current_attack > targetable[rand_index].unitOnTile.basedmg)
-            {
-                float percenthealth = targetable[rand_index].unitOnTile.current_health / targetable[rand_index].unitOnTile.health;
-                targetable[rand_index].unitOnTile.current_attack *= percenthealth;
-            }
-
-            if (targetable[rand_index].unitOnTile.current_health <= 0)
-            {
-                int index = targetable[rand_index].coords.X_coord + targetable[rand_index].coords.Z_coord * hexGrid.width + targetable[rand_index].coords.Z_coord / 2;
-                RemoveUnitInfo(targetable[rand_index], index);
-            }
-            else
-            {
-                yield return new WaitForSeconds(0.3f);
-                StartCoroutine(targetable[rand_index].unitOnTile.Hit());
-            }
-       }
+        //    if (targetable[rand_index].unitOnTile.current_health <= 0)
+        //    {
+        //        int index = targetable[rand_index].coords.X_coord + targetable[rand_index].coords.Z_coord * hexGrid.width + targetable[rand_index].coords.Z_coord / 2;
+        //        RemoveUnitInfo(targetable[rand_index], index);
+        //    }
+        //    else
+        //    {
+        //        yield return new WaitForSeconds(0.3f);
+        //        StartCoroutine(targetable[rand_index].unitOnTile.Hit());
+        //    }
+        //}
+        yield return new WaitForSeconds(0.5f);
         whileAttacking = false;
 
     }
 
-    void RemoveUnitInfo(HexagonCell current, int index)  // when a unit dies use this function to remove it from the grid
+    public void RemoveUnitInfo(HexagonCell current, int index)  // when a unit dies use this function to remove it from the grid
     {
         if (current.unitOnTile.tag == "Player 1")
             P1Team.Remove(current.unitOnTile);
@@ -323,23 +496,7 @@ public class HexagonMapEditor : MonoBehaviour {
         }
         else return null;
     }
-    void InitialPhase(int numUnits, StartUnit team) // creates random units on the grid it sometimes repeats the units on tiles but not important cause will change later
-    {
-        initializing = false;
-        int[] rand_nums = new int[numUnits];
-        for(int i = 0; i < numUnits; i++)
-        {
-            int rand = (Random.Range(1,hexGrid.width) * Random.Range(1,hexGrid.height)) - 1;
-            for(int j = 0; j < rand_nums.Length; j++)
-            {
-                if(rand == rand_nums[j])
-                    rand = (Random.Range(1, hexGrid.width) * Random.Range(1, hexGrid.height)) - 1;
-            }
-            rand_nums[i] = rand;
-            //Debug.Log(rand);
-            CreateUnit(rand, team);
-        }
-    }
+    
     void CreateUnit(int index, StartUnit unit)
     {
         SelectedUnit = Instantiate(unit);
@@ -378,10 +535,22 @@ public class HexagonMapEditor : MonoBehaviour {
                     hexGrid.cells[index].GetComponent<TeamPowerupTiles>().UnitsTeam = P2Team;
             }
             MoveableUnits.Remove(SelectedUnit);
+            Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
+            for (int i = 0; i < Unit_Meshes.Length; i++)
+            {
+                Unit_Meshes[i].color = Greyed_Unit_Color;
+                Debug.Log("Color_Changed");
+            }
+
         }
         else
         {
             Debug.LogError("CAN'T MOVE THATS TOO FAR FOR THE UNIT");
         }
+    }
+
+    int mod(int x, int m)
+    {
+        return (x % m + m) % m;
     }
 }

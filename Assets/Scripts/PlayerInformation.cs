@@ -1,0 +1,275 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+public class PlayerInformation : MonoBehaviour
+{
+
+    public List<StartUnit> Player1Chosen = new List<StartUnit>();
+    public List<StartUnit> Player2Chosen = new List<StartUnit>();
+
+    public List<int> ctrsSet = new List<int>(); // list of controllers that were mapped
+    public string player1; // player 1 string to map to the correct input
+    public string player2; // player 2 string to map to the correct input
+
+    private Text display;
+
+    private Scene current_scene;
+
+    public bool plr1Set, plr2Set;
+    //___________________________________________________________________________________________
+    public List<StartUnit> AllP1Units = new List<StartUnit>(); // p2 can share this list but just change their tag later
+    public List<StartUnit> AllP2Units = new List<StartUnit>();
+
+    public List<StartUnit> PoolUnits = new List<StartUnit>(); // random  pool of units
+    private float p1ScrollTime;
+    private float p2ScrollTime;
+    private int p1ScrollValue;
+    private int p2ScrollValue;
+
+    public float p1PickTime;
+    public float p2PickTime;
+
+    private Text p1Text;
+    private Text p2Text;
+
+    public bool nextScene = false;
+
+    private bool doSelect = false;
+
+    //____________________________________________shortcuts______________________________________
+    public bool one_player;
+    public bool pool = false;
+
+
+    // Use this for initialization
+    void Start()
+    {
+        display = FindObjectOfType<Text>();
+        DontDestroyOnLoad(this.gameObject);
+        current_scene = SceneManager.GetActiveScene();
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        current_scene = SceneManager.GetActiveScene(); // terrible coding fix later
+        if (current_scene.name == "CMapping")
+        {
+
+            if (ctrsSet.Contains(1) && ctrsSet.Contains(2) && !one_player) // both players ready
+                SceneManager.LoadScene(2);
+            else if (ctrsSet.Contains(1) && one_player)
+                SceneManager.LoadScene(2);
+            else
+            {
+                ControllerMapping();
+            }
+        }
+        if (current_scene.name == "SelectCharacter")
+        {
+            if(!doSelect)
+            {
+                doSelect = true;
+                display = GameObject.Find("Text").GetComponent<Text>();
+                if (pool)
+                {
+                    RandomPool();
+                }
+                p1Text = GameObject.Find("Player1Text").GetComponent<Text>();
+                p2Text = GameObject.Find("Player2Text").GetComponent<Text>();
+            }
+            if (Player1Chosen.Count == 3 && Player2Chosen.Count == 3 && !nextScene && !one_player)
+            {
+                nextScene = true;
+                SceneManager.LoadScene(3);
+            }
+            if(Player1Chosen.Count == 3 && one_player)
+            {
+                nextScene = true;
+                SceneManager.LoadScene(3);
+            }
+            if(pool)
+                CheckPool();
+            ChooseCharacter();
+            DraftPick();
+        }
+    }
+
+    private void CheckPool()
+    {
+        int[] counts = new int[AllP1Units.Count];
+        for (int j = 0; j < AllP1Units.Count; j++)
+        {
+            for (int i = 0; i < PoolUnits.Count; i++)
+            {
+                if(PoolUnits[i] == AllP1Units[j])
+                    counts[j]++;
+            }
+        }
+        string result = "";
+        for(int k = 0; k < counts.Length; k++)
+        {
+            result += AllP1Units[k].name + " x" + counts[k] + "\n";
+        }
+        display.text = result;
+    }
+
+    public void RandomPool()
+    {
+        for(int i = 0; i < 10; i++)
+        {
+            int rand_index = Random.Range(0, AllP1Units.Count);
+            PoolUnits.Add(AllP1Units[rand_index]);
+        }
+    }
+
+    public void CheckUnits()
+    {
+        for(int i = 0; i < AllP1Units.Count-1; i++)
+        {
+            if(!PoolUnits.Contains(AllP1Units[i]))
+            {
+                AllP1Units.Remove(AllP1Units[i]);
+            }
+                
+        }
+    }
+
+
+    void ControllerMapping()
+    {
+        if (!plr1Set)
+        {
+            if (Input.GetButtonDown("J1 A Button") && !ctrsSet.Contains(1))
+            {
+                display.text += "PLAYER 1 READY\n";
+                plr1Set = true;
+                player1 = "J1 ";
+                ctrsSet.Add(1);
+            }
+            else if (Input.GetButtonDown("J2 A Button") && !ctrsSet.Contains(2))
+            {
+                display.text += "PLAYER 1 READY\n";
+                plr1Set = true;
+                player1 = "J2 ";
+                ctrsSet.Add(2);
+            }
+        }
+        if (!plr2Set)
+        {
+            if (Input.GetButtonDown("J1 A Button") && !ctrsSet.Contains(1))
+            {
+                display.text += "PLAYER 2 READY\n";
+                plr2Set = true;
+                player2 = "J1 ";
+                ctrsSet.Add(1);
+            }
+            else if (Input.GetButtonDown("J2 A Button") && !ctrsSet.Contains(2))
+            {
+                display.text += "PLAYER 2 READY\n";
+                plr2Set = true;
+                player2 = "J2 ";
+                ctrsSet.Add(2);
+            }
+        }
+    }
+
+    private int ChangeCharacter(int counter, int direction)
+    {
+        int newVal = counter + direction;
+        int limit = AllP1Units.Count - 1;
+        if (newVal < 0)
+        {
+            newVal = limit;
+        }
+        else if (newVal > limit)
+        {
+            newVal = 0;
+        }
+        return newVal;
+    }
+
+    void ChooseCharacter()
+    {
+        float value;
+        if (plr1Set)
+        {
+            value = Input.GetAxis(player1 + "Left Horizontal");
+            //Debug.Log(value);
+            if (value != 0.0f && p1ScrollTime <= Time.time)
+            {
+                p1ScrollTime = Time.time + 0.25f;
+                if (value > 0.0f)
+                {
+                    p1ScrollValue = ChangeCharacter(p1ScrollValue, 1);
+                    p1Text.text = AllP1Units[p1ScrollValue].name;
+                }
+                else
+                {
+                    p1ScrollValue = ChangeCharacter(p1ScrollValue, -1);
+                    p1Text.text = AllP1Units[p1ScrollValue].name;
+                }
+            }
+        }
+
+        if (plr2Set)
+        {
+            value = Input.GetAxis(player2 + "Left Horizontal");
+            if (value != 0.0f && p2ScrollTime <= Time.time)
+            {
+                p2ScrollTime = Time.time + 0.5f;
+                if (value > 0.0f)
+                {
+                    p2ScrollValue = ChangeCharacter(p2ScrollValue, 1);
+                    p2Text.text = AllP1Units[p2ScrollValue].name;
+                }
+                else
+                {
+                    p2ScrollValue = ChangeCharacter(p2ScrollValue, -1);
+                    p2Text.text = AllP1Units[p2ScrollValue].name;
+                }
+            }
+        }
+
+    }
+
+    private void DraftPick()
+    {
+        if (Player1Chosen.Count < 3)
+        {
+            
+            if (Input.GetButton(player1 + "A Button") && p1PickTime <= Time.time)
+            {
+                p1PickTime = Time.time + 1f;
+                Player1Chosen.Add(AllP1Units[p1ScrollValue]);
+                if (pool)
+                {
+                    PoolUnits.Remove(AllP1Units[p1ScrollValue]);
+                    CheckUnits();
+                }
+            }
+        }
+        if (Player2Chosen.Count < 3)
+        {
+            if (!one_player)
+            {
+                if (Input.GetButton(player2 + "A Button") && p2PickTime <= Time.time)
+                {
+                    p2PickTime = Time.time + 1f;
+                    Player2Chosen.Add(AllP2Units[p2ScrollValue]);
+                    if (pool)
+                    {
+                        PoolUnits.Remove(AllP1Units[p2ScrollValue]);
+                        CheckUnits();
+                    }
+                }
+            }
+        }
+
+
+    }
+}
