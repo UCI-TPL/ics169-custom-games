@@ -255,14 +255,17 @@ public class PlayerInformation : MonoBehaviour
         }
         if (Player2Chosen.Count < 3)
         {
-            if (Input.GetButton(player2 + "A Button") && p2PickTime <= Time.time)
+            if (!one_player)
             {
-                p2PickTime = Time.time + 1f;
-                Player2Chosen.Add(AllP2Units[p2ScrollValue]);
-                if (pool)
+                if (Input.GetButton(player2 + "A Button") && p2PickTime <= Time.time)
                 {
-                    PoolUnits.Remove(AllP1Units[p2ScrollValue]);
-                    CheckUnits();
+                    p2PickTime = Time.time + 1f;
+                    Player2Chosen.Add(AllP2Units[p2ScrollValue]);
+                    if (pool)
+                    {
+                        PoolUnits.Remove(AllP1Units[p2ScrollValue]);
+                        CheckUnits();
+                    }
                 }
             }
         }

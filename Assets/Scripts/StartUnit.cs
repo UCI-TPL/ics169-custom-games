@@ -30,7 +30,6 @@ public class StartUnit : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         editor = FindObjectOfType<HexagonMapEditor>();
-        //health_bar = transform.Find("Health_BG").gameObject;
         anim = GetComponent<Animator>();
         current_health = health;
         current_attack = attack;
@@ -75,7 +74,7 @@ public class StartUnit : MonoBehaviour {
             }
             StartUnit attacked_unit = targetable[rand_index].unitOnTile;
             targetable[rand_index].unitOnTile.current_health -= damage;
-            //attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
+            attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
 
             if (targetable[rand_index].unitOnTile.current_attack > 10)
             {
