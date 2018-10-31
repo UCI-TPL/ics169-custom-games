@@ -8,9 +8,10 @@ public class StartUnit : MonoBehaviour {
     public int attackRange; // how far a unit can attack
     public float health;
     public int attack;
+    public int basedmg;
     public float crit;
-    //public int attack_loss; // how much attack a unit loses when hit
-    //public int check_dmg; // check if dmg is greater than this amount to know if you lower the dmg or not
+    public float miss;
+    public float crit_multiplier;
     public float current_health;
     public float current_attack;
     public GameObject FloatingTextPrefab;

@@ -252,23 +252,37 @@ public class HexagonMapEditor : MonoBehaviour {
             StartCoroutine(SelectedUnit.Attack());
             int rand_index = Random.Range(0, targetable.Count);
             float random_val = Random.value;
+            float randval = Random.value;
             float damage = SelectedUnit.current_attack;
+
             if (random_val < SelectedUnit.crit)
-                damage = SelectedUnit.current_attack * 2;
+                damage = SelectedUnit.current_attack * SelectedUnit.crit_multiplier;
+
+            if (randval < SelectedUnit.miss)
+            {
+                damage = 0;
+            }
+
+            if (targetable[rand_index].unitOnTile.FloatingTextPrefab && damage == 0)
+            {
+                GameObject damagetext = Instantiate(targetable[rand_index].unitOnTile.FloatingTextPrefab, targetable[rand_index].unitOnTile.transform.position, Quaternion.identity, transform);
+                damagetext.GetComponent<TextMesh>().text = "MISS";
+            }
+
             int dmg_txt = (int)damage;
-            if (targetable[rand_index].unitOnTile.FloatingTextPrefab)
+            if (targetable[rand_index].unitOnTile.FloatingTextPrefab && damage != 0)
             {
                 GameObject damagetext = Instantiate(targetable[rand_index].unitOnTile.FloatingTextPrefab, targetable[rand_index].unitOnTile.transform.position, Quaternion.identity, transform);               
                 damagetext.GetComponent<TextMesh>().text = dmg_txt.ToString();
             }
+
             targetable[rand_index].unitOnTile.current_health -= damage;
 
-            if (targetable[rand_index].unitOnTile.current_attack > 10)
+            if (targetable[rand_index].unitOnTile.current_attack > targetable[rand_index].unitOnTile.basedmg)
             {
                 float percenthealth = targetable[rand_index].unitOnTile.current_health / targetable[rand_index].unitOnTile.health;
                 targetable[rand_index].unitOnTile.current_attack *= percenthealth;
             }
-
 
             if (targetable[rand_index].unitOnTile.current_health <= 0)
             {

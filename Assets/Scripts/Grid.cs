@@ -8,11 +8,17 @@ using UnityEngine.UI;
 public class Grid : MonoBehaviour {
 
     // variables
-    public int width = 20;
-    public int height = 20;
-    public Sprite sprite, TeamBuffTile;
-    public HexagonCell power_up_prefab;
-    public Transform GridMap;
+    public int width = 10;
+    public int height = 10;
+    public Sprite Wall, AttackBuff, Healthbuff, MobilityBuff, CritBuff, AttackRangebuff;
+
+    //Grid Details
+    HexagonCell[] result;
+    List<int> wall_list1 = new List<int>() { 23, 24, 36, 42, 47, 52, 57, 63, 75, 76 };
+    List<int> wall_list2 = new List<int>() { 18, 23, 24, 36, 42, 47, 52, 57, 63, 69, 75, 76, 81 , 89, 90, 103, 115, 123, };
+    List<int> powerlist1 = new List<int>() { 18, 81 };
+    List<int> powerlist2 = new List<int>() { };
+
 
     // prefabs cell and cellLabel should be children of grid
     public HexagonCell cellPrefab;
@@ -114,20 +120,60 @@ public class Grid : MonoBehaviour {
 
     public HexagonCell[] CreateGrid()
     {
-        cells = new HexagonCell[height * width]; // create an array of correct length
+        //int randmap = Random.Range(0, 2);
+        //if (randmap == 0)
+        //{
+        //height = 10;
+        //width = 10;
+        //cells = new HexagonCell[height * width]; // create an array of correct length
 
-        for (int b = 0, c = 0; b < height; b++) // fill the array with actual hexagon cells
-        {
+        //for (int b = 0, c = 0; b < height; b++) // fill the array with actual hexagon cells
+        //{
 
-            for (int a = 0; a < width; a++)
-            {
-                CreateCell(a, b, c++);
-            }
-        }
-        List<int> hex_list = CreateList();
-        List<int> power_ups = PowerUpList();
-        HexagonCell[] result = ChangeHexInfo(cells, hex_list, power_ups);
-        return cells;
+        //    for (int a = 0; a < width; a++)
+        //    {
+        //        CreateCell(a, b, c++);
+        //    }
+        //}
+        //result = ChangeHexInfo(cells, wall_list1, powerlist1);
+        //}
+
+        //if(randmap == 1)
+        //{
+        //height = 20;
+        //width = 20;
+        //cells = new HexagonCell[height * width]; // create an array of correct length
+
+        //for (int b = 0, c = 0; b < height; b++) // fill the array with actual hexagon cells
+        //{
+
+        //    for (int a = 0; a < width; a++)
+        //    {
+        //        CreateCell(a, b, c++);
+        //    }
+        //}
+        //result = ChangeHexInfo(cells, grid1, power_ups);
+        //}
+
+        //if(randmap == 2)
+        //{
+        //    height = 30;
+        //    width = 30;
+        //    cells = new HexagonCell[height * width]; // create an array of correct length
+
+        //    for (int b = 0, c = 0; b < height; b++) // fill the array with actual hexagon cells
+        //    {
+
+        //        for (int a = 0; a < width; a++)
+        //        {
+        //            CreateCell(a, b, c++);
+        //        }
+        //    }
+
+        //    result = ChangeHexInfo(cells, hex_list, power_ups);
+        //}
+
+        return result;
     }
 
     public HexagonCell[] ChangeHexInfo(HexagonCell[] cells_, List<int> hexlist_, List<int> powercells_)
@@ -138,52 +184,43 @@ public class Grid : MonoBehaviour {
             {
                 cells_[hexlist_[i]].gameObject.tag = "Wall";
                 cells_[hexlist_[i]].gameObject.GetComponent<PolygonCollider2D>().enabled = false;
-                cells_[hexlist_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = sprite;
-                //cells_[hexlist_[i]].gameObject.SetActive(false);
+                cells_[hexlist_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = Wall;
             }
         }
         if(powercells_.Count != 0)
         {
             for(int i = 0; i < powercells_.Count; i++)
             {
+                int randval = Random.Range(1, 5);
                 cells_[powercells_[i]].gameObject.AddComponent<TeamPowerupTiles>();
-                cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = TeamBuffTile;
                 cells_[powercells_[i]].tag = "TeamBuff";
-                //HexagonCell newobject = Instantiate(power_up_prefab, cells_[powercells_[i]].transform);
-                //newobject.GetComponent<HexagonCell>().coords = cells_[powercells_[i]].GetComponent<HexagonCell>().coords;
-                //cells_[powercells_[i]].transform.DetachChildren();
-                //cells_[powercells_[i]].gameObject.SetActive(false);
-                //newobject.transform.SetParent(GridMap);
-
-              //  cells_[powercells_[i]].gameObject.SetActive(false);
-
+                if(randval == 1)
+                {
+                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = AttackBuff;
+                    cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().attackBuff = true;
+                }
+                if(randval == 2)
+                {
+                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = Healthbuff;
+                    cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().healthBuff = true;
+                }
+                if(randval == 3)
+                {
+                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = MobilityBuff;
+                    cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().mobilityBuff = true;
+                }
+                if(randval == 4)
+                {
+                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = CritBuff;
+                    cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().critBuff = true;
+                }
+                if(randval == 5)
+                {
+                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = AttackRangebuff;
+                    cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().attackrangeBuff = true;
+                }
             }
         }
         return cells_;
-    }
-
-    public List<int> CreateList()
-    {//list of wall tiles
-        List<int> hex_list = new List<int>();
-       // hex_list.Add(18);
-        hex_list.Add(23);
-        hex_list.Add(24);
-        hex_list.Add(36);
-        hex_list.Add(42);
-        hex_list.Add(47);
-        hex_list.Add(52);
-        hex_list.Add(57);
-        hex_list.Add(63);
-        hex_list.Add(75);
-        hex_list.Add(76);
-        //hex_list.Add(81);
-        return hex_list;
-    }
-    public List<int> PowerUpList()
-    {
-        List<int> powerups = new List<int>();
-        powerups.Add(18);
-        powerups.Add(81);
-        return powerups;
     }
 }
