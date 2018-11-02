@@ -8,12 +8,14 @@ public class Cursor : MonoBehaviour {
     public Grid _Grid;
     private float time = 0.0f;
     public float time_increment = 0.5f;
+    private bool cascade_dir;
 
 	// Use this for initialization
 	void Start () {
         point = GameObject.Find("Point");
         coords.x = 0;
         coords.z = 0;
+        cascade_dir = false;
 	}
 	
 	// Update is called once per frame
@@ -25,6 +27,7 @@ public class Cursor : MonoBehaviour {
 
         if (Time.time >= time)
         {
+            
             if ((Mathf.Pow(H_Axis, 2) + Mathf.Pow(V_Axis, 2)) <= 0.08f)
             {
                 //Dead Zone
@@ -32,37 +35,71 @@ public class Cursor : MonoBehaviour {
             else
             {
                 float Angle = Mathf.Atan2(H_Axis, V_Axis) * Mathf.Rad2Deg;
+                Debug.Log(Angle);
                 //0 -> 180 (right)   0 -> -180 (left)
 
-                if (Angle > 60 && Angle < 120)
+                if (Angle > 67.5 && Angle < 112.5)
                 {
                     _Move("x", 1);
                     time = Time.time + time_increment;
                 }
-                else if (Angle < -60 && Angle > -120)
+                else if (Angle < -67.5 && Angle > -112.5)
                 {
                     _Move("x", -1);
                     time = Time.time + time_increment;
                 }
-                else if (Angle < 180 && Angle > 120)
+                else if (Angle < 157.5 && Angle > 112.5)
                 {
                     _Move("z", 1);
                     time = Time.time + time_increment;
                 }
-                else if (Angle > -180 && Angle < -120)
+                else if (Angle > -157.5 && Angle < -112.5)
                 {
                     _Move("y", 1);
                     time = Time.time + time_increment;
                 }
-                else if (Angle > -60 && Angle < 0)
+                else if (Angle > -67.5 && Angle < -22.5)
                 {
                     _Move("z", -1);
                     time = Time.time + time_increment;
                 }
-                else if (Angle < 60 && Angle > 0)
+                else if (Angle < 67.5 && Angle > 22.5)
                 {
                     _Move("y", -1);
                     time = Time.time + time_increment;
+                }
+                else if (Angle < -157.5 || Angle > 157.5)
+                {
+                    //cascade up
+                    if (cascade_dir)
+                    {
+                        _Move("z", 1);
+                        time = Time.time + time_increment;
+                        cascade_dir = false;
+                    }
+                    else
+                    {
+                        _Move("y", 1);
+                        time = Time.time + time_increment;
+                        cascade_dir = true;
+                    }
+                }
+                else if (Angle > -22.5 && Angle < 22.5)
+                {
+                    Debug.Log("Down");
+                    //cascade down
+                    if (cascade_dir)
+                    {
+                        _Move("y", -1);
+                        time = Time.time + time_increment;
+                        cascade_dir = false;
+                    }
+                    else
+                    {
+                        _Move("z", -1);
+                        time = Time.time + time_increment;
+                        cascade_dir = true;
+                    }
                 }
             }
         }
