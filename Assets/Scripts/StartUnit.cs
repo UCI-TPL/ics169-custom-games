@@ -10,6 +10,7 @@ public class StartUnit : MonoBehaviour {
     public float health;
     public int attack;
     public float crit;
+    public int cost;
     //public int attack_loss; // how much attack a unit loses when hit
     //public int check_dmg; // check if dmg is greater than this amount to know if you lower the dmg or not
     public float current_health;

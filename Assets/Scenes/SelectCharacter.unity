@@ -158,10 +158,10 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -530,16 +530,11 @@ MonoBehaviour:
   ctrsSet: 
   player1: 
   player2: 
-  display: {fileID: 0}
   plr1Set: 0
   plr2Set: 0
   AllP1Units: []
   AllP2Units: []
   PoolUnits: []
-  p1ScrollTime: 0
-  p2ScrollTime: 0
-  p1ScrollValue: 0
-  p2ScrollValue: 0
   p1PickTime: 0
   p2PickTime: 0
   nextScene: 0

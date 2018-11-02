@@ -878,11 +878,17 @@ MonoBehaviour:
   health: 240
   attack: 120
   crit: 0.15
+  cost: 3
   current_health: 0
   current_attack: 0
   FloatingTextPrefab: {fileID: 1120425126322546, guid: 093bcb706ed94e3428f7bd3526dbc7e6,
     type: 2}
   dead: 0
+  health_bar: {fileID: 0}
+  editor: {fileID: 0}
+  attackSound: {fileID: 0}
+  hitSound: {fileID: 0}
+  moveSound: {fileID: 0}
 --- !u!114 &114595971561364974
 MonoBehaviour:
   m_ObjectHideFlags: 1
