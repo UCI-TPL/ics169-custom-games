@@ -15,7 +15,13 @@ public class Grid : MonoBehaviour {
     //Grid Details
     HexagonCell[] result;
     List<int> wall_list1 = new List<int>() { 23, 24, 36, 42, 47, 52, 57, 63, 75, 76 };
-    List<int> wall_list2 = new List<int>() { 18, 23, 24, 36, 42, 47, 52, 57, 63, 69, 75, 76, 81 , 89, 90, 103, 115, 123, };
+
+    List<int> wall_list2 = new List<int>() { 18, 23, 24, 36, 42, 47, 52, 57, 63, 69,
+                                             75, 76, 81 , 89, 90, 103, 115, 123, 136,
+                                             147, 148, 149, 150, 151, 163, 167, 168,
+                                             169, 170, 171, 172, 181, 186, 187, 188, 189,
+                                             190, 191, 192 };
+
     List<int> powerlist1 = new List<int>() { 18, 81 };
     List<int> powerlist2 = new List<int>() { };
 
@@ -123,25 +129,8 @@ public class Grid : MonoBehaviour {
         //int randmap = Random.Range(0, 2);
         //if (randmap == 0)
         //{
-        height = 10;
-        width = 10;
-        cells = new HexagonCell[height * width]; // create an array of correct length
-
-        for (int b = 0, c = 0; b < height; b++) // fill the array with actual hexagon cells
-        {
-
-            for (int a = 0; a < width; a++)
-            {
-                CreateCell(a, b, c++);
-            }
-        }
-        result = ChangeHexInfo(cells, wall_list1, powerlist1);
-    //}
-
-        //if(randmap == 1)
-        //{
-        //height = 20;
-        //width = 20;
+        //height = 10;
+        //width = 10;
         //cells = new HexagonCell[height * width]; // create an array of correct length
 
         //for (int b = 0, c = 0; b < height; b++) // fill the array with actual hexagon cells
@@ -152,7 +141,24 @@ public class Grid : MonoBehaviour {
         //        CreateCell(a, b, c++);
         //    }
         //}
-        //result = ChangeHexInfo(cells, grid1, power_ups);
+        //result = ChangeHexInfo(cells, wall_list1, powerlist1);
+        //}
+
+        //if(randmap == 1)
+        //{
+        height = 20;
+        width = 20;
+        cells = new HexagonCell[height * width]; // create an array of correct length
+
+        for (int b = 0, c = 0; b < height; b++) // fill the array with actual hexagon cells
+        {
+
+            for (int a = 0; a < width; a++)
+            {
+                CreateCell(a, b, c++);
+            }
+        }
+        result = ChangeHexInfo(cells, wall_list2, powerlist2);
         //}
 
         //if(randmap == 2)
