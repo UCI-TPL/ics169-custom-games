@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class StartUnit : MonoBehaviour {
 
+    public string unit_type;
+    public string unit_name;
     public int mobility; // how far a unit can move
     public int attackRange; // how far a unit can attack
     public float health;
