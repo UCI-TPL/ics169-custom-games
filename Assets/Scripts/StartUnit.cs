@@ -35,6 +35,13 @@ public class StartUnit : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         editor = FindObjectOfType<HexagonMapEditor>();
+        attackSound = GetComponent<AudioSource>();
+        hitSound = GetComponent<AudioSource>();
+        moveSound = GetComponent<AudioSource>();
+        attackSound.playOnAwake = false;
+        hitSound.playOnAwake = false;
+        moveSound.playOnAwake = false;
+
         anim = GetComponent<Animator>();
         current_health = health;
         current_attack = attack;
@@ -106,7 +113,7 @@ public class StartUnit : MonoBehaviour {
     public IEnumerator Attack()
     {
         anim.SetBool("Attacking", true);
-        //attackSound.Play();
+        attackSound.Play();
         yield return new WaitForSeconds(0.5f);
         anim.SetBool("Attacking", false);
 
@@ -114,7 +121,7 @@ public class StartUnit : MonoBehaviour {
     public IEnumerator Hit()
     {
         anim.SetBool("Hurt", true);
-        //hitSound.Play();
+        hitSound.Play();
         yield return new WaitForSeconds(0.4f);
         anim.SetBool("Hurt", false);
     }
@@ -123,7 +130,7 @@ public class StartUnit : MonoBehaviour {
     {
         //Debug.Log("moving");
         anim.SetBool("Moving", true);
-        //moveSound.Play(); 
+        moveSound.Play(); 
         yield return new WaitForSeconds(0.4f);
         anim.SetBool("Moving", false);
     }
