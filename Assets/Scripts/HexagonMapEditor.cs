@@ -10,11 +10,15 @@ public class HexagonMapEditor : MonoBehaviour {
 
     public PlayerInformation PlayerInfo;
     public Grid hexGrid;
-    public GameObject UI_P1;
-    public GameObject UI_P2;
+    public GameObject UI_P1_Sel;
+    public GameObject UI_P2_Sel;
+    public GameObject UI_P1_Hov;
+    public GameObject UI_P2_Hov;
     public GameObject UI_Turn;
     public BattleUI BattleUI_P1;
     public BattleUI BattleUI_P2;
+    public BattleUI BattleUI_P1_Hover;
+    public BattleUI BattleUI_P2_Hover;
     public BattleUI BattleUI_Turn;
     public Color32 P1_Color;
     public Color32 P2_Color;
@@ -71,10 +75,14 @@ public class HexagonMapEditor : MonoBehaviour {
         //UI = GetComponentInChildren<BattleUI>();
 
 
-        BattleUI_P1 = UI_P1.GetComponent<BattleUI>();
-        BattleUI_P2 = UI_P2.GetComponent<BattleUI>();
+        BattleUI_P1 = UI_P1_Sel.GetComponent<BattleUI>();
+        BattleUI_P2 = UI_P2_Sel.GetComponent<BattleUI>();
+        BattleUI_P1_Hover = UI_P1_Hov.GetComponent<BattleUI>();
+        BattleUI_P2_Hover = UI_P2_Hov.GetComponent<BattleUI>();
         BattleUI_P1.Hide();
         BattleUI_P2.Hide();
+        BattleUI_P1_Hover.Hide();
+        BattleUI_P2_Hover.Hide();
         BattleUI_Turn = UI_Turn.GetComponent<BattleUI>();
 
         if (initializing) // stop loop if already doing it
@@ -364,28 +372,22 @@ public class HexagonMapEditor : MonoBehaviour {
         {
             //Change stats and unit info on the UI when unit selected
             //BattleUI_P1.obj_name.text = "" + SelectedUnit.name.ToString();
-            BattleUI_P1.obj_name.text = SelectedUnit.unit_name;
-            BattleUI_P1.obj_type.text = SelectedUnit.unit_type;
-            BattleUI_P1.unit_icon.GetComponent<Image>().sprite = SelectedUnit.Icon;
-            BattleUI_P1.health_slider.value = SelectedUnit.current_health / SelectedUnit.health;
-            BattleUI_P1.health_text.text = "" + (int)SelectedUnit.current_health + "/" + (int)SelectedUnit.health;
-            BattleUI_P1.stats.text = "ATK: " + (int)SelectedUnit.current_attack + "\nMOV:" + SelectedUnit.mobility;
-            BattleUI_P1.stats_2.text = "RNG: " + SelectedUnit.attackRange + "\nCRIT:" + (int)SelectedUnit.crit;
+            Assign_BUI_Var(BattleUI_P1);
             BattleUI_P1.Show();
+            BattleUI_P2.Hide();
+            BattleUI_P1_Hover.Hide();
+            BattleUI_P2_Hover.Hide();
         }
         
         if(SelectedUnit.CompareTag("Player 2"))
         {
             //Change stats and unit info on the UI when unit selected
             //BattleUI_P2.obj_name.text = "" + SelectedUnit.name.ToString();
-            BattleUI_P2.obj_name.text = SelectedUnit.unit_name;
-            BattleUI_P2.obj_type.text = SelectedUnit.unit_type;
-            BattleUI_P2.unit_icon.GetComponent<Image>().sprite = SelectedUnit.Icon;
-            BattleUI_P2.health_slider.value = SelectedUnit.current_health / SelectedUnit.health;
-            BattleUI_P2.health_text.text = "" + (int)SelectedUnit.current_health + "/" + (int)SelectedUnit.health;
-            BattleUI_P2.stats.text = "ATK: " + (int)SelectedUnit.current_attack + "\nMOV:" + SelectedUnit.mobility;
-            BattleUI_P2.stats_2.text = "RNG: " + SelectedUnit.attackRange + "\nCRIT:" + (int)SelectedUnit.crit;
+            Assign_BUI_Var(BattleUI_P2);
             BattleUI_P2.Show();
+            BattleUI_P2.Hide();
+            BattleUI_P1_Hover.Hide();
+            BattleUI_P2_Hover.Hide();
         }
         //hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
         //UI.obj_name.text =  "UNIT:"+ SelectedUnit.name.ToString();
@@ -625,6 +627,28 @@ public class HexagonMapEditor : MonoBehaviour {
             SelectUnit(currentCell, index); // make the selected unit that unit
             Show_Units_In_Range();
         }
+    }
+
+    public void Assign_BUI_Var(BattleUI _UI)
+    {
+        _UI.obj_name.text = SelectedUnit.unit_name;
+        _UI.obj_type.text = SelectedUnit.unit_type;
+        _UI.unit_icon.GetComponent<Image>().sprite = SelectedUnit.Icon;
+        _UI.health_slider.value = SelectedUnit.current_health / SelectedUnit.health;
+        _UI.health_text.text = "" + (int)SelectedUnit.current_health + "/" + (int)SelectedUnit.health;
+        _UI.stats.text = "ATK: " + (int)SelectedUnit.current_attack + "\nMOV:" + SelectedUnit.mobility;
+        _UI.stats_2.text = "RNG: " + SelectedUnit.attackRange + "\nCRIT:" + (int)SelectedUnit.crit;
+    }
+
+    public void Assign_BUI_Var(BattleUI _UI, StartUnit _unit)
+    {
+        _UI.obj_name.text = _unit.unit_name;
+        _UI.obj_type.text = _unit.unit_type;
+        _UI.unit_icon.GetComponent<Image>().sprite = _unit.Icon;
+        _UI.health_slider.value = _unit.current_health / _unit.health;
+        _UI.health_text.text = "" + (int)_unit.current_health + "/" + (int)_unit.health;
+        _UI.stats.text = "ATK: " + (int)_unit.current_attack + "\nMOV:" + _unit.mobility;
+        _UI.stats_2.text = "RNG: " + _unit.attackRange + "\nCRIT:" + (int)_unit.crit;
     }
 
     public void Snap_To_Next_Unit(bool back_forward)

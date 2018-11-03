@@ -174,7 +174,56 @@ public class Cursor : MonoBehaviour {
         if (editor.isUnitSelected)
         {
             editor.Show_Units_In_Range();
+            if (_Grid.Get_Cell_Index(coords).unitOnTile != null && editor.SelectedUnit != _Grid.Get_Cell_Index(coords).unitOnTile)
+            {
+                StartUnit _tileUnit = _Grid.Get_Cell_Index(coords).unitOnTile;
+                if (_tileUnit.CompareTag("Player 1"))
+                {
+                    editor.Assign_BUI_Var(editor.BattleUI_P1_Hover, _tileUnit);
+                    editor.BattleUI_P1_Hover.Show();
+                    editor.BattleUI_P2_Hover.Hide();
+                }
+                else
+                {
+                    editor.Assign_BUI_Var(editor.BattleUI_P2_Hover, _tileUnit);
+                    editor.BattleUI_P2_Hover.Show();
+                    editor.BattleUI_P1_Hover.Hide();
+                }
+
+            }
+            else
+            {
+                editor.BattleUI_P1_Hover.Hide();
+                editor.BattleUI_P1_Hover.Hide();
+            }
         }
+        else
+        {
+            if (_Grid.Get_Cell_Index(coords).unitOnTile != null)
+            {
+                StartUnit _tileUnit = _Grid.Get_Cell_Index(coords).unitOnTile;
+                if (_tileUnit.CompareTag("Player 1"))
+                {
+                    editor.Assign_BUI_Var(editor.BattleUI_P1, _tileUnit);
+                    editor.BattleUI_P1.Show();
+                    editor.BattleUI_P2.Hide();
+                }
+                else
+                {
+                    editor.Assign_BUI_Var(editor.BattleUI_P2, _tileUnit);
+                    editor.BattleUI_P2.Show();
+                    editor.BattleUI_P1.Hide();
+                }
+
+            }
+            else
+            {
+                editor.BattleUI_P1.Hide();
+                editor.BattleUI_P1.Hide();
+            }
+        }
+
+        
 
         //Debug.Log("Current X " + coords.X_coord);
         //Debug.Log("Current Y " + coords.Y_coord);
