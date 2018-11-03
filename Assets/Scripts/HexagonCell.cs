@@ -30,4 +30,16 @@ public class HexagonCell : MonoBehaviour {
     {
         
     }
+
+    public bool Occupied()
+    {
+        if(unitOnTile != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

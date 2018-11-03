@@ -31,7 +31,7 @@ public class Grid : MonoBehaviour {
 
     public Text cellLabelPrefab;
 
-    public Color defaultColor = Color.gray;
+    public Color defaultColor = Color.white;
     public Color touchedColor = Color.cyan;
     public Color attackColor = Color.green;
 
@@ -82,10 +82,6 @@ public class Grid : MonoBehaviour {
                 if (current.coords.FindDistanceTo(cells[i].coords) <= mobility)
                 {
                     cells[i].spriteRenderer.color = color_m;
-                }
-                else if (current.coords.FindDistanceTo(cells[i].coords) <= mobility + range)
-                {
-                    cells[i].spriteRenderer.color = color_a;
                 }
                 else
                 {
@@ -234,6 +230,13 @@ public class Grid : MonoBehaviour {
     {
         int index = coordinates.X_coord + coordinates.Z_coord * width + coordinates.Z_coord / 2;
         return cells[index];
+
+    }
+
+    public int Get_Index(HexagonCoord coordinates)
+    {
+        int index = coordinates.X_coord + coordinates.Z_coord * width + coordinates.Z_coord / 2;
+        return index;
 
     }
 }
