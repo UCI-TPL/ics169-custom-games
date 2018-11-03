@@ -229,10 +229,16 @@ public class HexagonMapEditor : MonoBehaviour {
     void InitialPhase(List<StartUnit> team, int player) // creates random units on the grid it sometimes repeats the units on tiles but not important cause will change later
     {
         //create unit names here need to put in proper file
-        //string path_proper     = Path.Combine(Directory.GetCurrentDirectory(), "\\proper.txt");
-        //string path_adjectives = Path.Combine(Directory.GetCurrentDirectory(), "\\adjectives.txt");
-        //string[] names_proper  = System.IO.File.ReadAllLines(path_proper);
-        //string[] names_adj     = System.IO.File.ReadAllLines(path_adjectives);
+
+        //application.datapath returns a different place in build vs in editor
+        //place text in root directory where executable is located when creating the actual build for this to work as is
+        string path_proper = Application.dataPath + "/proper.txt";
+        Debug.Log(path_proper);
+        Debug.Log(Application.dataPath);
+        string path_adjectives = Application.dataPath + "/adjectives.txt";
+        Debug.Log(path_adjectives);
+        string[] names_proper = System.IO.File.ReadAllLines(path_proper);
+        string[] names_adj = System.IO.File.ReadAllLines(path_adjectives);
         //Random rand_gen = new Random();
         initializing = false;
         if(player == 1)
@@ -240,12 +246,12 @@ public class HexagonMapEditor : MonoBehaviour {
             for(int i = 0; i < team.Count;i++)
             {
 
-                //int rand_index_p = Random.Range(0,names_proper.Length - 1);
-                //int rand_index_a = Random.Range(0, names_adj.Length - 1);
-                //string rand_proper = names_proper[rand_index_p];
-                //string rand_adj = names_adj[rand_index_a];
-                string rand_proper = "Bob";
-                string rand_adj = "Stevens";
+                int rand_index_p = Random.Range(0, names_proper.Length - 1);
+                int rand_index_a = Random.Range(0, names_adj.Length - 1);
+                string rand_proper = names_proper[rand_index_p];
+                string rand_adj = names_adj[rand_index_a];
+                //string rand_proper = "Steve";
+                //string rand_adj = "Big";
                 CreateUnit(i, team[i], rand_proper, rand_adj);
                
             }
@@ -255,12 +261,12 @@ public class HexagonMapEditor : MonoBehaviour {
             int k = 0;
             for(int j = hexGrid.cells.Length-1; j > hexGrid.cells.Length-1-team.Count; j--)
             {
-                //int rand_index_p = Random.Range(0, names_proper.Length - 1);
-                //int rand_index_a = Random.Range(0, names_adj.Length - 1);
-                //string rand_proper = names_proper[rand_index_p];
-                //string rand_adj = names_adj[rand_index_a];
-                string rand_proper = "Bob";
-                string rand_adj = "Stevens";
+                int rand_index_p = Random.Range(0, names_proper.Length - 1);
+                int rand_index_a = Random.Range(0, names_adj.Length - 1);
+                string rand_proper = names_proper[rand_index_p];
+                string rand_adj = names_adj[rand_index_a];
+                //string rand_proper = "Thomas";
+                //string rand_adj = "Large";
                 CreateUnit(j, team[k], rand_proper, rand_adj);
                 k++;
             }
@@ -358,7 +364,8 @@ public class HexagonMapEditor : MonoBehaviour {
         {
             //Change stats and unit info on the UI when unit selected
             //BattleUI_P1.obj_name.text = "" + SelectedUnit.name.ToString();
-            BattleUI_P1.obj_name.text = SelectedUnit.name;
+            BattleUI_P1.obj_name.text = SelectedUnit.unit_name;
+            BattleUI_P1.obj_type.text = SelectedUnit.unit_type;
             BattleUI_P1.unit_icon.GetComponent<Image>().sprite = SelectedUnit.Icon;
             BattleUI_P1.health_slider.value = SelectedUnit.current_health / SelectedUnit.health;
             BattleUI_P1.health_text.text = "" + (int)SelectedUnit.current_health + "/" + (int)SelectedUnit.health;
@@ -371,7 +378,8 @@ public class HexagonMapEditor : MonoBehaviour {
         {
             //Change stats and unit info on the UI when unit selected
             //BattleUI_P2.obj_name.text = "" + SelectedUnit.name.ToString();
-            BattleUI_P2.obj_name.text = SelectedUnit.name;
+            BattleUI_P2.obj_name.text = SelectedUnit.unit_name;
+            BattleUI_P2.obj_type.text = SelectedUnit.unit_type;
             BattleUI_P2.unit_icon.GetComponent<Image>().sprite = SelectedUnit.Icon;
             BattleUI_P2.health_slider.value = SelectedUnit.current_health / SelectedUnit.health;
             BattleUI_P2.health_text.text = "" + (int)SelectedUnit.current_health + "/" + (int)SelectedUnit.health;
@@ -485,7 +493,7 @@ public class HexagonMapEditor : MonoBehaviour {
         SelectedUnit.transform.position = hexGrid.cells[index].transform.position;
         unitCell.occupied = true;
         unitCell.unitOnTile = SelectedUnit;
-        SelectedUnit.name = SelectedUnit.unit_name + ": " + adjective + " " + proper;
+        SelectedUnit.unit_name = "" + adjective + " " + proper;
     }
 
     IEnumerator MoveUnit(HexagonCell _unitCell, HexagonCell _nextCell)
@@ -615,6 +623,7 @@ public class HexagonMapEditor : MonoBehaviour {
         if (currentCell.occupied) // if clicked and there is a unit there
         {
             SelectUnit(currentCell, index); // make the selected unit that unit
+            Show_Units_In_Range();
         }
     }
 
@@ -646,6 +655,7 @@ public class HexagonMapEditor : MonoBehaviour {
                     if (currentCell.occupied) // if clicked and there is a unit there
                     {
                         SelectUnit(currentCell, index); // make the selected unit that unit
+                        Show_Units_In_Range();
                     }
                     break;
                 case (TurnStates.P2_MOVE):
@@ -663,6 +673,7 @@ public class HexagonMapEditor : MonoBehaviour {
                     if (currentCell.occupied) // if clicked and there is a unit there
                     {
                         SelectUnit(currentCell, index); // make the selected unit that unit
+                        Show_Units_In_Range();
                     }
                     break;
             }
@@ -686,6 +697,7 @@ public class HexagonMapEditor : MonoBehaviour {
                     if (currentCell.occupied) // if clicked and there is a unit there
                     {
                         SelectUnit(currentCell, index); // make the selected unit that unit
+                        Show_Units_In_Range();
                     }
                     break;
                 case (TurnStates.P2_MOVE):
@@ -703,6 +715,7 @@ public class HexagonMapEditor : MonoBehaviour {
                     if (currentCell.occupied) // if clicked and there is a unit there
                     {
                         SelectUnit(currentCell, index); // make the selected unit that unit
+                        Show_Units_In_Range();
                     }
                     break;
             }

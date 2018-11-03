@@ -14,6 +14,7 @@ public class BattleUI : MonoBehaviour {
     public Image unit_info_Image;
     public Image turn_info_Image;
     public Text stats_2;
+    public Text obj_type;
 
     private Renderer[] cur_renderers;
 
