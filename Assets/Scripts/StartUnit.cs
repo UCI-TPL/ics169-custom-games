@@ -88,11 +88,12 @@ public class StartUnit : MonoBehaviour {
             targetable[rand_index].unitOnTile.current_health -= damage;
             attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
 
-            if (targetable[rand_index].unitOnTile.current_attack > 10)
-            {
-                float percenthealth = targetable[rand_index].unitOnTile.current_health / targetable[rand_index].unitOnTile.health;
+            //if (targetable[rand_index].unitOnTile.current_attack > 10)
+            //{
+            float percenthealth = targetable[rand_index].unitOnTile.current_health / targetable[rand_index].unitOnTile.health;
+            if(targetable[rand_index].unitOnTile.current_attack * percenthealth <= 10)
                 targetable[rand_index].unitOnTile.current_attack *= percenthealth;
-            }
+            //}
 
             Debug.Log("he dead");
             if (targetable[rand_index].unitOnTile.current_health <= 0)
