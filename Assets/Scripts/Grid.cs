@@ -8,15 +8,24 @@ using UnityEngine.UI;
 public class Grid : MonoBehaviour {
 
     // variables
-    public int width = 6;
-    public int height = 6;
+    public int width = 10;
+    public int height = 10;
+    public Sprite Wall, AttackBuff, Healthbuff, MobilityBuff, CritBuff, AttackRangebuff;
+
+    //Grid Details
+    HexagonCell[] result;
+    List<int> wall_list1 = new List<int>() { 23, 24, 36, 42, 47, 52, 57, 63, 75, 76 };
+    List<int> wall_list2 = new List<int>() { 18, 23, 24, 36, 42, 47, 52, 57, 63, 69, 75, 76, 81 , 89, 90, 103, 115, 123, };
+    List<int> powerlist1 = new List<int>() { 18, 81 };
+    List<int> powerlist2 = new List<int>() { };
+
 
     // prefabs cell and cellLabel should be children of grid
     public HexagonCell cellPrefab;
 
     public Text cellLabelPrefab;
 
-    public Color defaultColor = Color.gray;
+    public Color defaultColor = Color.white;
     public Color touchedColor = Color.cyan;
     public Color attackColor = Color.green;
 
@@ -28,18 +37,8 @@ public class Grid : MonoBehaviour {
 	void Awake () {
         gridCanvas = GetComponentInChildren<Canvas>();
         hexMesh = GetComponentInChildren<HexagonMesh>();
-        
-        cells = new HexagonCell[height * width]; // create an array of correct length
-
-        for(int b = 0,c = 0; b < height; b++) // fill the array with actual hexagon cells
-        {
-            
-            for(int a = 0; a < width; a++)
-            {
-                CreateCell(a, b, c++);
-            }
-        }
-	}
+        CreateGrid();
+    }
 
     private void Start() // runs after awake()
     {
@@ -72,18 +71,18 @@ public class Grid : MonoBehaviour {
     {
         for (int i = 0; i < (width * height); i++)
         {
-            if (current.coords.FindDistanceTo(cells[i].coords) <= mobility)
+            if (cells[i].gameObject.tag != "Wall")
             {
-                cells[i].spriteRenderer.color = color_m;
+                if (current.coords.FindDistanceTo(cells[i].coords) <= mobility)
+                {
+                    cells[i].spriteRenderer.color = color_m;
+                }
+                else
+                {
+                    cells[i].spriteRenderer.color = defaultColor;
+                }
             }
-            else if(current.coords.FindDistanceTo(cells[i].coords) <= mobility + range)
-            {
-                cells[i].spriteRenderer.color = color_a;
-            }
-            else
-            {
-                cells[i].spriteRenderer.color = defaultColor;
-            }
+
         }
     }
 
@@ -115,9 +114,123 @@ public class Grid : MonoBehaviour {
         
     }
 
+    public HexagonCell[] CreateGrid()
+    {
+        //int randmap = Random.Range(0, 2);
+        //if (randmap == 0)
+        //{
+        height = 10;
+        width = 10;
+        cells = new HexagonCell[height * width]; // create an array of correct length
+
+        for (int b = 0, c = 0; b < height; b++) // fill the array with actual hexagon cells
+        {
+
+            for (int a = 0; a < width; a++)
+            {
+                CreateCell(a, b, c++);
+            }
+        }
+        result = ChangeHexInfo(cells, wall_list1, powerlist1);
+    //}
+
+        //if(randmap == 1)
+        //{
+        //height = 20;
+        //width = 20;
+        //cells = new HexagonCell[height * width]; // create an array of correct length
+
+        //for (int b = 0, c = 0; b < height; b++) // fill the array with actual hexagon cells
+        //{
+
+        //    for (int a = 0; a < width; a++)
+        //    {
+        //        CreateCell(a, b, c++);
+        //    }
+        //}
+        //result = ChangeHexInfo(cells, grid1, power_ups);
+        //}
+
+        //if(randmap == 2)
+        //{
+        //    height = 30;
+        //    width = 30;
+        //    cells = new HexagonCell[height * width]; // create an array of correct length
+
+        //    for (int b = 0, c = 0; b < height; b++) // fill the array with actual hexagon cells
+        //    {
+
+        //        for (int a = 0; a < width; a++)
+        //        {
+        //            CreateCell(a, b, c++);
+        //        }
+        //    }
+
+        //    result = ChangeHexInfo(cells, hex_list, power_ups);
+        //}
+
+        return result;
+    }
+
+    public HexagonCell[] ChangeHexInfo(HexagonCell[] cells_, List<int> hexlist_, List<int> powercells_)
+    {
+        if (hexlist_.Count != 0)
+        {
+            for (int i = 0; i < hexlist_.Count; i++)
+            {
+                cells_[hexlist_[i]].gameObject.tag = "Wall";
+                cells_[hexlist_[i]].gameObject.GetComponent<PolygonCollider2D>().enabled = false;
+                cells_[hexlist_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = Wall;
+            }
+        }
+        if (powercells_.Count != 0)
+        {
+            for (int i = 0; i < powercells_.Count; i++)
+            {
+                int randval = Random.Range(1, 5);
+                cells_[powercells_[i]].gameObject.AddComponent<TeamPowerupTiles>();
+                cells_[powercells_[i]].tag = "TeamBuff";
+                if (randval == 1)
+                {
+                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = AttackBuff;
+                    cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().attackBuff = true;
+                }
+                if (randval == 2)
+                {
+                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = Healthbuff;
+                    cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().healthBuff = true;
+                }
+                if (randval == 3)
+                {
+                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = MobilityBuff;
+                    cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().mobilityBuff = true;
+                }
+                if (randval == 4)
+                {
+                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = CritBuff;
+                    cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().critBuff = true;
+                }
+                if (randval == 5)
+                {
+                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = AttackRangebuff;
+                    cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().attackrangeBuff = true;
+                }
+            }
+        }
+        return cells_;
+    }
+
     public HexagonCell Get_Cell_Index(HexagonCoord coordinates)
     {
         int index = coordinates.X_coord + coordinates.Z_coord * width + coordinates.Z_coord / 2;
         return cells[index];
+
+    }
+
+    public int Get_Index(HexagonCoord coordinates)
+    {
+        int index = coordinates.X_coord + coordinates.Z_coord * width + coordinates.Z_coord / 2;
+        return index;
+
     }
 }

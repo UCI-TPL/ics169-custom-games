@@ -367,24 +367,27 @@ public class PlayerInformation : MonoBehaviour
         }
         if(team == "P2")
         {
-            if (Input.GetButton(player2 + "A Button") && p2PickTime <= Time.time)
+            if (!one_player)
             {
-                p2PickTime = Time.time + 1f;
-                if (p2Cost - AllP2Units[p2ScrollValue].cost >= 0)
-                {
-                    Player2Chosen.Add(AllP2Units[p2ScrollValue]);
-                    p2Cost -= AllP2Units[p2ScrollValue].cost;
-                }
-                else
-                {
-                    Debug.Log("unit cost too much");
-                    return;
-                }
-                if (pool)
-                {
-                    PoolUnits.Remove(AllP1Units[p2ScrollValue]);
-                    CheckUnits();
-                }
+            	if (Input.GetButton(player2 + "A Button") && p2PickTime <= Time.time)
+            	{
+	                p2PickTime = Time.time + 1f;
+	                if (p2Cost - AllP2Units[p2ScrollValue].cost >= 0)
+	                {
+	                    Player2Chosen.Add(AllP2Units[p2ScrollValue]);
+	                    p2Cost -= AllP2Units[p2ScrollValue].cost;
+	                }
+	                else
+	                {
+	                    Debug.Log("unit cost too much");
+	                    return;
+	                }
+	                if (pool)
+	                {
+	                    PoolUnits.Remove(AllP1Units[p2ScrollValue]);
+	                    CheckUnits();
+	                }
+            	}
             }
         }
 

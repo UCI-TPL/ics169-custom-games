@@ -5,12 +5,20 @@ using UnityEngine.UI;
 
 public class StartUnit : MonoBehaviour {
 
+    public string unit_type;
+    public string unit_name;
     public int mobility; // how far a unit can move
     public int attackRange; // how far a unit can attack
     public float health;
     public int attack;
+    public int basedmg;
     public float crit;
+
     public int cost;
+    public float miss;
+    public float crit_multiplier;
+    public Sprite Icon;
+
     //public int attack_loss; // how much attack a unit loses when hit
     //public int check_dmg; // check if dmg is greater than this amount to know if you lower the dmg or not
     public float current_health;
@@ -19,7 +27,6 @@ public class StartUnit : MonoBehaviour {
     public bool dead = false;
     public GameObject health_bar;
     Animator anim;
-
     public HexagonMapEditor editor;
 
 
@@ -27,10 +34,10 @@ public class StartUnit : MonoBehaviour {
     public AudioSource attackSound, hitSound, moveSound;
 
 
+
 	// Use this for initialization
 	void Start () {
         editor = FindObjectOfType<HexagonMapEditor>();
-        //health_bar = transform.Find("Health_BG").gameObject;
         anim = GetComponent<Animator>();
         current_health = health;
         current_attack = attack;
@@ -75,7 +82,7 @@ public class StartUnit : MonoBehaviour {
             }
             StartUnit attacked_unit = targetable[rand_index].unitOnTile;
             targetable[rand_index].unitOnTile.current_health -= damage;
-            //attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
+            attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
 
             if (targetable[rand_index].unitOnTile.current_attack > 10)
             {

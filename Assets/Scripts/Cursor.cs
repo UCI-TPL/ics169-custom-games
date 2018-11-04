@@ -8,12 +8,15 @@ public class Cursor : MonoBehaviour {
     public Grid _Grid;
     private float time = 0.0f;
     public float time_increment = 0.5f;
+    private bool cascade_dir;
+    public HexagonMapEditor editor;
 
 	// Use this for initialization
 	void Start () {
         point = GameObject.Find("Point");
         coords.x = 0;
         coords.z = 0;
+        cascade_dir = false;
 	}
 	
 	// Update is called once per frame
@@ -25,6 +28,7 @@ public class Cursor : MonoBehaviour {
 
         if (Time.time >= time)
         {
+            
             if ((Mathf.Pow(H_Axis, 2) + Mathf.Pow(V_Axis, 2)) <= 0.08f)
             {
                 //Dead Zone
@@ -32,37 +36,71 @@ public class Cursor : MonoBehaviour {
             else
             {
                 float Angle = Mathf.Atan2(H_Axis, V_Axis) * Mathf.Rad2Deg;
+                //Debug.Log(Angle);
                 //0 -> 180 (right)   0 -> -180 (left)
 
-                if (Angle > 60 && Angle < 120)
+                if (Angle > 67.5 && Angle < 112.5)
                 {
                     _Move("x", 1);
                     time = Time.time + time_increment;
                 }
-                else if (Angle < -60 && Angle > -120)
+                else if (Angle < -67.5 && Angle > -112.5)
                 {
                     _Move("x", -1);
                     time = Time.time + time_increment;
                 }
-                else if (Angle < 180 && Angle > 120)
+                else if (Angle < 157.5 && Angle > 112.5)
                 {
                     _Move("z", 1);
                     time = Time.time + time_increment;
                 }
-                else if (Angle > -180 && Angle < -120)
+                else if (Angle > -157.5 && Angle < -112.5)
                 {
                     _Move("y", 1);
                     time = Time.time + time_increment;
                 }
-                else if (Angle > -60 && Angle < 0)
+                else if (Angle > -67.5 && Angle < -22.5)
                 {
                     _Move("z", -1);
                     time = Time.time + time_increment;
                 }
-                else if (Angle < 60 && Angle > 0)
+                else if (Angle < 67.5 && Angle > 22.5)
                 {
                     _Move("y", -1);
                     time = Time.time + time_increment;
+                }
+                else if (Angle < -157.5 || Angle > 157.5)
+                {
+                    //cascade up
+                    if (cascade_dir)
+                    {
+                        _Move("z", 1);
+                        time = Time.time + time_increment;
+                        cascade_dir = false;
+                    }
+                    else
+                    {
+                        _Move("y", 1);
+                        time = Time.time + time_increment;
+                        cascade_dir = true;
+                    }
+                }
+                else if (Angle > -22.5 && Angle < 22.5)
+                {
+                    Debug.Log("Down");
+                    //cascade down
+                    if (cascade_dir)
+                    {
+                        _Move("y", -1);
+                        time = Time.time + time_increment;
+                        cascade_dir = false;
+                    }
+                    else
+                    {
+                        _Move("z", -1);
+                        time = Time.time + time_increment;
+                        cascade_dir = true;
+                    }
                 }
             }
         }
@@ -92,14 +130,31 @@ public class Cursor : MonoBehaviour {
         }
 
         HexagonCoord next_cell;
+        HexagonCell next_hex_cell;
         try
         {
             next_cell = _Grid.Get_Cell_Index(coords).coords;
+            next_hex_cell = _Grid.Get_Cell_Index(coords);
 
             if (coords.X_coord == next_cell.X_coord && coords.Z_coord == next_cell.Z_coord)
             {
                 //It found a real tile.
-                gameObject.transform.position = _Grid.Get_Cell_Index(coords).gameObject.transform.position;
+                if (editor.isUnitSelected)
+                {
+                    if (editor.Is_Tile_In_Move_Range())
+                    {
+                        gameObject.transform.position = _Grid.Get_Cell_Index(coords).gameObject.transform.position;
+                    }
+                    else
+                    {
+                        coords.x = prev_coord_x;
+                        coords.z = prev_coord_z;
+                    }
+                }
+                else
+                {
+                    gameObject.transform.position = _Grid.Get_Cell_Index(coords).gameObject.transform.position;
+                }
             }
             else
             {
@@ -114,7 +169,12 @@ public class Cursor : MonoBehaviour {
             coords.z = prev_coord_z;
             Debug.Log(e.Message);
         }
-           
+
+
+        if (editor.isUnitSelected)
+        {
+            editor.Show_Units_In_Range();
+        }
 
         //Debug.Log("Current X " + coords.X_coord);
         //Debug.Log("Current Y " + coords.Y_coord);

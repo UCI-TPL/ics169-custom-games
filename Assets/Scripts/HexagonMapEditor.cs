@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -17,6 +18,8 @@ public class HexagonMapEditor : MonoBehaviour {
     public BattleUI BattleUI_Turn;
     public Color32 P1_Color;
     public Color32 P2_Color;
+    public Color32 color_r;
+    public Color32 color_w;
     public Color32 Greyed_Unit_Color;
     public Cursor cursor;
     private int p1_unit_rotation_value;
@@ -87,6 +90,11 @@ public class HexagonMapEditor : MonoBehaviour {
         }
         MoveableUnits = new List<StartUnit>(P1Team); // put player 1's team in since they're going first
         currentState = TurnStates.P1_MOVE;
+        if (MoveableUnits.Count > 0)
+        {
+            Snap_To_First_Unit();
+            p1_unit_rotation_value = 0;
+        }
         //StartCoroutine(InitializingTeams());
 
     }
@@ -115,6 +123,7 @@ public class HexagonMapEditor : MonoBehaviour {
                             Unit_Sprites[k].color = Color.white;
                         }
                     }
+                    
                 }
                 //UI.turn.text = "TURN:PLAYER 1";
                 
@@ -131,6 +140,11 @@ public class HexagonMapEditor : MonoBehaviour {
                     AttackPhase(P1Team); // handles all attacking for player 1
                     attacking = false;
                     currentState = TurnStates.P2_MOVE;
+                    if (MoveableUnits.Count > 0)
+                    {
+                        Snap_To_First_Unit();
+                        p2_unit_rotation_value = 0;
+                    }
                 }
                 break;
             case (TurnStates.P2_MOVE):
@@ -146,6 +160,7 @@ public class HexagonMapEditor : MonoBehaviour {
                             Unit_Sprites[k].color = Color.white;
                         }
                     }
+                    
                 }
 
                 //UI.turn.text = "TURN:PLAYER 2";
@@ -167,6 +182,11 @@ public class HexagonMapEditor : MonoBehaviour {
                     AttackPhase(P2Team);
                     attacking = false;
                     currentState = TurnStates.CHECK;
+                    if (MoveableUnits.Count > 0)
+                    {
+                        Snap_To_First_Unit();
+                        p1_unit_rotation_value = 0;
+                    }
                 }
 
                 break;
@@ -208,12 +228,25 @@ public class HexagonMapEditor : MonoBehaviour {
 
     void InitialPhase(List<StartUnit> team, int player) // creates random units on the grid it sometimes repeats the units on tiles but not important cause will change later
     {
+        //create unit names here need to put in proper file
+        //string path_proper     = Path.Combine(Directory.GetCurrentDirectory(), "\\proper.txt");
+        //string path_adjectives = Path.Combine(Directory.GetCurrentDirectory(), "\\adjectives.txt");
+        //string[] names_proper  = System.IO.File.ReadAllLines(path_proper);
+        //string[] names_adj     = System.IO.File.ReadAllLines(path_adjectives);
+        //Random rand_gen = new Random();
         initializing = false;
         if(player == 1)
         {
             for(int i = 0; i < team.Count;i++)
             {
-                CreateUnit(i, team[i]);
+
+                //int rand_index_p = Random.Range(0,names_proper.Length - 1);
+                //int rand_index_a = Random.Range(0, names_adj.Length - 1);
+                //string rand_proper = names_proper[rand_index_p];
+                //string rand_adj = names_adj[rand_index_a];
+                string rand_proper = "Bob";
+                string rand_adj = "Stevens";
+                CreateUnit(i, team[i], rand_proper, rand_adj);
                
             }
         }
@@ -222,7 +255,13 @@ public class HexagonMapEditor : MonoBehaviour {
             int k = 0;
             for(int j = hexGrid.cells.Length-1; j > hexGrid.cells.Length-1-team.Count; j--)
             {
-                CreateUnit(j, team[k]);
+                //int rand_index_p = Random.Range(0, names_proper.Length - 1);
+                //int rand_index_a = Random.Range(0, names_adj.Length - 1);
+                //string rand_proper = names_proper[rand_index_p];
+                //string rand_adj = names_adj[rand_index_a];
+                string rand_proper = "Bob";
+                string rand_adj = "Stevens";
+                CreateUnit(j, team[k], rand_proper, rand_adj);
                 k++;
             }
         }
@@ -250,79 +289,19 @@ public class HexagonMapEditor : MonoBehaviour {
                 for(int i = 0; i < Unit_Meshes.Length; i++)
                 {
                     Unit_Meshes[i].color = Greyed_Unit_Color;
-                    Debug.Log("Color_Changed");
+                    //Debug.Log("Color_Changed");
                 }
             }
         }
 
         if(Input.GetButtonDown("J1 R Bumper"))
         {
-            int unit_to_select_index = 0;
-            StartUnit unit_to_select;
-            switch (currentState)
-            {
-                case (TurnStates.P1_MOVE):
-                    unit_to_select_index = mod(p1_unit_rotation_value, MoveableUnits.Count);
-                    p1_unit_rotation_value = unit_to_select_index;
-                    p1_unit_rotation_value++;
-                    //select indexed unit from moveable units
-                    unit_to_select = MoveableUnits[unit_to_select_index];
-                    //get coordinates of the tile under the selected unit and give them to the cursor
-                    cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
-                    //move the cursor to the position of the newly selected tile/unit
-                    cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
-                    break;
-                case (TurnStates.P2_MOVE):
-                    unit_to_select_index = mod(p2_unit_rotation_value, MoveableUnits.Count);
-                    p2_unit_rotation_value = unit_to_select_index;
-                    p2_unit_rotation_value++;
-                    //select indexed unit from moveable units
-                    unit_to_select = MoveableUnits[unit_to_select_index];
-                    //get coordinates of the tile under the selected unit and give them to the cursor
-                    cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
-                    //move the cursor to the position of the newly selected tile/unit
-                    cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
-                    break;
-
-            }
-            //Debug.Log("P1 Unit To Select Index = " + p1_unit_rotation_value);
-            //Debug.Log("P2 Unit To Select Index = " + p2_unit_rotation_value);
-            Debug.Log("Unit To Select Index = " + unit_to_select_index);
+            Snap_To_Next_Unit(true);
         }
 
         if (Input.GetButtonDown("J1 L Bumper"))
         {
-            int unit_to_select_index = 0;
-            StartUnit unit_to_select;
-            switch (currentState)
-            {
-                case (TurnStates.P1_MOVE):
-                    unit_to_select_index = mod(p1_unit_rotation_value, MoveableUnits.Count);
-                    p1_unit_rotation_value = unit_to_select_index;
-                    p1_unit_rotation_value--;
-                    //select indexed unit from moveable units
-                    unit_to_select = MoveableUnits[unit_to_select_index];
-                    //get coordinates of the tile under the selected unit and give them to the cursor
-                    cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
-                    //move the cursor to the position of the newly selected tile/unit
-                    cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
-                    break;
-                case (TurnStates.P2_MOVE):
-                    unit_to_select_index = mod(p2_unit_rotation_value, MoveableUnits.Count);
-                    p2_unit_rotation_value = unit_to_select_index;
-                    p2_unit_rotation_value--;
-                    //select indexed unit from moveable units
-                    unit_to_select = MoveableUnits[unit_to_select_index];
-                    //get coordinates of the tile under the selected unit and give them to the cursor
-                    cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
-                    //move the cursor to the position of the newly selected tile/unit
-                    cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
-                    break;
-     
-            }
-            //Debug.Log("P1 Unit To Select Index = " + p1_unit_rotation_value);
-            //Debug.Log("P2 Unit To Select Index = " + p2_unit_rotation_value);
-            Debug.Log("Unit To Select Index = " + unit_to_select_index);
+            Snap_To_Next_Unit(false);
         }
     }
 
@@ -331,10 +310,9 @@ public class HexagonMapEditor : MonoBehaviour {
 
         foreach(StartUnit unit in attackingTeam)
         {
-            SelectedUnit = unit;
             unitCell = hexGrid.GetCell(unit.transform.position);
             isUnitSelected = true;
-            StartCoroutine(AttackUnit());
+            StartCoroutine(AttackUnit(unit));
         }
     }
      
@@ -348,21 +326,21 @@ public class HexagonMapEditor : MonoBehaviour {
         }
         else if(!currentCell.occupied && isUnitSelected && !attacking) // a unit is already selected
         {
-            StartCoroutine(MoveUnit(index));//move that selected unit
+            StartCoroutine(MoveUnit(hexGrid.GetCell(SelectedUnit.transform.position),currentCell));//move that selected unit
         }
 
     }
 
-    void HandleAttack() // similar to HandleInput() but for the attack phase only
-    {
-        HexagonCell currentCell = GetCellUnderCursor2D();
-        int index = currentCell.coords.X_coord + currentCell.coords.Z_coord * hexGrid.width + currentCell.coords.Z_coord / 2;
-        if (currentCell.occupied && attacking) // if attacking and cell is occupied
-        {
-            if (!whileAttacking)
-                StartCoroutine(AttackUnit());
-        }
-    }
+    //void HandleAttack() // similar to HandleInput() but for the attack phase only
+    //{
+    //    HexagonCell currentCell = GetCellUnderCursor2D();
+    //    int index = currentCell.coords.X_coord + currentCell.coords.Z_coord * hexGrid.width + currentCell.coords.Z_coord / 2;
+    //    if (currentCell.occupied && attacking) // if attacking and cell is occupied
+    //    {
+    //        if (!whileAttacking)
+    //            StartCoroutine(AttackUnit());
+    //    }
+    //}
 
     void SelectUnit(HexagonCell current, int index) // sets variables to the clicked position's unit
     {
@@ -378,7 +356,10 @@ public class HexagonMapEditor : MonoBehaviour {
 
         if(SelectedUnit.CompareTag("Player 1"))
         {
-            BattleUI_P1.obj_name.text = "" + SelectedUnit.name.ToString();
+            //Change stats and unit info on the UI when unit selected
+            //BattleUI_P1.obj_name.text = "" + SelectedUnit.name.ToString();
+            BattleUI_P1.obj_name.text = SelectedUnit.name;
+            BattleUI_P1.unit_icon.GetComponent<Image>().sprite = SelectedUnit.Icon;
             BattleUI_P1.health_slider.value = SelectedUnit.current_health / SelectedUnit.health;
             BattleUI_P1.health_text.text = "" + (int)SelectedUnit.current_health + "/" + (int)SelectedUnit.health;
             BattleUI_P1.stats.text = "ATK: " + (int)SelectedUnit.current_attack + "\nMOV:" + SelectedUnit.mobility;
@@ -388,7 +369,10 @@ public class HexagonMapEditor : MonoBehaviour {
         
         if(SelectedUnit.CompareTag("Player 2"))
         {
-            BattleUI_P2.obj_name.text = "" + SelectedUnit.name.ToString();
+            //Change stats and unit info on the UI when unit selected
+            //BattleUI_P2.obj_name.text = "" + SelectedUnit.name.ToString();
+            BattleUI_P2.obj_name.text = SelectedUnit.name;
+            BattleUI_P2.unit_icon.GetComponent<Image>().sprite = SelectedUnit.Icon;
             BattleUI_P2.health_slider.value = SelectedUnit.current_health / SelectedUnit.health;
             BattleUI_P2.health_text.text = "" + (int)SelectedUnit.current_health + "/" + (int)SelectedUnit.health;
             BattleUI_P2.stats.text = "ATK: " + (int)SelectedUnit.current_attack + "\nMOV:" + SelectedUnit.mobility;
@@ -414,10 +398,10 @@ public class HexagonMapEditor : MonoBehaviour {
         //BattleUI_P1.stats.text = "HEALTH:\nATTACK:";
     }
 
-    IEnumerator AttackUnit() // port this whole function to start unit class
+    IEnumerator AttackUnit(StartUnit select_unit) // port this whole function to start unit class
     {
         whileAttacking = true;
-        StartCoroutine(SelectedUnit.BasicAttack(hexGrid, unitCell));
+        StartCoroutine(select_unit.BasicAttack(hexGrid, unitCell));
         // List<HexagonCell> targetable = new List<HexagonCell>();
         // foreach(HexagonCell cell in hexGrid.cells)
         // {
@@ -493,7 +477,7 @@ public class HexagonMapEditor : MonoBehaviour {
         else return null;
     }
     
-    void CreateUnit(int index, StartUnit unit)
+    void CreateUnit(int index, StartUnit unit, string proper, string adjective)
     {
         SelectedUnit = Instantiate(unit);
         isUnitSelected = true;
@@ -501,12 +485,15 @@ public class HexagonMapEditor : MonoBehaviour {
         SelectedUnit.transform.position = hexGrid.cells[index].transform.position;
         unitCell.occupied = true;
         unitCell.unitOnTile = SelectedUnit;
+        SelectedUnit.name = SelectedUnit.unit_name + ": " + adjective + " " + proper;
     }
 
-    IEnumerator MoveUnit(int index)
+    IEnumerator MoveUnit(HexagonCell _unitCell, HexagonCell _nextCell)
     {
-
-        int distance = unitCell.coords.FindDistanceTo(hexGrid.cells[index].coords);
+        int distance = hexGrid.GetCell(SelectedUnit.transform.position).coords.FindDistanceTo(cursor.coords);
+        int index = hexGrid.Get_Index(cursor.coords);
+        unitCell = hexGrid.GetCell(SelectedUnit.transform.position);
+        //int distance = unitCell.coords.FindDistanceTo(hexGrid.cells[index].coords);
         //Debug.Log("Distance From: " + unitCell.coords.ToString() + " To: " +
         //hexGrid.cells[index].coords.ToString() +
         //" = " + distance.ToString()); //for debugging distance
@@ -514,12 +501,22 @@ public class HexagonMapEditor : MonoBehaviour {
         {
             StartCoroutine(SelectedUnit.Moving());
             yield return new WaitForSeconds(0.25f);
-            unitCell.occupied = false;
-            unitCell.unitOnTile = null;
+            _unitCell.occupied = false;
+            _unitCell.unitOnTile = null;
             SelectedUnit.transform.position = hexGrid.cells[index].transform.position;
-            unitCell = hexGrid.cells[index];
+            _unitCell = hexGrid.cells[index];
             hexGrid.cells[index].occupied = true;
             hexGrid.cells[index].unitOnTile = SelectedUnit;
+            if(hexGrid.cells[index].tag == "TeamBuff" && hexGrid.cells[index].occupied)
+            {
+               // hexGrid.cells[index].occupied = true;
+               // hexGrid.cells[index].unitOnTile = SelectedUnit;
+                hexGrid.cells[index].GetComponent<TeamPowerupTiles>().is_occupied = true;
+                if (hexGrid.cells[index].unitOnTile.tag == "Player 1")
+                    hexGrid.cells[index].GetComponent<TeamPowerupTiles>().UnitsTeam = P1Team;
+                if(hexGrid.cells[index].unitOnTile.tag == "Player 2")
+                    hexGrid.cells[index].GetComponent<TeamPowerupTiles>().UnitsTeam = P2Team;
+            }
             MoveableUnits.Remove(SelectedUnit);
             Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
             for (int i = 0; i < Unit_Meshes.Length; i++)
@@ -527,7 +524,13 @@ public class HexagonMapEditor : MonoBehaviour {
                 Unit_Meshes[i].color = Greyed_Unit_Color;
                 Debug.Log("Color_Changed");
             }
-
+            DeselectUnit();
+            if(MoveableUnits.Count > 0)
+            {
+                Snap_To_Next_Unit(true);
+                Debug.Log("Snapped");
+            }
+            
         }
         else
         {
@@ -538,5 +541,172 @@ public class HexagonMapEditor : MonoBehaviour {
     int mod(int x, int m)
     {
         return (x % m + m) % m;
+    }
+
+    public void Show_Units_In_Range()
+    {
+        int range = SelectedUnit.attackRange;
+        int width = hexGrid.width;
+        int height = hexGrid.height;
+        
+        for (int i = 0; i < (width * height); i++)
+        {
+            if (hexGrid.cells[i].gameObject.tag != "Wall")
+            {
+
+                if (currentState == TurnStates.P1_MOVE && SelectedUnit.gameObject.CompareTag("Player 1"))
+                {
+                    if (cursor.coords.FindDistanceTo(hexGrid.cells[i].coords) <= range && hexGrid.cells[i].occupied
+                        && hexGrid.cells[i].unitOnTile.gameObject.CompareTag("Player 2"))
+                    {
+                        hexGrid.cells[i].spriteRenderer.color = color_r;
+                    }
+                    else if (hexGrid.cells[i].occupied && hexGrid.cells[i].unitOnTile.gameObject.CompareTag("Player 2"))
+                    {
+                        hexGrid.cells[i].spriteRenderer.color = color_w;
+                    }
+                }
+
+                //Should make editor change a text value so that we dont have to do a text comapare every time
+                else if(currentState == TurnStates.P2_MOVE && SelectedUnit.gameObject.CompareTag("Player 2"))
+                {
+                    if (cursor.coords.FindDistanceTo(hexGrid.cells[i].coords) <= range && hexGrid.cells[i].occupied 
+                        && hexGrid.cells[i].unitOnTile.gameObject.CompareTag("Player 1"))
+                    {
+                        hexGrid.cells[i].spriteRenderer.color = color_r;
+                    }
+                    else if (hexGrid.cells[i].occupied && hexGrid.cells[i].unitOnTile.gameObject.CompareTag("Player 1"))
+                    {
+                        hexGrid.cells[i].spriteRenderer.color = color_w;
+                    }
+                }
+
+            }
+
+        }
+    }
+
+    //fill this out
+    public bool Is_Tile_In_Move_Range()
+    {
+        int move_range = SelectedUnit.mobility;
+        HexagonCell Selected_Unit_Cell = hexGrid.GetCell(SelectedUnit.transform.position);
+        if (Selected_Unit_Cell.coords.FindDistanceTo(cursor.coords) <= move_range)
+        {
+            return true;
+        }
+        return false;      
+    }
+
+    public void Snap_To_First_Unit()
+    {
+        StartUnit unit_to_select;
+        HexagonCell currentCell = hexGrid.Get_Cell_Index(cursor.coords);
+        int unit_to_select_index = 0;
+        int index = 0;
+
+        unit_to_select = MoveableUnits[unit_to_select_index];
+        //get coordinates of the tile under the selected unit and give them to the cursor
+        cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
+        //move the cursor to the position of the newly selected tile/unit
+        cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+        currentCell = hexGrid.Get_Cell_Index(cursor.coords);
+        index = cursor.coords.X_coord + cursor.coords.Z_coord * hexGrid.width + cursor.coords.Z_coord / 2;
+        if (currentCell.occupied) // if clicked and there is a unit there
+        {
+            SelectUnit(currentCell, index); // make the selected unit that unit
+        }
+    }
+
+    public void Snap_To_Next_Unit(bool back_forward)
+    {
+        //add a parameter to determine whether or not to increment unit_to_select_index
+        //add a parameter to determine whether or not you want to go to a specific unit index
+        int unit_to_select_index = 0;
+        StartUnit unit_to_select;
+        HexagonCell currentCell = hexGrid.Get_Cell_Index(cursor.coords);
+        int index = 0;
+
+        if (back_forward)
+        {
+            switch (currentState)
+            {
+                case (TurnStates.P1_MOVE):
+                    unit_to_select_index = mod(p1_unit_rotation_value, MoveableUnits.Count);
+                    p1_unit_rotation_value = unit_to_select_index;
+                    p1_unit_rotation_value++;
+                    //select indexed unit from moveable units
+                    unit_to_select = MoveableUnits[unit_to_select_index];
+                    //get coordinates of the tile under the selected unit and give them to the cursor
+                    cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
+                    //move the cursor to the position of the newly selected tile/unit
+                    cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+                    currentCell = hexGrid.Get_Cell_Index(cursor.coords);
+                    index = cursor.coords.X_coord + cursor.coords.Z_coord * hexGrid.width + cursor.coords.Z_coord / 2;
+                    if (currentCell.occupied) // if clicked and there is a unit there
+                    {
+                        SelectUnit(currentCell, index); // make the selected unit that unit
+                    }
+                    break;
+                case (TurnStates.P2_MOVE):
+                    unit_to_select_index = mod(p2_unit_rotation_value, MoveableUnits.Count);
+                    p2_unit_rotation_value = unit_to_select_index;
+                    p2_unit_rotation_value++;
+                    //select indexed unit from moveable units
+                    unit_to_select = MoveableUnits[unit_to_select_index];
+                    //get coordinates of the tile under the selected unit and give them to the cursor
+                    cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
+                    //move the cursor to the position of the newly selected tile/unit
+                    cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+                    currentCell = hexGrid.Get_Cell_Index(cursor.coords);
+                    index = cursor.coords.X_coord + cursor.coords.Z_coord * hexGrid.width + cursor.coords.Z_coord / 2;
+                    if (currentCell.occupied) // if clicked and there is a unit there
+                    {
+                        SelectUnit(currentCell, index); // make the selected unit that unit
+                    }
+                    break;
+            }
+        }
+        else
+        {
+            switch (currentState)
+            {
+                case (TurnStates.P1_MOVE):
+                    unit_to_select_index = mod(p1_unit_rotation_value, MoveableUnits.Count);
+                    p1_unit_rotation_value = unit_to_select_index;
+                    p1_unit_rotation_value--;
+                    //select indexed unit from moveable units
+                    unit_to_select = MoveableUnits[unit_to_select_index];
+                    //get coordinates of the tile under the selected unit and give them to the cursor
+                    cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
+                    //move the cursor to the position of the newly selected tile/unit
+                    cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+                    currentCell = hexGrid.Get_Cell_Index(cursor.coords);
+                    index = cursor.coords.X_coord + cursor.coords.Z_coord * hexGrid.width + cursor.coords.Z_coord / 2;
+                    if (currentCell.occupied) // if clicked and there is a unit there
+                    {
+                        SelectUnit(currentCell, index); // make the selected unit that unit
+                    }
+                    break;
+                case (TurnStates.P2_MOVE):
+                    unit_to_select_index = mod(p2_unit_rotation_value, MoveableUnits.Count);
+                    p2_unit_rotation_value = unit_to_select_index;
+                    p2_unit_rotation_value--;
+                    //select indexed unit from moveable units
+                    unit_to_select = MoveableUnits[unit_to_select_index];
+                    //get coordinates of the tile under the selected unit and give them to the cursor
+                    cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
+                    //move the cursor to the position of the newly selected tile/unit
+                    cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+                    currentCell = hexGrid.Get_Cell_Index(cursor.coords);
+                    index = cursor.coords.X_coord + cursor.coords.Z_coord * hexGrid.width + cursor.coords.Z_coord / 2;
+                    if (currentCell.occupied) // if clicked and there is a unit there
+                    {
+                        SelectUnit(currentCell, index); // make the selected unit that unit
+                    }
+                    break;
+            }
+        }
+        
     }
 }
