@@ -17,8 +17,6 @@ public class HexagonMapEditor : MonoBehaviour {
     public GameObject UI_Turn;
     public BattleUI BattleUI_P1;
     public BattleUI BattleUI_P2;
-    public BattleUI BattleUI_P1_Hover;
-    public BattleUI BattleUI_P2_Hover;
     public BattleUI BattleUI_Turn;
     public Color32 P1_Color;
     public Color32 P2_Color;
@@ -28,6 +26,11 @@ public class HexagonMapEditor : MonoBehaviour {
     public Cursor cursor;
     private int p1_unit_rotation_value;
     private int p2_unit_rotation_value;
+    [SerializeField]
+    public List<Image> P1_Unit_Icons = new List<Image>();
+    [SerializeField]
+    public List<Image> P2_Unit_Icons = new List<Image>();
+
 
     public List<StartUnit> Player1Chosen = new List<StartUnit>();
     public List<StartUnit> Player2Chosen = new List<StartUnit>();
@@ -77,12 +80,10 @@ public class HexagonMapEditor : MonoBehaviour {
 
         BattleUI_P1 = UI_P1_Sel.GetComponent<BattleUI>();
         BattleUI_P2 = UI_P2_Sel.GetComponent<BattleUI>();
-        BattleUI_P1_Hover = UI_P1_Hov.GetComponent<BattleUI>();
-        BattleUI_P2_Hover = UI_P2_Hov.GetComponent<BattleUI>();
+        
         BattleUI_P1.Hide();
         BattleUI_P2.Hide();
-        BattleUI_P1_Hover.Hide();
-        BattleUI_P2_Hover.Hide();
+        
         BattleUI_Turn = UI_Turn.GetComponent<BattleUI>();
 
         if (initializing) // stop loop if already doing it
@@ -135,7 +136,7 @@ public class HexagonMapEditor : MonoBehaviour {
                 }
                 //UI.turn.text = "TURN:PLAYER 1";
                 
-                BattleUI_Turn.turn.text = "TURN:PLAYER 1";
+                BattleUI_Turn.turn.text = "PLAYER 1";
                 BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P1_Color;
                 MovePhase(PlayerInfo.player1);
                 //MovePhase();
@@ -174,7 +175,7 @@ public class HexagonMapEditor : MonoBehaviour {
                 //UI.turn.text = "TURN:PLAYER 2";
                 
 
-                BattleUI_Turn.turn.text = "TURN:PLAYER 2";
+                BattleUI_Turn.turn.text = "PLAYER 2";
                 BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P2_Color;
                 if (PlayerInfo.one_player)
                     MovePhase(PlayerInfo.player1);
@@ -375,8 +376,7 @@ public class HexagonMapEditor : MonoBehaviour {
             Assign_BUI_Var(BattleUI_P1);
             BattleUI_P1.Show();
             BattleUI_P2.Hide();
-            BattleUI_P1_Hover.Hide();
-            BattleUI_P2_Hover.Hide();
+            
         }
         
         if(SelectedUnit.CompareTag("Player 2"))
@@ -385,9 +385,8 @@ public class HexagonMapEditor : MonoBehaviour {
             //BattleUI_P2.obj_name.text = "" + SelectedUnit.name.ToString();
             Assign_BUI_Var(BattleUI_P2);
             BattleUI_P2.Show();
-            BattleUI_P2.Hide();
-            BattleUI_P1_Hover.Hide();
-            BattleUI_P2_Hover.Hide();
+            BattleUI_P1.Hide();
+            
         }
         //hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
         //UI.obj_name.text =  "UNIT:"+ SelectedUnit.name.ToString();
@@ -496,6 +495,7 @@ public class HexagonMapEditor : MonoBehaviour {
         unitCell.occupied = true;
         unitCell.unitOnTile = SelectedUnit;
         SelectedUnit.unit_name = "" + adjective + " " + proper;
+        SelectedUnit.Unit_Stats_Panel.GetComponent<BattleUI>().Hide();
     }
 
     IEnumerator MoveUnit(HexagonCell _unitCell, HexagonCell _nextCell)
@@ -617,9 +617,11 @@ public class HexagonMapEditor : MonoBehaviour {
 
         unit_to_select = MoveableUnits[unit_to_select_index];
         //get coordinates of the tile under the selected unit and give them to the cursor
-        cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
+        //cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
         //move the cursor to the position of the newly selected tile/unit
-        cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+        //cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+        HexagonCoord _new_coord = HexagonCoord.FromPosition(unit_to_select.transform.position);
+        cursor.Assign_Position(hexGrid.Get_Cell_Index(_new_coord).gameObject.transform.position, _new_coord);
         currentCell = hexGrid.Get_Cell_Index(cursor.coords);
         index = cursor.coords.X_coord + cursor.coords.Z_coord * hexGrid.width + cursor.coords.Z_coord / 2;
         if (currentCell.occupied) // if clicked and there is a unit there
@@ -632,23 +634,25 @@ public class HexagonMapEditor : MonoBehaviour {
     public void Assign_BUI_Var(BattleUI _UI)
     {
         _UI.obj_name.text = SelectedUnit.unit_name;
-        _UI.obj_type.text = SelectedUnit.unit_type;
         _UI.unit_icon.GetComponent<Image>().sprite = SelectedUnit.Icon;
-        _UI.health_slider.value = SelectedUnit.current_health / SelectedUnit.health;
-        _UI.health_text.text = "" + (int)SelectedUnit.current_health + "/" + (int)SelectedUnit.health;
-        _UI.stats.text = "ATK: " + (int)SelectedUnit.current_attack + "\nMOV:" + SelectedUnit.mobility;
-        _UI.stats_2.text = "RNG: " + SelectedUnit.attackRange + "\nCRIT:" + (int)SelectedUnit.crit;
+        _UI.health_Bar.GetComponent<Image>().fillAmount = SelectedUnit.current_health / SelectedUnit.health;
+    }
+
+    public void Assign_Stats_Var(BattleUI _UI, StartUnit _unit)
+    {
+        _UI.obj_name.text = _unit.unit_name;
+        _UI.obj_type.text = _unit.unit_type;
+        _UI.stats_atk.text = "ATK: " + (int)_unit.current_attack;
+        _UI.stats_mov.text = "MOV: " + _unit.mobility;
+        _UI.stats_crit.text = "CRIT: " + (int)_unit.crit + "%";
+        _UI.stats_range.text = "RNG: " + _unit.attackRange;
     }
 
     public void Assign_BUI_Var(BattleUI _UI, StartUnit _unit)
     {
         _UI.obj_name.text = _unit.unit_name;
-        _UI.obj_type.text = _unit.unit_type;
         _UI.unit_icon.GetComponent<Image>().sprite = _unit.Icon;
-        _UI.health_slider.value = _unit.current_health / _unit.health;
-        _UI.health_text.text = "" + (int)_unit.current_health + "/" + (int)_unit.health;
-        _UI.stats.text = "ATK: " + (int)_unit.current_attack + "\nMOV:" + _unit.mobility;
-        _UI.stats_2.text = "RNG: " + _unit.attackRange + "\nCRIT:" + (int)_unit.crit;
+        _UI.health_Bar.GetComponent<Image>().fillAmount = _unit.current_health / _unit.health;
     }
 
     public void Snap_To_Next_Unit(bool back_forward)
@@ -659,6 +663,7 @@ public class HexagonMapEditor : MonoBehaviour {
         StartUnit unit_to_select;
         HexagonCell currentCell = hexGrid.Get_Cell_Index(cursor.coords);
         int index = 0;
+        HexagonCoord _new_coord;
 
         if (back_forward)
         {
@@ -671,9 +676,11 @@ public class HexagonMapEditor : MonoBehaviour {
                     //select indexed unit from moveable units
                     unit_to_select = MoveableUnits[unit_to_select_index];
                     //get coordinates of the tile under the selected unit and give them to the cursor
-                    cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
+                    //cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
                     //move the cursor to the position of the newly selected tile/unit
-                    cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+                    //cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+                    _new_coord = HexagonCoord.FromPosition(unit_to_select.transform.position);
+                    cursor.Assign_Position(hexGrid.Get_Cell_Index(_new_coord).gameObject.transform.position, _new_coord);
                     currentCell = hexGrid.Get_Cell_Index(cursor.coords);
                     index = cursor.coords.X_coord + cursor.coords.Z_coord * hexGrid.width + cursor.coords.Z_coord / 2;
                     if (currentCell.occupied) // if clicked and there is a unit there
@@ -689,9 +696,11 @@ public class HexagonMapEditor : MonoBehaviour {
                     //select indexed unit from moveable units
                     unit_to_select = MoveableUnits[unit_to_select_index];
                     //get coordinates of the tile under the selected unit and give them to the cursor
-                    cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
+                    //cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
                     //move the cursor to the position of the newly selected tile/unit
-                    cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+                    //cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+                    _new_coord = HexagonCoord.FromPosition(unit_to_select.transform.position);
+                    cursor.Assign_Position(hexGrid.Get_Cell_Index(_new_coord).gameObject.transform.position, _new_coord);
                     currentCell = hexGrid.Get_Cell_Index(cursor.coords);
                     index = cursor.coords.X_coord + cursor.coords.Z_coord * hexGrid.width + cursor.coords.Z_coord / 2;
                     if (currentCell.occupied) // if clicked and there is a unit there
@@ -713,9 +722,11 @@ public class HexagonMapEditor : MonoBehaviour {
                     //select indexed unit from moveable units
                     unit_to_select = MoveableUnits[unit_to_select_index];
                     //get coordinates of the tile under the selected unit and give them to the cursor
-                    cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
+                    //cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
                     //move the cursor to the position of the newly selected tile/unit
-                    cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+                    //cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+                    _new_coord = HexagonCoord.FromPosition(unit_to_select.transform.position);
+                    cursor.Assign_Position(hexGrid.Get_Cell_Index(_new_coord).gameObject.transform.position, _new_coord);
                     currentCell = hexGrid.Get_Cell_Index(cursor.coords);
                     index = cursor.coords.X_coord + cursor.coords.Z_coord * hexGrid.width + cursor.coords.Z_coord / 2;
                     if (currentCell.occupied) // if clicked and there is a unit there
@@ -731,9 +742,11 @@ public class HexagonMapEditor : MonoBehaviour {
                     //select indexed unit from moveable units
                     unit_to_select = MoveableUnits[unit_to_select_index];
                     //get coordinates of the tile under the selected unit and give them to the cursor
-                    cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
+                    //cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
                     //move the cursor to the position of the newly selected tile/unit
-                    cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+                    //cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+                    _new_coord = HexagonCoord.FromPosition(unit_to_select.transform.position);
+                    cursor.Assign_Position(hexGrid.Get_Cell_Index(_new_coord).gameObject.transform.position, _new_coord);
                     currentCell = hexGrid.Get_Cell_Index(cursor.coords);
                     index = cursor.coords.X_coord + cursor.coords.Z_coord * hexGrid.width + cursor.coords.Z_coord / 2;
                     if (currentCell.occupied) // if clicked and there is a unit there

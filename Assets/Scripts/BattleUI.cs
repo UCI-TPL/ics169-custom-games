@@ -6,8 +6,13 @@ using UnityEngine.UI;
 public class BattleUI : MonoBehaviour {
 
     public Text obj_name;
+    public Text stats_atk;
+    public Text stats_range;
+    public Text stats_crit;
+    public Text stats_mov;
     public Text stats;
     public Text turn;
+    public GameObject health_Bar;
     public Slider health_slider;
     public Text health_text;
     public Image unit_icon;

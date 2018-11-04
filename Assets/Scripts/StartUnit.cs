@@ -25,6 +25,7 @@ public class StartUnit : MonoBehaviour {
     public GameObject health_bar;
     Animator anim;
     public HexagonMapEditor editor;
+    public GameObject Unit_Stats_Panel;
 
 
     //Attack, Hit, and Move sounds

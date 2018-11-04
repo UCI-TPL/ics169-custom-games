@@ -5,6 +5,7 @@ using UnityEngine;
 public class Cursor : MonoBehaviour {
     public GameObject point;
     public HexagonCoord coords;
+    public HexagonCoord prev_coords;
     public Grid _Grid;
     private float time = 0.0f;
     public float time_increment = 0.5f;
@@ -110,6 +111,8 @@ public class Cursor : MonoBehaviour {
         //Deal with indexing errors by checking len of cell array.
         //When going up or down on the stick just go in the y then z.
 
+        prev_coords = coords;
+
         int prev_coord_x = coords.X_coord;
         int prev_coord_z = coords.Z_coord;
 
@@ -174,27 +177,16 @@ public class Cursor : MonoBehaviour {
         if (editor.isUnitSelected)
         {
             editor.Show_Units_In_Range();
-            if (_Grid.Get_Cell_Index(coords).unitOnTile != null && editor.SelectedUnit != _Grid.Get_Cell_Index(coords).unitOnTile)
+            //add to if statement if you dont want the same unit to pop up in both
+            //&& editor.SelectedUnit != _Grid.Get_Cell_Index(coords).unitOnTile
+            if (_Grid.Get_Cell_Index(coords).unitOnTile != null )
             {
                 StartUnit _tileUnit = _Grid.Get_Cell_Index(coords).unitOnTile;
-                if (_tileUnit.CompareTag("Player 1"))
-                {
-                    editor.Assign_BUI_Var(editor.BattleUI_P1_Hover, _tileUnit);
-                    editor.BattleUI_P1_Hover.Show();
-                    editor.BattleUI_P2_Hover.Hide();
-                }
-                else
-                {
-                    editor.Assign_BUI_Var(editor.BattleUI_P2_Hover, _tileUnit);
-                    editor.BattleUI_P2_Hover.Show();
-                    editor.BattleUI_P1_Hover.Hide();
-                }
-
-            }
-            else
-            {
-                editor.BattleUI_P1_Hover.Hide();
-                editor.BattleUI_P1_Hover.Hide();
+                
+                BattleUI _tileUnit_UI = _tileUnit.Unit_Stats_Panel.GetComponent<BattleUI>();
+                editor.Assign_Stats_Var(_tileUnit_UI, _tileUnit);
+                _tileUnit_UI.Show();
+                    
             }
         }
         else
@@ -202,26 +194,16 @@ public class Cursor : MonoBehaviour {
             if (_Grid.Get_Cell_Index(coords).unitOnTile != null)
             {
                 StartUnit _tileUnit = _Grid.Get_Cell_Index(coords).unitOnTile;
-                if (_tileUnit.CompareTag("Player 1"))
-                {
-                    editor.Assign_BUI_Var(editor.BattleUI_P1, _tileUnit);
-                    editor.BattleUI_P1.Show();
-                    editor.BattleUI_P2.Hide();
-                }
-                else
-                {
-                    editor.Assign_BUI_Var(editor.BattleUI_P2, _tileUnit);
-                    editor.BattleUI_P2.Show();
-                    editor.BattleUI_P1.Hide();
-                }
+
+                BattleUI _tileUnit_UI = _tileUnit.Unit_Stats_Panel.GetComponent<BattleUI>();
+                editor.Assign_Stats_Var(_tileUnit_UI, _tileUnit);
+                _tileUnit_UI.Show();
 
             }
-            else
-            {
-                editor.BattleUI_P1.Hide();
-                editor.BattleUI_P1.Hide();
-            }
         }
+
+        Hide_Prev_UI();
+        
 
         
 
@@ -229,6 +211,25 @@ public class Cursor : MonoBehaviour {
         //Debug.Log("Current Y " + coords.Y_coord);
         //Debug.Log("Current Z " + coords.Z_coord);
         //Debug.Log(_Grid.Get_Cell_Index(coords).gameObject.transform.position);
+    }
+
+    public void Assign_Position (Vector3 _new_position, HexagonCoord _new_coord)
+    {
+        gameObject.transform.position = _new_position;
+        prev_coords = coords;
+        coords = _new_coord;
+        Hide_Prev_UI();
+
+    }
+
+    private void Hide_Prev_UI()
+    {
+        if (_Grid.Get_Cell_Index(prev_coords).unitOnTile != null)
+        {
+            StartUnit _tileUnit = _Grid.Get_Cell_Index(prev_coords).unitOnTile;
+            BattleUI _tileUnit_UI = _tileUnit.Unit_Stats_Panel.GetComponent<BattleUI>();
+            _tileUnit_UI.Hide();
+        }
     }
 }
 
