@@ -26,8 +26,8 @@ public class PlayerInformation : MonoBehaviour
     public List<StartUnit> PoolUnits = new List<StartUnit>(); // random  pool of units
     private float p1ScrollTime;
     private float p2ScrollTime;
-    private int p1ScrollValue;
-    private int p2ScrollValue;
+    public int p1ScrollValue;
+    public int p2ScrollValue;
 
     public int p1Cost = 15;
     public int p2Cost = 15;
@@ -41,7 +41,9 @@ public class PlayerInformation : MonoBehaviour
     public bool nextScene = false;
     private bool doSelect = false;
 
-    private enum DraftStates
+    public DraftUI draftUI;
+
+    public enum DraftStates
     {
         Initialize,
         P1_Pick_1,
@@ -53,7 +55,7 @@ public class PlayerInformation : MonoBehaviour
         Enter_Battle
     }
 
-    [SerializeField] private DraftStates currentState = DraftStates.Initialize;
+    [SerializeField] public DraftStates currentState = DraftStates.Initialize;
 
     //____________________________________________shortcuts______________________________________
     public bool one_player;
@@ -72,10 +74,6 @@ public class PlayerInformation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("J2 A Button"))
-            Debug.Log("A2");
-        if (Input.GetButtonDown("J1 A Button"))
-            Debug.Log("A1");
         current_scene = SceneManager.GetActiveScene(); // terrible coding fix later
         if (current_scene.name == "CMapping")
         {
@@ -97,23 +95,27 @@ public class PlayerInformation : MonoBehaviour
                     if (!doSelect)
                     {
                         doSelect = true;
-                        display = GameObject.Find("Text").GetComponent<Text>();
+                        //display = GameObject.Find("Pool Text").GetComponent<Text>();
                         if (pool)
                         {
                             RandomPool();
                         }
-                        p1Text = GameObject.Find("Player1Text").GetComponent<Text>();
-                        p2Text = GameObject.Find("Player2Text").GetComponent<Text>();
+                        //p1Text = GameObject.Find("Player1Text").GetComponent<Text>();
+                        //p2Text = GameObject.Find("Player2Text").GetComponent<Text>();
                         currentState = DraftStates.P1_Pick_1;
                     }
                     break;
                 case (DraftStates.P1_Pick_1):
-                    if (Player1Chosen.Count == 1 && one_player)
+                    if (Player1Chosen.Count == 1)
                     {
-                        if(one_player)
+                        draftUI.P1Pick1();
+                        if (one_player)
                             currentState = DraftStates.P1_Pick_2;
                         else
+                        {
+                            draftUI.ChangePlayer();
                             currentState = DraftStates.P2_Pick_1;
+                        }
                     }
                     if (pool)
                         CheckPool();
@@ -121,8 +123,13 @@ public class PlayerInformation : MonoBehaviour
                     DraftPick("P1");
                     break;
                 case (DraftStates.P2_Pick_1):
-                    if (Player2Chosen.Count == 2)
+                    if(Player2Chosen.Count == 1)
                     {
+                        draftUI.P2Pick1();
+                    }
+                    else if (Player2Chosen.Count == 2)
+                    {
+                        draftUI.P2Pick2();
                         currentState = DraftStates.P1_Pick_2;
                     }
                     if (pool)
@@ -135,8 +142,13 @@ public class PlayerInformation : MonoBehaviour
                     {
                         currentState = DraftStates.P2_Pick_2;
                     }
-                    if (Player1Chosen.Count == 3)
+                    if(Player1Chosen.Count == 2)
                     {
+                        draftUI.P1Pick2();
+                    }
+                    else if (Player1Chosen.Count == 3)
+                    {
+                        draftUI.P1Pick3();
                         if(one_player)
                             currentState = DraftStates.P1_Pick_3;
                         else
@@ -144,6 +156,7 @@ public class PlayerInformation : MonoBehaviour
                             currentState = DraftStates.P2_Pick_2;
                         }
                     }
+
                     if (pool)
                         CheckPool();
                     ChooseCharacter("P1");
@@ -219,7 +232,7 @@ public class PlayerInformation : MonoBehaviour
         {
             result += AllP1Units[k].name + " x" + counts[k] + "\n";
         }
-        display.text = result;
+        //display.text = result;
     }
 
     public void RandomPool()
@@ -309,12 +322,12 @@ public class PlayerInformation : MonoBehaviour
                 if (value > 0.0f)
                 {
                     p1ScrollValue = ChangeCharacter(p1ScrollValue, 1);
-                    p1Text.text = AllP1Units[p1ScrollValue].name;
+                    //p1Text.text = AllP1Units[p1ScrollValue].name;
                 }
                 else
                 {
                     p1ScrollValue = ChangeCharacter(p1ScrollValue, -1);
-                    p1Text.text = AllP1Units[p1ScrollValue].name;
+                    //p1Text.text = AllP1Units[p1ScrollValue].name;
                 }
             }
         }
@@ -328,12 +341,12 @@ public class PlayerInformation : MonoBehaviour
                 if (value > 0.0f)
                 {
                     p2ScrollValue = ChangeCharacter(p2ScrollValue, 1);
-                    p2Text.text = AllP1Units[p2ScrollValue].name;
+                    //p2Text.text = AllP1Units[p2ScrollValue].name;
                 }
                 else
                 {
                     p2ScrollValue = ChangeCharacter(p2ScrollValue, -1);
-                    p2Text.text = AllP1Units[p2ScrollValue].name;
+                    //p2Text.text = AllP1Units[p2ScrollValue].name;
                 }
             }
         }
@@ -367,28 +380,26 @@ public class PlayerInformation : MonoBehaviour
         }
         if(team == "P2")
         {
-            if (!one_player)
+            if (Input.GetButton(player2 + "A Button") && p2PickTime <= Time.time)
             {
-            	if (Input.GetButton(player2 + "A Button") && p2PickTime <= Time.time)
-            	{
-	                p2PickTime = Time.time + 1f;
-	                if (p2Cost - AllP2Units[p2ScrollValue].cost >= 0)
-	                {
-	                    Player2Chosen.Add(AllP2Units[p2ScrollValue]);
-	                    p2Cost -= AllP2Units[p2ScrollValue].cost;
-	                }
-	                else
-	                {
-	                    Debug.Log("unit cost too much");
-	                    return;
-	                }
-	                if (pool)
-	                {
-	                    PoolUnits.Remove(AllP1Units[p2ScrollValue]);
-	                    CheckUnits();
-	                }
-            	}
+	            p2PickTime = Time.time + 1f;
+	            if (p2Cost - AllP2Units[p2ScrollValue].cost >= 0)
+	            {
+	                Player2Chosen.Add(AllP2Units[p2ScrollValue]);
+	                p2Cost -= AllP2Units[p2ScrollValue].cost;
+	            }
+	            else
+	            {
+	                Debug.Log("unit cost too much");
+	                return;
+	            }
+	            if (pool)
+	            {
+	                PoolUnits.Remove(AllP1Units[p2ScrollValue]);
+	                CheckUnits();
+	            }
             }
+            
         }
 
 
