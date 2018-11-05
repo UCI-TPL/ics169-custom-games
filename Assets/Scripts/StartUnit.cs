@@ -43,8 +43,12 @@ public class StartUnit : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(dead)
-            StartCoroutine(Dead());
+        if (dead)
+        {
+            //StartCoroutine(Dead());
+            this.gameObject.SetActive(false);
+        }
+            
 	}
 
     IEnumerator Dead()

@@ -30,6 +30,10 @@ public class HexagonMapEditor : MonoBehaviour {
     public List<Image> P1_Unit_Icons = new List<Image>();
     [SerializeField]
     public List<Image> P2_Unit_Icons = new List<Image>();
+    public GameObject P1_portrait_UI;
+    public GameObject P2_portrait_UI;
+    public Team_Portrait_UI P1_Team_portrait_UI;
+    public Team_Portrait_UI P2_Team_portrait_UI;
 
 
     public List<StartUnit> Player1Chosen = new List<StartUnit>();
@@ -76,7 +80,8 @@ public class HexagonMapEditor : MonoBehaviour {
         initializing = true;
 
         //UI = GetComponentInChildren<BattleUI>();
-
+        P1_Team_portrait_UI = P1_portrait_UI.GetComponent<Team_Portrait_UI>();
+        P2_Team_portrait_UI = P2_portrait_UI.GetComponent<Team_Portrait_UI>();
 
         BattleUI_P1 = UI_P1_Sel.GetComponent<BattleUI>();
         BattleUI_P2 = UI_P2_Sel.GetComponent<BattleUI>();
@@ -105,7 +110,8 @@ public class HexagonMapEditor : MonoBehaviour {
             p1_unit_rotation_value = 0;
         }
         //StartCoroutine(InitializingTeams());
-
+        P1_Team_portrait_UI.Initialize_Portraits(P1Team);
+        P2_Team_portrait_UI.Initialize_Portraits(P2Team);
     }
 
     // Update is called once per frame
@@ -154,6 +160,7 @@ public class HexagonMapEditor : MonoBehaviour {
                         Snap_To_First_Unit();
                         p2_unit_rotation_value = 0;
                     }
+                    P2_Team_portrait_UI.Update_Portraits();
                 }
                 break;
             case (TurnStates.P2_MOVE):
@@ -196,6 +203,7 @@ public class HexagonMapEditor : MonoBehaviour {
                         Snap_To_First_Unit();
                         p1_unit_rotation_value = 0;
                     }
+                    P1_Team_portrait_UI.Update_Portraits();
                 }
 
                 break;

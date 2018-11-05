@@ -219,6 +219,10 @@ public class Cursor : MonoBehaviour {
         prev_coords = coords;
         coords = _new_coord;
         Hide_Prev_UI();
+        StartUnit _tileUnit = _Grid.Get_Cell_Index(coords).unitOnTile;
+        BattleUI _tileUnit_UI = _tileUnit.Unit_Stats_Panel.GetComponent<BattleUI>();
+        editor.Assign_Stats_Var(_tileUnit_UI, _tileUnit);
+        _tileUnit_UI.Show();
 
     }
 
