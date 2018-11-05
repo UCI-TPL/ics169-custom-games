@@ -91,7 +91,7 @@ public class StartUnit : MonoBehaviour {
             //if (targetable[rand_index].unitOnTile.current_attack > 10)
             //{
             float percenthealth = targetable[rand_index].unitOnTile.current_health / targetable[rand_index].unitOnTile.health;
-            if(targetable[rand_index].unitOnTile.current_attack * percenthealth <= 10)
+            if(targetable[rand_index].unitOnTile.current_attack * percenthealth > 10)
                 targetable[rand_index].unitOnTile.current_attack *= percenthealth;
             //}
 

@@ -10,7 +10,7 @@ public class Grid : MonoBehaviour {
     // variables
     public int width = 10;
     public int height = 10;
-    public Sprite Wall, AttackBuff, Healthbuff, MobilityBuff, CritBuff, AttackRangebuff;
+    public Sprite Wall, AttackBuff, Healthbuff, MobilityBuff, CritBuff, AttackRangebuff, SlowingTile, Water;
 
     //Grid Details
     HexagonCell[] result;
@@ -18,21 +18,31 @@ public class Grid : MonoBehaviour {
 
     List<int> wall_list2 = new List<int>() { 18, 23, 24, 36, 42, 47, 52, 57, 63, 69,
                                              75, 76, 81 , 89, 90, 103, 115, 123, 136,
-                                             147, 148, 149, 150, 151, 163, 167, 168,
-                                             169, 170, 171, 172, 181, 186, 187, 188, 189,
-                                             190, 191, 192, 196, 197, 202, 203, 207, 208,
-                                             209, 210, 211, 212, 218, 227, 228, 229, 230,
-                                             231, 236, 263, 275, 284, 289, 290, 295, 309,
-                                             318, 323, 324, 335, 342, 347, 352, 357, 363,
+                                             163, 181, 196, 197, 202, 203, 218, 236,
+                                             263, 275, 284, 295, 309, 310, 318, 323,
+                                             324, 330, 335, 342, 347, 352, 357, 363,
                                              375, 376, 381};
 
+    List<int> water2 = new List<int> {    147, 148, 149, 150, 151,
+                                        167, 168, 169, 170, 171, 172,
+                                      186, 187, 188, 190, 191, 192,
+                                        207, 208, 209, 210, 211, 212,
+                                          227, 228, 229, 230, 231};
+
     List<int> powerlist1 = new List<int>() { 18, 81 };
-    List<int> powerlist2 = new List<int>() { };
+    List<int> powerlist2 = new List<int>() { 182, 189, 217};
+
+    List<int> hazards2 = new List<int> { 37, 58, 77, 78, 127, 128, 129,
+                                         130, 131, 132, 146, 152, 162,
+                                         166, 173, 183, 185, 193, 206,
+                                         213, 216, 226, 232, 237, 247,
+                                         248, 249, 250, 251, 252,
+                                         321, 322, 341,362};
 
     // prefabs cell and cellLabel should be children of grid
     public HexagonCell cellPrefab;
 
-    public Text cellLabelPrefab;
+    //public Text cellLabelPrefab;
 
     public Color defaultColor = Color.white;
     public Color touchedColor = Color.cyan;
@@ -68,10 +78,10 @@ public class Grid : MonoBehaviour {
         cell.spriteRenderer.color = defaultColor;
         //cell.color = defaultColor;
 
-        Text label = Instantiate<Text>(cellLabelPrefab);
-        label.rectTransform.SetParent(gridCanvas.transform);
-        label.rectTransform.anchoredPosition = new Vector2(position.x, position.y);
-        label.text = cell.coords.ToStringSeparateLines();
+        //Text label = Instantiate<Text>(cellLabelPrefab);
+        //label.rectTransform.SetParent(gridCanvas.transform);
+        //label.rectTransform.anchoredPosition = new Vector2(position.x, position.y);
+        //label.text = cell.coords.ToStringSeparateLines();
 
     }
 
@@ -157,7 +167,7 @@ public class Grid : MonoBehaviour {
                 CreateCell(a, b, c++);
             }
         }
-        result = ChangeHexInfo(cells, wall_list2, powerlist2);
+        result = ChangeHexInfo(cells, wall_list2, powerlist2, hazards2, water2);
         //}
 
         //if(randmap == 2)
@@ -181,7 +191,7 @@ public class Grid : MonoBehaviour {
         return result;
     }
 
-    public HexagonCell[] ChangeHexInfo(HexagonCell[] cells_, List<int> hexlist_, List<int> powercells_)
+    public HexagonCell[] ChangeHexInfo(HexagonCell[] cells_, List<int> hexlist_, List<int> powercells_, List<int> hazards_, List<int> water_)
     {
         if (hexlist_.Count != 0)
         {
@@ -190,8 +200,10 @@ public class Grid : MonoBehaviour {
                 cells_[hexlist_[i]].gameObject.tag = "Wall";
                 cells_[hexlist_[i]].gameObject.GetComponent<PolygonCollider2D>().enabled = false;
                 cells_[hexlist_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = Wall;
+                cells_[hexlist_[i]].gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
             }
         }
+
         if (powercells_.Count != 0)
         {
             for (int i = 0; i < powercells_.Count; i++)
@@ -201,29 +213,49 @@ public class Grid : MonoBehaviour {
                 cells_[powercells_[i]].tag = "TeamBuff";
                 if (randval == 1)
                 {
-                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = AttackBuff;
+                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = AttackBuff; //Need attack buff sprite
                     cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().attackBuff = true;
                 }
                 if (randval == 2)
                 {
-                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = Healthbuff;
+                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = Healthbuff; //Need health buff sprite
                     cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().healthBuff = true;
                 }
                 if (randval == 3)
                 {
-                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = MobilityBuff;
+                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = MobilityBuff; //Need mobility buff sprite
                     cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().mobilityBuff = true;
                 }
                 if (randval == 4)
                 {
-                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = CritBuff;
+                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = CritBuff; // Need crit buff sprite
                     cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().critBuff = true;
                 }
                 if (randval == 5)
                 {
-                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = AttackRangebuff;
+                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = AttackRangebuff; //Need Range buff sprite
                     cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().attackrangeBuff = true;
                 }
+            }
+        }
+
+        if (hazards_.Count != 0)
+        {
+        for (int i = 0; i < hazards_.Count; i++)
+            {
+                cells_[hazards_[i]].gameObject.tag = "SlowingTile";
+                cells_[hazards_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = SlowingTile;
+                cells_[hazards_[i]].gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+            }
+        }
+
+        if(water_.Count != 0)
+        {
+            for( int i = 0; i < water_.Count; i++)
+            {
+                cells_[water_[i]].gameObject.tag = "Water";
+                cells_[water_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = Water;
+                cells_[water_[i]].gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
             }
         }
         return cells_;
