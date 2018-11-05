@@ -1145,14 +1145,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obj_name: {fileID: 114961160248165764}
+  stats_atk: {fileID: 114661575195134468}
+  stats_range: {fileID: 114276070052492424}
+  stats_crit: {fileID: 114017089539877812}
+  stats_mov: {fileID: 114942334635220974}
   stats: {fileID: 0}
   turn: {fileID: 0}
+  health_Bar: {fileID: 0}
   health_slider: {fileID: 0}
   health_text: {fileID: 0}
   unit_icon: {fileID: 0}
   unit_info_Image: {fileID: 0}
   turn_info_Image: {fileID: 0}
   stats_2: {fileID: 0}
+  obj_type: {fileID: 114503396724760936}
 --- !u!114 &114359407175558922
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1345,7 +1351,6 @@ MonoBehaviour:
   attack: 120
   basedmg: 0
   crit: 0.15
-  cost: 0
   miss: 0
   crit_multiplier: 0
   Icon: {fileID: 21300000, guid: b7f0290fa4b4741ec8efe37b7b3bbc5a, type: 3}
@@ -1356,6 +1361,7 @@ MonoBehaviour:
   dead: 0
   health_bar: {fileID: 1120239106346668}
   editor: {fileID: 0}
+  Unit_Stats_Panel: {fileID: 1331089018926080}
   attackSound: {fileID: 82891241096889004, guid: 76402ca71f14e4a4f8239d28e6a56cba,
     type: 2}
   hitSound: {fileID: 82071043335846120, guid: b940d0e74336c47459290f7c2b37e9d3, type: 2}
