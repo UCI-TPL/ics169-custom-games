@@ -27,7 +27,8 @@ public class DraftUI : MonoBehaviour {
     public Image P2Choice6;
     public Image P2Choice7;
 
-    private Color baby_blue = new Color(0.49f,0.74f,1f);
+    public Color baby_blue = new Color(0.49f,0.74f,1f);
+    public bool blinking = false;
 
     private void Awake()
     {
@@ -35,9 +36,9 @@ public class DraftUI : MonoBehaviour {
         playerinfo.draftUI = this;
     }
 
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
         //ChangePlayer();
         StartUnit temp = playerinfo.AllP1Units[playerinfo.p1ScrollValue];
         P1CostText.text = "Cost: " + playerinfo.p1Cost.ToString();
@@ -46,10 +47,51 @@ public class DraftUI : MonoBehaviour {
         UnitIcon.sprite = temp.Icon;
         StatText.text = "Hlth:" + temp.health.ToString("000") + "\t Att:" + temp.attack.ToString("000")
             + "\nRange:" + temp.attackRange + "\t Move:" + temp.mobility;
-        if(playerinfo.pool)
+        if (playerinfo.pool)
         {
             PoolText.text = "x" + CheckPool().ToString();
         }
+        //switch (playerinfo.currentState)
+        //{
+        //    case (PlayerInformation.DraftStates.P1_Pick_1):
+        //        if (!blinking)
+        //        {
+        //            StartCoroutine(Blink(P1Choice1));
+        //        }
+        //        break;
+        //    case (PlayerInformation.DraftStates.P1_Pick_2):
+        //        if (playerinfo.Player1Chosen.Count == 1)
+        //        {
+        //            P1Choice2.color = baby_blue;
+        //            if (!blinking)
+        //            {
+        //                StartCoroutine(Blink(P1Choice2));
+        //            }
+        //        }
+        //        if(playerinfo.Player1Chosen.Count == 2)
+        //        {
+        //            P1Choice2.color = baby_blue;
+        //            if (!blinking)
+        //            {
+        //                StartCoroutine(Blink(P1Choice3));
+        //            }
+        //        }
+        //        break;
+        //}
+
+    }
+
+    public IEnumerator Blink(Image i)
+    {
+        Debug.Log("blink");
+        i.enabled = false;
+        blinking = true;
+        yield return new WaitForSeconds(0.25f);
+        i.enabled = true;
+        yield return new WaitForSeconds(0.25f);
+        blinking = false;
+
+
     }
 
     private int CheckPool()
@@ -69,16 +111,19 @@ public class DraftUI : MonoBehaviour {
     {
         P1Choice1.sprite = playerinfo.Player1Chosen[0].Icon;
         P1Choice1.color = Color.white;
+        P1Choice1.enabled = true;
     }
     public void P1Pick2()
     {
         P1Choice2.sprite = playerinfo.Player1Chosen[1].Icon;
         P1Choice2.color = Color.white;
+        P1Choice2.enabled = true;
     }
     public void P1Pick3()
     {
         P1Choice3.sprite = playerinfo.Player1Chosen[2].Icon;
         P1Choice3.color = Color.white;
+        P1Choice3.enabled = true;
     }
     public void P1Pick4()
     {
