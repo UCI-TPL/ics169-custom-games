@@ -7,17 +7,25 @@ public class DraftUI : MonoBehaviour {
     private PlayerInformation playerinfo;
     public Text P1CostText; //done
     public Text P2CostText; //done
-    public Text PoolText;
+    public Text PoolText; //done
     public Text PChoice; //done
-    public Text StatText;
+    public Text StatText; //done
     public Image Panel; //done
-    public Image UnitIcon;
+    public Image UnitIcon; //done but could be better
     public Image P1Choice1; //done
     public Image P1Choice2; //done
     public Image P1Choice3; //done
+    public Image P1Choice4; //done
+    public Image P1Choice5; //done
+    public Image P1Choice6;
+    public Image P1Choice7;
     public Image P2Choice1; //done
     public Image P2Choice2; //done
     public Image P2Choice3; //done
+    public Image P2Choice4; //done
+    public Image P2Choice5; //done
+    public Image P2Choice6;
+    public Image P2Choice7;
 
     private void Awake()
     {
@@ -32,10 +40,27 @@ public class DraftUI : MonoBehaviour {
         StartUnit temp = playerinfo.AllP1Units[playerinfo.p1ScrollValue];
         P1CostText.text = "Cost: " + playerinfo.p1Cost.ToString();
         P2CostText.text = "Cost: " + playerinfo.p2Cost.ToString();
-        PChoice.text = temp.name;
+        PChoice.text = temp.name + "  /  Cost:" + temp.cost;
         UnitIcon.sprite = temp.Icon;
-        StatText.text = "Health:" + temp.health.ToString("000") + "\t Attack:" + temp.attack.ToString("000") + "\t Cost:" + temp.cost.ToString("0")
-            + "\nRange:" + temp.attackRange + "\t Mobility:" + temp.mobility;
+        StatText.text = "Hlth:" + temp.health.ToString("000") + "\t Att:" + temp.attack.ToString("000")
+            + "\nRange:" + temp.attackRange + "\t Move:" + temp.mobility;
+        if(playerinfo.pool)
+        {
+            PoolText.text = "x" + CheckPool().ToString();
+        }
+    }
+
+    private int CheckPool()
+    {
+        int count = 0;
+        for (int j = 0; j < playerinfo.PoolUnits.Count; j++)
+        {
+    
+            if ( playerinfo.AllP1Units[playerinfo.p1ScrollValue]  == playerinfo.PoolUnits[j])
+                count++;
+            
+        }
+        return count;
     }
 
     public void P1Pick1()
@@ -53,6 +78,16 @@ public class DraftUI : MonoBehaviour {
         P1Choice3.sprite = playerinfo.Player1Chosen[2].Icon;
         P1Choice3.color = Color.white;
     }
+    public void P1Pick4()
+    {
+        P1Choice4.sprite = playerinfo.Player1Chosen[3].Icon;
+        P1Choice4.color = Color.white;
+    }
+    public void P1Pick5()
+    {
+        P1Choice5.sprite = playerinfo.Player1Chosen[4].Icon;
+        P1Choice5.color = Color.white;
+    }
 
     public void P2Pick1()
     {
@@ -68,6 +103,16 @@ public class DraftUI : MonoBehaviour {
     {
         P2Choice3.sprite = playerinfo.Player2Chosen[2].Icon;
         P2Choice3.color = Color.white;
+    }
+    public void P2Pick4()
+    {
+        P2Choice4.sprite = playerinfo.Player2Chosen[3].Icon;
+        P2Choice4.color = Color.white;
+    }
+    public void P2Pick5()
+    {
+        P2Choice5.sprite = playerinfo.Player2Chosen[4].Icon;
+        P2Choice5.color = Color.white;
     }
 
     public void ChangePlayer()

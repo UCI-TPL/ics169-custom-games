@@ -181,8 +181,13 @@ public class PlayerInformation : MonoBehaviour
                     {
                         currentState = DraftStates.Enter_Battle;
                     }
+                    if(Player1Chosen.Count == 4)
+                    {
+                        draftUI.P1Pick4();
+                    }
                     if (Player1Chosen.Count == 5)
                     {
+                        draftUI.P1Pick5();
                         if(one_player)
                             currentState = DraftStates.Enter_Battle;
                         else
@@ -200,8 +205,13 @@ public class PlayerInformation : MonoBehaviour
                     {
                         currentState = DraftStates.Enter_Battle;
                     }
+                    if(Player2Chosen.Count == 4)
+                    {
+                        draftUI.P2Pick4();
+                    }
                     if (Player2Chosen.Count == 5) 
                     {
+                        draftUI.P2Pick5();
                         currentState = DraftStates.Enter_Battle;
                     }
                     if (pool)
