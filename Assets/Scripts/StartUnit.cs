@@ -28,7 +28,6 @@ public class StartUnit : MonoBehaviour {
     public GameObject health_bar;
     Animator anim;
     public HexagonMapEditor editor;
-    public GameObject Unit_Stats_Panel;
 
 
     //Attack, Hit, and Move sounds
@@ -53,12 +52,8 @@ public class StartUnit : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (dead)
-        {
-            //StartCoroutine(Dead());
-            this.gameObject.SetActive(false);
-        }
-            
+        if(dead)
+            StartCoroutine(Dead());
 	}
 
     IEnumerator Dead()
