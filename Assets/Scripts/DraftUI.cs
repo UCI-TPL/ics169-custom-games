@@ -27,6 +27,8 @@ public class DraftUI : MonoBehaviour {
     public Image P2Choice6;
     public Image P2Choice7;
 
+    private Color baby_blue = new Color(0.49f,0.74f,1f);
+
     private void Awake()
     {
         playerinfo = GameObject.FindObjectOfType<PlayerInformation>();
