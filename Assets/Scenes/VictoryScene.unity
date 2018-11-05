@@ -823,7 +823,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: ef4d7d93c29ef41219a2f64daaa2397b, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 0ec4e4e82127d49c88c5dd8b936555cf, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.1
   m_Pitch: 1
@@ -1027,6 +1027,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   b: {fileID: 939765130}
   name: MainMenu
+  click: {fileID: 0}
 --- !u!4 &1687518117
 Transform:
   m_ObjectHideFlags: 0
