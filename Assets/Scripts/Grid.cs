@@ -38,6 +38,8 @@ public class Grid : MonoBehaviour {
                                          213, 216, 226, 232, 237, 247,
                                          248, 249, 250, 251, 252,
                                          321, 322, 341,362};
+    List<int> hazards = new List<int>() { };
+    List<int> water = new List<int>() { };
 
     // prefabs cell and cellLabel should be children of grid
     public HexagonCell cellPrefab;
@@ -150,7 +152,7 @@ public class Grid : MonoBehaviour {
         //        CreateCell(a, b, c++);
         //    }
         //}
-        //result = ChangeHexInfo(cells, wall_list1, powerlist1);
+        //result = ChangeHexInfo(cells, wall_list1, powerlist1, hazards, water);
         //}
 
         //if(randmap == 1)

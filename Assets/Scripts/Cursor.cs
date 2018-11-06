@@ -2,25 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cursor : MonoBehaviour {
+public class Cursor : MonoBehaviour
+{
     public GameObject point;
     public HexagonCoord coords;
+    public HexagonCoord prev_coords;
     public Grid _Grid;
     private float time = 0.0f;
     public float time_increment = 0.5f;
     private bool cascade_dir;
     public HexagonMapEditor editor;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         point = GameObject.Find("Point");
         coords.x = 0;
         coords.z = 0;
         cascade_dir = false;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         //Debug.Log(Input.GetButtonDown("J1 X Button"));
         //transform.position += new Vector3(Input.GetAxis("J1 Left Horizontal"), -Input.GetAxis("J1 Left Vertical"), 0) * Time.deltaTime * 90;
         float H_Axis = Input.GetAxis("J1 Left Horizontal");
@@ -28,7 +32,7 @@ public class Cursor : MonoBehaviour {
 
         if (Time.time >= time)
         {
-            
+
             if ((Mathf.Pow(H_Axis, 2) + Mathf.Pow(V_Axis, 2)) <= 0.08f)
             {
                 //Dead Zone
@@ -106,9 +110,12 @@ public class Cursor : MonoBehaviour {
         }
     }
 
-    private void _Move(string dir, int sign) {
+    private void _Move(string dir, int sign)
+    {
         //Deal with indexing errors by checking len of cell array.
         //When going up or down on the stick just go in the y then z.
+
+        prev_coords = coords;
 
         int prev_coord_x = coords.X_coord;
         int prev_coord_z = coords.Z_coord;
@@ -163,7 +170,7 @@ public class Cursor : MonoBehaviour {
                 coords.z = prev_coord_z;
             }
         }
-        catch(System.IndexOutOfRangeException e)
+        catch (System.IndexOutOfRangeException e)
         {
             coords.x = prev_coord_x;
             coords.z = prev_coord_z;
@@ -174,12 +181,63 @@ public class Cursor : MonoBehaviour {
         if (editor.isUnitSelected)
         {
             editor.Show_Units_In_Range();
+            //add to if statement if you dont want the same unit to pop up in both
+            //&& editor.SelectedUnit != _Grid.Get_Cell_Index(coords).unitOnTile
+            if (_Grid.Get_Cell_Index(coords).unitOnTile != null)
+            {
+                StartUnit _tileUnit = _Grid.Get_Cell_Index(coords).unitOnTile;
+
+                BattleUI _tileUnit_UI = _tileUnit.Unit_Stats_Panel.GetComponent<BattleUI>();
+                editor.Assign_Stats_Var(_tileUnit_UI, _tileUnit);
+                _tileUnit_UI.Show();
+
+            }
         }
+        else
+        {
+            if (_Grid.Get_Cell_Index(coords).unitOnTile != null)
+            {
+                StartUnit _tileUnit = _Grid.Get_Cell_Index(coords).unitOnTile;
+
+                BattleUI _tileUnit_UI = _tileUnit.Unit_Stats_Panel.GetComponent<BattleUI>();
+                editor.Assign_Stats_Var(_tileUnit_UI, _tileUnit);
+                _tileUnit_UI.Show();
+
+            }
+        }
+
+        Hide_Prev_UI();
+
+
+
 
         //Debug.Log("Current X " + coords.X_coord);
         //Debug.Log("Current Y " + coords.Y_coord);
         //Debug.Log("Current Z " + coords.Z_coord);
         //Debug.Log(_Grid.Get_Cell_Index(coords).gameObject.transform.position);
+    }
+
+    public void Assign_Position(Vector3 _new_position, HexagonCoord _new_coord)
+    {
+        gameObject.transform.position = _new_position;
+        prev_coords = coords;
+        coords = _new_coord;
+        Hide_Prev_UI();
+        StartUnit _tileUnit = _Grid.Get_Cell_Index(coords).unitOnTile;
+        BattleUI _tileUnit_UI = _tileUnit.Unit_Stats_Panel.GetComponent<BattleUI>();
+        editor.Assign_Stats_Var(_tileUnit_UI, _tileUnit);
+        _tileUnit_UI.Show();
+
+    }
+
+    private void Hide_Prev_UI()
+    {
+        if (_Grid.Get_Cell_Index(prev_coords).unitOnTile != null)
+        {
+            StartUnit _tileUnit = _Grid.Get_Cell_Index(prev_coords).unitOnTile;
+            BattleUI _tileUnit_UI = _tileUnit.Unit_Stats_Panel.GetComponent<BattleUI>();
+            _tileUnit_UI.Hide();
+        }
     }
 }
 
