@@ -80,24 +80,18 @@ public class StartUnit : MonoBehaviour
             float miss_chance = Random.value;
             float damage = current_attack;
             int dmg_txt = 0;
-
-            if (miss_chance < miss)
-                damage = 0;
-
-            if (miss != 0)
-            {
-                if (crit_chance < crit)
-                    damage = current_attack * crit_multiplier;
-                dmg_txt = (int)damage;
-            }
+            if (crit_chance < crit)
+                damage = current_attack * crit_multiplier;
+            dmg_txt = (int)damage;
+            
 
             if (targetable[rand_index].unitOnTile.FloatingTextPrefab)
             {
                 GameObject damagetext = Instantiate(targetable[rand_index].unitOnTile.FloatingTextPrefab, targetable[rand_index].unitOnTile.transform.position, Quaternion.identity, transform);
-                if (damage == 0)
-                    damagetext.GetComponent<TextMesh>().text = "MISS";
-                if(damage != 0)
-                    damagetext.GetComponent<TextMesh>().text = dmg_txt.ToString();
+               // if (damage == 0)
+               //     damagetext.GetComponent<TextMesh>().text = "MISS";
+               // if(damage != 0)
+                damagetext.GetComponent<TextMesh>().text = dmg_txt.ToString();
                 if (damagetext.transform.localScale.x == -1)
                     damagetext.gameObject.transform.localScale = new Vector3(1,0,0);
             }

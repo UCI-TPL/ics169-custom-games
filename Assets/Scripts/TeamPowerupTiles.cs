@@ -10,7 +10,7 @@ public class TeamPowerupTiles : MonoBehaviour {
     // Use this for initialization
     void Start () {
         discovered = false;
-        mobility = UnitonTile.mobility;
+        //mobility = UnitonTile.mobility;
 
 	}
 	
@@ -66,28 +66,27 @@ public class TeamPowerupTiles : MonoBehaviour {
         discovered = false;
     }
 
-    void Debuff()
-    {
-        if (discovered && UnitonTile != null)
-        {
-            if (grassDebuff)
-            {
-                if (UnitonTile.mobility - 1 < 1)
-                    UnitonTile.mobility = 1;
-                else
-                    UnitonTile.mobility = mobility - 1;
-                discovered = false;
-            }
+    //void Debuff()
+    //{
+    //    if (discovered && UnitonTile != null)
+    //    {
+    //        if (grassDebuff)
+    //        {
+    //            if (UnitonTile.mobility - 1 < 1)
+    //                UnitonTile.mobility = 1;
+    //            else
+    //                UnitonTile.mobility = mobility - 1;
+    //            discovered = false;
+    //        }
 
-            if (waterDebuff)
-            {
-                if (UnitonTile.mobility - 2 < 0)
-                    UnitonTile.mobility = 1;
-                else
-                    UnitonTile.mobility = mobility - 2;
-                discovered = false;
-            }
-        }
-
-    }
+    //        if (waterDebuff)
+    //        {
+    //            if (UnitonTile.mobility - 2 < 0)
+    //                UnitonTile.mobility = 1;
+    //            else
+    //                UnitonTile.mobility = mobility - 2;
+    //            discovered = false;
+    //        }
+    //    }
+    //}
 }
