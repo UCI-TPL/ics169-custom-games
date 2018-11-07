@@ -10,7 +10,7 @@ public class Grid : MonoBehaviour {
     // variables
     public int width = 10;
     public int height = 10;
-    public Sprite Floor, Wall, AttackBuff, Healthbuff, MobilityBuff, CritBuff, AttackRangebuff, SlowingTile, Water;
+    public Sprite Wall, AttackBuff, Healthbuff, MobilityBuff, CritBuff, AttackRangebuff, SlowingTile, Water, PoweredDown;
 
     //Grid Details
     HexagonCell[] result;
@@ -203,7 +203,7 @@ public class Grid : MonoBehaviour {
                 cells_[hexlist_[i]].gameObject.tag = "Wall";
                 cells_[hexlist_[i]].gameObject.GetComponent<PolygonCollider2D>().enabled = false;
                 cells_[hexlist_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = Wall;
-                cells_[hexlist_[i]].gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
+              //  cells_[hexlist_[i]].gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
             }
         }
 
@@ -249,7 +249,7 @@ public class Grid : MonoBehaviour {
                 cells_[hazards_[i]].gameObject.tag = "SlowingTile";
                 cells_[hazards_[i]].gameObject.AddComponent<TeamPowerupTiles>();
                 cells_[hazards_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = SlowingTile;
-                cells_[hazards_[i]].gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+               // cells_[hazards_[i]].gameObject.GetComponent<SpriteRenderer>().color = Color.green;
             }
         }
 
@@ -260,7 +260,7 @@ public class Grid : MonoBehaviour {
                 cells_[water_[i]].gameObject.tag = "Water";
                 cells_[water_[i]].gameObject.AddComponent<TeamPowerupTiles>();
                 cells_[water_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = Water;
-                cells_[water_[i]].gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+              //  cells_[water_[i]].gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
             }
         }
         return cells_;
