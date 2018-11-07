@@ -24,24 +24,46 @@ public class TeamPowerupTiles : MonoBehaviour {
     {
         if (discovered == true)
         {
-            for(int i = 0; i < UnitsTeam.Count; i++)
+            if (attackBuff)
             {
-                if (attackBuff)
+                for (int i = 0; i < UnitsTeam.Count; i++)
+                {
                     UnitsTeam[i].attack += 20;
-                if (healthBuff)
+                }
+            }
+            if (healthBuff)
+            {
+                for (int i = 0; i < UnitsTeam.Count; i++)
+                {
                     UnitsTeam[i].health += 100;
-                if (mobilityBuff)
+                }
+            }
+            if (mobilityBuff)
+            {
+                for (int i = 0; i < UnitsTeam.Count; i++)
+                {
                     UnitsTeam[i].mobility += 1;
-                if (critBuff)
+                }
+            }
+            if (critBuff)
+            {
+                for (int i = 0; i < UnitsTeam.Count; i++)
+                {
                     UnitsTeam[i].crit += .2f;
-                if (attackrangeBuff)
+                }
+            }
+            if (attackrangeBuff)
+            {
+                for (int i = 0; i < UnitsTeam.Count; i++)
+                {
                     UnitsTeam[i].attackRange += 1;
+                }
             }
             this.gameObject.tag = "Floor";
-            this.gameObject.GetComponent<SpriteRenderer>().sprite = this.gameObject.GetComponent<Grid>().Floor;
+            this.gameObject.GetComponent<SpriteRenderer>().sprite = this.gameObject.GetComponent<Grid>().PoweredDown;
             this.gameObject.GetComponent<TeamPowerupTiles>().enabled = !this.gameObject.GetComponent<TeamPowerupTiles>().enabled;
         }
-        //is_occupied = false;
+        discovered = false;
     }
 
     void Debuff()
