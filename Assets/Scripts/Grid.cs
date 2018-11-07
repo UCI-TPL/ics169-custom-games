@@ -10,7 +10,7 @@ public class Grid : MonoBehaviour {
     // variables
     public int width = 10;
     public int height = 10;
-    public Sprite Wall, AttackBuff, Healthbuff, MobilityBuff, CritBuff, AttackRangebuff, SlowingTile, Water;
+    public Sprite Floor, Wall, AttackBuff, Healthbuff, MobilityBuff, CritBuff, AttackRangebuff, SlowingTile, Water;
 
     //Grid Details
     HexagonCell[] result;
@@ -78,6 +78,7 @@ public class Grid : MonoBehaviour {
         cell.transform.localPosition = position;
         cell.coords = HexagonCoord.FromOffsetCoordinates(a, b);
         cell.spriteRenderer.color = defaultColor;
+        cell.tag = "Floor";
         //cell.color = defaultColor;
 
         //Text label = Instantiate<Text>(cellLabelPrefab);
@@ -246,6 +247,7 @@ public class Grid : MonoBehaviour {
         for (int i = 0; i < hazards_.Count; i++)
             {
                 cells_[hazards_[i]].gameObject.tag = "SlowingTile";
+                cells_[hazards_[i]].gameObject.AddComponent<TeamPowerupTiles>();
                 cells_[hazards_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = SlowingTile;
                 cells_[hazards_[i]].gameObject.GetComponent<SpriteRenderer>().color = Color.green;
             }
@@ -256,6 +258,7 @@ public class Grid : MonoBehaviour {
             for( int i = 0; i < water_.Count; i++)
             {
                 cells_[water_[i]].gameObject.tag = "Water";
+                cells_[water_[i]].gameObject.AddComponent<TeamPowerupTiles>();
                 cells_[water_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = Water;
                 cells_[water_[i]].gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
             }

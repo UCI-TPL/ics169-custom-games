@@ -535,7 +535,7 @@ public class HexagonMapEditor : MonoBehaviour
             {
                 // hexGrid.cells[index].occupied = true;
                 // hexGrid.cells[index].unitOnTile = SelectedUnit;
-                hexGrid.cells[index].GetComponent<TeamPowerupTiles>().is_occupied = true;
+                hexGrid.cells[index].GetComponent<TeamPowerupTiles>().discovered = true;
                 if (hexGrid.cells[index].unitOnTile.tag == "Player 1")
                     hexGrid.cells[index].GetComponent<TeamPowerupTiles>().UnitsTeam = P1Team;
                 if (hexGrid.cells[index].unitOnTile.tag == "Player 2")
