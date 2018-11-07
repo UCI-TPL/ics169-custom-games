@@ -29,8 +29,8 @@ public class PlayerInformation : MonoBehaviour
     public int p1ScrollValue;
     public int p2ScrollValue;
 
-    public int p1Cost = 15;
-    public int p2Cost = 15;
+    public int p1Cost = 2000;
+    public int p2Cost = 2000;
 
     public float p1PickTime;
     public float p2PickTime;

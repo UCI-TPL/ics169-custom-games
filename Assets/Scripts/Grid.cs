@@ -213,6 +213,7 @@ public class Grid : MonoBehaviour {
             {
                 int randval = Random.Range(1, 5);
                 cells_[powercells_[i]].gameObject.AddComponent<TeamPowerupTiles>();
+                cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().PoweredDownSprite = PoweredDown;
                 cells_[powercells_[i]].tag = "TeamBuff";
                 if (randval == 1)
                 {
