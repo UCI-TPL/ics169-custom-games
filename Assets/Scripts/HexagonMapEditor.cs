@@ -297,7 +297,7 @@ public class HexagonMapEditor : MonoBehaviour
     {
         if (!EventSystem.current.IsPointerOverGameObject())
         {
-            if (Input.GetButtonDown(joystick + "X Button"))
+            if (Input.GetButtonDown(joystick + "A Button"))
                 HandleInput();
             if (Input.GetButtonDown(joystick + "B Button"))
             {
@@ -305,7 +305,7 @@ public class HexagonMapEditor : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown(joystick + "A Button"))
+        if (Input.GetButtonDown(joystick + "X Button"))
         {
             if (MoveableUnits.Contains(SelectedUnit))
             {
