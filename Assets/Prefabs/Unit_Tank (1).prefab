@@ -118,8 +118,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4859563598935974}
   - component: {fileID: 114633338791504938}
-  - component: {fileID: 114207389280180398}
   - component: {fileID: 95873254434832844}
+  - component: {fileID: 114207389280180398}
   - component: {fileID: 82206011043883028}
   - component: {fileID: 82130299057365804}
   - component: {fileID: 82582137956987016}
@@ -1169,15 +1169,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ac37cb15116681498736a09e39043bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unit_type: Tank
+  unit_name: 
   mobility: 2
   attackRange: 1
-  health: 360
-  attack: 50
-  basedmg: 0
-  crit: 0.5
-  miss: 0
-  crit_multiplier: 0
+  health: 400
+  attack: 60
+  basedmg: 30
+  crit: 0.1
+  miss: 0.1
+  crit_multiplier: 1.5
   Icon: {fileID: 21300000, guid: 750701238cbf0498fa65b88cbd96cc73, type: 3}
+  cost: 0
   current_health: 0
   current_attack: 0
   FloatingTextPrefab: {fileID: 1120425126322546, guid: 093bcb706ed94e3428f7bd3526dbc7e6,
@@ -1185,6 +1188,7 @@ MonoBehaviour:
   dead: 0
   health_bar: {fileID: 1209233849878768}
   editor: {fileID: 0}
+  Unit_Stats_Panel: {fileID: 0}
   attackSound: {fileID: 82206011043883028}
   hitSound: {fileID: 82130299057365804}
   moveSound: {fileID: 82582137956987016}
