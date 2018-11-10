@@ -27,8 +27,19 @@ public class Cursor : MonoBehaviour
     {
         //Debug.Log(Input.GetButtonDown("J1 X Button"));
         //transform.position += new Vector3(Input.GetAxis("J1 Left Horizontal"), -Input.GetAxis("J1 Left Vertical"), 0) * Time.deltaTime * 90;
-        float H_Axis = Input.GetAxis("J1 Left Horizontal");
-        float V_Axis = Input.GetAxis("J1 Left Vertical");
+        float H_Axis;
+        float V_Axis;
+
+        if (editor.currentState == HexagonMapEditor.TurnStates.P1_MOVE)
+        {
+            H_Axis = Input.GetAxis(editor.PlayerInfo.player1 + "Left Horizontal");
+            V_Axis = Input.GetAxis(editor.PlayerInfo.player1 + "Left Vertical");
+        }
+        else
+        {
+            H_Axis = Input.GetAxis(editor.PlayerInfo.player2 + "Left Horizontal");
+            V_Axis = Input.GetAxis(editor.PlayerInfo.player2 + "Left Vertical");
+        }
 
         if (Time.time >= time)
         {

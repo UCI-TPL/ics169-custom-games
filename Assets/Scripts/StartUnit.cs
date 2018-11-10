@@ -39,8 +39,8 @@ public class StartUnit : MonoBehaviour
     void Start()
     {
     	attackSound.playOnAwake = false;
-    	hitSoundplayOnAwake = false;
-    	moveSoundplayOnAwake = false;
+    	hitSound.playOnAwake = false;
+    	moveSound.playOnAwake = false;
 
         editor = FindObjectOfType<HexagonMapEditor>();
         anim = GetComponent<Animator>();

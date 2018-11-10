@@ -71,7 +71,7 @@ public class HexagonMapEditor : MonoBehaviour
         END
     }
 
-    [SerializeField] private TurnStates currentState;
+    [SerializeField] public TurnStates currentState;
     private void Awake()
     {
         PlayerInfo = FindObjectOfType<PlayerInformation>();
@@ -319,12 +319,12 @@ public class HexagonMapEditor : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown("J1 R Bumper"))
+        if (Input.GetButtonDown(joystick + "R Bumper"))
         {
             Snap_To_Next_Unit(true);
         }
 
-        if (Input.GetButtonDown("J1 L Bumper"))
+        if (Input.GetButtonDown(joystick + "L Bumper"))
         {
             Snap_To_Next_Unit(false);
         }
