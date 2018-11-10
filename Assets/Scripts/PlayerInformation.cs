@@ -146,7 +146,7 @@ public class PlayerInformation : MonoBehaviour
                     }
                     if(Player1Chosen.Count == 1)
                     {
-                        draftUI.P1Choice2.color = draftUI.baby_blue;
+                        draftUI.P1Choice1.color = draftUI.baby_blue;
                         if(!draftUI.blinking)
                             StartCoroutine(draftUI.Blink(draftUI.P1Choice2));
                     }
@@ -178,15 +178,23 @@ public class PlayerInformation : MonoBehaviour
                     {
                         currentState = DraftStates.P1_Pick_3;
                     }
-                     if (Player1Chosen.Count == 2)
+                     if (Player2Chosen.Count == 2)
                     {
                         draftUI.P2Pick2();
                         draftUI.P2Choice3.color = draftUI.baby_blue;
                         if (!draftUI.blinking)
                             StartCoroutine(draftUI.Blink(draftUI.P2Choice3));
                     }
+                    if (Player2Chosen.Count == 3)
+                    {
+                        draftUI.P2Pick3();
+                        draftUI.P2Choice4.color = draftUI.baby_blue;
+                        if (!draftUI.blinking)
+                            StartCoroutine(draftUI.Blink(draftUI.P2Choice4));
+                    }
                     if (Player2Chosen.Count == 4)
                     {
+                        draftUI.P2Pick4();
                         currentState = DraftStates.P1_Pick_3;
                     }
                     if (pool)
@@ -232,9 +240,18 @@ public class PlayerInformation : MonoBehaviour
                     {
                         currentState = DraftStates.Enter_Battle;
                     }
+                    if(Player2Chosen.Count == 3)
+                    {
+                        draftUI.P2Choice4.color = draftUI.baby_blue;
+                        if (!draftUI.blinking)
+                            StartCoroutine(draftUI.Blink(draftUI.P2Choice4));
+                    }
                     if(Player2Chosen.Count == 4)
                     {
                         draftUI.P2Pick4();
+                        draftUI.P2Choice5.color = draftUI.baby_blue;
+                        if (!draftUI.blinking)
+                            StartCoroutine(draftUI.Blink(draftUI.P2Choice5));
                     }
                     if (Player2Chosen.Count == 5) 
                     {
@@ -379,12 +396,12 @@ public class PlayerInformation : MonoBehaviour
                 p2ScrollTime = Time.time + 0.5f;
                 if (value > 0.0f)
                 {
-                    p2ScrollValue = ChangeCharacter(p2ScrollValue, 1);
+                    p1ScrollValue = ChangeCharacter(p1ScrollValue, 1);
                     //p2Text.text = AllP1Units[p2ScrollValue].name;
                 }
                 else
                 {
-                    p2ScrollValue = ChangeCharacter(p2ScrollValue, -1);
+                    p1ScrollValue = ChangeCharacter(p1ScrollValue, -1);
                     //p2Text.text = AllP1Units[p2ScrollValue].name;
                 }
             }
@@ -422,10 +439,10 @@ public class PlayerInformation : MonoBehaviour
             if (Input.GetButton(player2 + "A Button") && p2PickTime <= Time.time)
             {
 	            p2PickTime = Time.time + 1f;
-	            if (p2Cost - AllP2Units[p2ScrollValue].cost >= 0)
+	            if (p2Cost - AllP2Units[p1ScrollValue].cost >= 0)
 	            {
-	                Player2Chosen.Add(AllP2Units[p2ScrollValue]);
-	                p2Cost -= AllP2Units[p2ScrollValue].cost;
+	                Player2Chosen.Add(AllP2Units[p1ScrollValue]);
+	                p2Cost -= AllP2Units[p1ScrollValue].cost;
 	            }
 	            else
 	            {
@@ -434,7 +451,7 @@ public class PlayerInformation : MonoBehaviour
 	            }
 	            if (pool)
 	            {
-	                PoolUnits.Remove(AllP1Units[p2ScrollValue]);
+	                PoolUnits.Remove(AllP1Units[p1ScrollValue]);
 	                CheckUnits();
 	            }
             }
