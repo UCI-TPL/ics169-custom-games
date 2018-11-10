@@ -38,6 +38,10 @@ public class StartUnit : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+    	attackSound.playOnAwake = false;
+    	hitSoundplayOnAwake = false;
+    	moveSoundplayOnAwake = false;
+
         editor = FindObjectOfType<HexagonMapEditor>();
         anim = GetComponent<Animator>();
         current_health = health;
