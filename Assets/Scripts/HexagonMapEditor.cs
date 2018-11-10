@@ -103,6 +103,8 @@ public class HexagonMapEditor : MonoBehaviour
                 InitialPhase(PlayerInfo.Player2Chosen, 2);
             FindTeam("Player 1"); // find the units for player 1's team
             FindTeam("Player 2"); // "             " for player 2's team
+            P1Team[0].GetComponent<HeroUnit>().BuffTeam("P1");
+            //P2Team[0].GetComponent<HeroUnit>().BuffTeam("P2");
         }
         MoveableUnits = new List<StartUnit>(P1Team); // put player 1's team in since they're going first
         currentState = TurnStates.P1_MOVE;

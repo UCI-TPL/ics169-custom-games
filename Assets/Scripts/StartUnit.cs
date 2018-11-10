@@ -25,7 +25,7 @@ public class StartUnit : MonoBehaviour
     public GameObject FloatingTextPrefab;
     public bool dead = false;
     public GameObject health_bar;
-    Animator anim;
+    public Animator anim;
     public HexagonMapEditor editor;
     public GameObject Unit_Stats_Panel;
 
@@ -36,7 +36,7 @@ public class StartUnit : MonoBehaviour
 
 
     // Use this for initialization
-    void Start()
+    public void Start()
     {
     	attackSound.playOnAwake = false;
     	hitSound.playOnAwake = false;
@@ -49,7 +49,7 @@ public class StartUnit : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         if (dead)
         {
@@ -59,13 +59,13 @@ public class StartUnit : MonoBehaviour
 
     }
 
-    IEnumerator Dead()
+    public IEnumerator Dead()
     {
         yield return new WaitForSeconds(0.5f);
         Destroy(this.gameObject);
     }
 
-    public IEnumerator BasicAttack(Grid hexGrid, HexagonCell unitCell) // return bool yes if dead false if no
+    public virtual IEnumerator BasicAttack(Grid hexGrid, HexagonCell unitCell) // return bool yes if dead false if no
     {
         List<HexagonCell> targetable = new List<HexagonCell>();
         foreach (HexagonCell cell in hexGrid.cells)

@@ -40,7 +40,15 @@ public class DraftUI : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         //ChangePlayer();
-        StartUnit temp = playerinfo.AllP1Units[playerinfo.p1ScrollValue];
+        StartUnit temp;
+        if(playerinfo.currentState == PlayerInformation.DraftStates.P1_Pick_1 || (playerinfo.currentState == PlayerInformation.DraftStates.P2_Pick_1 && playerinfo.Player2Chosen.Count == 0))
+        {
+            temp = playerinfo.HeroUnits[playerinfo.p1ScrollValue];
+        }
+        else
+            temp = playerinfo.AllP1Units[playerinfo.p1ScrollValue];
+
+
         P1CostText.text = "Cost: " + playerinfo.p1Cost.ToString();
         P2CostText.text = "Cost: " + playerinfo.p2Cost.ToString();
         PChoice.text = temp.name + "  /  Cost:" + temp.cost;
@@ -83,15 +91,14 @@ public class DraftUI : MonoBehaviour {
 
     public IEnumerator Blink(Image i)
     {
-        Debug.Log("blink");
+        //Debug.Log("blink");
         i.enabled = false;
         blinking = true;
         yield return new WaitForSeconds(0.25f);
         i.enabled = true;
         yield return new WaitForSeconds(0.25f);
+        Debug.Log("here");
         blinking = false;
-
-
     }
 
     private int CheckPool()
