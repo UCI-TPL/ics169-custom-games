@@ -151,5 +151,6 @@ public class StartUnit : MonoBehaviour
         moveSound.Play(); 
         yield return new WaitForSeconds(0.4f);
         anim.SetBool("Moving", false);
+        moveSound.Stop();
     }
 }
