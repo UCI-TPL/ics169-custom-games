@@ -59,33 +59,6 @@ public class DraftUI : MonoBehaviour {
         {
             PoolText.text = "x" + CheckPool().ToString();
         }
-        //switch (playerinfo.currentState)
-        //{
-        //    case (PlayerInformation.DraftStates.P1_Pick_1):
-        //        if (!blinking)
-        //        {
-        //            StartCoroutine(Blink(P1Choice1));
-        //        }
-        //        break;
-        //    case (PlayerInformation.DraftStates.P1_Pick_2):
-        //        if (playerinfo.Player1Chosen.Count == 1)
-        //        {
-        //            P1Choice2.color = baby_blue;
-        //            if (!blinking)
-        //            {
-        //                StartCoroutine(Blink(P1Choice2));
-        //            }
-        //        }
-        //        if(playerinfo.Player1Chosen.Count == 2)
-        //        {
-        //            P1Choice2.color = baby_blue;
-        //            if (!blinking)
-        //            {
-        //                StartCoroutine(Blink(P1Choice3));
-        //            }
-        //        }
-        //        break;
-        //}
 
     }
 

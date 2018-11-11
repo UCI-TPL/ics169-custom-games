@@ -18,6 +18,7 @@ public class StartUnit : MonoBehaviour
     public float crit_multiplier;
     public Sprite Icon;
     public int cost;
+    public bool direction = true; // right = true, left = false
     //public int attack_loss; // how much attack a unit loses when hit
     //public int check_dmg; // check if dmg is greater than this amount to know if you lower the dmg or not
     public float current_health;
@@ -131,6 +132,55 @@ public class StartUnit : MonoBehaviour
         }
     }
 
+    public IEnumerator HopToPlace(Grid hexGrid, HexagonCell unitCell, int index, int distance)
+    {
+        HexagonCoord current = unitCell.coords;
+        for (int i = 0; i < distance; i++)
+        {
+            List<HexagonCell> possible_moves = new List<HexagonCell>();
+            if(hexGrid.Get_Index(new HexagonCoord(current.x + 1, current.z)) >= 0 && (hexGrid.Get_Index(new HexagonCoord(current.x + 1, current.z)) < hexGrid.width * hexGrid.height))
+                possible_moves.Add(hexGrid.Get_Cell_Index(new HexagonCoord(current.x + 1, current.z))); // right
+            if(hexGrid.Get_Index(new HexagonCoord(current.x, current.z + 1)) >= 0 && (hexGrid.Get_Index(new HexagonCoord(current.x, current.z + 1)) < hexGrid.width * hexGrid.height))
+                possible_moves.Add(hexGrid.Get_Cell_Index(new HexagonCoord(current.x, current.z + 1))); // top right
+            if(hexGrid.Get_Index(new HexagonCoord(current.x - 1, current.z + 1)) >= 0 && (hexGrid.Get_Index(new HexagonCoord(current.x - 1, current.z + 1)) < hexGrid.width * hexGrid.height))
+                possible_moves.Add(hexGrid.Get_Cell_Index(new HexagonCoord(current.x - 1, current.z + 1))); // top left
+            if(hexGrid.Get_Index(new HexagonCoord(current.x - 1, current.z)) >= 0 && (hexGrid.Get_Index(new HexagonCoord(current.x - 1, current.z)) < hexGrid.width * hexGrid.height))
+                possible_moves.Add(hexGrid.Get_Cell_Index(new HexagonCoord(current.x - 1, current.z))); // left
+            if(hexGrid.Get_Index(new HexagonCoord(current.x, current.z - 1)) >= 0 && (hexGrid.Get_Index(new HexagonCoord(current.x, current.z - 1)) < hexGrid.width * hexGrid.height))
+                possible_moves.Add(hexGrid.Get_Cell_Index(new HexagonCoord(current.x, current.z - 1))); // bot left
+            
+            for (int j = 0; j < possible_moves.Count; j++)
+            {
+                //Debug.Log(distance - i);
+                //Debug.Log(possible_moves[j].coords + "is of distance: " + possible_moves[j].coords.FindDistanceTo(hexGrid.cells[index].coords) + "to " + hexGrid.cells[index].coords);
+                if (possible_moves[j].coords.FindDistanceTo(hexGrid.cells[index].coords) < (distance - i))
+                {
+                    if(possible_moves[j].coords.x > current.x || (possible_moves[j].coords.x == current.x && possible_moves[j].coords.z == current.z + 1)) //going right
+                    {
+                        if(!direction) //facing left
+                        {
+                            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                            direction = true;
+                        }
+                    }
+                    else //going left
+                    {
+                        if(direction)
+                        {
+                            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                            direction = false;
+                        }
+                    }
+                    StartCoroutine(Moving());
+                    transform.position = possible_moves[j].transform.position;
+                    current = possible_moves[j].coords;
+                    yield return new WaitForSeconds(1f);
+                    break;
+
+                }
+            }
+        }
+    }
 
     public IEnumerator Attack()
     {
@@ -150,7 +200,6 @@ public class StartUnit : MonoBehaviour
 
     public IEnumerator Moving()
     {
-        //Debug.Log("moving");
         anim.SetBool("Moving", true);
         moveSound.Play(); 
         yield return new WaitForSeconds(0.4f);

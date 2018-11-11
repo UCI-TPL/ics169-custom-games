@@ -525,11 +525,12 @@ public class HexagonMapEditor : MonoBehaviour
         //" = " + distance.ToString()); //for debugging distance
         if (SelectedUnit.mobility >= distance && MoveableUnits.Contains(SelectedUnit))
         {
-            StartCoroutine(SelectedUnit.Moving());
-            yield return new WaitForSeconds(0.25f);
+            StartCoroutine(SelectedUnit.HopToPlace(hexGrid, unitCell, index, distance));
+            //StartCoroutine(SelectedUnit.Moving());
+            yield return new WaitForSeconds((float)distance);
             _unitCell.occupied = false;
             _unitCell.unitOnTile = null;
-            SelectedUnit.transform.position = hexGrid.cells[index].transform.position;
+            //SelectedUnit.transform.position = hexGrid.cells[index].transform.position;
             _unitCell = hexGrid.cells[index];
             hexGrid.cells[index].occupied = true;
             hexGrid.cells[index].unitOnTile = SelectedUnit;

@@ -268,6 +268,7 @@ public class Grid : MonoBehaviour {
 
     public HexagonCell Get_Cell_Index(HexagonCoord coordinates)
     {
+
         int index = coordinates.X_coord + coordinates.Z_coord * width + coordinates.Z_coord / 2;
         return cells[index];
 

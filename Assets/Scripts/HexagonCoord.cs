@@ -26,6 +26,8 @@ public struct HexagonCoord{
         return new HexagonCoord(x - z / 2, z);
     }
 
+  
+
     public override string ToString() // to use for visualization of coordinates
     {
         return "(" + X_coord.ToString() + ", " + Y_coord + ", " + Z_coord + ")";
