@@ -138,6 +138,9 @@ public class StartUnit : MonoBehaviour
         for (int i = 0; i < distance; i++)
         {
             List<HexagonCell> possible_moves = new List<HexagonCell>();
+
+            if ((hexGrid.Get_Index(new HexagonCoord(current.x + 1, current.z - 1)) >= 0) && (hexGrid.Get_Index(new HexagonCoord(current.x + 1, current.z -1)) < hexGrid.width * hexGrid.height))
+                possible_moves.Add(hexGrid.Get_Cell_Index(new HexagonCoord(current.x + 1, current.z - 1))); // bot right
             if(hexGrid.Get_Index(new HexagonCoord(current.x + 1, current.z)) >= 0 && (hexGrid.Get_Index(new HexagonCoord(current.x + 1, current.z)) < hexGrid.width * hexGrid.height))
                 possible_moves.Add(hexGrid.Get_Cell_Index(new HexagonCoord(current.x + 1, current.z))); // right
             if(hexGrid.Get_Index(new HexagonCoord(current.x, current.z + 1)) >= 0 && (hexGrid.Get_Index(new HexagonCoord(current.x, current.z + 1)) < hexGrid.width * hexGrid.height))
