@@ -134,55 +134,36 @@ public class StartUnit : MonoBehaviour
 
     public IEnumerator HopToPlace(Grid hexGrid, HexagonCell unitCell, int index, int distance)
     {
+        
+        Stack<HexagonCell> result = hexGrid.FindPath(unitCell, hexGrid.cells[index]);
+        //Debug.Log(result.Count);
         HexagonCoord current = unitCell.coords;
-        for (int i = 0; i < distance; i++)
+        while(result.Count > 0)
         {
-            List<HexagonCell> possible_moves = new List<HexagonCell>();
-
-            if ((hexGrid.Get_Index(new HexagonCoord(current.x + 1, current.z - 1)) >= 0) && (hexGrid.Get_Index(new HexagonCoord(current.x + 1, current.z -1)) < hexGrid.width * hexGrid.height))
-                possible_moves.Add(hexGrid.Get_Cell_Index(new HexagonCoord(current.x + 1, current.z - 1))); // bot right
-            if(hexGrid.Get_Index(new HexagonCoord(current.x + 1, current.z)) >= 0 && (hexGrid.Get_Index(new HexagonCoord(current.x + 1, current.z)) < hexGrid.width * hexGrid.height))
-                possible_moves.Add(hexGrid.Get_Cell_Index(new HexagonCoord(current.x + 1, current.z))); // right
-            if(hexGrid.Get_Index(new HexagonCoord(current.x, current.z + 1)) >= 0 && (hexGrid.Get_Index(new HexagonCoord(current.x, current.z + 1)) < hexGrid.width * hexGrid.height))
-                possible_moves.Add(hexGrid.Get_Cell_Index(new HexagonCoord(current.x, current.z + 1))); // top right
-            if(hexGrid.Get_Index(new HexagonCoord(current.x - 1, current.z + 1)) >= 0 && (hexGrid.Get_Index(new HexagonCoord(current.x - 1, current.z + 1)) < hexGrid.width * hexGrid.height))
-                possible_moves.Add(hexGrid.Get_Cell_Index(new HexagonCoord(current.x - 1, current.z + 1))); // top left
-            if(hexGrid.Get_Index(new HexagonCoord(current.x - 1, current.z)) >= 0 && (hexGrid.Get_Index(new HexagonCoord(current.x - 1, current.z)) < hexGrid.width * hexGrid.height))
-                possible_moves.Add(hexGrid.Get_Cell_Index(new HexagonCoord(current.x - 1, current.z))); // left
-            if(hexGrid.Get_Index(new HexagonCoord(current.x, current.z - 1)) >= 0 && (hexGrid.Get_Index(new HexagonCoord(current.x, current.z - 1)) < hexGrid.width * hexGrid.height))
-                possible_moves.Add(hexGrid.Get_Cell_Index(new HexagonCoord(current.x, current.z - 1))); // bot left
-            
-            for (int j = 0; j < possible_moves.Count; j++)
+            HexagonCell temp = result.Pop();
+            //Debug.Log(temp.coords);
+            if (temp.coords.x > current.x || (temp.coords.x == current.x && temp.coords.z == current.z + 1)) //going right
             {
-                //Debug.Log(distance - i);
-                //Debug.Log(possible_moves[j].coords + "is of distance: " + possible_moves[j].coords.FindDistanceTo(hexGrid.cells[index].coords) + "to " + hexGrid.cells[index].coords);
-                if (possible_moves[j].coords.FindDistanceTo(hexGrid.cells[index].coords) < (distance - i))
+                if (!direction) //facing left
                 {
-                    if(possible_moves[j].coords.x > current.x || (possible_moves[j].coords.x == current.x && possible_moves[j].coords.z == current.z + 1)) //going right
-                    {
-                        if(!direction) //facing left
-                        {
-                            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-                            direction = true;
-                        }
-                    }
-                    else //going left
-                    {
-                        if(direction)
-                        {
-                            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-                            direction = false;
-                        }
-                    }
-                    StartCoroutine(Moving());
-                    transform.position = possible_moves[j].transform.position;
-                    current = possible_moves[j].coords;
-                    yield return new WaitForSeconds(1f);
-                    break;
-
+                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                    direction = true;
                 }
             }
+            else //going left
+            {
+                if (direction)
+                {
+                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                    direction = false;
+                }
+            }
+            StartCoroutine(Moving());
+            transform.position = temp.transform.position;
+            current = temp.coords;
+            yield return new WaitForSeconds(1f);
         }
+
     }
 
     public IEnumerator Attack()

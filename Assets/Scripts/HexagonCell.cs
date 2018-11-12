@@ -16,6 +16,40 @@ public class HexagonCell : MonoBehaviour {
 
     public SpriteRenderer spriteRenderer;
 
+    public bool traversable = true;
+
+    public HexagonCell PathFrom { get; set; }
+
+    int distance;
+
+    [SerializeField]
+    HexagonCell[] neighbors;
+
+    public int Distance
+    {
+        get
+        {
+            return distance;
+        }
+        set
+        {
+            distance = value;
+            
+        }
+    }
+
+    public int SearchHeuristic { get; set; }
+
+    public int SearchPriority
+    {
+        get
+        {
+            return distance + SearchHeuristic;
+        }
+    }
+
+    public HexagonCell NextWithSamePriority { get; set; }
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -29,6 +63,17 @@ public class HexagonCell : MonoBehaviour {
     private void Update()
     {
         
+    }
+
+    public HexagonCell GetNeighbor(HexagonDirection direction)
+    {
+        return neighbors[(int)direction];
+    }
+
+    public void SetNeighbor(HexagonDirection direction, HexagonCell cell)
+    {
+        neighbors[(int)direction] = cell;
+        cell.neighbors[(int)direction.Opposite()] = this;
     }
 
     public bool Occupied()

@@ -78,6 +78,28 @@ public class Grid : MonoBehaviour {
         cell.transform.localPosition = position;
         cell.coords = HexagonCoord.FromOffsetCoordinates(a, b);
         cell.spriteRenderer.color = defaultColor;
+        if(a > 0)
+        {
+            cell.SetNeighbor(HexagonDirection.W, cells[c - 1]);
+        }
+        if (b > 0)
+        {
+            if ((b & 1) == 0)
+            {
+                cell.SetNeighbor(HexagonDirection.SE, cells[c - width]);
+                if (a > 0)
+                    cell.SetNeighbor(HexagonDirection.SW, cells[c - width - 1]);
+            }
+            else
+            {
+                cell.SetNeighbor(HexagonDirection.SW, cells[c - width]);
+                if(a < width - 1)
+                {
+                    cell.SetNeighbor(HexagonDirection.SE, cells[c - width + 1]);
+                }
+            }
+        }
+    
         cell.tag = "Floor";
         //cell.color = defaultColor;
 
@@ -201,8 +223,10 @@ public class Grid : MonoBehaviour {
             for (int i = 0; i < hexlist_.Count; i++)
             {
                 cells_[hexlist_[i]].gameObject.tag = "Wall";
+                cells_[hexlist_[i]].traversable = false;
                 cells_[hexlist_[i]].gameObject.GetComponent<PolygonCollider2D>().enabled = false;
                 cells_[hexlist_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = Wall;
+                
               //  cells_[hexlist_[i]].gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
             }
         }
@@ -279,5 +303,73 @@ public class Grid : MonoBehaviour {
         int index = coordinates.X_coord + coordinates.Z_coord * width + coordinates.Z_coord / 2;
         return index;
 
+    }
+    public Stack<HexagonCell> FindPath(HexagonCell fromCell, HexagonCell toCell)
+    {
+        StopAllCoroutines();
+        return Search(fromCell, toCell);
+    }
+
+    Stack<HexagonCell> Search (HexagonCell fromCell, HexagonCell toCell)
+    {
+        Stack<HexagonCell> result = new Stack<HexagonCell>();
+        for(int i = 0; i < cells.Length; i++)
+        {
+            cells[i].Distance = int.MaxValue;
+        }
+        //WaitForSeconds delay = new WaitForSeconds(1 / 60f);
+        List<HexagonCell> frontier = new List<HexagonCell>();
+        fromCell.Distance = 0;
+        frontier.Add(fromCell);
+        while (frontier.Count > 0)
+        {
+            //yield return delay;
+            HexagonCell current = frontier[0];
+            frontier.RemoveAt(0);
+
+            if (current == toCell) {
+                Debug.Log(current.Distance);
+                result.Push(toCell);
+                current = current.PathFrom;
+                while(current != fromCell)
+                {
+                    result.Push(current);
+                    current = current.PathFrom;
+                }
+                return result;
+            }
+            for (HexagonDirection d = HexagonDirection.NE; d <= HexagonDirection.NW; d++)
+            {
+                HexagonCell neighbor = current.GetNeighbor(d);
+                if(neighbor == null || neighbor.Distance != int.MaxValue)
+                {
+                    continue;
+                }
+                if(!neighbor.traversable)
+                {
+                    continue;
+                }
+                int distance = current.Distance;
+                /*if(water)
+                 * distance += 3
+                 *else if(grass)
+                 * distance += 2
+                 */
+                distance += 1;
+                if (neighbor.Distance == int.MaxValue)
+                {
+                    neighbor.Distance = distance;
+                    neighbor.PathFrom = current;
+                    frontier.Add(neighbor);
+                }
+                else if(distance < neighbor.Distance)
+                {
+                    neighbor.Distance = distance;
+                    neighbor.PathFrom = current;
+                }
+                frontier.Sort((x,y) => x.Distance.CompareTo(y.Distance));
+            }
+        }
+        return result = new Stack<HexagonCell>();
     }
 }

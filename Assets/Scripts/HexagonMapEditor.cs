@@ -516,8 +516,10 @@ public class HexagonMapEditor : MonoBehaviour
 
     IEnumerator MoveUnit(HexagonCell _unitCell, HexagonCell _nextCell)
     {
-        int distance = hexGrid.GetCell(SelectedUnit.transform.position).coords.FindDistanceTo(cursor.coords);
+        //int distance = hexGrid.GetCell(SelectedUnit.transform.position).coords.FindDistanceTo(cursor.coords);
         int index = hexGrid.Get_Index(cursor.coords);
+        int distance = hexGrid.FindPath(_unitCell, hexGrid.cells[index]).Count;
+        Debug.Log(distance);
         unitCell = hexGrid.GetCell(SelectedUnit.transform.position);
         //int distance = unitCell.coords.FindDistanceTo(hexGrid.cells[index].coords);
         //Debug.Log("Distance From: " + unitCell.coords.ToString() + " To: " +

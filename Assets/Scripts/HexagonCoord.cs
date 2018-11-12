@@ -61,4 +61,9 @@ public struct HexagonCoord{
             (Z_coord < other.Z_coord ? other.Z_coord - Z_coord : Z_coord - other.Z_coord)) / 2;
     }
 
+    public int DistanceTo(HexagonCoord other)
+    {
+        return x < other.x ? other.x - x : x - other.x;
+    }
+
 }
