@@ -111,24 +111,65 @@ public class Grid : MonoBehaviour {
     }
 
 
-    public void ShowPath(HexagonCell current, int mobility, int range,Color color_m, Color color_a)
+    public void ShowPath(HexagonCell current, int mobility, int range,Color color_m, Color color_a) // displays the movement capabilities of a unit using A*
     {
-        for (int i = 0; i < (width * height); i++)
+        List<HexagonCell> frontier = new List<HexagonCell>();
+        for (int i = 0; i < cells.Length; i++)
         {
-            if (cells[i].gameObject.tag != "Wall")
-            {
-                if (current.coords.FindDistanceTo(cells[i].coords) <= mobility)
-                {
-                    cells[i].spriteRenderer.color = color_m;
-                }
-                else
-                {
-                    cells[i].spriteRenderer.color = defaultColor;
-                }
-            }
-
+            cells[i].Distance = int.MaxValue;
         }
-    }
+
+        HexagonCell fromCell = current;
+        fromCell.spriteRenderer.color = color_m;
+        fromCell.Distance = 0;
+        frontier.Add(fromCell);
+        while (frontier.Count > 0)
+        {
+
+            HexagonCell curr = frontier[0];
+            frontier.RemoveAt(0);
+            if (curr.distance == mobility)
+            {
+                curr.spriteRenderer.color = color_m;
+                continue;
+            }
+            for (HexagonDirection d = HexagonDirection.NE; d <= HexagonDirection.NW; d++)
+            {
+                
+                HexagonCell neighbor = curr.GetNeighbor(d);
+                if (neighbor == null || neighbor.Distance != int.MaxValue)
+                {
+                    continue;
+                }
+                if (!neighbor.traversable)
+                {
+                    continue;
+                }
+                int distance = curr.Distance;
+                /*if(water)
+                 * distance += 3
+                 *else if(grass)
+                 * distance += 2
+                 */
+                distance += 1;
+                //if (neighbor.Distance == int.MaxValue)
+                //{
+                //    neighbor.spriteRenderer.color = color_m;
+                //    neighbor.Distance = distance;
+                //    neighbor.PathFrom = curr;
+                //    frontier.Add(neighbor);
+                //}
+                if (distance < neighbor.Distance)
+                {
+                    neighbor.spriteRenderer.color = color_m;
+                    neighbor.Distance = distance;
+                    frontier.Add(neighbor);
+                }
+                frontier.Sort((x, y) => x.Distance.CompareTo(y.Distance));
+            }
+        }
+
+}
 
     public void ClearPath()
     {
@@ -310,25 +351,22 @@ public class Grid : MonoBehaviour {
         return Search(fromCell, toCell);
     }
 
-    Stack<HexagonCell> Search (HexagonCell fromCell, HexagonCell toCell)
+    Stack<HexagonCell> Search (HexagonCell fromCell, HexagonCell toCell) // searrch creates a stack of the shortest path given a to and from tile.  this is used for movement animations
     {
         Stack<HexagonCell> result = new Stack<HexagonCell>();
         for(int i = 0; i < cells.Length; i++)
         {
             cells[i].Distance = int.MaxValue;
         }
-        //WaitForSeconds delay = new WaitForSeconds(1 / 60f);
         List<HexagonCell> frontier = new List<HexagonCell>();
         fromCell.Distance = 0;
         frontier.Add(fromCell);
         while (frontier.Count > 0)
         {
-            //yield return delay;
             HexagonCell current = frontier[0];
             frontier.RemoveAt(0);
 
             if (current == toCell) {
-                Debug.Log(current.Distance);
                 result.Push(toCell);
                 current = current.PathFrom;
                 while(current != fromCell)

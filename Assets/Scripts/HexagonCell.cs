@@ -20,7 +20,7 @@ public class HexagonCell : MonoBehaviour {
 
     public HexagonCell PathFrom { get; set; }
 
-    int distance;
+    public int distance;
 
     [SerializeField]
     HexagonCell[] neighbors;

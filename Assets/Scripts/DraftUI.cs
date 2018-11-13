@@ -70,7 +70,7 @@ public class DraftUI : MonoBehaviour {
         yield return new WaitForSeconds(0.25f);
         i.enabled = true;
         yield return new WaitForSeconds(0.25f);
-        Debug.Log("here");
+        //Debug.Log("here");
         blinking = false;
     }
 
