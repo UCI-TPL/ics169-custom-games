@@ -98,7 +98,6 @@ public class StartUnit : MonoBehaviour
             float miss_chance = Random.value;
             float damage = current_attack;
             int dmg_txt = (int)damage;
-            int dmg_txt = 0;
             bool crit_happened = false;
 
             if (miss_chance <= miss)
@@ -110,6 +109,7 @@ public class StartUnit : MonoBehaviour
             }
                   
             if (targetable[rand_index].unitOnTile.FloatingTextPrefab)
+            {
                 if (crit_chance < crit)
                 {
                     damage = current_attack * crit_multiplier;
@@ -154,16 +154,14 @@ public class StartUnit : MonoBehaviour
                 }
                     
             }
-
-            StartUnit attacked_unit = targetable[rand_index].unitOnTile;
-            attacked_unit.current_health -= damage;
-            
             targetable[rand_index].unitOnTile.current_health -= damage;
             attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
-            float percenthealth = targetable[rand_index].unitOnTile.current_health / targetable[rand_index].unitOnTile.health;
 
-            if (attacked_unit.current_attack*percenthealth > basedmg)
+            if (targetable[rand_index].unitOnTile.current_attack > 10)
+            {
+                float percenthealth = targetable[rand_index].unitOnTile.current_health / targetable[rand_index].unitOnTile.health;
                 targetable[rand_index].unitOnTile.current_attack *= percenthealth;
+            }
 
             //Debug.Log("he dead");
             if (targetable[rand_index].unitOnTile.current_health <= 0)
