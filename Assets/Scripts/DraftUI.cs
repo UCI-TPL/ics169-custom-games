@@ -64,13 +64,11 @@ public class DraftUI : MonoBehaviour {
 
     public IEnumerator Blink(Image i)
     {
-        //Debug.Log("blink");
         i.enabled = false;
         blinking = true;
         yield return new WaitForSeconds(0.25f);
         i.enabled = true;
         yield return new WaitForSeconds(0.25f);
-        //Debug.Log("here");
         blinking = false;
     }
 

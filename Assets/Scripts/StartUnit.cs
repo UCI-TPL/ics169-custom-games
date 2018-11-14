@@ -136,12 +136,10 @@ public class StartUnit : MonoBehaviour
     {
         
         Stack<HexagonCell> result = hexGrid.FindPath(unitCell, hexGrid.cells[index]);
-        //Debug.Log(result.Count);
         HexagonCoord current = unitCell.coords;
         while(result.Count > 0)
         {
             HexagonCell temp = result.Pop();
-            //Debug.Log(temp.coords);
             if (temp.coords.x > current.x || (temp.coords.x == current.x && temp.coords.z == current.z + 1)) //going right
             {
                 if (!direction) //facing left
