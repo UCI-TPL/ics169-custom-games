@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 82706511657254468}
   - component: {fileID: 82331415046952338}
   - component: {fileID: 82958405961245148}
+  - component: {fileID: 114311241617802514}
   m_Layer: 0
   m_Name: Unit_Ranger
   m_TagString: Player 1
@@ -1406,6 +1407,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: CRIT
+--- !u!114 &114311241617802514
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1215226028949906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dc05e1b7170c954cb238105e23bfe33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114319391871981720
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1749,16 +1761,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit_type: Ranger
   unit_name: 
-  mobility: 2
-  attackRange: 3
-  health: 180
-  attack: 72
-  basedmg: 30
-  crit: 0.2
-  miss: 0.2
-  crit_multiplier: 2
+  unit_ID: 3
+  mobility: 0
+  attackRange: 0
+  health: 0
+  attack: 0
+  basedmg: 0
+  crit: 0
+  miss: 0
+  crit_multiplier: 0
   Icon: {fileID: 21300000, guid: 2086ccd06548046d48f57be397fe8b93, type: 3}
-  cost: 400
+  cost: 0
   current_health: 0
   current_attack: 0
   FloatingTextPrefab: {fileID: 1120425126322546, guid: 093bcb706ed94e3428f7bd3526dbc7e6,

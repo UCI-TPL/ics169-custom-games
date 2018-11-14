@@ -1,0 +1,55 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class UnitStats : MonoBehaviour {
+    List<string[]> unit_stats = new List<string[]>();
+
+	// Use this for initialization
+	void Start () {
+        TextAsset stats = Resources.Load<TextAsset>("UnitStats");
+        string[] row_values = stats.text.Split(new char[] { '\n' });
+        for(int i=1; i < row_values.Length; i++)
+        {
+            string[] unit_values = row_values[i].Split(new char[] { ',' });
+            unit_stats.Add(unit_values);
+        }
+
+        if (this.gameObject.GetComponent<StartUnit>().unit_ID == 1)
+        {
+            int.TryParse(unit_stats[0][1], out this.gameObject.GetComponent<StartUnit>().mobility);
+            int.TryParse(unit_stats[0][2], out this.gameObject.GetComponent<StartUnit>().attackRange);
+            float.TryParse(unit_stats[0][3], out this.gameObject.GetComponent<StartUnit>().health);
+            int.TryParse(unit_stats[0][4], out this.gameObject.GetComponent<StartUnit>().attack);
+            int.TryParse(unit_stats[0][5], out this.gameObject.GetComponent<StartUnit>().basedmg);
+            float.TryParse(unit_stats[0][6], out this.gameObject.GetComponent<StartUnit>().crit);
+            float.TryParse(unit_stats[0][1], out this.gameObject.GetComponent<StartUnit>().miss);
+            float.TryParse(unit_stats[0][7], out this.gameObject.GetComponent<StartUnit>().crit_multiplier);
+            int.TryParse(unit_stats[0][8], out this.gameObject.GetComponent<StartUnit>().cost);
+        }
+        if (this.gameObject.GetComponent<StartUnit>().unit_ID == 2)
+        {
+            int.TryParse(unit_stats[1][1], out this.gameObject.GetComponent<StartUnit>().mobility);
+            int.TryParse(unit_stats[1][2], out this.gameObject.GetComponent<StartUnit>().attackRange);
+            float.TryParse(unit_stats[1][3], out this.gameObject.GetComponent<StartUnit>().health);
+            int.TryParse(unit_stats[1][4], out this.gameObject.GetComponent<StartUnit>().attack);
+            int.TryParse(unit_stats[1][5], out this.gameObject.GetComponent<StartUnit>().basedmg);
+            float.TryParse(unit_stats[1][6], out this.gameObject.GetComponent<StartUnit>().crit);
+            float.TryParse(unit_stats[1][1], out this.gameObject.GetComponent<StartUnit>().miss);
+            float.TryParse(unit_stats[1][7], out this.gameObject.GetComponent<StartUnit>().crit_multiplier);
+            int.TryParse(unit_stats[1][8], out this.gameObject.GetComponent<StartUnit>().cost);
+        }
+        if (this.gameObject.GetComponent<StartUnit>().unit_ID == 3)
+        {
+            int.TryParse(unit_stats[2][1], out this.gameObject.GetComponent<StartUnit>().mobility);
+            int.TryParse(unit_stats[2][2], out this.gameObject.GetComponent<StartUnit>().attackRange);
+            float.TryParse(unit_stats[2][3], out this.gameObject.GetComponent<StartUnit>().health);
+            int.TryParse(unit_stats[2][4], out this.gameObject.GetComponent<StartUnit>().attack);
+            int.TryParse(unit_stats[2][5], out this.gameObject.GetComponent<StartUnit>().basedmg);
+            float.TryParse(unit_stats[2][6], out this.gameObject.GetComponent<StartUnit>().crit);
+            float.TryParse(unit_stats[2][1], out this.gameObject.GetComponent<StartUnit>().miss);
+            float.TryParse(unit_stats[2][7], out this.gameObject.GetComponent<StartUnit>().crit_multiplier);
+            int.TryParse(unit_stats[2][8], out this.gameObject.GetComponent<StartUnit>().cost);
+        }
+    }
+}

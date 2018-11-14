@@ -239,6 +239,7 @@ GameObject:
   - component: {fileID: 114720128182252344}
   - component: {fileID: 95151420723134862}
   - component: {fileID: 114565556080221656}
+  - component: {fileID: 114655856257945352}
   m_Layer: 0
   m_Name: Unit_Warrior (1)
   m_TagString: Player 2
@@ -1345,16 +1346,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit_type: Warrior
   unit_name: 
-  mobility: 3
-  attackRange: 1
-  health: 270
-  attack: 80
-  basedmg: 40
-  crit: 0.15
-  miss: 0.1
-  crit_multiplier: 1.5
+  unit_ID: 2
+  mobility: 0
+  attackRange: 0
+  health: 0
+  attack: 0
+  basedmg: 0
+  crit: 0
+  miss: 0
+  crit_multiplier: 0
   Icon: {fileID: 21300000, guid: b7f0290fa4b4741ec8efe37b7b3bbc5a, type: 3}
-  cost: 350
+  cost: 0
   current_health: 0
   current_attack: 0
   FloatingTextPrefab: {fileID: 1120425126322546, guid: 093bcb706ed94e3428f7bd3526dbc7e6,
@@ -1436,6 +1438,17 @@ MonoBehaviour:
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 4866944513950734}
   m_AttachedIK: {fileID: 114130167153761916}
+--- !u!114 &114655856257945352
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1436293469102248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dc05e1b7170c954cb238105e23bfe33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114661575195134468
 MonoBehaviour:
   m_ObjectHideFlags: 1

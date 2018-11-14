@@ -8,6 +8,7 @@ public class StartUnit : MonoBehaviour
 
     public string unit_type;
     public string unit_name;
+    public int unit_ID;
     public int mobility; // how far a unit can move
     public int attackRange; // how far a unit can attack
     public float health;
@@ -18,8 +19,6 @@ public class StartUnit : MonoBehaviour
     public float crit_multiplier;
     public Sprite Icon;
     public int cost;
-    //public int attack_loss; // how much attack a unit loses when hit
-    //public int check_dmg; // check if dmg is greater than this amount to know if you lower the dmg or not
     public float current_health;
     public float current_attack;
     public GameObject FloatingTextPrefab;
@@ -83,37 +82,38 @@ public class StartUnit : MonoBehaviour
             float crit_chance = Random.value;
             float miss_chance = Random.value;
             float damage = current_attack;
-            int dmg_txt = 0;
-            if (crit_chance < crit)
-                damage = current_attack * crit_multiplier;
-            dmg_txt = (int)damage;
-            
+            int dmg_txt = (int)damage;
 
+            if (miss_chance <= miss)
+                damage = 0;
+            if (crit_chance <= crit && miss_chance > miss)
+            {
+                damage = current_attack * crit_multiplier;
+                dmg_txt = (int)damage;
+            }
+                  
             if (targetable[rand_index].unitOnTile.FloatingTextPrefab)
             {
                 GameObject damagetext = Instantiate(targetable[rand_index].unitOnTile.FloatingTextPrefab, targetable[rand_index].unitOnTile.transform.position, Quaternion.identity, transform);
-               // if (damage == 0)
-               //     damagetext.GetComponent<TextMesh>().text = "MISS";
-               // if(damage != 0)
-                damagetext.GetComponent<TextMesh>().text = dmg_txt.ToString();
+                if (damage == 0)
+                    damagetext.GetComponent<TextMesh>().text = "MISS";
+                if(damage != 0)
+                    damagetext.GetComponent<TextMesh>().text = dmg_txt.ToString();
                 if (damagetext.transform.localScale.x == -1)
                     damagetext.gameObject.transform.localScale = new Vector3(1,0,0);
             }
 
             StartUnit attacked_unit = targetable[rand_index].unitOnTile;
-            targetable[rand_index].unitOnTile.current_health -= damage;
+            attacked_unit.current_health -= damage;
             attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
+            float percenthealth = targetable[rand_index].unitOnTile.current_health / targetable[rand_index].unitOnTile.health;
 
-            if (targetable[rand_index].unitOnTile.current_attack > 10)
-            {
-                float percenthealth = targetable[rand_index].unitOnTile.current_health / targetable[rand_index].unitOnTile.health;
+            if (attacked_unit.current_attack*percenthealth > basedmg)
                 targetable[rand_index].unitOnTile.current_attack *= percenthealth;
-            }
 
             Debug.Log("he dead");
             if (targetable[rand_index].unitOnTile.current_health <= 0)
             {
-
                 int index = targetable[rand_index].coords.X_coord + targetable[rand_index].coords.Z_coord * hexGrid.width + targetable[rand_index].coords.Z_coord / 2;
                 editor.RemoveUnitInfo(targetable[rand_index], index);
             }

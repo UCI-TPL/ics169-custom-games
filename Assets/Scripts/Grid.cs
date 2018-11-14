@@ -11,6 +11,7 @@ public class Grid : MonoBehaviour {
     public int width = 10;
     public int height = 10;
     public Sprite Wall, AttackBuff, Healthbuff, MobilityBuff, CritBuff, AttackRangebuff, SlowingTile, Water, PoweredDown;
+    public bool ten, twenty, thirty;
 
     //Grid Details
     HexagonCell[] result;
@@ -138,27 +139,27 @@ public class Grid : MonoBehaviour {
 
     public HexagonCell[] CreateGrid()
     {
-        //int randmap = Random.Range(0, 2);
-        //if (randmap == 0)
-        //{
-        //height = 10;
-        //width = 10;
-        //cells = new HexagonCell[height * width]; // create an array of correct length
+        //ten = true;
+        if (ten)
+        {
+            height = 10;
+            width = 10;
+            cells = new HexagonCell[height * width]; // create an array of correct length
 
-        //for (int b = 0, c = 0; b < height; b++) // fill the array with actual hexagon cells
-        //{
+            for (int b = 0, c = 0; b < height; b++) // fill the array with actual hexagon cells
+            {
 
-        //    for (int a = 0; a < width; a++)
-        //    {
-        //        CreateCell(a, b, c++);
-        //    }
-        //}
-        //result = ChangeHexInfo(cells, wall_list1, powerlist1, hazards, water);
-        //}
+                for (int a = 0; a < width; a++)
+                {
+                    CreateCell(a, b, c++);
+                }
+            }
+            result = ChangeHexInfo(cells, wall_list1, powerlist1, hazards, water);
+        }
 
-        //if(randmap == 1)
-        //{
-        height = 20;
+        if (twenty)
+        {
+            height = 20;
         width = 20;
         cells = new HexagonCell[height * width]; // create an array of correct length
 
@@ -171,9 +172,9 @@ public class Grid : MonoBehaviour {
             }
         }
         result = ChangeHexInfo(cells, wall_list2, powerlist2, hazards2, water2);
-        //}
+        }
 
-        //if(randmap == 2)
+        //if (thirty)
         //{
         //    height = 30;
         //    width = 30;

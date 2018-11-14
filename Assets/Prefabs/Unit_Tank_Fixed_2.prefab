@@ -305,6 +305,7 @@ GameObject:
   - component: {fileID: 82196994817946992}
   - component: {fileID: 82788101704758044}
   - component: {fileID: 82291832674458210}
+  - component: {fileID: 114671160411009756}
   m_Layer: 0
   m_Name: Unit_Tank_Fixed_2
   m_TagString: Player 2
@@ -1484,16 +1485,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit_type: Tank
   unit_name: 
-  mobility: 2
-  attackRange: 1
-  health: 400
-  attack: 60
-  basedmg: 30
-  crit: 0.1
-  miss: 0.1
-  crit_multiplier: 1.5
+  unit_ID: 1
+  mobility: 0
+  attackRange: 0
+  health: 0
+  attack: 0
+  basedmg: 0
+  crit: 0
+  miss: 0
+  crit_multiplier: 0
   Icon: {fileID: 21300000, guid: 750701238cbf0498fa65b88cbd96cc73, type: 3}
-  cost: 500
+  cost: 0
   current_health: 0
   current_attack: 0
   FloatingTextPrefab: {fileID: 1120425126322546, guid: 093bcb706ed94e3428f7bd3526dbc7e6,
@@ -1836,6 +1838,17 @@ MonoBehaviour:
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 0}
   m_AttachedIK: {fileID: 0}
+--- !u!114 &114671160411009756
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1436518717945170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dc05e1b7170c954cb238105e23bfe33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114718425559716354
 MonoBehaviour:
   m_ObjectHideFlags: 1
