@@ -1273,6 +1273,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit_type: Hero
   unit_name: 
+  unit_ID: 0
   mobility: 2
   attackRange: 3
   health: 180
@@ -1293,6 +1294,10 @@ MonoBehaviour:
   anim: {fileID: 0}
   editor: {fileID: 0}
   Unit_Stats_Panel: {fileID: 1540145179021266}
+  currently_attacking: 0
+  attack_blink_color:
+    serializedVersion: 2
+    rgba: 0
   attackSound: {fileID: 82772881531311788}
   hitSound: {fileID: 82215094379298936}
   moveSound: {fileID: 82215094379298936}

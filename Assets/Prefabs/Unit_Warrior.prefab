@@ -1398,14 +1398,20 @@ MonoBehaviour:
   crit_multiplier: 0
   Icon: {fileID: 21300000, guid: b7f0290fa4b4741ec8efe37b7b3bbc5a, type: 3}
   cost: 0
+  direction: 1
   current_health: 0
   current_attack: 0
   FloatingTextPrefab: {fileID: 1120425126322546, guid: 093bcb706ed94e3428f7bd3526dbc7e6,
     type: 2}
   dead: 0
   health_bar: {fileID: 1459000031394224}
+  anim: {fileID: 0}
   editor: {fileID: 0}
   Unit_Stats_Panel: {fileID: 1835693356323800}
+  currently_attacking: 0
+  attack_blink_color:
+    serializedVersion: 2
+    rgba: 0
   attackSound: {fileID: 82891241096889004, guid: 76402ca71f14e4a4f8239d28e6a56cba,
     type: 2}
   hitSound: {fileID: 82071043335846120, guid: b940d0e74336c47459290f7c2b37e9d3, type: 2}
