@@ -19,14 +19,22 @@ public class StartUnit : MonoBehaviour
     public float crit_multiplier;
     public Sprite Icon;
     public int cost;
+    public bool direction = true; // right = true, left = false
+    //public int attack_loss; // how much attack a unit loses when hit
+    //public int check_dmg; // check if dmg is greater than this amount to know if you lower the dmg or not
     public float current_health;
     public float current_attack;
     public GameObject FloatingTextPrefab;
     public bool dead = false;
     public GameObject health_bar;
-    Animator anim;
+    public Animator anim;
     public HexagonMapEditor editor;
     public GameObject Unit_Stats_Panel;
+    public bool currently_attacking;
+    private float time = 0.0f;
+    public Color32 attack_blink_color;
+
+    private float dmg_txt_char_size;
 
 
     //Attack, Hit, and Move sounds
@@ -35,7 +43,7 @@ public class StartUnit : MonoBehaviour
 
 
     // Use this for initialization
-    void Start()
+    public void Start()
     {
     	attackSound.playOnAwake = false;
     	hitSound.playOnAwake = false;
@@ -45,10 +53,12 @@ public class StartUnit : MonoBehaviour
         anim = GetComponent<Animator>();
         current_health = health;
         current_attack = attack;
+        currently_attacking = false;
+        
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         if (dead)
         {
@@ -58,14 +68,15 @@ public class StartUnit : MonoBehaviour
 
     }
 
-    IEnumerator Dead()
+    public IEnumerator Dead()
     {
         yield return new WaitForSeconds(0.5f);
         Destroy(this.gameObject);
     }
 
-    public IEnumerator BasicAttack(Grid hexGrid, HexagonCell unitCell) // return bool yes if dead false if no
+    public virtual IEnumerator BasicAttack(Grid hexGrid, HexagonCell unitCell) // return bool yes if dead false if no
     {
+        
         List<HexagonCell> targetable = new List<HexagonCell>();
         foreach (HexagonCell cell in hexGrid.cells)
         {
@@ -77,12 +88,18 @@ public class StartUnit : MonoBehaviour
         }
         if (targetable.Count >= 1)
         {
+            editor.cursor.Assign_Position(this.transform.position, hexGrid.GetCell(this.transform.position).coords);
+            editor.Main_Cam.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, editor.Main_Cam.transform.position.z);
+            //StartCoroutine(this.Blink(Color.green, this, Time.time + 0.8f));
+            yield return new WaitForSeconds(1.5f);
             StartCoroutine(Attack());
             int rand_index = Random.Range(0, targetable.Count);
             float crit_chance = Random.value;
             float miss_chance = Random.value;
             float damage = current_attack;
             int dmg_txt = (int)damage;
+            int dmg_txt = 0;
+            bool crit_happened = false;
 
             if (miss_chance <= miss)
                 damage = 0;
@@ -93,25 +110,62 @@ public class StartUnit : MonoBehaviour
             }
                   
             if (targetable[rand_index].unitOnTile.FloatingTextPrefab)
+                if (crit_chance < crit)
+                {
+                    damage = current_attack * crit_multiplier;
+                    crit_happened = true;
+                }
+                dmg_txt = (int)damage;
+            }
+
+            StartUnit attacked_unit = targetable[rand_index].unitOnTile;
+
+            if (attacked_unit.FloatingTextPrefab)
             {
-                GameObject damagetext = Instantiate(targetable[rand_index].unitOnTile.FloatingTextPrefab, targetable[rand_index].unitOnTile.transform.position, Quaternion.identity, transform);
+                GameObject damagetext = Instantiate(attacked_unit.FloatingTextPrefab, attacked_unit.transform.position, Quaternion.identity, attacked_unit.transform);
                 if (damage == 0)
+                {
                     damagetext.GetComponent<TextMesh>().text = "MISS";
+                    damagetext.GetComponent<TextMesh>().color = Color.gray;
+                    damagetext.GetComponent<TextMesh>().characterSize = 0.06f;
+                }
+                    
+                
                 if(damage != 0)
+                {
                     damagetext.GetComponent<TextMesh>().text = dmg_txt.ToString();
+                    if (crit_happened)
+                    {
+                        damagetext.GetComponent<TextMesh>().color = Color.yellow;
+                        damagetext.GetComponent<TextMesh>().characterSize = 0.1f;
+                    }
+                    else
+                    {
+                        damagetext.GetComponent<TextMesh>().color = Color.white;
+                        damagetext.GetComponent<TextMesh>().characterSize = 0.06f;
+                    }
+                }
+                    
                 if (damagetext.transform.localScale.x == -1)
-                    damagetext.gameObject.transform.localScale = new Vector3(1,0,0);
+                {
+                    damagetext.gameObject.transform.localScale = new Vector3(1, 1, 1);
+                    //damagetext.GetComponent<TextMesh>().color = Color.green;
+                    Debug.Log("BackWards Text");
+                }
+                    
             }
 
             StartUnit attacked_unit = targetable[rand_index].unitOnTile;
             attacked_unit.current_health -= damage;
+            
+            targetable[rand_index].unitOnTile.current_health -= damage;
             attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
             float percenthealth = targetable[rand_index].unitOnTile.current_health / targetable[rand_index].unitOnTile.health;
 
             if (attacked_unit.current_attack*percenthealth > basedmg)
                 targetable[rand_index].unitOnTile.current_attack *= percenthealth;
 
-            Debug.Log("he dead");
+            //Debug.Log("he dead");
             if (targetable[rand_index].unitOnTile.current_health <= 0)
             {
                 int index = targetable[rand_index].coords.X_coord + targetable[rand_index].coords.Z_coord * hexGrid.width + targetable[rand_index].coords.Z_coord / 2;
@@ -121,10 +175,46 @@ public class StartUnit : MonoBehaviour
             {
                 yield return new WaitForSeconds(0.3f);
                 StartCoroutine(targetable[rand_index].unitOnTile.Hit());
+                StartCoroutine(attacked_unit.Blink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f));
             }
+        }
+        else
+        {
+            currently_attacking = false;
         }
     }
 
+    public IEnumerator HopToPlace(Grid hexGrid, HexagonCell unitCell, int index, int distance)
+    {
+        
+        Stack<HexagonCell> result = hexGrid.FindPath(unitCell, hexGrid.cells[index]);
+        HexagonCoord current = unitCell.coords;
+        while(result.Count > 0)
+        {
+            HexagonCell temp = result.Pop();
+            if (temp.coords.x > current.x || (temp.coords.x == current.x && temp.coords.z == current.z + 1)) //going right
+            {
+                if (!direction) //facing left
+                {
+                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                    direction = true;
+                }
+            }
+            else //going left
+            {
+                if (direction)
+                {
+                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                    direction = false;
+                }
+            }
+            StartCoroutine(Moving());
+            transform.position = temp.transform.position;
+            current = temp.coords;
+            yield return new WaitForSeconds(1f);
+        }
+
+    }
 
     public IEnumerator Attack()
     {
@@ -132,7 +222,8 @@ public class StartUnit : MonoBehaviour
         attackSound.Play();
         yield return new WaitForSeconds(0.5f);
         anim.SetBool("Attacking", false);
-
+        yield return new WaitForSeconds(1f);
+        currently_attacking = false;
     }
     public IEnumerator Hit()
     {
@@ -144,11 +235,39 @@ public class StartUnit : MonoBehaviour
 
     public IEnumerator Moving()
     {
-        //Debug.Log("moving");
         anim.SetBool("Moving", true);
         moveSound.Play(); 
         yield return new WaitForSeconds(0.4f);
         anim.SetBool("Moving", false);
         moveSound.Stop();
+    }
+
+    public IEnumerator Blink(Color32 color, StartUnit unit, float time_until)
+    {
+        Debug.Log("Blinking?");
+        Anima2D.SpriteMeshInstance[] Unit_Meshes = unit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
+
+        Color32 prev_color = Unit_Meshes[0].color;
+
+        while (time_until >= Time.time)
+        {
+            
+            for (int i = 0; i < Unit_Meshes.Length; i++)
+            {
+                Unit_Meshes[i].color = color;
+                //Debug.Log("Color_Changed");
+            }
+
+            yield return new WaitForSeconds(0.2f);
+            
+            for (int i = 0; i < Unit_Meshes.Length; i++)
+            {
+                Unit_Meshes[i].color = prev_color;
+                //Debug.Log("Color_Changed");
+            }
+
+            yield return new WaitForSeconds(0.2f);
+        }
+
     }
 }

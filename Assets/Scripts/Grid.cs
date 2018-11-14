@@ -79,6 +79,28 @@ public class Grid : MonoBehaviour {
         cell.transform.localPosition = position;
         cell.coords = HexagonCoord.FromOffsetCoordinates(a, b);
         cell.spriteRenderer.color = defaultColor;
+        if(a > 0)
+        {
+            cell.SetNeighbor(HexagonDirection.W, cells[c - 1]);
+        }
+        if (b > 0)
+        {
+            if ((b & 1) == 0)
+            {
+                cell.SetNeighbor(HexagonDirection.SE, cells[c - width]);
+                if (a > 0)
+                    cell.SetNeighbor(HexagonDirection.SW, cells[c - width - 1]);
+            }
+            else
+            {
+                cell.SetNeighbor(HexagonDirection.SW, cells[c - width]);
+                if(a < width - 1)
+                {
+                    cell.SetNeighbor(HexagonDirection.SE, cells[c - width + 1]);
+                }
+            }
+        }
+    
         cell.tag = "Floor";
         //cell.color = defaultColor;
 
@@ -90,24 +112,65 @@ public class Grid : MonoBehaviour {
     }
 
 
-    public void ShowPath(HexagonCell current, int mobility, int range,Color color_m, Color color_a)
+    public void ShowPath(HexagonCell current, int mobility, int range,Color color_m, Color color_a) // displays the movement capabilities of a unit using A*
     {
-        for (int i = 0; i < (width * height); i++)
+        List<HexagonCell> frontier = new List<HexagonCell>();
+        for (int i = 0; i < cells.Length; i++)
         {
-            if (cells[i].gameObject.tag != "Wall")
-            {
-                if (current.coords.FindDistanceTo(cells[i].coords) <= mobility)
-                {
-                    cells[i].spriteRenderer.color = color_m;
-                }
-                else
-                {
-                    cells[i].spriteRenderer.color = defaultColor;
-                }
-            }
-
+            cells[i].Distance = int.MaxValue;
         }
-    }
+
+        HexagonCell fromCell = current;
+        fromCell.spriteRenderer.color = color_m;
+        fromCell.Distance = 0;
+        frontier.Add(fromCell);
+        while (frontier.Count > 0)
+        {
+
+            HexagonCell curr = frontier[0];
+            frontier.RemoveAt(0);
+            if (curr.distance == mobility)
+            {
+                curr.spriteRenderer.color = color_m;
+                continue;
+            }
+            for (HexagonDirection d = HexagonDirection.NE; d <= HexagonDirection.NW; d++)
+            {
+                
+                HexagonCell neighbor = curr.GetNeighbor(d);
+                if (neighbor == null || neighbor.Distance != int.MaxValue)
+                {
+                    continue;
+                }
+                if (!neighbor.traversable)
+                {
+                    continue;
+                }
+                int distance = curr.Distance;
+                /*if(water)
+                 * distance += 3
+                 *else if(grass)
+                 * distance += 2
+                 */
+                distance += 1;
+                //if (neighbor.Distance == int.MaxValue)
+                //{
+                //    neighbor.spriteRenderer.color = color_m;
+                //    neighbor.Distance = distance;
+                //    neighbor.PathFrom = curr;
+                //    frontier.Add(neighbor);
+                //}
+                if (distance < neighbor.Distance)
+                {
+                    neighbor.spriteRenderer.color = color_m;
+                    neighbor.Distance = distance;
+                    frontier.Add(neighbor);
+                }
+                frontier.Sort((x, y) => x.Distance.CompareTo(y.Distance));
+            }
+        }
+
+}
 
     public void ClearPath()
     {
@@ -161,6 +224,11 @@ public class Grid : MonoBehaviour {
         {
             height = 20;
         width = 20;
+        //int randmap = Random.Range(0, 2);
+        //if (randmap == 0)
+        //{
+        height = 10;
+        width = 10;
         cells = new HexagonCell[height * width]; // create an array of correct length
 
         for (int b = 0, c = 0; b < height; b++) // fill the array with actual hexagon cells
@@ -173,6 +241,25 @@ public class Grid : MonoBehaviour {
         }
         result = ChangeHexInfo(cells, wall_list2, powerlist2, hazards2, water2);
         }
+        result = ChangeHexInfo(cells, wall_list1, powerlist1, hazards, water);
+        //}
+
+        //if(randmap == 1)
+        //{
+        //height = 20;
+        //width = 20;
+        //cells = new HexagonCell[height * width]; // create an array of correct length
+
+        //for (int b = 0, c = 0; b < height; b++) // fill the array with actual hexagon cells
+        //{
+
+        //    for (int a = 0; a < width; a++)
+        //    {
+        //        CreateCell(a, b, c++);
+        //    }
+        //}
+        //result = ChangeHexInfo(cells, wall_list2, powerlist2, hazards2, water2);
+        //}
 
         //if (thirty)
         //{
@@ -202,8 +289,10 @@ public class Grid : MonoBehaviour {
             for (int i = 0; i < hexlist_.Count; i++)
             {
                 cells_[hexlist_[i]].gameObject.tag = "Wall";
+                cells_[hexlist_[i]].traversable = false;
                 cells_[hexlist_[i]].gameObject.GetComponent<PolygonCollider2D>().enabled = false;
                 cells_[hexlist_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = Wall;
+                
               //  cells_[hexlist_[i]].gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
             }
         }
@@ -270,6 +359,7 @@ public class Grid : MonoBehaviour {
 
     public HexagonCell Get_Cell_Index(HexagonCoord coordinates)
     {
+
         int index = coordinates.X_coord + coordinates.Z_coord * width + coordinates.Z_coord / 2;
         return cells[index];
 
@@ -280,5 +370,70 @@ public class Grid : MonoBehaviour {
         int index = coordinates.X_coord + coordinates.Z_coord * width + coordinates.Z_coord / 2;
         return index;
 
+    }
+    public Stack<HexagonCell> FindPath(HexagonCell fromCell, HexagonCell toCell)
+    {
+        StopAllCoroutines();
+        return Search(fromCell, toCell);
+    }
+
+    Stack<HexagonCell> Search (HexagonCell fromCell, HexagonCell toCell) // searrch creates a stack of the shortest path given a to and from tile.  this is used for movement animations
+    {
+        Stack<HexagonCell> result = new Stack<HexagonCell>();
+        for(int i = 0; i < cells.Length; i++)
+        {
+            cells[i].Distance = int.MaxValue;
+        }
+        List<HexagonCell> frontier = new List<HexagonCell>();
+        fromCell.Distance = 0;
+        frontier.Add(fromCell);
+        while (frontier.Count > 0)
+        {
+            HexagonCell current = frontier[0];
+            frontier.RemoveAt(0);
+
+            if (current == toCell) {
+                result.Push(toCell);
+                current = current.PathFrom;
+                while(current != fromCell)
+                {
+                    result.Push(current);
+                    current = current.PathFrom;
+                }
+                return result;
+            }
+            for (HexagonDirection d = HexagonDirection.NE; d <= HexagonDirection.NW; d++)
+            {
+                HexagonCell neighbor = current.GetNeighbor(d);
+                if(neighbor == null || neighbor.Distance != int.MaxValue)
+                {
+                    continue;
+                }
+                if(!neighbor.traversable)
+                {
+                    continue;
+                }
+                int distance = current.Distance;
+                /*if(water)
+                 * distance += 3
+                 *else if(grass)
+                 * distance += 2
+                 */
+                distance += 1;
+                if (neighbor.Distance == int.MaxValue)
+                {
+                    neighbor.Distance = distance;
+                    neighbor.PathFrom = current;
+                    frontier.Add(neighbor);
+                }
+                else if(distance < neighbor.Distance)
+                {
+                    neighbor.Distance = distance;
+                    neighbor.PathFrom = current;
+                }
+                frontier.Sort((x,y) => x.Distance.CompareTo(y.Distance));
+            }
+        }
+        return result = new Stack<HexagonCell>();
     }
 }

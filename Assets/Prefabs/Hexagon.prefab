@@ -90,6 +90,15 @@ MonoBehaviour:
     z: 0
   unitOnTile: {fileID: 0}
   spriteRenderer: {fileID: 0}
+  traversable: 1
+  distance: 0
+  neighbors:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!212 &212461027398838834
 SpriteRenderer:
   m_ObjectHideFlags: 1

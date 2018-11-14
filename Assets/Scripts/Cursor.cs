@@ -35,6 +35,11 @@ public class Cursor : MonoBehaviour
             H_Axis = Input.GetAxis(editor.PlayerInfo.player1 + "Left Horizontal");
             V_Axis = Input.GetAxis(editor.PlayerInfo.player1 + "Left Vertical");
         }
+        else if(editor.PlayerInfo.one_player)
+        {
+            H_Axis = Input.GetAxis(editor.PlayerInfo.player1 + "Left Horizontal");
+            V_Axis = Input.GetAxis(editor.PlayerInfo.player1 + "Left Vertical");
+        }
         else
         {
             H_Axis = Input.GetAxis(editor.PlayerInfo.player2 + "Left Horizontal");
@@ -102,7 +107,7 @@ public class Cursor : MonoBehaviour
                 }
                 else if (Angle > -22.5 && Angle < 22.5)
                 {
-                    Debug.Log("Down");
+                    //Debug.Log("Down");
                     //cascade down
                     if (cascade_dir)
                     {

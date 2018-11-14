@@ -26,6 +26,8 @@ public struct HexagonCoord{
         return new HexagonCoord(x - z / 2, z);
     }
 
+  
+
     public override string ToString() // to use for visualization of coordinates
     {
         return "(" + X_coord.ToString() + ", " + Y_coord + ", " + Z_coord + ")";
@@ -57,6 +59,11 @@ public struct HexagonCoord{
             ((X_coord < other.X_coord ? other.X_coord - X_coord : X_coord - other.X_coord) +
             (Y_coord < other.Y_coord ? other.Y_coord - Y_coord : Y_coord - other.Y_coord) +
             (Z_coord < other.Z_coord ? other.Z_coord - Z_coord : Z_coord - other.Z_coord)) / 2;
+    }
+
+    public int DistanceTo(HexagonCoord other)
+    {
+        return x < other.x ? other.x - x : x - other.x;
     }
 
 }

@@ -1646,10 +1646,13 @@ MonoBehaviour:
   health_bar: {fileID: 1866081364706854}
   editor: {fileID: 0}
   Unit_Stats_Panel: {fileID: 1640911161648770}
-  attackSound: {fileID: 82779282487130744, guid: f502e9e597cfb5347b5f0b10059e0ea9,
-    type: 2}
-  hitSound: {fileID: 82598496646763050, guid: f502e9e597cfb5347b5f0b10059e0ea9, type: 2}
-  moveSound: {fileID: 82014562304024850, guid: f502e9e597cfb5347b5f0b10059e0ea9, type: 2}
+  currently_attacking: 0
+  attack_blink_color:
+    serializedVersion: 2
+    rgba: 4282253155
+  attackSound: {fileID: 82853330185722308}
+  hitSound: {fileID: 82521889915457870}
+  moveSound: {fileID: 82583691240875890}
 --- !u!114 &114633736512502688
 MonoBehaviour:
   m_ObjectHideFlags: 1

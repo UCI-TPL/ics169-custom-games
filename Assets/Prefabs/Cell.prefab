@@ -51,3 +51,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 109cb77042a29664fa41c6db82a70917, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  color: {r: 0, g: 0, b: 0, a: 0}
+  occupied: 0
+  coords:
+    x: 0
+    z: 0
+  unitOnTile: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  traversable: 1
+  neighbors:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
