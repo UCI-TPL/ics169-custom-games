@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class HexagonMapEditor : MonoBehaviour
 {
-
+    public Camera Main_Cam;
     public PlayerInformation PlayerInfo;
     public Grid hexGrid;
     public GameObject UI_P1_Sel;
@@ -35,6 +35,7 @@ public class HexagonMapEditor : MonoBehaviour
     public GameObject P2_portrait_UI;
     public Team_Portrait_UI P1_Team_portrait_UI;
     public Team_Portrait_UI P2_Team_portrait_UI;
+    public Color32 Unit_Hurt_Color;
 
 
     public List<StartUnit> Player1Chosen = new List<StartUnit>();
@@ -56,7 +57,9 @@ public class HexagonMapEditor : MonoBehaviour
     public bool moveInProgress = false;
 
     public bool onePlayer;
-
+    public bool cur_attacking;
+    public int attack_count;
+    
 
     public enum TurnStates
     {
@@ -80,7 +83,9 @@ public class HexagonMapEditor : MonoBehaviour
     void Start()
     {
         initializing = true;
-
+        cur_attacking = false;
+        attacking = false;
+        attack_count = 0;
         //UI = GetComponentInChildren<BattleUI>();
         P1_Team_portrait_UI = P1_portrait_UI.GetComponent<Team_Portrait_UI>();
         P2_Team_portrait_UI = P2_portrait_UI.GetComponent<Team_Portrait_UI>();
@@ -153,8 +158,47 @@ public class HexagonMapEditor : MonoBehaviour
             case (TurnStates.P1_ATTACK):
                 if (!attacking) // only call once
                 {
-                    attacking = true;
-                    AttackPhase(P1Team); // handles all attacking for player 1
+
+                    //sets all units on team to currently attacking
+                    if (!cur_attacking)
+                    {
+                        foreach (StartUnit unit in P1Team) {
+                            unit.currently_attacking = true;
+                        }
+                        cur_attacking = true;
+                        //get the ball rolling with attack_count
+                        
+                        StartCoroutine(P1Team[attack_count].BasicAttack(hexGrid, hexGrid.GetCell(P1Team[attack_count].transform.position)));
+                    }
+
+                    //calls attack on each next unit after previous has attacked
+                    if(attack_count < P1Team.Count - 1)
+                    {
+                        if(P1Team[attack_count].currently_attacking == false)
+                        {
+                            //next unit attacks because prev has finished
+                            attack_count += 1;
+                            
+                            StartCoroutine(P1Team[attack_count].BasicAttack(hexGrid, hexGrid.GetCell(P1Team[attack_count].transform.position)));
+                        }
+                        else
+                        {
+                            //unit is still attacking so do nothing I guess
+                        }
+                    }
+
+                    if(P1Team[P1Team.Count - 1] == null || P1Team[P1Team.Count - 1].currently_attacking == false)
+                    {
+                        //the final unit has finished attacking or there were no units to attack in the first place
+                        attacking = true;
+                    }
+
+                    
+                }
+                else
+                {
+                    cur_attacking = false;
+                    attack_count = 0;
                     attacking = false;
                     currentState = TurnStates.P2_MOVE;
                     if (MoveableUnits.Count > 0)
@@ -196,8 +240,46 @@ public class HexagonMapEditor : MonoBehaviour
             case (TurnStates.P2_ATTACK):
                 if (!attacking)
                 {
-                    attacking = true;
-                    AttackPhase(P2Team);
+
+                    //sets all units on team to currently attacking
+                    if (!cur_attacking)
+                    {
+                        foreach (StartUnit unit in P2Team)
+                        {
+                            unit.currently_attacking = true;
+                        }
+                        cur_attacking = true;
+                        //get the ball rolling with attack_count
+                        
+                        StartCoroutine(P2Team[attack_count].BasicAttack(hexGrid, hexGrid.GetCell(P2Team[attack_count].transform.position)));
+                    }
+
+                    //calls attack on each next unit after previous has attacked
+                    if (attack_count < P2Team.Count - 1)
+                    {
+                        if (P2Team[attack_count].currently_attacking == false)
+                        {
+                            //next unit attacks because prev has finished
+                            attack_count += 1;
+                            
+                            StartCoroutine(P2Team[attack_count].BasicAttack(hexGrid, hexGrid.GetCell(P2Team[attack_count].transform.position)));
+                        }
+                        else
+                        {
+                            //unit is still attacking so do nothing I guess
+                        }
+                    }
+
+                    if (P2Team[P2Team.Count - 1] == null || P2Team[P2Team.Count - 1].currently_attacking == false)
+                    {
+                        //the final unit has finished attacking or there were no units to attack in the first place
+                        attacking = true;
+                    }
+                }
+                else
+                {
+                    cur_attacking = false;
+                    attack_count = 0;
                     attacking = false;
                     currentState = TurnStates.CHECK;
                     if (MoveableUnits.Count > 0)
@@ -207,7 +289,6 @@ public class HexagonMapEditor : MonoBehaviour
                     }
                     P1_Team_portrait_UI.Update_Portraits();
                 }
-
                 break;
             case (TurnStates.CHECK):
                 if (P1Team.Count == 0)
@@ -252,10 +333,10 @@ public class HexagonMapEditor : MonoBehaviour
         //application.datapath returns a different place in build vs in editor
         //place text in root directory where executable is located when creating the actual build for this to work as is
         string path_proper = Application.dataPath + "/proper.txt";
-        Debug.Log(path_proper);
-        Debug.Log(Application.dataPath);
+        //Debug.Log(path_proper);
+        //Debug.Log(Application.dataPath);
         string path_adjectives = Application.dataPath + "/adjectives.txt";
-        Debug.Log(path_adjectives);
+        //Debug.Log(path_adjectives);
         string[] names_proper = System.IO.File.ReadAllLines(path_proper);
         string[] names_adj = System.IO.File.ReadAllLines(path_adjectives);
         //Random rand_gen = new Random();
@@ -332,12 +413,12 @@ public class HexagonMapEditor : MonoBehaviour
 
     public void AttackPhase(List<StartUnit> attackingTeam) // handles input from the player to correctly attack
     {
-
+        
         foreach (StartUnit unit in attackingTeam)
         {
-            unitCell = hexGrid.GetCell(unit.transform.position);
-            isUnitSelected = true;
-            StartCoroutine(AttackUnit(unit));
+                    unitCell = hexGrid.GetCell(unit.transform.position);
+                    isUnitSelected = true;
+                    StartCoroutine(AttackUnit(unit));
         }
     }
 
@@ -370,6 +451,7 @@ public class HexagonMapEditor : MonoBehaviour
     void SelectUnit(HexagonCell current, int index) // sets variables to the clicked position's unit
     {
         SelectedUnit = current.unitOnTile;
+        StartCoroutine(SelectedUnit.Blink(Color.grey, SelectedUnit, Time.time + 0.6f));
         unitCell = hexGrid.cells[index];
         isUnitSelected = true;
 
@@ -490,7 +572,7 @@ public class HexagonMapEditor : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(cursor.point.transform.position, Vector2.zero, 0f);
         if (hit)
         {
-            Debug.Log(hit.transform.gameObject.GetComponent<HexagonCell>()); // debug stuff
+            //Debug.Log(hit.transform.gameObject.GetComponent<HexagonCell>()); // debug stuff
             return hit.transform.gameObject.GetComponent<HexagonCell>();
         }
         else return null;
@@ -546,13 +628,13 @@ public class HexagonMapEditor : MonoBehaviour
             for (int i = 0; i < Unit_Meshes.Length; i++)
             {
                 Unit_Meshes[i].color = Greyed_Unit_Color;
-                Debug.Log("Color_Changed");
+                //Debug.Log("Color_Changed");
             }
             DeselectUnit();
             if (MoveableUnits.Count > 0)
             {
                 Snap_To_Next_Unit(true);
-                Debug.Log("Snapped");
+                //Debug.Log("Snapped");
             }
 
         }

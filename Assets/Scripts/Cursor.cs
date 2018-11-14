@@ -102,7 +102,7 @@ public class Cursor : MonoBehaviour
                 }
                 else if (Angle > -22.5 && Angle < 22.5)
                 {
-                    Debug.Log("Down");
+                    //Debug.Log("Down");
                     //cascade down
                     if (cascade_dir)
                     {

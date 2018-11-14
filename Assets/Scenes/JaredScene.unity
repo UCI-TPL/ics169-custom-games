@@ -2272,6 +2272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b27dec12953e184bb379207da174392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Main_Cam: {fileID: 477979594}
   PlayerInfo: {fileID: 0}
   hexGrid: {fileID: 1152803764}
   UI_P1_Sel: {fileID: 981108530}
@@ -2304,6 +2305,9 @@ MonoBehaviour:
   P2_portrait_UI: {fileID: 1808325098}
   P1_Team_portrait_UI: {fileID: 0}
   P2_Team_portrait_UI: {fileID: 0}
+  Unit_Hurt_Color:
+    serializedVersion: 2
+    rgba: 4285164234
   Player1Chosen: []
   Player2Chosen:
   - {fileID: 114565556080221656, guid: e91f9d973d0d7a44296b9ea193d26049, type: 2}
@@ -2322,6 +2326,8 @@ MonoBehaviour:
   whileAttacking: 0
   moveInProgress: 0
   onePlayer: 0
+  cur_attacking: 0
+  attack_count: 0
   currentState: 0
 --- !u!114 &330579868
 MonoBehaviour:
@@ -3732,15 +3738,15 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 477979595}
     m_Modifications:
     - target: {fileID: 4698715031063022, guid: f880458d5215e40f68a969ed299b7104, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 398.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4698715031063022, guid: f880458d5215e40f68a969ed299b7104, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 208
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4698715031063022, guid: f880458d5215e40f68a969ed299b7104, type: 2}
       propertyPath: m_LocalPosition.z
@@ -3748,15 +3754,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4698715031063022, guid: f880458d5215e40f68a969ed299b7104, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4698715031063022, guid: f880458d5215e40f68a969ed299b7104, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4698715031063022, guid: f880458d5215e40f68a969ed299b7104, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4698715031063022, guid: f880458d5215e40f68a969ed299b7104, type: 2}
       propertyPath: m_LocalRotation.w
@@ -3764,7 +3770,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4698715031063022, guid: f880458d5215e40f68a969ed299b7104, type: 2}
       propertyPath: m_RootOrder
-      value: 15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1897378469550912, guid: f880458d5215e40f68a969ed299b7104, type: 2}
       propertyPath: m_Name
@@ -3773,6 +3779,11 @@ Prefab:
     - target: {fileID: 82696606746484902, guid: f880458d5215e40f68a969ed299b7104,
         type: 2}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82696606746484902, guid: f880458d5215e40f68a969ed299b7104,
+        type: 2}
+      propertyPath: Loop
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -3812,7 +3823,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.9716981, g: 0.8447618, b: 0.5729352, a: 0}
+  m_BackGroundColor: {r: 0.2735849, g: 0.25813693, b: 0.22583659, a: 0}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
@@ -3852,7 +3863,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 116, y: 66, z: -25}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 826911293}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5284,7 +5296,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -5379,7 +5391,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &768410736
 GameObject:
@@ -5915,7 +5927,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -6004,12 +6016,12 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 477634034}
   m_GameObject: {fileID: 826911291}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 398.5, y: 208, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_Father: {fileID: 477979595}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &828541158
 Prefab:
@@ -7798,6 +7810,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b27dec12953e184bb379207da174392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Main_Cam: {fileID: 0}
   PlayerInfo: {fileID: 0}
   hexGrid: {fileID: 0}
   UI_P1_Sel: {fileID: 0}
@@ -7830,6 +7843,9 @@ MonoBehaviour:
   P2_portrait_UI: {fileID: 0}
   P1_Team_portrait_UI: {fileID: 0}
   P2_Team_portrait_UI: {fileID: 0}
+  Unit_Hurt_Color:
+    serializedVersion: 2
+    rgba: 0
   Player1Chosen: []
   Player2Chosen: []
   P1Team: []
@@ -7843,6 +7859,8 @@ MonoBehaviour:
   whileAttacking: 0
   moveInProgress: 0
   onePlayer: 0
+  cur_attacking: 0
+  attack_count: 0
   currentState: 0
 --- !u!1 &1175651237
 GameObject:

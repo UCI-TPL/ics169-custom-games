@@ -39,14 +39,14 @@ public class BattleUI : MonoBehaviour
 
     public void Hide()
     {
-        Debug.Log("Attempt_To_Hide");
+        //Debug.Log("Attempt_To_Hide");
         this.gameObject.SetActive(false);
         //SetRendererEnabled(false);
     }
 
     public void Show()
     {
-        Debug.Log("Attempt_To_Show");
+        //Debug.Log("Attempt_To_Show");
         this.gameObject.SetActive(true);
         //SetRendererEnabled(true);
     }
