@@ -452,6 +452,7 @@ public class HexagonMapEditor : MonoBehaviour
 
     void SelectUnit(HexagonCell current, int index) // sets variables to the clicked position's unit
     {
+        hexGrid.ClearPath();
         SelectedUnit = current.unitOnTile;
         StartCoroutine(SelectedUnit.Blink(Color.grey, SelectedUnit, Time.time + 0.6f));
         unitCell = hexGrid.cells[index];
@@ -655,6 +656,7 @@ public class HexagonMapEditor : MonoBehaviour
 
     public void Show_Units_In_Range()
     {
+        //needs to be rewritten using neighbours to improve efficiency
         int range = SelectedUnit.attackRange;
         int width = hexGrid.width;
         int height = hexGrid.height;
@@ -669,11 +671,15 @@ public class HexagonMapEditor : MonoBehaviour
                     if (cursor.coords.FindDistanceTo(hexGrid.cells[i].coords) <= range && hexGrid.cells[i].occupied
                         && hexGrid.cells[i].unitOnTile.gameObject.CompareTag("Player 2"))
                     {
-                        hexGrid.cells[i].spriteRenderer.color = color_r;
+                        //hexGrid.cells[i].spriteRenderer.color = color_r;
+                        //in range create blinking crosshair
+                        hexGrid.cells[i].Show_Cross_Icon();
+
                     }
                     else if (hexGrid.cells[i].occupied && hexGrid.cells[i].unitOnTile.gameObject.CompareTag("Player 2"))
                     {
-                        hexGrid.cells[i].spriteRenderer.color = color_w;
+                        //hexGrid.cells[i].spriteRenderer.color = color_w;
+                        hexGrid.cells[i].Hide_Cross_Icon();
                     }
                 }
 
@@ -683,11 +689,14 @@ public class HexagonMapEditor : MonoBehaviour
                     if (cursor.coords.FindDistanceTo(hexGrid.cells[i].coords) <= range && hexGrid.cells[i].occupied
                         && hexGrid.cells[i].unitOnTile.gameObject.CompareTag("Player 1"))
                     {
-                        hexGrid.cells[i].spriteRenderer.color = color_r;
+                        //hexGrid.cells[i].spriteRenderer.color = color_r;
+                        //in range
+                        hexGrid.cells[i].Show_Cross_Icon();
                     }
                     else if (hexGrid.cells[i].occupied && hexGrid.cells[i].unitOnTile.gameObject.CompareTag("Player 1"))
                     {
-                        hexGrid.cells[i].spriteRenderer.color = color_w;
+                        //hexGrid.cells[i].spriteRenderer.color = color_w;
+                        hexGrid.cells[i].Hide_Cross_Icon();
                     }
                 }
 

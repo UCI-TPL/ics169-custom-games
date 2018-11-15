@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 114121498936510184}
   - component: {fileID: 114071033751399184}
   - component: {fileID: 114107987408385100}
+  - component: {fileID: 114965428579214950}
   m_Layer: 0
   m_Name: Unit_Stats
   m_TagString: Untagged
@@ -663,7 +664,7 @@ Transform:
   m_GameObject: {fileID: 1436518717945170}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -5, y: 5, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 1}
   m_Children:
   - {fileID: 4297144600821196}
   - {fileID: 4162491979615404}
@@ -2018,6 +2019,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114965428579214950
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1093739249579480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35120075b0b8f6a43884aaed3eea3654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!137 &137487013802389822
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

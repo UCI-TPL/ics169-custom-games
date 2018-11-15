@@ -25,6 +25,10 @@ public class HexagonCell : MonoBehaviour {
     [SerializeField]
     HexagonCell[] neighbors;
 
+    public GameObject move_tile;
+
+    public GameObject cross_tile;
+
     public int Distance
     {
         get
@@ -86,5 +90,25 @@ public class HexagonCell : MonoBehaviour {
         {
             return false;
         }
+    }
+
+    public void Show_Move_Icon()
+    {
+        move_tile.SetActive(true);
+    }
+
+    public void Hide_Move_Icon()
+    {
+        move_tile.SetActive(false);
+    }
+
+    public void Show_Cross_Icon()
+    {
+        cross_tile.SetActive(true);
+    }
+
+    public void Hide_Cross_Icon()
+    {
+        cross_tile.SetActive(false);
     }
 }

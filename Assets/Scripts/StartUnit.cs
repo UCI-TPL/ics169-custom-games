@@ -146,7 +146,7 @@ public class StartUnit : MonoBehaviour
                     }
                 }
                     
-                if (damagetext.transform.localScale.x == -1)
+                if (Mathf.Sign(damagetext.transform.parent.localScale.x) == -1)
                 {
                     damagetext.gameObject.transform.localScale = new Vector3(1, 1, 1);
                     //damagetext.GetComponent<TextMesh>().color = Color.green;

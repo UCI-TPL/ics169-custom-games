@@ -121,7 +121,8 @@ public class Grid : MonoBehaviour {
         }
 
         HexagonCell fromCell = current;
-        fromCell.spriteRenderer.color = color_m;
+        //fromCell.spriteRenderer.color = color_m;
+        fromCell.Show_Move_Icon();
         fromCell.Distance = 0;
         frontier.Add(fromCell);
         while (frontier.Count > 0)
@@ -131,7 +132,8 @@ public class Grid : MonoBehaviour {
             frontier.RemoveAt(0);
             if (curr.distance == mobility)
             {
-                curr.spriteRenderer.color = color_m;
+                //curr.spriteRenderer.color = color_m;
+                curr.Show_Move_Icon();
                 continue;
             }
             for (HexagonDirection d = HexagonDirection.NE; d <= HexagonDirection.NW; d++)
@@ -162,7 +164,8 @@ public class Grid : MonoBehaviour {
                 //}
                 if (distance < neighbor.Distance)
                 {
-                    neighbor.spriteRenderer.color = color_m;
+                    //neighbor.spriteRenderer.color = color_m;
+                    neighbor.Show_Move_Icon();
                     neighbor.Distance = distance;
                     frontier.Add(neighbor);
                 }
@@ -176,7 +179,8 @@ public class Grid : MonoBehaviour {
     {
         for (int i = 0; i < (width * height); i++)
         {
-            cells[i].spriteRenderer.color = defaultColor;
+            //cells[i].spriteRenderer.color = defaultColor;
+            cells[i].Hide_Move_Icon();
         }
     }
 
