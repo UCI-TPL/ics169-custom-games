@@ -11,6 +11,7 @@ public class Grid : MonoBehaviour {
     public int width = 10;
     public int height = 10;
     public Sprite Wall, AttackBuff, Healthbuff, MobilityBuff, CritBuff, AttackRangebuff, SlowingTile, Water, PoweredDown;
+    public bool ten, twenty, thirty;
 
     //Grid Details
     HexagonCell[] result;
@@ -201,6 +202,28 @@ public class Grid : MonoBehaviour {
 
     public HexagonCell[] CreateGrid()
     {
+        ten = true;
+        if (ten)
+        {
+            height = 10;
+            width = 10;
+            cells = new HexagonCell[height * width]; // create an array of correct length
+
+            for (int b = 0, c = 0; b < height; b++) // fill the array with actual hexagon cells
+            {
+
+                for (int a = 0; a < width; a++)
+                {
+                    CreateCell(a, b, c++);
+                }
+            }
+            result = ChangeHexInfo(cells, wall_list1, powerlist1, hazards, water);
+        }
+
+        if (twenty)
+        {
+            height = 20;
+        width = 20;
         //int randmap = Random.Range(0, 2);
         //if (randmap == 0)
         //{
@@ -215,6 +238,8 @@ public class Grid : MonoBehaviour {
             {
                 CreateCell(a, b, c++);
             }
+        }
+        result = ChangeHexInfo(cells, wall_list2, powerlist2, hazards2, water2);
         }
         result = ChangeHexInfo(cells, wall_list1, powerlist1, hazards, water);
         //}
@@ -236,7 +261,7 @@ public class Grid : MonoBehaviour {
         //result = ChangeHexInfo(cells, wall_list2, powerlist2, hazards2, water2);
         //}
 
-        //if(randmap == 2)
+        //if (thirty)
         //{
         //    height = 30;
         //    width = 30;
@@ -278,6 +303,7 @@ public class Grid : MonoBehaviour {
             {
                 int randval = Random.Range(1, 5);
                 cells_[powercells_[i]].gameObject.AddComponent<TeamPowerupTiles>();
+                cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().PoweredDownSprite = PoweredDown;
                 cells_[powercells_[i]].tag = "TeamBuff";
                 if (randval == 1)
                 {

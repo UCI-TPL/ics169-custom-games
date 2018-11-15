@@ -2310,11 +2310,11 @@ MonoBehaviour:
     rgba: 4285164234
   Player1Chosen: []
   Player2Chosen:
-  - {fileID: 114565556080221656, guid: e91f9d973d0d7a44296b9ea193d26049, type: 2}
-  - {fileID: 114836417496467364, guid: c75803ab503530f429261485e7a27acb, type: 2}
-  - {fileID: 114565556080221656, guid: e91f9d973d0d7a44296b9ea193d26049, type: 2}
-  - {fileID: 114565556080221656, guid: e91f9d973d0d7a44296b9ea193d26049, type: 2}
-  - {fileID: 114565556080221656, guid: e91f9d973d0d7a44296b9ea193d26049, type: 2}
+  - {fileID: 114836417496467364, guid: 3aa888738f10d674685d0f97568eb8df, type: 2}
+  - {fileID: 114358444280044280, guid: ccf8af24ecfa5b742a20ffb055df681a, type: 2}
+  - {fileID: 114565556080221656, guid: f3506773eed3ba44c80ef9f1cb562563, type: 2}
+  - {fileID: 114565556080221656, guid: f3506773eed3ba44c80ef9f1cb562563, type: 2}
+  - {fileID: 114836417496467364, guid: 3aa888738f10d674685d0f97568eb8df, type: 2}
   P1Team: []
   P2Team: []
   MoveableUnits: []
@@ -6684,7 +6684,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.30561066, y: 0.0000019073486}
+  m_AnchoredPosition: {x: 0.30561066, y: 0}
   m_SizeDelta: {x: 0.2603264, y: -0.3302498}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &962734665
@@ -7769,19 +7769,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 10
   height: 10
-  Wall: {fileID: 21300000, guid: 6b1572a4488b596408bb484e5326a611, type: 3}
-  AttackBuff: {fileID: 21300000, guid: 987b8071e904d1343abe0f94707189e7, type: 3}
-  Healthbuff: {fileID: 21300000, guid: cf1740c55c1433b46bacabdf555613ae, type: 3}
+  Wall: {fileID: 21300000, guid: 2db7e6eb5f9d520409a6e277d52beb60, type: 3}
+  AttackBuff: {fileID: 21300000, guid: bb426e8f5b43d984fbd4b4d09e743028, type: 3}
+  Healthbuff: {fileID: 21300000, guid: 987b8071e904d1343abe0f94707189e7, type: 3}
   MobilityBuff: {fileID: 21300000, guid: b2a03c27f59f99d43a3b99223cc57119, type: 3}
-  CritBuff: {fileID: 21300000, guid: bb426e8f5b43d984fbd4b4d09e743028, type: 3}
-  AttackRangebuff: {fileID: 21300000, guid: bbf63196eedc5934d993d0d1c833039f, type: 3}
+  CritBuff: {fileID: 21300000, guid: bbf63196eedc5934d993d0d1c833039f, type: 3}
+  AttackRangebuff: {fileID: 21300000, guid: cf1740c55c1433b46bacabdf555613ae, type: 3}
   SlowingTile: {fileID: 21300000, guid: f37f9b6413b47004da49928b4175db19, type: 3}
   Water: {fileID: 21300000, guid: ee8a4eeb5c9632e44ae89bf93a8d4595, type: 3}
-  PoweredDown: {fileID: 21300000, guid: e3d7595647baba045bf63c4803c89ce8, type: 3}
+  PoweredDown: {fileID: 21300000, guid: d0254cf88cce04a4080914146bd38fd6, type: 3}
+  ten: 0
+  twenty: 0
+  thirty: 0
   cellPrefab: {fileID: 114090098638288174, guid: 9d4ee7f126fd0534f8d63d538fcd7dad,
     type: 2}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
-  touchedColor: {r: 0.02745098, g: 0.25882354, b: 1, a: 1}
+  touchedColor: {r: 0, g: 0.8492365, b: 1, a: 1}
   attackColor: {r: 0.49803922, g: 0, b: 0, a: 1}
   cells: []
 --- !u!4 &1152803765
@@ -7965,7 +7968,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.30561066, y: 0.0000019073486}
+  m_AnchoredPosition: {x: 0.30561066, y: 0}
   m_SizeDelta: {x: 0.2603264, y: -0.3302498}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1183349289

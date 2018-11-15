@@ -7,16 +7,17 @@ public class TeamPowerupTiles : MonoBehaviour {
     public List<StartUnit> UnitsTeam;
     public StartUnit UnitonTile;
     public int mobility, debuff;
+    public Sprite PoweredDownSprite;
     // Use this for initialization
     void Start () {
         discovered = false;
-        mobility = UnitonTile.mobility;
+        //mobility = UnitonTile.mobility;
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        Debuff();
+        //Debuff();
         Buff();
 	}
 
@@ -29,6 +30,7 @@ public class TeamPowerupTiles : MonoBehaviour {
                 for (int i = 0; i < UnitsTeam.Count; i++)
                 {
                     UnitsTeam[i].attack += 20;
+                    discovered = false;
                 }
             }
             if (healthBuff)
@@ -36,6 +38,8 @@ public class TeamPowerupTiles : MonoBehaviour {
                 for (int i = 0; i < UnitsTeam.Count; i++)
                 {
                     UnitsTeam[i].health += 100;
+                    discovered = false;
+
                 }
             }
             if (mobilityBuff)
@@ -43,6 +47,7 @@ public class TeamPowerupTiles : MonoBehaviour {
                 for (int i = 0; i < UnitsTeam.Count; i++)
                 {
                     UnitsTeam[i].mobility += 1;
+                    discovered = false;
                 }
             }
             if (critBuff)
@@ -50,6 +55,7 @@ public class TeamPowerupTiles : MonoBehaviour {
                 for (int i = 0; i < UnitsTeam.Count; i++)
                 {
                     UnitsTeam[i].crit += .2f;
+                    discovered = false;
                 }
             }
             if (attackrangeBuff)
@@ -57,37 +63,38 @@ public class TeamPowerupTiles : MonoBehaviour {
                 for (int i = 0; i < UnitsTeam.Count; i++)
                 {
                     UnitsTeam[i].attackRange += 1;
+                    discovered = false;
                 }
             }
-            this.gameObject.tag = "Floor";
-            this.gameObject.GetComponent<SpriteRenderer>().sprite = this.gameObject.GetComponent<Grid>().PoweredDown;
+            //this.gameObject.tag = "Floor";
+            //this.gameObject.GetComponent<SpriteRenderer>().sprite = this.gameObject.GetComponent<Grid>().PoweredDown;
+            this.gameObject.GetComponent<SpriteRenderer>().sprite = PoweredDownSprite;
             this.gameObject.GetComponent<TeamPowerupTiles>().enabled = !this.gameObject.GetComponent<TeamPowerupTiles>().enabled;
         }
-        discovered = false;
+        //discovered = false;
     }
 
-    void Debuff()
-    {
-        if (discovered && UnitonTile != null)
-        {
-            if (grassDebuff)
-            {
-                if (UnitonTile.mobility - 1 < 1)
-                    UnitonTile.mobility = 1;
-                else
-                    UnitonTile.mobility = mobility - 1;
-                discovered = false;
-            }
+    //void Debuff()
+    //{
+    //    if (discovered && UnitonTile != null)
+    //    {
+    //        if (grassDebuff)
+    //        {
+    //            if (UnitonTile.mobility - 1 < 1)
+    //                UnitonTile.mobility = 1;
+    //            else
+    //                UnitonTile.mobility = mobility - 1;
+    //            discovered = false;
+    //        }
 
-            if (waterDebuff)
-            {
-                if (UnitonTile.mobility - 2 < 0)
-                    UnitonTile.mobility = 1;
-                else
-                    UnitonTile.mobility = mobility - 2;
-                discovered = false;
-            }
-        }
-
-    }
+    //        if (waterDebuff)
+    //        {
+    //            if (UnitonTile.mobility - 2 < 0)
+    //                UnitonTile.mobility = 1;
+    //            else
+    //                UnitonTile.mobility = mobility - 2;
+    //            discovered = false;
+    //        }
+    //    }
+    //}
 }
