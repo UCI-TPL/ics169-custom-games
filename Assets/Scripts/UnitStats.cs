@@ -6,7 +6,7 @@ public class UnitStats : MonoBehaviour {
     List<string[]> unit_stats = new List<string[]>();
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         TextAsset stats = Resources.Load<TextAsset>("UnitStats");
         string[] row_values = stats.text.Split(new char[] { '\n' });
         for(int i=1; i < row_values.Length; i++)
