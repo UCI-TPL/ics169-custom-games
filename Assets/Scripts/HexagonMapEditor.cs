@@ -452,6 +452,7 @@ public class HexagonMapEditor : MonoBehaviour
 
     void SelectUnit(HexagonCell current, int index) // sets variables to the clicked position's unit
     {
+        hexGrid.ClearPath();
         SelectedUnit = current.unitOnTile;
         StartCoroutine(SelectedUnit.Blink(Color.grey, SelectedUnit, Time.time + 0.6f));
         unitCell = hexGrid.cells[index];
