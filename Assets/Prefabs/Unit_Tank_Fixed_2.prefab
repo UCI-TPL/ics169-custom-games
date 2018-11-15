@@ -305,7 +305,7 @@ GameObject:
   - component: {fileID: 82196994817946992}
   - component: {fileID: 82788101704758044}
   - component: {fileID: 82291832674458210}
-  - component: {fileID: 114671160411009756}
+  - component: {fileID: 114001204968501478}
   m_Layer: 0
   m_Name: Unit_Tank_Fixed_2
   m_TagString: Player 2
@@ -1162,6 +1162,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114001204968501478
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1436518717945170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dc05e1b7170c954cb238105e23bfe33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114006205978458212
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1509,7 +1520,7 @@ MonoBehaviour:
   currently_attacking: 0
   attack_blink_color:
     serializedVersion: 2
-    rgba: 0
+    rgba: 4282253155
   attackSound: {fileID: 82291832674458210}
   hitSound: {fileID: 82788101704758044}
   moveSound: {fileID: 82196994817946992}
@@ -1843,17 +1854,6 @@ MonoBehaviour:
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 0}
   m_AttachedIK: {fileID: 0}
---- !u!114 &114671160411009756
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1436518717945170}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4dc05e1b7170c954cb238105e23bfe33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114718425559716354
 MonoBehaviour:
   m_ObjectHideFlags: 1

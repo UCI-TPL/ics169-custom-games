@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 82247731109023220}
   - component: {fileID: 82728571445358314}
   - component: {fileID: 82447873015287384}
-  - component: {fileID: 114079473165973152}
+  - component: {fileID: 114037402291929926}
   m_Layer: 0
   m_Name: Unit_Ranger 1
   m_TagString: Player 2
@@ -1261,6 +1261,17 @@ MonoBehaviour:
   turn_info_Image: {fileID: 0}
   stats_2: {fileID: 0}
   obj_type: {fileID: 114811372252643444}
+--- !u!114 &114037402291929926
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1215226028949906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dc05e1b7170c954cb238105e23bfe33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114054572913908256
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1277,17 +1288,6 @@ MonoBehaviour:
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 4972105757160192}
   m_AttachedIK: {fileID: 0}
---- !u!114 &114079473165973152
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1215226028949906}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4dc05e1b7170c954cb238105e23bfe33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114089517438197512
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1861,7 +1861,7 @@ MonoBehaviour:
   currently_attacking: 0
   attack_blink_color:
     serializedVersion: 2
-    rgba: 0
+    rgba: 4282253155
   attackSound: {fileID: 82247731109023220}
   hitSound: {fileID: 82728571445358314}
   moveSound: {fileID: 82447873015287384}

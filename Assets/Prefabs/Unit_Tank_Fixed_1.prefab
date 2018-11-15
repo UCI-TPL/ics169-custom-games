@@ -439,7 +439,7 @@ GameObject:
   - component: {fileID: 82583691240875890}
   - component: {fileID: 82521889915457870}
   - component: {fileID: 82853330185722308}
-  - component: {fileID: 114678534809321318}
+  - component: {fileID: 114202373940244160}
   m_Layer: 0
   m_Name: Unit_Tank_Fixed_1
   m_TagString: Player 1
@@ -1310,6 +1310,17 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &114202373940244160
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1767324749333156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dc05e1b7170c954cb238105e23bfe33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114216734002127664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1651,7 +1662,7 @@ MonoBehaviour:
   currently_attacking: 0
   attack_blink_color:
     serializedVersion: 2
-    rgba: 0
+    rgba: 4282253155
   attackSound: {fileID: 82853330185722308}
   hitSound: {fileID: 82521889915457870}
   moveSound: {fileID: 82583691240875890}
@@ -1678,17 +1689,6 @@ MonoBehaviour:
   - {fileID: 4550276521113038}
   - {fileID: 4281957852858726}
   - {fileID: 4751373359194222}
---- !u!114 &114678534809321318
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1767324749333156}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4dc05e1b7170c954cb238105e23bfe33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114715762669203840
 MonoBehaviour:
   m_ObjectHideFlags: 1

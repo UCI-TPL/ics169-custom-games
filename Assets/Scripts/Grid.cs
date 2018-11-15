@@ -202,7 +202,7 @@ public class Grid : MonoBehaviour {
 
     public HexagonCell[] CreateGrid()
     {
-        //ten = true;
+        ten = true;
         if (ten)
         {
             height = 10;
