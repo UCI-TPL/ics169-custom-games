@@ -95,6 +95,8 @@ public class HexagonCell : MonoBehaviour {
     public void Show_Move_Icon()
     {
         move_tile.SetActive(true);
+        move_tile.GetComponent<Blinking>().next_blink = Time.time;
+        move_tile.GetComponent<Blinking>().color_bool = true;
     }
 
     public void Hide_Move_Icon()
@@ -105,6 +107,8 @@ public class HexagonCell : MonoBehaviour {
     public void Show_Cross_Icon()
     {
         cross_tile.SetActive(true);
+        move_tile.GetComponent<Blinking>().next_blink = Time.time;
+        move_tile.GetComponent<Blinking>().color_bool = true;
     }
 
     public void Hide_Cross_Icon()

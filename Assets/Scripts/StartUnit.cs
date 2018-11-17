@@ -146,11 +146,21 @@ public class StartUnit : MonoBehaviour
                     }
                 }
                     
-                if (Mathf.Sign(damagetext.transform.parent.localScale.x) == -1)
+                if (Mathf.Sign(damagetext.transform.parent.localScale.x) == -1 && Mathf.Sign(damagetext.transform.localScale.x) == 1)
                 {
-                    damagetext.gameObject.transform.localScale = new Vector3(1, 1, 1);
+                    damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y, 
+                        damagetext.transform.localScale.z);
+
                     //damagetext.GetComponent<TextMesh>().color = Color.green;
-                    Debug.Log("BackWards Text");
+                    //Debug.Log("BackWards Text");
+                }
+                else
+                {
+                    if(Mathf.Sign(damagetext.transform.parent.localScale.x) == 1 && Mathf.Sign(damagetext.transform.localScale.x) == -1)
+                    {
+                        damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
+                            damagetext.transform.localScale.z);
+                    }
                 }
                     
             }
