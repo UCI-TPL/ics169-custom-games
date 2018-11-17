@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TeamPowerupTiles : MonoBehaviour {
+public class TeamPowerupTiles : HexagonCell {
     public bool discovered,attackBuff,healthBuff,mobilityBuff,critBuff,attackrangeBuff,waterDebuff,grassDebuff;
     public List<StartUnit> UnitsTeam;
     public StartUnit UnitonTile;
@@ -27,49 +27,127 @@ public class TeamPowerupTiles : MonoBehaviour {
         {
             if (attackBuff)
             {
-                for (int i = 0; i < UnitsTeam.Count; i++)
+                if (occupied)
                 {
-                    UnitsTeam[i].attack += 20;
+                    for (int i = 0; i < UnitsTeam.Count; i++)
+                    {
+                        UnitsTeam[i].attack += 20;
+                        UnitsTeam[i].current_attack += 20;
+                    }
                     discovered = false;
+                }
+                else
+                {
+                    if (!occupied && UnitsTeam.Count != 0)
+                    {
+                        for (int i = 0; i < UnitsTeam.Count; i++)
+                        {
+                            UnitsTeam[i].attack -= 20;
+                            UnitsTeam[i].current_attack -= 20;
+                            UnitsTeam.Remove(UnitsTeam[i]);
+                        }
+                        discovered = false;
+                    }
                 }
             }
             if (healthBuff)
             {
-                for (int i = 0; i < UnitsTeam.Count; i++)
+                if (occupied)
                 {
-                    UnitsTeam[i].health += 100;
+                    for (int i = 0; i < UnitsTeam.Count; i++)
+                    {
+                        UnitsTeam[i].health += 100;
+                        UnitsTeam[i].current_health += 100;
+                    }
                     discovered = false;
-
+                }
+                else
+                {
+                    if (!occupied && UnitsTeam.Count != 0)
+                    {
+                        for (int i = 0; i < UnitsTeam.Count; i++)
+                        {
+                            UnitsTeam[i].health -= 100;
+                            UnitsTeam[i].current_health -= 100;
+                            UnitsTeam.Remove(UnitsTeam[i]);
+                        }
+                        discovered = false;
+                    }
                 }
             }
             if (mobilityBuff)
             {
-                for (int i = 0; i < UnitsTeam.Count; i++)
+                if (occupied)
                 {
-                    UnitsTeam[i].mobility += 1;
+                    for (int i = 0; i < UnitsTeam.Count; i++)
+                    {
+                        UnitsTeam[i].mobility += 1;
+                    }
                     discovered = false;
+                }
+                else
+                {
+                    if (!occupied && UnitsTeam.Count != 0)
+                    {
+                        for (int i = 0; i < UnitsTeam.Count; i++)
+                        {
+                            UnitsTeam[i].mobility -= 1;
+                            UnitsTeam.Remove(UnitsTeam[i]);
+                        }
+                        discovered = false;
+                    }
                 }
             }
             if (critBuff)
             {
-                for (int i = 0; i < UnitsTeam.Count; i++)
+                if (occupied)
                 {
-                    UnitsTeam[i].crit += .2f;
+                    for (int i = 0; i < UnitsTeam.Count; i++)
+                    {
+                        UnitsTeam[i].crit += .2f;
+                    }
                     discovered = false;
+                }
+                else
+                {
+                    if (!occupied && UnitsTeam.Count != 0)
+                    {
+                        for (int i = 0; i < UnitsTeam.Count; i++)
+                        {
+                            UnitsTeam[i].crit -= .2f;
+                            UnitsTeam.Remove(UnitsTeam[i]);
+                        }
+                        discovered = false;
+                    }
                 }
             }
             if (attackrangeBuff)
             {
-                for (int i = 0; i < UnitsTeam.Count; i++)
+                if (occupied)
                 {
-                    UnitsTeam[i].attackRange += 1;
+                    for (int i = 0; i < UnitsTeam.Count; i++)
+                    {
+                        UnitsTeam[i].attackRange += 1;
+                    }
                     discovered = false;
+                }
+                else
+                {
+                    if (!occupied && UnitsTeam.Count != 0)
+                    {
+                        for (int i = 0; i < UnitsTeam.Count; i++)
+                        {
+                            UnitsTeam[i].attackRange -= 1;
+                            UnitsTeam.Remove(UnitsTeam[i]);
+                        }
+                        discovered = false;
+                    }
                 }
             }
             //this.gameObject.tag = "Floor";
             //this.gameObject.GetComponent<SpriteRenderer>().sprite = this.gameObject.GetComponent<Grid>().PoweredDown;
-            this.gameObject.GetComponent<SpriteRenderer>().sprite = PoweredDownSprite;
-            this.gameObject.GetComponent<TeamPowerupTiles>().enabled = !this.gameObject.GetComponent<TeamPowerupTiles>().enabled;
+            //this.gameObject.GetComponent<SpriteRenderer>().sprite = PoweredDownSprite;
+            //this.gameObject.GetComponent<TeamPowerupTiles>().enabled = !this.gameObject.GetComponent<TeamPowerupTiles>().enabled;
         }
         //discovered = false;
     }
