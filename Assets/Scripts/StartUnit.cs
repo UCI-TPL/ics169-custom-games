@@ -119,6 +119,25 @@ public class StartUnit : MonoBehaviour
             }
 
             StartUnit attacked_unit = targetable[rand_index].unitOnTile;
+            HexagonCell attacked_cell = targetable[rand_index];
+            HexagonCoord current = unitCell.coords;
+
+            if (attacked_cell.coords.x > current.x || (attacked_cell.coords.x == current.x && attacked_cell.coords.z == current.z + 1)) //going right
+            {
+                if (!direction) //facing left
+                {
+                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                    direction = true;
+                }
+            }
+            else //going left
+            {
+                if (direction)
+                {
+                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                    direction = false;
+                }
+            }
 
             if (attacked_unit.FloatingTextPrefab)
             {
@@ -277,5 +296,11 @@ public class StartUnit : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
         }
 
+    }
+
+    public void Change_Health(int change_by, StartUnit target)
+    {
+        current_health = current_health + change_by;
+        target.health_bar.GetComponent<Image>().fillAmount = target.current_health / target.health;
     }
 }
