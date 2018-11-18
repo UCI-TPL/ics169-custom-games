@@ -457,7 +457,29 @@ public class HexagonMapEditor : MonoBehaviour
         int index = currentCell.coords.X_coord + currentCell.coords.Z_coord * hexGrid.width + currentCell.coords.Z_coord / 2;
         if (currentCell.occupied) // if clicked and there is a unit there
         {
-            SelectUnit(currentCell, index); // make the selected unit that unit
+            if(currentCell.unitOnTile == SelectedUnit)
+            {
+                if (MoveableUnits.Contains(SelectedUnit))
+                {
+                    MoveableUnits.Remove(SelectedUnit);
+                    Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
+                    for (int i = 0; i < Unit_Meshes.Length; i++)
+                    {
+                        Unit_Meshes[i].color = Greyed_Unit_Color;
+                        //Debug.Log("Color_Changed");
+                    }
+                    DeselectUnit();
+                    if (MoveableUnits.Count > 0)
+                    {
+                        Snap_To_Next_Unit(true);
+                        //Debug.Log("Snapped");
+                    }
+                }
+            }
+            else
+            {
+                SelectUnit(currentCell, index); // make the selected unit that unit
+            }
         }
         else if (!currentCell.occupied && isUnitSelected && !attacking) // a unit is already selected
         {
@@ -591,10 +613,10 @@ public class HexagonMapEditor : MonoBehaviour
             P2Team.Remove(current.unitOnTile);
         if (MoveableUnits.Contains(current.unitOnTile))
             MoveableUnits.Remove(current.unitOnTile);
-        current.unitOnTile.dead = true;
+        current.unitOnTile.removed = true;
         current.occupied = false;
         current.unitOnTile = null;
-
+        
     }
 
     HexagonCell GetCellUnderCursor2D() // findn the cell under the cursor thats 2D

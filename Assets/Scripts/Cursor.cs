@@ -204,6 +204,7 @@ public class Cursor : MonoBehaviour
             //&& editor.SelectedUnit != _Grid.Get_Cell_Index(coords).unitOnTile
             if (_Grid.Get_Cell_Index(coords).unitOnTile != null)
             {
+                //if(editor.allow_cursor_control)
                 StartUnit _tileUnit = _Grid.Get_Cell_Index(coords).unitOnTile;
 
                 BattleUI _tileUnit_UI = _tileUnit.Unit_Stats_Panel.GetComponent<BattleUI>();
@@ -242,11 +243,17 @@ public class Cursor : MonoBehaviour
         prev_coords = coords;
         coords = _new_coord;
         Hide_Prev_UI();
-        StartUnit _tileUnit = _Grid.Get_Cell_Index(coords).unitOnTile;
-        BattleUI _tileUnit_UI = _tileUnit.Unit_Stats_Panel.GetComponent<BattleUI>();
-        editor.Assign_Stats_Var(_tileUnit_UI, _tileUnit);
-        _tileUnit_UI.Show();
-
+        if(editor.allow_cursor_control == true)
+        {
+            StartUnit _tileUnit = _Grid.Get_Cell_Index(coords).unitOnTile;
+            BattleUI _tileUnit_UI = _tileUnit.Unit_Stats_Panel.GetComponent<BattleUI>();
+            editor.Assign_Stats_Var(_tileUnit_UI, _tileUnit);
+            _tileUnit_UI.Show();
+        }
+        else
+        {
+            Hide_Prev_UI();
+        }
     }
 
     private void Hide_Prev_UI()

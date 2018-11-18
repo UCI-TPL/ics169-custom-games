@@ -321,6 +321,7 @@ GameObject:
   - component: {fileID: 223796237296670140}
   - component: {fileID: 114735521080516532}
   - component: {fileID: 114099325096682698}
+  - component: {fileID: 114443567470998294}
   m_Layer: 0
   m_Name: Unit_Health
   m_TagString: Untagged
@@ -1299,6 +1300,7 @@ MonoBehaviour:
   attack_blink_color:
     serializedVersion: 2
     rgba: 0
+  removed: 0
   attackSound: {fileID: 82772881531311788}
   hitSound: {fileID: 82215094379298936}
   moveSound: {fileID: 82215094379298936}
@@ -1537,6 +1539,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BoneTransform: {fileID: 4562750258303300}
+--- !u!114 &114443567470998294
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1483731756499578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35120075b0b8f6a43884aaed3eea3654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114452707826544306
 MonoBehaviour:
   m_ObjectHideFlags: 1

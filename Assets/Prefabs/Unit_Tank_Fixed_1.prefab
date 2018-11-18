@@ -525,6 +525,7 @@ GameObject:
   - component: {fileID: 223001552641411950}
   - component: {fileID: 114925249337801888}
   - component: {fileID: 114231326304861480}
+  - component: {fileID: 114652197133481046}
   m_Layer: 0
   m_Name: Unit_Health
   m_TagString: Untagged
@@ -1675,6 +1676,7 @@ MonoBehaviour:
   attack_blink_color:
     serializedVersion: 2
     rgba: 4282253155
+  removed: 0
   attackSound: {fileID: 82853330185722308}
   hitSound: {fileID: 82521889915457870}
   moveSound: {fileID: 82583691240875890}
@@ -1701,6 +1703,17 @@ MonoBehaviour:
   - {fileID: 4550276521113038}
   - {fileID: 4281957852858726}
   - {fileID: 4751373359194222}
+--- !u!114 &114652197133481046
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1909109810029392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35120075b0b8f6a43884aaed3eea3654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114715762669203840
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -226,6 +226,7 @@ GameObject:
   - component: {fileID: 223640084194492980}
   - component: {fileID: 114144506134302746}
   - component: {fileID: 114577334729103576}
+  - component: {fileID: 114909856698754316}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -1874,6 +1875,7 @@ MonoBehaviour:
   attack_blink_color:
     serializedVersion: 2
     rgba: 4282253155
+  removed: 0
   attackSound: {fileID: 82247731109023220}
   hitSound: {fileID: 82728571445358314}
   moveSound: {fileID: 82447873015287384}
@@ -1918,6 +1920,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Poses:
   - {fileID: 0}
+--- !u!114 &114909856698754316
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1442372811216548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35120075b0b8f6a43884aaed3eea3654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114910909604947586
 MonoBehaviour:
   m_ObjectHideFlags: 1

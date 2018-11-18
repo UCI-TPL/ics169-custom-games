@@ -279,6 +279,7 @@ GameObject:
   - component: {fileID: 223062458507206926}
   - component: {fileID: 114803589448410276}
   - component: {fileID: 114324787102836464}
+  - component: {fileID: 114020958663120544}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -1266,6 +1267,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: CRIT
+--- !u!114 &114020958663120544
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1538625112326410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35120075b0b8f6a43884aaed3eea3654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114087826248163870
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1671,6 +1683,7 @@ MonoBehaviour:
   attack_blink_color:
     serializedVersion: 2
     rgba: 4282253155
+  removed: 0
   attackSound: {fileID: 82409996889070630}
   hitSound: {fileID: 82675544592733642}
   moveSound: {fileID: 82190600984253618}

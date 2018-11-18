@@ -33,6 +33,7 @@ public class StartUnit : MonoBehaviour
     public bool currently_attacking;
     private float time = 0.0f;
     public Color32 attack_blink_color;
+    public bool removed = false;
 
     //to determine if a retaliation is neccessary
     private bool end_attack_without_retaliate;
@@ -64,14 +65,16 @@ public class StartUnit : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
-        if (dead)
+        if (dead && removed)
         {
             //StartCoroutine(Dead());
             this.gameObject.SetActive(false);
+            
         }
 
     }
 
+    // The way update portraits works makes destroying units not something that should be done
     public IEnumerator Dead()
     {
         yield return new WaitForSeconds(0.5f);
@@ -90,6 +93,7 @@ public class StartUnit : MonoBehaviour
             if (unitCell.coords.FindDistanceTo(cell.coords) <= attackRange
                 && unitCell.coords.FindDistanceTo(cell.coords) > 0
                 && cell.occupied
+                && !cell.unitOnTile.dead
                 && tag != cell.unitOnTile.tag)
                 targetable.Add(cell);
         }
@@ -199,19 +203,30 @@ public class StartUnit : MonoBehaviour
                 targetable[rand_index].unitOnTile.current_attack *= percenthealth;
             }
 
-            StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
+            
 
             //Debug.Log("he dead");
             if (targetable[rand_index].unitOnTile.current_health <= 0)
             {
                 end_attack_without_retaliate = true;
-                int index = targetable[rand_index].coords.X_coord + targetable[rand_index].coords.Z_coord * hexGrid.width + targetable[rand_index].coords.Z_coord / 2;
+                StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
+                //int index = targetable[rand_index].coords.X_coord + targetable[rand_index].coords.Z_coord * hexGrid.width + targetable[rand_index].coords.Z_coord / 2;
                 //editor.RemoveUnitInfo(targetable[rand_index], index);
                 editor.Units_To_Delete.Add(attacked_cell);
+                attacked_unit.dead = true;
             }
             else
             {
-                end_attack_without_retaliate = false;
+                if (unitCell.coords.FindDistanceTo(attacked_cell.coords) <= attacked_cell.unitOnTile.attackRange)
+                {
+                    end_attack_without_retaliate = false;
+                }
+                else
+                {
+                    end_attack_without_retaliate = true;
+                }
+                
+                StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 yield return new WaitForSeconds(0.3f);
                 StartCoroutine(targetable[rand_index].unitOnTile.Hit());
                 StartCoroutine(attacked_unit.Blink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f));
@@ -225,7 +240,7 @@ public class StartUnit : MonoBehaviour
 
     public virtual IEnumerator Retaliate(Grid hexGrid, HexagonCell unitCell_to_attack, HexagonCell unitCell_is_attacking) // return bool yes if dead false if no
     {
-        Debug.Log("Called_Retaliate");
+        //Debug.Log("Called_Retaliate");
         editor.cursor.Assign_Position(this.transform.position, hexGrid.GetCell(this.transform.position).coords);
         editor.Main_Cam.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, editor.Main_Cam.transform.position.z);
         //StartCoroutine(this.Blink(Color.green, this, Time.time + 0.8f));
@@ -334,18 +349,20 @@ public class StartUnit : MonoBehaviour
             attacked_unit.current_attack *= percenthealth;
         }
 
-        StartCoroutine(Retaliate_Anim(attacked_unit));
+        
 
         //Debug.Log("he dead");
         if (attacked_unit.current_health <= 0)
         {
 
-            int index = attacked_cell.coords.X_coord + attacked_cell.coords.Z_coord * hexGrid.width + attacked_cell.coords.Z_coord / 2;
+            //int index = attacked_cell.coords.X_coord + attacked_cell.coords.Z_coord * hexGrid.width + attacked_cell.coords.Z_coord / 2;
             //editor.RemoveUnitInfo(attacked_cell, index);
+            attacked_unit.dead = true;
             editor.Units_To_Delete.Add(attacked_cell);
         }
         else
         {
+            StartCoroutine(Retaliate_Anim(attacked_unit));
             yield return new WaitForSeconds(0.3f);
             StartCoroutine(attacked_unit.Hit());
             StartCoroutine(attacked_unit.Blink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f));
@@ -385,7 +402,7 @@ public class StartUnit : MonoBehaviour
 
     }
 
-    //should be depreciated...
+    //should be depreciated... doesn't prock retaliate... however it is used as a way to cause a heal on medic... 
     public IEnumerator Attack()
     {
         anim.SetBool("Attacking", true);

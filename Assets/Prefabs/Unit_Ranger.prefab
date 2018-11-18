@@ -343,6 +343,7 @@ GameObject:
   - component: {fileID: 223005267641857412}
   - component: {fileID: 114512539802881276}
   - component: {fileID: 114851271567353788}
+  - component: {fileID: 114432707532868598}
   m_Layer: 0
   m_Name: Unit_Health
   m_TagString: Untagged
@@ -1494,6 +1495,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114432707532868598
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1696902171766164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35120075b0b8f6a43884aaed3eea3654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114464493924978438
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1798,6 +1810,7 @@ MonoBehaviour:
   attack_blink_color:
     serializedVersion: 2
     rgba: 4282253155
+  removed: 0
   attackSound: {fileID: 82706511657254468}
   hitSound: {fileID: 82331415046952338}
   moveSound: {fileID: 82958405961245148}
