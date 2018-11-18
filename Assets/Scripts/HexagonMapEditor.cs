@@ -59,7 +59,10 @@ public class HexagonMapEditor : MonoBehaviour
     public bool onePlayer;
     public bool cur_attacking;
     public int attack_count;
-    
+
+    public bool allow_cursor_control;
+
+    public List<HexagonCell> Units_To_Delete = new List<HexagonCell>();
 
     public enum TurnStates
     {
@@ -85,6 +88,7 @@ public class HexagonMapEditor : MonoBehaviour
         initializing = true;
         cur_attacking = false;
         attacking = false;
+        allow_cursor_control = true;
         attack_count = 0;
         //UI = GetComponentInChildren<BattleUI>();
         P1_Team_portrait_UI = P1_portrait_UI.GetComponent<Team_Portrait_UI>();
@@ -137,6 +141,7 @@ public class HexagonMapEditor : MonoBehaviour
                 if (MoveableUnits.Count == 0) // once all units move break
                 {
                     currentState = TurnStates.P1_ATTACK;
+                    allow_cursor_control = false;
                     MoveableUnits = new List<StartUnit>(P2Team);
                     //Turn Units Back To Normal Color
                     for (int i = 0; i < MoveableUnits.Count; i++)
@@ -164,6 +169,7 @@ public class HexagonMapEditor : MonoBehaviour
                     //sets all units on team to currently attacking
                     if (!cur_attacking)
                     {
+                        Units_To_Delete.Clear();
                         foreach (StartUnit unit in P1Team) {
                             unit.currently_attacking = true;
                         }
@@ -199,22 +205,31 @@ public class HexagonMapEditor : MonoBehaviour
                 }
                 else
                 {
+                    foreach(HexagonCell units_cell in Units_To_Delete)
+                    {
+                        int index = units_cell.coords.X_coord + units_cell.coords.Z_coord * hexGrid.width + units_cell.coords.Z_coord / 2;
+                        RemoveUnitInfo(units_cell, index);
+                    }
+
                     cur_attacking = false;
                     attack_count = 0;
                     attacking = false;
                     currentState = TurnStates.P2_MOVE;
+                    allow_cursor_control = true;
                     if (MoveableUnits.Count > 0)
                     {
                         Snap_To_First_Unit();
                         p2_unit_rotation_value = 0;
                     }
                     P2_Team_portrait_UI.Update_Portraits();
+                    P1_Team_portrait_UI.Update_Portraits();
                 }
                 break;
             case (TurnStates.P2_MOVE):
                 if (MoveableUnits.Count == 0)
                 {
                     currentState = TurnStates.P2_ATTACK;
+                    allow_cursor_control = false;
                     MoveableUnits = new List<StartUnit>(P1Team);
                     for (int i = 0; i < MoveableUnits.Count; i++)
                     {
@@ -246,6 +261,7 @@ public class HexagonMapEditor : MonoBehaviour
                     //sets all units on team to currently attacking
                     if (!cur_attacking)
                     {
+                        Units_To_Delete.Clear();
                         foreach (StartUnit unit in P2Team)
                         {
                             unit.currently_attacking = true;
@@ -280,16 +296,24 @@ public class HexagonMapEditor : MonoBehaviour
                 }
                 else
                 {
+                    foreach (HexagonCell units_cell in Units_To_Delete)
+                    {
+                        int index = units_cell.coords.X_coord + units_cell.coords.Z_coord * hexGrid.width + units_cell.coords.Z_coord / 2;
+                        RemoveUnitInfo(units_cell, index);
+                    }
+
                     cur_attacking = false;
                     attack_count = 0;
                     attacking = false;
                     currentState = TurnStates.CHECK;
+                    allow_cursor_control = true;
                     if (MoveableUnits.Count > 0)
                     {
                         Snap_To_First_Unit();
                         p1_unit_rotation_value = 0;
                     }
                     P1_Team_portrait_UI.Update_Portraits();
+                    P2_Team_portrait_UI.Update_Portraits();
                 }
                 break;
             case (TurnStates.CHECK):
@@ -378,38 +402,41 @@ public class HexagonMapEditor : MonoBehaviour
 
     public void MovePhase(string joystick) // handles input from the player to correctly move the unit
     {
-        if (!EventSystem.current.IsPointerOverGameObject())
+        if(allow_cursor_control == true)
         {
-            if (Input.GetButtonDown(joystick + "A Button"))
-                HandleInput();
-            if (Input.GetButtonDown(joystick + "B Button"))
+            if (!EventSystem.current.IsPointerOverGameObject())
             {
-                DeselectUnit();
-            }
-        }
-
-        if (Input.GetButtonDown(joystick + "X Button"))
-        {
-            if (MoveableUnits.Contains(SelectedUnit))
-            {
-                MoveableUnits.Remove(SelectedUnit);
-                Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
-                for (int i = 0; i < Unit_Meshes.Length; i++)
+                if (Input.GetButtonDown(joystick + "A Button"))
+                    HandleInput();
+                if (Input.GetButtonDown(joystick + "B Button"))
                 {
-                    Unit_Meshes[i].color = Greyed_Unit_Color;
-                    //Debug.Log("Color_Changed");
+                    DeselectUnit();
                 }
             }
-        }
 
-        if (Input.GetButtonDown(joystick + "R Bumper"))
-        {
-            Snap_To_Next_Unit(true);
-        }
+            if (Input.GetButtonDown(joystick + "X Button"))
+            {
+                if (MoveableUnits.Contains(SelectedUnit))
+                {
+                    MoveableUnits.Remove(SelectedUnit);
+                    Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
+                    for (int i = 0; i < Unit_Meshes.Length; i++)
+                    {
+                        Unit_Meshes[i].color = Greyed_Unit_Color;
+                        //Debug.Log("Color_Changed");
+                    }
+                }
+            }
 
-        if (Input.GetButtonDown(joystick + "L Bumper"))
-        {
-            Snap_To_Next_Unit(false);
+            if (Input.GetButtonDown(joystick + "R Bumper"))
+            {
+                Snap_To_Next_Unit(true);
+            }
+
+            if (Input.GetButtonDown(joystick + "L Bumper"))
+            {
+                Snap_To_Next_Unit(false);
+            }
         }
     }
 
@@ -599,6 +626,7 @@ public class HexagonMapEditor : MonoBehaviour
 
     IEnumerator MoveUnit(HexagonCell _unitCell, HexagonCell _nextCell)
     {
+        allow_cursor_control = false;
         //int distance = hexGrid.GetCell(SelectedUnit.transform.position).coords.FindDistanceTo(cursor.coords);
         int index = hexGrid.Get_Index(cursor.coords);
         int distance = hexGrid.FindPath(_unitCell, hexGrid.cells[index]).Count;
@@ -647,6 +675,7 @@ public class HexagonMapEditor : MonoBehaviour
         {
             Debug.LogError("CAN'T MOVE THATS TOO FAR FOR THE UNIT");
         }
+        allow_cursor_control = true;
     }
 
     int mod(int x, int m)
