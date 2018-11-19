@@ -12,6 +12,7 @@ public class Grid : MonoBehaviour {
     public int height = 10;
     public Sprite Wall, AttackBuff, Healthbuff, MobilityBuff, CritBuff, AttackRangebuff, SlowingTile, Water, PoweredDown;
     public bool ten, twenty, thirty;
+    public int sprites_per_tile;
 
     //Grid Details
     HexagonCell[] result;
@@ -79,6 +80,9 @@ public class Grid : MonoBehaviour {
         cell.transform.localPosition = position;
         cell.coords = HexagonCoord.FromOffsetCoordinates(a, b);
         cell.spriteRenderer.color = defaultColor;
+
+        Order_Cell(cell, sprites_per_tile);
+
         if(a > 0)
         {
             cell.SetNeighbor(HexagonDirection.W, cells[c - 1]);
@@ -380,6 +384,26 @@ public class Grid : MonoBehaviour {
     {
         StopAllCoroutines();
         return Search(fromCell, toCell);
+    }
+
+
+    //used for putting sprites in the right order, so that everything appears as it should (further away tiles appear behind those closer up)
+    public void Order_Cell(HexagonCell _cell, int num_sprites_per_cell) 
+    {
+        int _current_sorting_order = _cell.gameObject.GetComponent<SpriteRenderer>().sortingOrder;
+        _cell.gameObject.GetComponent<SpriteRenderer>().sortingOrder = _current_sorting_order +
+            ((_cell.coords.X_coord + _cell.coords.Y_coord) * num_sprites_per_cell);
+
+        int count = 0;
+        SpriteRenderer[] sprites = _cell.gameObject.GetComponentsInChildren<SpriteRenderer>(true);
+        //Debug.Log("--------------------" + sprites.Length);
+        foreach(SpriteRenderer sprite_renderer in sprites)
+        {
+            sprite_renderer.sortingOrder = sprite_renderer.sortingOrder 
+                + ((_cell.coords.X_coord + _cell.coords.Y_coord) * num_sprites_per_cell);
+            count += 1;
+            //Debug.Log("" + count + ": " + num_sprites_per_cell + " " + sprite_renderer.sortingOrder);
+        }
     }
 
     Stack<HexagonCell> Search (HexagonCell fromCell, HexagonCell toCell) // searrch creates a stack of the shortest path given a to and from tile.  this is used for movement animations

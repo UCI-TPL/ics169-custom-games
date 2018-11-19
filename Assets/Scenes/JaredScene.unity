@@ -2330,6 +2330,7 @@ MonoBehaviour:
   attack_count: 0
   allow_cursor_control: 0
   Units_To_Delete: []
+  max_sprites_per_unit: 4
   currentState: 0
 --- !u!114 &330579868
 MonoBehaviour:
@@ -4718,9 +4719,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1786724121
+  m_SortingLayerID: -982681181
   m_SortingLayer: -1
-  m_SortingOrder: 20
+  m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: de64c35b70fc16a44870f718a6978a35, type: 3}
   m_Color: {r: 0.56071806, g: 0.9339623, b: 0.22467959, a: 1}
   m_FlipX: 0
@@ -4768,6 +4769,7 @@ MonoBehaviour:
   _Grid: {fileID: 1152803764}
   time_increment: 0.2
   editor: {fileID: 330579867}
+  original_sorting_value: 4
 --- !u!1 &658628150
 GameObject:
   m_ObjectHideFlags: 0
@@ -7783,6 +7785,7 @@ MonoBehaviour:
   ten: 0
   twenty: 0
   thirty: 0
+  sprites_per_tile: 5
   cellPrefab: {fileID: 114090098638288174, guid: 9d4ee7f126fd0534f8d63d538fcd7dad,
     type: 2}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
@@ -7868,6 +7871,7 @@ MonoBehaviour:
   attack_count: 0
   allow_cursor_control: 0
   Units_To_Delete: []
+  max_sprites_per_unit: 0
   currentState: 0
 --- !u!1 &1175651237
 GameObject:

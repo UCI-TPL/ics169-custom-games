@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 4680953922296730}
   - component: {fileID: 114923813954720300}
   - component: {fileID: 137175062784072258}
+  - component: {fileID: 114926950020189962}
   m_Layer: 0
   m_Name: Capstone_Unit_Tank_RHand
   m_TagString: Untagged
@@ -218,6 +219,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4436047592850062}
   - component: {fileID: 212278073661747936}
+  - component: {fileID: 114050396665608340}
   m_Layer: 0
   m_Name: Hexagon_BG
   m_TagString: Untagged
@@ -353,6 +355,7 @@ GameObject:
   - component: {fileID: 4262772276216686}
   - component: {fileID: 114977308616609620}
   - component: {fileID: 137288512546582292}
+  - component: {fileID: 114388920384572990}
   m_Layer: 0
   m_Name: Capstone_Unit_Tank_Head
   m_TagString: Untagged
@@ -419,6 +422,7 @@ GameObject:
   - component: {fileID: 4602938316209980}
   - component: {fileID: 114633736512502688}
   - component: {fileID: 137218960681267670}
+  - component: {fileID: 114623716360030864}
   m_Layer: 0
   m_Name: Capstone_Unit_Tank
   m_TagString: Untagged
@@ -490,6 +494,7 @@ GameObject:
   - component: {fileID: 4294208568046596}
   - component: {fileID: 114091811670221836}
   - component: {fileID: 137979101718738850}
+  - component: {fileID: 114656303854643930}
   m_Layer: 0
   m_Name: Capstone_Unit_Tank_LHand
   m_TagString: Untagged
@@ -1177,6 +1182,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Poses:
   - {fileID: 0}
+--- !u!114 &114050396665608340
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1504916799593874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b56cf06341c044ba26472bd11dd362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ordered_layer: 1
 --- !u!114 &114055010324042220
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1491,6 +1508,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: RNG
+--- !u!114 &114388920384572990
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1713746320592506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b56cf06341c044ba26472bd11dd362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ordered_layer: 1
 --- !u!114 &114393149166650194
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1680,6 +1709,18 @@ MonoBehaviour:
   attackSound: {fileID: 82853330185722308}
   hitSound: {fileID: 82521889915457870}
   moveSound: {fileID: 82583691240875890}
+--- !u!114 &114623716360030864
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1761140994883114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b56cf06341c044ba26472bd11dd362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ordered_layer: 0
 --- !u!114 &114633736512502688
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1714,6 +1755,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35120075b0b8f6a43884aaed3eea3654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114656303854643930
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1863486129865822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b56cf06341c044ba26472bd11dd362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ordered_layer: -1
 --- !u!114 &114715762669203840
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1936,6 +1989,18 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 5
+--- !u!114 &114926950020189962
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1172674740332110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b56cf06341c044ba26472bd11dd362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ordered_layer: 2
 --- !u!114 &114929854758577468
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2270,9 +2335,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1786724121
+  m_SortingLayerID: -982681181
   m_SortingLayer: -1
-  m_SortingOrder: 10
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: de64c35b70fc16a44870f718a6978a35, type: 3}
   m_Color: {r: 0.1882353, g: 0.3137255, b: 0.4509804, a: 1}
   m_FlipX: 0

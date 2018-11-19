@@ -133,15 +133,15 @@ public class StartUnit : MonoBehaviour
             HexagonCell attacked_cell = targetable[rand_index];
             HexagonCoord current = unitCell.coords;
 
-            if (attacked_cell.coords.x > current.x || (attacked_cell.coords.x == current.x && attacked_cell.coords.z == current.z + 1)) //going right
+            if (attacked_cell.gameObject.transform.position.x > transform.position.x) //unit is to the right
             {
-                if (!direction) //facing left
+                if (!direction) //facing left, so needs to face right
                 {
                     transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
                     direction = true;
                 }
             }
-            else //going left
+            else //unit is to the left
             {
                 if (direction)
                 {
@@ -272,7 +272,7 @@ public class StartUnit : MonoBehaviour
 
         //Deals with facing the individual that is getting attacked
 
-        if (attacked_cell.coords.x > current.x || (attacked_cell.coords.x == current.x && attacked_cell.coords.z == current.z + 1)) //going right
+        if (attacked_cell.gameObject.transform.position.x > transform.position.x) //going right
         {
             if (!direction) //facing left
             {
@@ -349,8 +349,8 @@ public class StartUnit : MonoBehaviour
             attacked_unit.current_attack *= percenthealth;
         }
 
-        
 
+        StartCoroutine(Retaliate_Anim(attacked_unit));
         //Debug.Log("he dead");
         if (attacked_unit.current_health <= 0)
         {
@@ -362,7 +362,7 @@ public class StartUnit : MonoBehaviour
         }
         else
         {
-            StartCoroutine(Retaliate_Anim(attacked_unit));
+            
             yield return new WaitForSeconds(0.3f);
             StartCoroutine(attacked_unit.Hit());
             StartCoroutine(attacked_unit.Blink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f));
@@ -395,9 +395,11 @@ public class StartUnit : MonoBehaviour
                 }
             }
             StartCoroutine(Moving());
+            yield return new WaitForSeconds(0.3f);
             transform.position = temp.transform.position;
             current = temp.coords;
-            yield return new WaitForSeconds(1f);
+            editor.re_sort_unit_position(this, hexGrid.GetCell(temp.transform.position));
+            yield return new WaitForSeconds(0.3f);
         }
 
     }

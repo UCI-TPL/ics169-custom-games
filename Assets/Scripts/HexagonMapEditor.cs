@@ -36,6 +36,7 @@ public class HexagonMapEditor : MonoBehaviour
     public Team_Portrait_UI P1_Team_portrait_UI;
     public Team_Portrait_UI P2_Team_portrait_UI;
     public Color32 Unit_Hurt_Color;
+    
 
 
     public List<StartUnit> Player1Chosen = new List<StartUnit>();
@@ -63,6 +64,8 @@ public class HexagonMapEditor : MonoBehaviour
     public bool allow_cursor_control;
 
     public List<HexagonCell> Units_To_Delete = new List<HexagonCell>();
+
+    public int max_sprites_per_unit;
 
     public enum TurnStates
     {
@@ -644,6 +647,20 @@ public class HexagonMapEditor : MonoBehaviour
         unitCell.unitOnTile = SelectedUnit;
         SelectedUnit.unit_name = "" + adjective + " " + proper;
         SelectedUnit.Unit_Stats_Panel.GetComponent<BattleUI>().Hide();
+        Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
+        for (int i = 0; i < Unit_Meshes.Length; i++)
+        {
+            //puts each unit in a section of the sorting layer according to the tile they are on.
+            Unit_Meshes[i].sortingOrder = Unit_Meshes[i].GetComponent<Mesh_Layer>()._ordered_layer
+                + ((hexGrid.cells[index].coords.X_coord + hexGrid.cells[index].coords.Y_coord) * max_sprites_per_unit);
+            //Debug.Log("Color_Changed");
+        }
+        SpriteRenderer[] sprites = this.gameObject.GetComponentsInChildren<SpriteRenderer>();
+        foreach(SpriteRenderer sprite_rend in sprites)
+        {
+            sprite_rend.sortingOrder = sprite_rend.GetComponent<Mesh_Layer>()._ordered_layer
+                + ((hexGrid.cells[index].coords.X_coord + hexGrid.cells[index].coords.Y_coord) * max_sprites_per_unit);
+        }
     }
 
     IEnumerator MoveUnit(HexagonCell _unitCell, HexagonCell _nextCell)
@@ -661,7 +678,7 @@ public class HexagonMapEditor : MonoBehaviour
         {
             StartCoroutine(SelectedUnit.HopToPlace(hexGrid, unitCell, index, distance));
             //StartCoroutine(SelectedUnit.Moving());
-            yield return new WaitForSeconds((float)distance);
+            yield return new WaitForSeconds(((float)distance * 0.6f) + 0.1f);
             _unitCell.occupied = false;
             _unitCell.unitOnTile = null;
             //SelectedUnit.transform.position = hexGrid.cells[index].transform.position;
@@ -813,6 +830,25 @@ public class HexagonMapEditor : MonoBehaviour
         _UI.obj_name.text = _unit.unit_name;
         _UI.unit_icon.GetComponent<Image>().sprite = _unit.Icon;
         _UI.health_Bar.GetComponent<Image>().fillAmount = _unit.current_health / _unit.health;
+    }
+
+
+    public void re_sort_unit_position(StartUnit _unit, HexagonCell _target_location)
+    {
+        Anima2D.SpriteMeshInstance[] Unit_Meshes = _unit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
+        for (int i = 0; i < Unit_Meshes.Length; i++)
+        {
+            //puts each unit in a section of the sorting layer according to the tile they are on.
+            Unit_Meshes[i].sortingOrder = Unit_Meshes[i].GetComponent<Mesh_Layer>()._ordered_layer
+                + ((_target_location.coords.X_coord + _target_location.coords.Y_coord) * max_sprites_per_unit);
+            //Debug.Log("Color_Changed");
+        }
+        SpriteRenderer[] sprites = _unit.gameObject.GetComponentsInChildren<SpriteRenderer>();
+        foreach (SpriteRenderer sprite_rend in sprites)
+        {
+            sprite_rend.sortingOrder = sprite_rend.GetComponent<Mesh_Layer>()._ordered_layer
+                + ((_target_location.coords.X_coord + _target_location.coords.Y_coord) * max_sprites_per_unit);
+        }
     }
 
     public void Snap_To_Next_Unit(bool back_forward)

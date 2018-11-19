@@ -12,6 +12,7 @@ public class Cursor : MonoBehaviour
     public float time_increment = 0.5f;
     private bool cascade_dir;
     public HexagonMapEditor editor;
+    public int original_sorting_value;
 
     // Use this for initialization
     void Start()
@@ -20,6 +21,9 @@ public class Cursor : MonoBehaviour
         coords.x = 0;
         coords.z = 0;
         cascade_dir = false;
+        //original_sorting_value = gameObject.GetComponent<SpriteRenderer>().sortingOrder;
+        //Debug.Log("--------------- " + original_sorting_value);
+        Order_Cursor(_Grid.GetCell(transform.position).coords, _Grid.sprites_per_tile);
     }
 
     // Update is called once per frame
@@ -228,7 +232,7 @@ public class Cursor : MonoBehaviour
 
         Hide_Prev_UI();
 
-
+        Order_Cursor(_Grid.GetCell(transform.position).coords, _Grid.sprites_per_tile);
 
 
         //Debug.Log("Current X " + coords.X_coord);
@@ -254,9 +258,19 @@ public class Cursor : MonoBehaviour
         {
             Hide_Prev_UI();
         }
+        Order_Cursor(_Grid.GetCell(transform.position).coords, _Grid.sprites_per_tile);
     }
 
-    private void Hide_Prev_UI()
+    public void Order_Cursor(HexagonCoord _coord, int num_sprites_per_cell)
+    {
+        int _current_sorting_order = gameObject.GetComponent<SpriteRenderer>().sortingOrder;
+        gameObject.GetComponent<SpriteRenderer>().sortingOrder = original_sorting_value +
+            ((_coord.X_coord + _coord.Y_coord) * num_sprites_per_cell);
+        Debug.Log(original_sorting_value +
+            ((_coord.X_coord + _coord.Y_coord) * num_sprites_per_cell));
+    }
+
+        private void Hide_Prev_UI()
     {
         if (_Grid.Get_Cell_Index(prev_coords).unitOnTile != null)
         {
