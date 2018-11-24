@@ -51,7 +51,7 @@ public class DraftUI : MonoBehaviour {
 
         P1CostText.text = "Cost: " + playerinfo.p1Cost.ToString();
         P2CostText.text = "Cost: " + playerinfo.p2Cost.ToString();
-        PChoice.text = temp.name + "  /  Cost:" + temp.cost;
+        PChoice.text = temp.unit_type + "  /  Cost:" + temp.cost;
         UnitIcon.sprite = temp.Icon;
         StatText.text = "Hlth:" + temp.health.ToString("000") + "\t Att:" + temp.attack.ToString("000")
             + "\nRange:" + temp.attackRange + "\t Move:" + temp.mobility;

@@ -38,12 +38,12 @@ public class HexagonMapEditor : MonoBehaviour
     public Color32 Unit_Hurt_Color;
 
 
-    public List<StartUnit> Player1Chosen = new List<StartUnit>();
+    private List<StartUnit> Player1Chosen = new List<StartUnit>();
     public List<StartUnit> Player2Chosen = new List<StartUnit>();
 
     public List<StartUnit> P1Team = new List<StartUnit>(); // list of player 1 team
     public List<StartUnit> P2Team = new List<StartUnit>(); // list of player 2 team
-    public List<StartUnit> MoveableUnits; // mulitpurpose list to hold units with actions
+    private List<StartUnit> MoveableUnits; // mulitpurpose list to hold units with actions
 
     public StartUnit SelectedUnit; // the current unit that is selected
     public bool isUnitSelected = false; // boolean to tell if a unit is selected
@@ -59,11 +59,20 @@ public class HexagonMapEditor : MonoBehaviour
     public bool onePlayer;
     public bool cur_attacking;
     public int attack_count;
+
+    /***********************ENVIRONMENTAL VARIABLES*****************************/
+    public EnvironmentalHazard[] hazardList; // list of all the types of hazards possible
+    //create a list of current hazards on the board (figure out what to put in the list (time left on board, type of hazard, size)
+    public List<EnvironmentalHazard.HazardInfo> hazardsOnGrid = new List<EnvironmentalHazard.HazardInfo>();
+    bool environmentExecuting = false;
+    public bool incoming = false;
+    public int incoming_in = int.MaxValue; // the counter for how long until the hazard comes to the map
+    int whichHazard; // keep track of which hazard, int gives you the index in hazardList
     
 
     public enum TurnStates
     {
-        START,
+        ENVIRONMENT,
         P1_MOVE,
         P1_ATTACK,
         P2_MOVE,
@@ -129,9 +138,37 @@ public class HexagonMapEditor : MonoBehaviour
         //Debug.Log(currentState);
         switch (currentState)
         {
-            case (TurnStates.START):
+            case (TurnStates.ENVIRONMENT):
+                if (!environmentExecuting)
+                {
+                    environmentExecuting = true;
+                    if (incoming) //a environmental hazard is coming already
+                    {
+                        incoming_in -= 1;
+                        if (incoming_in == 0) // time to create hazard
+                        {
+                            hazardsOnGrid.Add(hazardList[whichHazard].CreateHazard(hexGrid));
+                            incoming_in = int.MaxValue;
+                            incoming = false;
+                        }
+                    }
+                    else // no environmental hazard coming
+                    {
+                        int chance = Random.Range(0, 1); // 1/10  chance to create hazard
+                        if (chance == 0)
+                        {
+                            int hazard = Random.Range(0, 3); // 3 hazards right now *** Random.Range(inclusive, exclusive)
+                            incoming = true;
+                            incoming_in = hazardList[hazard].timeToCome;
+                            whichHazard = hazard;
+                        }
+                    }
 
-                //currentState = TurnStates.P1_MOVE;  // go to next phase
+                    StartCoroutine(HandleHazards()); // goes through all the hazards on the board and handles their effect
+                    //handle effects here
+                    environmentExecuting = false;
+                    currentState = TurnStates.P1_MOVE;  // go to next phase
+                }
                 break;
             case (TurnStates.P1_MOVE):
                 if (MoveableUnits.Count == 0) // once all units move break
@@ -297,9 +334,14 @@ public class HexagonMapEditor : MonoBehaviour
                     currentState = TurnStates.P2_WIN;
                 else if (P2Team.Count == 0)
                     currentState = TurnStates.P1_WIN;
+                if (P1Team[0].GetComponent<HeroUnit>() == null)
+                    currentState = TurnStates.P2_WIN;
+                else if (P2Team[0].GetComponent<HeroUnit>() == null && !PlayerInfo.one_player)
+
+                    currentState = TurnStates.P1_WIN;
                 else
                 {
-                    currentState = TurnStates.P1_MOVE;
+                    currentState = TurnStates.ENVIRONMENT;
                 }
                 break;
             case (TurnStates.P1_WIN):
@@ -374,6 +416,21 @@ public class HexagonMapEditor : MonoBehaviour
             }
         }
         //initializing = true;
+    }
+
+    public IEnumerator HandleHazards()
+    {
+        for(int i = 0; i < hazardsOnGrid.Count; i++)
+        {
+            EnvironmentalHazard.HazardInfo h_info = hazardsOnGrid[i];
+            StartCoroutine(h_info.type.Effect(hexGrid, h_info.x, h_info.z, h_info.size));
+            yield return new WaitForSeconds(h_info.type.anim_time);
+            h_info.timeLeft -= 1;
+            if (h_info.timeLeft <= 0)
+            {
+                hazardsOnGrid.Remove(hazardsOnGrid[i]);
+            }
+        }
     }
 
     public void MovePhase(string joystick) // handles input from the player to correctly move the unit
@@ -506,51 +563,7 @@ public class HexagonMapEditor : MonoBehaviour
     {
         whileAttacking = true;
         StartCoroutine(select_unit.BasicAttack(hexGrid, unitCell));
-        // List<HexagonCell> targetable = new List<HexagonCell>();
-        // foreach(HexagonCell cell in hexGrid.cells)
-        // {
-        //     if (unitCell.coords.FindDistanceTo(cell.coords) <= SelectedUnit.attackRange  
-        //         && unitCell.coords.FindDistanceTo(cell.coords) > 0 
-        //         && cell.occupied
-        //         && SelectedUnit.tag != cell.unitOnTile.tag)
-        //         targetable.Add(cell);
-        // }
-        // if (targetable.Count >= 1)
-        // {
-        //     StartCoroutine(SelectedUnit.Attack());
-        //     int rand_index = Random.Range(0, targetable.Count);
-        //     float random_val = Random.value;
-        //     float damage = SelectedUnit.current_attack;
-        //     if (random_val < SelectedUnit.crit)
-        //         damage = SelectedUnit.current_attack * 2;
-        //     int dmg_txt = (int)damage;
-        //     if (targetable[rand_index].unitOnTile.FloatingTextPrefab)
-        //     {
-        //         GameObject damagetext = Instantiate(targetable[rand_index].unitOnTile.FloatingTextPrefab, targetable[rand_index].unitOnTile.transform.position, Quaternion.identity, transform);               
-        //         damagetext.GetComponent<TextMesh>().text = dmg_txt.ToString();
-        //     }
-        //     StartUnit attacked_unit = targetable[rand_index].unitOnTile;
-        //     targetable[rand_index].unitOnTile.current_health -= damage;
-        //     attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health;
 
-        //     if (targetable[rand_index].unitOnTile.current_attack > 10)
-        //     {
-        //         float percenthealth = targetable[rand_index].unitOnTile.current_health / targetable[rand_index].unitOnTile.health;
-        //         targetable[rand_index].unitOnTile.current_attack *= percenthealth;
-        //     }
-
-
-        //    if (targetable[rand_index].unitOnTile.current_health <= 0)
-        //    {
-        //        int index = targetable[rand_index].coords.X_coord + targetable[rand_index].coords.Z_coord * hexGrid.width + targetable[rand_index].coords.Z_coord / 2;
-        //        RemoveUnitInfo(targetable[rand_index], index);
-        //    }
-        //    else
-        //    {
-        //        yield return new WaitForSeconds(0.3f);
-        //        StartCoroutine(targetable[rand_index].unitOnTile.Hit());
-        //    }
-        //}
         yield return new WaitForSeconds(0.5f);
         whileAttacking = false;
 

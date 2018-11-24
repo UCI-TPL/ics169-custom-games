@@ -10,7 +10,7 @@ public class HeroUnit : StartUnit {
         
     }
 
-    public void BuffTeam(string team)
+    public virtual void BuffTeam(string team)
     {
         if (team == "P1")
         {

@@ -138,11 +138,15 @@ public class Grid : MonoBehaviour {
             {
                 
                 HexagonCell neighbor = curr.GetNeighbor(d);
-                if (neighbor == null || neighbor.Distance != int.MaxValue)
+                if (neighbor == null || neighbor.Distance != int.MaxValue) // no tile there, or explored already
                 {
                     continue;
                 }
-                if (!neighbor.traversable)
+                if (!neighbor.traversable)// if a wall
+                {
+                    continue;
+                }
+                if(neighbor.occupied && neighbor.unitOnTile.tag != current.unitOnTile.tag) // if there is an enemy unit on that tile
                 {
                     continue;
                 }
