@@ -9,7 +9,7 @@ public class StartUnit : MonoBehaviour
     public string unit_type;
     public string unit_name;
     public int unit_ID;
-    public int mobility; // how far a unit can move
+    public int mobility,current_mobility; // how far a unit can move
     public int attackRange; // how far a unit can attack
     public float health;
     public int attack;
@@ -53,6 +53,7 @@ public class StartUnit : MonoBehaviour
         anim = GetComponent<Animator>();
         current_health = health;
         current_attack = attack;
+        current_mobility = mobility;
         currently_attacking = false;
         
     }
@@ -100,20 +101,25 @@ public class StartUnit : MonoBehaviour
             int dmg_txt = (int)damage;
             bool crit_happened = false;
 
-            if (miss_chance <= miss)
-                damage = 0;
-            if (crit_chance <= crit && miss_chance > miss)
-            {
-                damage = current_attack * crit_multiplier;
-                dmg_txt = (int)damage;
-            }
+            //if (miss_chance <= miss)
+            //    damage = 0;
+            //if (crit_chance <= crit && miss_chance > miss)
+            //{
+            //    damage = current_attack * crit_multiplier;
+            //    dmg_txt = (int)damage;
+            //}
                   
             if (targetable[rand_index].unitOnTile.FloatingTextPrefab)
             {
-                if (crit_chance < crit)
+                if (miss_chance <= miss)
+                    damage = 0;
+                else
                 {
-                    damage = current_attack * crit_multiplier;
-                    crit_happened = true;
+                    if (crit_chance <= crit && miss_chance > miss)
+                    {
+                        damage = current_attack * crit_multiplier;
+                        crit_happened = true;
+                    }
                 }
                 dmg_txt = (int)damage;
             }
@@ -154,14 +160,29 @@ public class StartUnit : MonoBehaviour
                 }
                     
             }
-            targetable[rand_index].unitOnTile.current_health -= damage;
-            attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
 
-            if (targetable[rand_index].unitOnTile.current_attack > 10)
-            {
-                float percenthealth = targetable[rand_index].unitOnTile.current_health / targetable[rand_index].unitOnTile.health;
-                targetable[rand_index].unitOnTile.current_attack *= percenthealth;
-            }
+
+            //attacked_unit.current_health -= damage;
+            //attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
+
+            //float attack_deduction = attacked_unit.current_attack * (current_attack - attacked_unit.current_health / attacked_unit.health);
+            //if (attacked_unit.unit_ID == 6)//if attacked unit is berzerker then add to current attack
+            //{
+            //    float attack_increase = current_attack - attack_deduction;
+            //    current_attack += attack_increase;
+            //}
+            //else // reduce the units attack by certain amount
+            //{
+            //    if (attack_deduction > attacked_unit.basedmg)
+            //        attacked_unit.current_attack = attack_deduction;
+            //    else
+            //    {
+            //        if (attack_deduction <= basedmg)
+            //        {
+            //            attacked_unit.current_attack = basedmg;
+            //        }
+            //    }
+            //}
 
             //Debug.Log("he dead");
             if (targetable[rand_index].unitOnTile.current_health <= 0)
@@ -267,5 +288,22 @@ public class StartUnit : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
         }
 
+    }
+
+    public virtual takeDamage(StartUnit attacked_unit, float damage)
+    {
+        attacked_unit.current_health -= damage;
+        attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
+
+        float attack_deduction = attacked_unit.current_attack * (current_attack - attacked_unit.current_health / attacked_unit.health);
+        if (attack_deduction > attacked_unit.basedmg)
+           attacked_unit.current_attack = attack_deduction;
+        else
+        {
+            if (attack_deduction <= basedmg)
+            {
+                    attacked_unit.current_attack = basedmg;
+            }
+        }
     }
 }

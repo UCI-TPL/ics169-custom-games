@@ -2,23 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TeamPowerupTiles : HexagonCell {
+public class TeamPowerupTiles : MonoBehaviour {
     public bool discovered,attackBuff,healthBuff,mobilityBuff,critBuff,attackrangeBuff,waterDebuff,grassDebuff;
     public List<StartUnit> UnitsTeam;
-    public StartUnit UnitonTile;
-    public int mobility, debuff;
-    public Sprite PoweredDownSprite;
+    public StartUnit PrevUnit;
+    public int mobility;
+    //public Sprite PoweredDownSprite;
     // Use this for initialization
     void Start () {
-        discovered = false;
-        //mobility = UnitonTile.mobility;
-
+        discovered = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        //Debuff();
+        Debuff();
         Buff();
+        ResetStats();
 	}
 
     void Buff()
@@ -27,7 +26,7 @@ public class TeamPowerupTiles : HexagonCell {
         {
             if (attackBuff)
             {
-                if (occupied)
+                if (this.GetComponent<HexagonCell>().occupied)
                 {
                     for (int i = 0; i < UnitsTeam.Count; i++)
                     {
@@ -38,7 +37,7 @@ public class TeamPowerupTiles : HexagonCell {
                 }
                 else
                 {
-                    if (!occupied && UnitsTeam.Count != 0)
+                    if (!this.GetComponent<HexagonCell>().occupied && UnitsTeam.Count != 0)
                     {
                         for (int i = 0; i < UnitsTeam.Count; i++)
                         {
@@ -52,7 +51,7 @@ public class TeamPowerupTiles : HexagonCell {
             }
             if (healthBuff)
             {
-                if (occupied)
+                if (this.GetComponent<HexagonCell>().occupied)
                 {
                     for (int i = 0; i < UnitsTeam.Count; i++)
                     {
@@ -63,7 +62,7 @@ public class TeamPowerupTiles : HexagonCell {
                 }
                 else
                 {
-                    if (!occupied && UnitsTeam.Count != 0)
+                    if (!this.GetComponent<HexagonCell>().occupied && UnitsTeam.Count != 0)
                     {
                         for (int i = 0; i < UnitsTeam.Count; i++)
                         {
@@ -77,7 +76,7 @@ public class TeamPowerupTiles : HexagonCell {
             }
             if (mobilityBuff)
             {
-                if (occupied)
+                if (this.GetComponent<HexagonCell>().occupied)
                 {
                     for (int i = 0; i < UnitsTeam.Count; i++)
                     {
@@ -87,7 +86,7 @@ public class TeamPowerupTiles : HexagonCell {
                 }
                 else
                 {
-                    if (!occupied && UnitsTeam.Count != 0)
+                    if (!this.GetComponent<HexagonCell>().occupied && UnitsTeam.Count != 0)
                     {
                         for (int i = 0; i < UnitsTeam.Count; i++)
                         {
@@ -100,7 +99,7 @@ public class TeamPowerupTiles : HexagonCell {
             }
             if (critBuff)
             {
-                if (occupied)
+                if (this.GetComponent<HexagonCell>().occupied)
                 {
                     for (int i = 0; i < UnitsTeam.Count; i++)
                     {
@@ -110,7 +109,7 @@ public class TeamPowerupTiles : HexagonCell {
                 }
                 else
                 {
-                    if (!occupied && UnitsTeam.Count != 0)
+                    if (!this.GetComponent<HexagonCell>().occupied && UnitsTeam.Count != 0)
                     {
                         for (int i = 0; i < UnitsTeam.Count; i++)
                         {
@@ -123,7 +122,7 @@ public class TeamPowerupTiles : HexagonCell {
             }
             if (attackrangeBuff)
             {
-                if (occupied)
+                if (this.GetComponent<HexagonCell>().occupied)
                 {
                     for (int i = 0; i < UnitsTeam.Count; i++)
                     {
@@ -133,7 +132,7 @@ public class TeamPowerupTiles : HexagonCell {
                 }
                 else
                 {
-                    if (!occupied && UnitsTeam.Count != 0)
+                    if (!this.GetComponent<HexagonCell>().occupied && UnitsTeam.Count != 0)
                     {
                         for (int i = 0; i < UnitsTeam.Count; i++)
                         {
@@ -152,27 +151,109 @@ public class TeamPowerupTiles : HexagonCell {
         //discovered = false;
     }
 
-    //void Debuff()
-    //{
-    //    if (discovered && UnitonTile != null)
-    //    {
-    //        if (grassDebuff)
-    //        {
-    //            if (UnitonTile.mobility - 1 < 1)
-    //                UnitonTile.mobility = 1;
-    //            else
-    //                UnitonTile.mobility = mobility - 1;
-    //            discovered = false;
-    //        }
+    void Debuff()
+    {
+        if (this.GetComponent<HexagonCell>().occupied) //if someones on this tile
+        {
+            mobility = this.GetComponent<HexagonCell>().unitOnTile.mobility;
+            PrevUnit = this.GetComponent<HexagonCell>().unitOnTile;
+            if (this.GetComponent<HexagonCell>().unitOnTile.current_mobility == mobility)//if our mobility equals our og mobility then debuff
+            {
+                if (grassDebuff)
+                {
+                    if (this.GetComponent<HexagonCell>().unitOnTile.current_mobility - 1 <= 0)
+                    {
+                        this.GetComponent<HexagonCell>().unitOnTile.current_mobility = 1;
+                        //discovered = false;
+                    }
+                    else
+                    {
+                        this.GetComponent<HexagonCell>().unitOnTile.current_mobility = this.GetComponent<HexagonCell>().unitOnTile.current_mobility - 1;
+                        //discovered = false;
+                    }
+                }
+                if (waterDebuff)
+                {
+                    if (this.GetComponent<HexagonCell>().unitOnTile.current_mobility - 2 <= 0)
+                    {
+                        this.GetComponent<HexagonCell>().unitOnTile.current_mobility = 1;
+                       // discovered = false;
+                    }
+                    else
+                    {
+                        this.GetComponent<HexagonCell>().unitOnTile.current_mobility = this.GetComponent<HexagonCell>().unitOnTile.current_mobility - 2;
+                       // discovered = false;
+                    }
+                }
+            }
+        }
+        //if (discovered && this.GetComponent<HexagonCell>().unitOnTile != null)
+        //{
+        //    if (grassDebuff)
+        //    {
+        //        if (this.GetComponent<HexagonCell>().occupied)
+        //        {
+        //            PrevUnit = this.GetComponent<HexagonCell>().unitOnTile;
+        //            if (this.GetComponent<HexagonCell>().unitOnTile.mobility - 1 == 0)
+        //            {
+        //                this.GetComponent<HexagonCell>().unitOnTile.mobility = 1;
+        //                discovered = false;
+        //            }
+        //            else
+        //            {
+        //                this.GetComponent<HexagonCell>().unitOnTile.mobility = this.GetComponent<HexagonCell>().unitOnTile.mobility - 1;
+        //                discovered = false;
+        //            }
+        //        }
+        //    }
 
-    //        if (waterDebuff)
-    //        {
-    //            if (UnitonTile.mobility - 2 < 0)
-    //                UnitonTile.mobility = 1;
-    //            else
-    //                UnitonTile.mobility = mobility - 2;
-    //            discovered = false;
-    //        }
-    //    }
-    //}
+        //    if (waterDebuff)
+        //    {
+        //        if (this.GetComponent<HexagonCell>().occupied)
+        //        {
+        //            PrevUnit = this.GetComponent<HexagonCell>().unitOnTile;
+        //            if (this.GetComponent<HexagonCell>().unitOnTile.mobility - 2 == 0)
+        //            {
+        //                this.GetComponent<HexagonCell>().unitOnTile.mobility = 1;
+        //                discovered = false;
+        //            }
+        //            else
+        //            {
+        //                this.GetComponent<HexagonCell>().unitOnTile.mobility = this.GetComponent<HexagonCell>().unitOnTile.mobility - 2;
+        //                discovered = false;
+        //            }
+        //        }
+        //    }
+        //}
+    }
+
+    void ResetStats()
+    {
+        if (PrevUnit != null)
+        {
+            if (grassDebuff)
+            {
+                if (!this.GetComponent<HexagonCell>().occupied)
+                {
+                    if (PrevUnit.current_mobility + 1 >= mobility)
+                        PrevUnit.current_mobility = mobility;
+                    else
+                    {
+                        PrevUnit.current_mobility = PrevUnit.current_mobility + 1;
+                    }
+                    PrevUnit = null;
+                }
+            }
+            if (waterDebuff)
+            {
+                if (PrevUnit.current_mobility + 2 >= mobility)
+                    PrevUnit.current_mobility = mobility;
+                else
+                {
+                    PrevUnit.current_mobility = PrevUnit.current_mobility + 2;
+                }
+                PrevUnit = null;
+            }
+        }
+    }
 }
