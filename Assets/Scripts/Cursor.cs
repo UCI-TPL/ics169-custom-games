@@ -12,6 +12,7 @@ public class Cursor : MonoBehaviour
     public float time_increment = 0.5f;
     private bool cascade_dir;
     public HexagonMapEditor editor;
+    public int original_sorting_value;
 
     // Use this for initialization
     void Start()
@@ -20,110 +21,116 @@ public class Cursor : MonoBehaviour
         coords.x = 0;
         coords.z = 0;
         cascade_dir = false;
+        //original_sorting_value = gameObject.GetComponent<SpriteRenderer>().sortingOrder;
+        //Debug.Log("--------------- " + original_sorting_value);
+        Order_Cursor(_Grid.GetCell(transform.position).coords, _Grid.sprites_per_tile);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(Input.GetButtonDown("J1 X Button"));
-        //transform.position += new Vector3(Input.GetAxis("J1 Left Horizontal"), -Input.GetAxis("J1 Left Vertical"), 0) * Time.deltaTime * 90;
-        float H_Axis;
-        float V_Axis;
+        if (editor.allow_cursor_control)
+        {
+            float H_Axis;
+            float V_Axis;
 
-        if (editor.currentState == HexagonMapEditor.TurnStates.P1_MOVE)
-        {
-            H_Axis = Input.GetAxis(editor.PlayerInfo.player1 + "Left Horizontal");
-            V_Axis = Input.GetAxis(editor.PlayerInfo.player1 + "Left Vertical");
-        }
-        else if(editor.PlayerInfo.one_player)
-        {
-            H_Axis = Input.GetAxis(editor.PlayerInfo.player1 + "Left Horizontal");
-            V_Axis = Input.GetAxis(editor.PlayerInfo.player1 + "Left Vertical");
-        }
-        else
-        {
-            H_Axis = Input.GetAxis(editor.PlayerInfo.player2 + "Left Horizontal");
-            V_Axis = Input.GetAxis(editor.PlayerInfo.player2 + "Left Vertical");
-        }
-
-        if (Time.time >= time)
-        {
-
-            if ((Mathf.Pow(H_Axis, 2) + Mathf.Pow(V_Axis, 2)) <= 0.08f)
+            if (editor.currentState == HexagonMapEditor.TurnStates.P1_MOVE)
             {
-                //Dead Zone
+                H_Axis = Input.GetAxis(editor.PlayerInfo.player1 + "Left Horizontal");
+                V_Axis = Input.GetAxis(editor.PlayerInfo.player1 + "Left Vertical");
+            }
+            else if (editor.PlayerInfo.one_player)
+            {
+                H_Axis = Input.GetAxis(editor.PlayerInfo.player1 + "Left Horizontal");
+                V_Axis = Input.GetAxis(editor.PlayerInfo.player1 + "Left Vertical");
             }
             else
             {
-                float Angle = Mathf.Atan2(H_Axis, V_Axis) * Mathf.Rad2Deg;
-                //Debug.Log(Angle);
-                //0 -> 180 (right)   0 -> -180 (left)
+                H_Axis = Input.GetAxis(editor.PlayerInfo.player2 + "Left Horizontal");
+                V_Axis = Input.GetAxis(editor.PlayerInfo.player2 + "Left Vertical");
+            }
 
-                if (Angle > 67.5 && Angle < 112.5)
+            if (Time.time >= time)
+            {
+
+                if ((Mathf.Pow(H_Axis, 2) + Mathf.Pow(V_Axis, 2)) <= 0.08f)
                 {
-                    _Move("x", 1);
-                    time = Time.time + time_increment;
+                    //Dead Zone
                 }
-                else if (Angle < -67.5 && Angle > -112.5)
+                else
                 {
-                    _Move("x", -1);
-                    time = Time.time + time_increment;
-                }
-                else if (Angle < 157.5 && Angle > 112.5)
-                {
-                    _Move("z", 1);
-                    time = Time.time + time_increment;
-                }
-                else if (Angle > -157.5 && Angle < -112.5)
-                {
-                    _Move("y", 1);
-                    time = Time.time + time_increment;
-                }
-                else if (Angle > -67.5 && Angle < -22.5)
-                {
-                    _Move("z", -1);
-                    time = Time.time + time_increment;
-                }
-                else if (Angle < 67.5 && Angle > 22.5)
-                {
-                    _Move("y", -1);
-                    time = Time.time + time_increment;
-                }
-                else if (Angle < -157.5 || Angle > 157.5)
-                {
-                    //cascade up
-                    if (cascade_dir)
+                    float Angle = Mathf.Atan2(H_Axis, V_Axis) * Mathf.Rad2Deg;
+                    //Debug.Log(Angle);
+                    //0 -> 180 (right)   0 -> -180 (left)
+
+                    if (Angle > 67.5 && Angle < 112.5)
+                    {
+                        _Move("x", 1);
+                        time = Time.time + time_increment;
+                    }
+                    else if (Angle < -67.5 && Angle > -112.5)
+                    {
+                        _Move("x", -1);
+                        time = Time.time + time_increment;
+                    }
+                    else if (Angle < 157.5 && Angle > 112.5)
                     {
                         _Move("z", 1);
                         time = Time.time + time_increment;
-                        cascade_dir = false;
                     }
-                    else
+                    else if (Angle > -157.5 && Angle < -112.5)
                     {
                         _Move("y", 1);
                         time = Time.time + time_increment;
-                        cascade_dir = true;
                     }
-                }
-                else if (Angle > -22.5 && Angle < 22.5)
-                {
-                    //Debug.Log("Down");
-                    //cascade down
-                    if (cascade_dir)
-                    {
-                        _Move("y", -1);
-                        time = Time.time + time_increment;
-                        cascade_dir = false;
-                    }
-                    else
+                    else if (Angle > -67.5 && Angle < -22.5)
                     {
                         _Move("z", -1);
                         time = Time.time + time_increment;
-                        cascade_dir = true;
+                    }
+                    else if (Angle < 67.5 && Angle > 22.5)
+                    {
+                        _Move("y", -1);
+                        time = Time.time + time_increment;
+                    }
+                    else if (Angle < -157.5 || Angle > 157.5)
+                    {
+                        //cascade up
+                        if (cascade_dir)
+                        {
+                            _Move("z", 1);
+                            time = Time.time + time_increment;
+                            cascade_dir = false;
+                        }
+                        else
+                        {
+                            _Move("y", 1);
+                            time = Time.time + time_increment;
+                            cascade_dir = true;
+                        }
+                    }
+                    else if (Angle > -22.5 && Angle < 22.5)
+                    {
+                        //Debug.Log("Down");
+                        //cascade down
+                        if (cascade_dir)
+                        {
+                            _Move("y", -1);
+                            time = Time.time + time_increment;
+                            cascade_dir = false;
+                        }
+                        else
+                        {
+                            _Move("z", -1);
+                            time = Time.time + time_increment;
+                            cascade_dir = true;
+                        }
                     }
                 }
             }
         }
+        //Debug.Log(Input.GetButtonDown("J1 X Button"));
+        //transform.position += new Vector3(Input.GetAxis("J1 Left Horizontal"), -Input.GetAxis("J1 Left Vertical"), 0) * Time.deltaTime * 90;
     }
 
     private void _Move(string dir, int sign)
@@ -201,6 +208,7 @@ public class Cursor : MonoBehaviour
             //&& editor.SelectedUnit != _Grid.Get_Cell_Index(coords).unitOnTile
             if (_Grid.Get_Cell_Index(coords).unitOnTile != null)
             {
+                //if(editor.allow_cursor_control)
                 StartUnit _tileUnit = _Grid.Get_Cell_Index(coords).unitOnTile;
 
                 BattleUI _tileUnit_UI = _tileUnit.Unit_Stats_Panel.GetComponent<BattleUI>();
@@ -224,7 +232,7 @@ public class Cursor : MonoBehaviour
 
         Hide_Prev_UI();
 
-
+        Order_Cursor(_Grid.GetCell(transform.position).coords, _Grid.sprites_per_tile);
 
 
         //Debug.Log("Current X " + coords.X_coord);
@@ -239,14 +247,30 @@ public class Cursor : MonoBehaviour
         prev_coords = coords;
         coords = _new_coord;
         Hide_Prev_UI();
-        StartUnit _tileUnit = _Grid.Get_Cell_Index(coords).unitOnTile;
-        BattleUI _tileUnit_UI = _tileUnit.Unit_Stats_Panel.GetComponent<BattleUI>();
-        editor.Assign_Stats_Var(_tileUnit_UI, _tileUnit);
-        _tileUnit_UI.Show();
-
+        if(editor.allow_cursor_control == true)
+        {
+            StartUnit _tileUnit = _Grid.Get_Cell_Index(coords).unitOnTile;
+            BattleUI _tileUnit_UI = _tileUnit.Unit_Stats_Panel.GetComponent<BattleUI>();
+            editor.Assign_Stats_Var(_tileUnit_UI, _tileUnit);
+            _tileUnit_UI.Show();
+        }
+        else
+        {
+            Hide_Prev_UI();
+        }
+        Order_Cursor(_Grid.GetCell(transform.position).coords, _Grid.sprites_per_tile);
     }
 
-    private void Hide_Prev_UI()
+    public void Order_Cursor(HexagonCoord _coord, int num_sprites_per_cell)
+    {
+        int _current_sorting_order = gameObject.GetComponent<SpriteRenderer>().sortingOrder;
+        gameObject.GetComponent<SpriteRenderer>().sortingOrder = original_sorting_value +
+            ((_coord.X_coord + _coord.Y_coord) * num_sprites_per_cell);
+        Debug.Log(original_sorting_value +
+            ((_coord.X_coord + _coord.Y_coord) * num_sprites_per_cell));
+    }
+
+        private void Hide_Prev_UI()
     {
         if (_Grid.Get_Cell_Index(prev_coords).unitOnTile != null)
         {

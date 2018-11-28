@@ -12,6 +12,7 @@ public class Grid : MonoBehaviour {
     public int height = 10;
     public Sprite Wall, AttackBuff, Healthbuff, MobilityBuff, CritBuff, AttackRangebuff, SlowingTile, Water, PoweredDown;
     public bool ten, twenty, thirty;
+    public int sprites_per_tile;
 
     //Grid Details
     HexagonCell[] result;
@@ -79,6 +80,9 @@ public class Grid : MonoBehaviour {
         cell.transform.localPosition = position;
         cell.coords = HexagonCoord.FromOffsetCoordinates(a, b);
         cell.spriteRenderer.color = defaultColor;
+
+        Order_Cell(cell, sprites_per_tile);
+
         if(a > 0)
         {
             cell.SetNeighbor(HexagonDirection.W, cells[c - 1]);
@@ -121,7 +125,8 @@ public class Grid : MonoBehaviour {
         }
 
         HexagonCell fromCell = current;
-        fromCell.spriteRenderer.color = color_m;
+        //fromCell.spriteRenderer.color = color_m;
+        fromCell.Show_Move_Icon();
         fromCell.Distance = 0;
         frontier.Add(fromCell);
         while (frontier.Count > 0)
@@ -131,7 +136,8 @@ public class Grid : MonoBehaviour {
             frontier.RemoveAt(0);
             if (curr.distance == mobility)
             {
-                curr.spriteRenderer.color = color_m;
+                //curr.spriteRenderer.color = color_m;
+                curr.Show_Move_Icon();
                 continue;
             }
             for (HexagonDirection d = HexagonDirection.NE; d <= HexagonDirection.NW; d++)
@@ -166,7 +172,8 @@ public class Grid : MonoBehaviour {
                 //}
                 if (distance < neighbor.Distance)
                 {
-                    neighbor.spriteRenderer.color = color_m;
+                    //neighbor.spriteRenderer.color = color_m;
+                    neighbor.Show_Move_Icon();
                     neighbor.Distance = distance;
                     frontier.Add(neighbor);
                 }
@@ -180,7 +187,9 @@ public class Grid : MonoBehaviour {
     {
         for (int i = 0; i < (width * height); i++)
         {
-            cells[i].spriteRenderer.color = defaultColor;
+            //cells[i].spriteRenderer.color = defaultColor;
+            cells[i].Hide_Move_Icon();
+            cells[i].Hide_Cross_Icon();
         }
     }
 
@@ -379,6 +388,26 @@ public class Grid : MonoBehaviour {
     {
         StopAllCoroutines();
         return Search(fromCell, toCell);
+    }
+
+
+    //used for putting sprites in the right order, so that everything appears as it should (further away tiles appear behind those closer up)
+    public void Order_Cell(HexagonCell _cell, int num_sprites_per_cell) 
+    {
+        int _current_sorting_order = _cell.gameObject.GetComponent<SpriteRenderer>().sortingOrder;
+        _cell.gameObject.GetComponent<SpriteRenderer>().sortingOrder = _current_sorting_order +
+            ((_cell.coords.X_coord + _cell.coords.Y_coord) * num_sprites_per_cell);
+
+        int count = 0;
+        SpriteRenderer[] sprites = _cell.gameObject.GetComponentsInChildren<SpriteRenderer>(true);
+        //Debug.Log("--------------------" + sprites.Length);
+        foreach(SpriteRenderer sprite_renderer in sprites)
+        {
+            sprite_renderer.sortingOrder = sprite_renderer.sortingOrder 
+                + ((_cell.coords.X_coord + _cell.coords.Y_coord) * num_sprites_per_cell);
+            count += 1;
+            //Debug.Log("" + count + ": " + num_sprites_per_cell + " " + sprite_renderer.sortingOrder);
+        }
     }
 
     Stack<HexagonCell> Search (HexagonCell fromCell, HexagonCell toCell) // searrch creates a stack of the shortest path given a to and from tile.  this is used for movement animations

@@ -23,9 +23,9 @@ public class UnitStats : MonoBehaviour {
             int.TryParse(unit_stats[0][4], out this.gameObject.GetComponent<StartUnit>().attack);
             int.TryParse(unit_stats[0][5], out this.gameObject.GetComponent<StartUnit>().basedmg);
             float.TryParse(unit_stats[0][6], out this.gameObject.GetComponent<StartUnit>().crit);
-            float.TryParse(unit_stats[0][1], out this.gameObject.GetComponent<StartUnit>().miss);
-            float.TryParse(unit_stats[0][7], out this.gameObject.GetComponent<StartUnit>().crit_multiplier);
-            int.TryParse(unit_stats[0][8], out this.gameObject.GetComponent<StartUnit>().cost);
+            float.TryParse(unit_stats[0][7], out this.gameObject.GetComponent<StartUnit>().miss);
+            float.TryParse(unit_stats[0][8], out this.gameObject.GetComponent<StartUnit>().crit_multiplier);
+            int.TryParse(unit_stats[0][9], out this.gameObject.GetComponent<StartUnit>().cost);
         }
         if (this.gameObject.GetComponent<StartUnit>().unit_ID == 2)
         {
@@ -35,9 +35,9 @@ public class UnitStats : MonoBehaviour {
             int.TryParse(unit_stats[1][4], out this.gameObject.GetComponent<StartUnit>().attack);
             int.TryParse(unit_stats[1][5], out this.gameObject.GetComponent<StartUnit>().basedmg);
             float.TryParse(unit_stats[1][6], out this.gameObject.GetComponent<StartUnit>().crit);
-            float.TryParse(unit_stats[1][1], out this.gameObject.GetComponent<StartUnit>().miss);
-            float.TryParse(unit_stats[1][7], out this.gameObject.GetComponent<StartUnit>().crit_multiplier);
-            int.TryParse(unit_stats[1][8], out this.gameObject.GetComponent<StartUnit>().cost);
+            float.TryParse(unit_stats[1][7], out this.gameObject.GetComponent<StartUnit>().miss);
+            float.TryParse(unit_stats[1][8], out this.gameObject.GetComponent<StartUnit>().crit_multiplier);
+            int.TryParse(unit_stats[1][9], out this.gameObject.GetComponent<StartUnit>().cost);
         }
         if (this.gameObject.GetComponent<StartUnit>().unit_ID == 3)
         {
@@ -47,9 +47,9 @@ public class UnitStats : MonoBehaviour {
             int.TryParse(unit_stats[2][4], out this.gameObject.GetComponent<StartUnit>().attack);
             int.TryParse(unit_stats[2][5], out this.gameObject.GetComponent<StartUnit>().basedmg);
             float.TryParse(unit_stats[2][6], out this.gameObject.GetComponent<StartUnit>().crit);
-            float.TryParse(unit_stats[2][1], out this.gameObject.GetComponent<StartUnit>().miss);
-            float.TryParse(unit_stats[2][7], out this.gameObject.GetComponent<StartUnit>().crit_multiplier);
-            int.TryParse(unit_stats[2][8], out this.gameObject.GetComponent<StartUnit>().cost);
+            float.TryParse(unit_stats[2][7], out this.gameObject.GetComponent<StartUnit>().miss);
+            float.TryParse(unit_stats[2][8], out this.gameObject.GetComponent<StartUnit>().crit_multiplier);
+            int.TryParse(unit_stats[2][9], out this.gameObject.GetComponent<StartUnit>().cost);
         }
     }
 }

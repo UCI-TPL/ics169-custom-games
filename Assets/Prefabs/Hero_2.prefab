@@ -85,6 +85,7 @@ GameObject:
   - component: {fileID: 4146509570284066}
   - component: {fileID: 114033012431440450}
   - component: {fileID: 137405430983268740}
+  - component: {fileID: 114221383306114420}
   m_Layer: 0
   m_Name: Capstone_Unit_Ranger_Split_Up_0
   m_TagString: Untagged
@@ -102,6 +103,7 @@ GameObject:
   - component: {fileID: 4136453209907096}
   - component: {fileID: 114284519690626012}
   - component: {fileID: 137382467437833252}
+  - component: {fileID: 114305928539536256}
   m_Layer: 0
   m_Name: Capstone_Unit_Ranger_Split_Up_1
   m_TagString: Untagged
@@ -167,6 +169,7 @@ GameObject:
   - component: {fileID: 4228434208717244}
   - component: {fileID: 114200207129879628}
   - component: {fileID: 137893511893147030}
+  - component: {fileID: 114046911582597296}
   m_Layer: 0
   m_Name: Capstone_Unit_Ranger_Split_Up_2
   m_TagString: Untagged
@@ -321,6 +324,7 @@ GameObject:
   - component: {fileID: 223796237296670140}
   - component: {fileID: 114735521080516532}
   - component: {fileID: 114099325096682698}
+  - component: {fileID: 114443567470998294}
   m_Layer: 0
   m_Name: Unit_Health
   m_TagString: Untagged
@@ -337,6 +341,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4954766731755850}
   - component: {fileID: 212791495893553796}
+  - component: {fileID: 114263628167887558}
   m_Layer: 0
   m_Name: Hexagon_BG
   m_TagString: Untagged
@@ -373,6 +378,7 @@ GameObject:
   - component: {fileID: 114910962658387916}
   - component: {fileID: 114929078403703682}
   - component: {fileID: 114543096816109924}
+  - component: {fileID: 114705810870831112}
   m_Layer: 0
   m_Name: Unit_Stats
   m_TagString: Untagged
@@ -702,7 +708,7 @@ Transform:
   m_GameObject: {fileID: 1341625252701358}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -7, y: 7, z: 1}
+  m_LocalScale: {x: 7, y: 7, z: 1}
   m_Children:
   - {fileID: 4798237941383734}
   - {fileID: 4870489415843988}
@@ -866,7 +872,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 10ddb3d20bb7847a1b1856a362cdae35, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -961,7 +967,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: dab90bd61196849ba8c9d123d00dbaf2, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -1228,6 +1234,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: MOV
+--- !u!114 &114046911582597296
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1228312498626094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b56cf06341c044ba26472bd11dd362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ordered_layer: 2
 --- !u!114 &114048167095457116
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1240,7 +1258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 0.8623226
+  m_Length: 0.8623227
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 4214614536982524}
   m_AttachedIK: {fileID: 114339621448424364}
@@ -1298,6 +1316,7 @@ MonoBehaviour:
   attack_blink_color:
     serializedVersion: 2
     rgba: 0
+  removed: 0
   attackSound: {fileID: 82772881531311788}
   hitSound: {fileID: 82215094379298936}
   moveSound: {fileID: 82215094379298936}
@@ -1313,7 +1332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 0.17745793
+  m_Length: 0.1774577
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 4562750258303300}
   m_AttachedIK: {fileID: 0}
@@ -1337,6 +1356,30 @@ MonoBehaviour:
   m_Bones: []
   m_BoneTransforms:
   - {fileID: 4611182784934810}
+--- !u!114 &114221383306114420
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1139083514668808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b56cf06341c044ba26472bd11dd362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ordered_layer: 1
+--- !u!114 &114263628167887558
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1498584313236820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b56cf06341c044ba26472bd11dd362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ordered_layer: 1
 --- !u!114 &114284519690626012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1360,6 +1403,18 @@ MonoBehaviour:
   - {fileID: 4697087170772182}
   - {fileID: 4784773610399674}
   - {fileID: 4429195897012246}
+--- !u!114 &114305928539536256
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1160562610052854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b56cf06341c044ba26472bd11dd362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ordered_layer: 0
 --- !u!114 &114307600607869816
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1388,7 +1443,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 0.6295045
+  m_Length: 0.6295044
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 4784773610399674}
   m_AttachedIK: {fileID: 114790171449777420}
@@ -1520,7 +1575,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 0.52
+  m_Length: 0.5199999
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 4697087170772182}
   m_AttachedIK: {fileID: 114790171449777420}
@@ -1536,6 +1591,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BoneTransform: {fileID: 4562750258303300}
+--- !u!114 &114443567470998294
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1483731756499578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35120075b0b8f6a43884aaed3eea3654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114452707826544306
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1733,6 +1799,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: CRIT
+--- !u!114 &114705810870831112
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1540145179021266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35120075b0b8f6a43884aaed3eea3654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114722929485455750
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1745,7 +1822,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 0.73758197
+  m_Length: 0.7375822
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 4130518076750642}
   m_AttachedIK: {fileID: 114339621448424364}
@@ -1798,7 +1875,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 0.5200001
+  m_Length: 0.51999986
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 4851301566063734}
   m_AttachedIK: {fileID: 114790171449777420}
@@ -1814,7 +1891,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 0.24000093
+  m_Length: 0.24000089
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 4611182784934810}
   m_AttachedIK: {fileID: 0}
@@ -2138,9 +2215,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1786724121
+  m_SortingLayerID: -982681181
   m_SortingLayer: -1
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: de64c35b70fc16a44870f718a6978a35, type: 3}
   m_Color: {r: 0.1882353, g: 0.3137255, b: 0.4509804, a: 1}
   m_FlipX: 0
