@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4149887586896440}
   - component: {fileID: 114430488165268930}
   - component: {fileID: 137731021746682814}
+  - component: {fileID: 114224259250473166}
   m_Layer: 0
   m_Name: Capstone_Unit_Warrior_3
   m_TagString: Untagged
@@ -152,6 +153,7 @@ GameObject:
   - component: {fileID: 4519061881950022}
   - component: {fileID: 114014446972317426}
   - component: {fileID: 137496206314958748}
+  - component: {fileID: 114393868675812494}
   m_Layer: 0
   m_Name: Capstone_Unit_Warrior_0
   m_TagString: Untagged
@@ -169,6 +171,7 @@ GameObject:
   - component: {fileID: 4833394111449036}
   - component: {fileID: 114431598935232768}
   - component: {fileID: 137518355356059652}
+  - component: {fileID: 114918980430459352}
   m_Layer: 0
   m_Name: Capstone_Unit_Warrior_2
   m_TagString: Untagged
@@ -186,6 +189,7 @@ GameObject:
   - component: {fileID: 4600141397806192}
   - component: {fileID: 114289781329744722}
   - component: {fileID: 137124561612814446}
+  - component: {fileID: 114784331352499574}
   m_Layer: 0
   m_Name: Capstone_Unit_Warrior_1
   m_TagString: Untagged
@@ -319,6 +323,7 @@ GameObject:
   - component: {fileID: 223518061228892950}
   - component: {fileID: 114870502742114752}
   - component: {fileID: 114798453010793184}
+  - component: {fileID: 114575467984727482}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -449,6 +454,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4897069297727876}
   - component: {fileID: 212110221836421310}
+  - component: {fileID: 114903791621934982}
   m_Layer: 0
   m_Name: Hexagon_BG
   m_TagString: Untagged
@@ -485,6 +491,7 @@ GameObject:
   - component: {fileID: 114217616659804876}
   - component: {fileID: 114739915502178522}
   - component: {fileID: 114708306271188432}
+  - component: {fileID: 114897004747810952}
   m_Layer: 0
   m_Name: Unit_Stats
   m_TagString: Untagged
@@ -1349,6 +1356,18 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 10
+--- !u!114 &114224259250473166
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1001787115693088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b56cf06341c044ba26472bd11dd362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ordered_layer: -1
 --- !u!114 &114233590575631264
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1552,6 +1571,18 @@ MonoBehaviour:
     m_RestoreDefaultPose: 1
     targetPosition: {x: -11.029382, y: 11.647265, z: 0}
     flip: 0
+--- !u!114 &114393868675812494
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1283906308347096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b56cf06341c044ba26472bd11dd362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ordered_layer: 0
 --- !u!114 &114424098067515464
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1651,6 +1682,17 @@ MonoBehaviour:
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 0}
   m_AttachedIK: {fileID: 0}
+--- !u!114 &114575467984727482
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1479057167203560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35120075b0b8f6a43884aaed3eea3654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114593018511485496
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1689,6 +1731,7 @@ MonoBehaviour:
   attack_blink_color:
     serializedVersion: 2
     rgba: 4282253155
+  removed: 0
   attackSound: {fileID: 82061030929620572}
   hitSound: {fileID: 82550218143133870}
   moveSound: {fileID: 82147830685516208}
@@ -1887,6 +1930,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BoneTransform: {fileID: 4660966688888870}
+--- !u!114 &114784331352499574
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1317352621118566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b56cf06341c044ba26472bd11dd362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ordered_layer: 1
 --- !u!114 &114798453010793184
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1940,6 +1995,17 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114897004747810952
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1835693356323800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35120075b0b8f6a43884aaed3eea3654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114897670747576636
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1969,6 +2035,30 @@ MonoBehaviour:
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 4878131551277112}
   m_AttachedIK: {fileID: 114595971561364974}
+--- !u!114 &114903791621934982
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1743767600354772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b56cf06341c044ba26472bd11dd362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ordered_layer: 1
+--- !u!114 &114918980430459352
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1296098790941346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b56cf06341c044ba26472bd11dd362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ordered_layer: 2
 --- !u!114 &114934742656452610
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2245,9 +2335,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1786724121
+  m_SortingLayerID: -982681181
   m_SortingLayer: -1
-  m_SortingOrder: 2
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: de64c35b70fc16a44870f718a6978a35, type: 3}
   m_Color: {r: 0.1882353, g: 0.3137255, b: 0.4509804, a: 1}
   m_FlipX: 0
