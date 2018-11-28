@@ -200,7 +200,7 @@ public class StartUnit : MonoBehaviour
                 }
                     
             }
-
+            takeDamage(attacked_unit, damage);
 
             //attacked_unit.current_health -= damage;
             //attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
@@ -514,21 +514,23 @@ public class StartUnit : MonoBehaviour
     }
 
 
-    public virtual takeDamage(StartUnit attacked_unit, float damage)
+    public virtual void takeDamage(StartUnit attacked_unit, float damage)
     {
+
         attacked_unit.current_health -= damage;
         attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
 
         float attack_deduction = attacked_unit.current_attack * (current_attack - attacked_unit.current_health / attacked_unit.health);
         if (attack_deduction > attacked_unit.basedmg)
-           attacked_unit.current_attack = attack_deduction;
+            attacked_unit.current_attack = attack_deduction;
         else
         {
             if (attack_deduction <= basedmg)
             {
-                    attacked_unit.current_attack = basedmg;
+                attacked_unit.current_attack = basedmg;
             }
         }
+    }
 
     public void Change_Health(int change_by, StartUnit target)
     {
