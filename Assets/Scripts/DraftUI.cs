@@ -27,6 +27,19 @@ public class DraftUI : MonoBehaviour {
     public Image P2Choice6;
     public Image P2Choice7;
 
+    public Image Hero;
+    public Image HeroBack;
+    public Text HeroNum;
+    public Image Ranger;
+    public Image RangerBack;
+    public Text RangerNum;
+    public Image Tank;
+    public Image TankBack;
+    public Text TankNum;
+    public Image Warrior;
+    public Image WarriorBack;
+    public Text WarriorNum;
+
     public Color baby_blue = new Color(0.49f,0.74f,1f);
     public bool blinking = false;
 
@@ -41,12 +54,55 @@ public class DraftUI : MonoBehaviour {
     void Update() {
         //ChangePlayer();
         StartUnit temp;
-        if(playerinfo.currentState == PlayerInformation.DraftStates.P1_Pick_1 || (playerinfo.currentState == PlayerInformation.DraftStates.P2_Pick_1 && playerinfo.Player2Chosen.Count == 0))
+        if (playerinfo.currentState == PlayerInformation.DraftStates.P1_Pick_1 || (playerinfo.currentState == PlayerInformation.DraftStates.P2_Pick_1 && playerinfo.Player2Chosen.Count == 0))
         {
             temp = playerinfo.HeroUnits[playerinfo.p1ScrollValue];
+            HeroNum.text = "0";
+            HeroBack.enabled = true;
+
         }
         else
+        {
+            HeroBack.enabled = false;
+            Hero.color = Color.grey;
             temp = playerinfo.AllP1Units[playerinfo.p1ScrollValue];
+            if(temp.unit_type == "Ranger")
+            {
+                if(WarriorBack.enabled)
+                {
+                    WarriorBack.enabled = false;
+                }
+                else if(TankBack.enabled)
+                {
+                    TankBack.enabled = false;
+                }
+                RangerBack.enabled = true;
+            }
+            if(temp.unit_type == "Warrior")
+            {
+                if (RangerBack.enabled)
+                {
+                    RangerBack.enabled = false;
+                }
+                else if (TankBack.enabled)
+                {
+                    TankBack.enabled = false;
+                }
+                WarriorBack.enabled = true;
+            }
+            if(temp.unit_type == "Tank")
+            {
+                if (RangerBack.enabled)
+                {
+                    RangerBack.enabled = false;
+                }
+                else if (WarriorBack.enabled)
+                {
+                    WarriorBack.enabled = false;
+                }
+                TankBack.enabled = true;
+            }
+        }
 
 
         P1CostText.text = "Cost: " + playerinfo.p1Cost.ToString();
@@ -57,7 +113,16 @@ public class DraftUI : MonoBehaviour {
             + "\nRange:" + temp.attackRange + "\t Move:" + temp.mobility;
         if (playerinfo.pool)
         {
-            PoolText.text = "x" + CheckPool().ToString();
+            int[] unit_count = CheckPool();
+            RangerNum.text =  "x" + unit_count[0].ToString();
+            if (unit_count[0] == 0)
+                Ranger.color = Color.grey;
+            TankNum.text = "x" + unit_count[1].ToString();
+            if (unit_count[1] == 0)
+                Tank.color = Color.grey;
+            WarriorNum.text = "x" + unit_count[2].ToString();
+            if (unit_count[2] == 0)
+                Warrior.color = Color.grey;
         }
 
     }
@@ -72,17 +137,20 @@ public class DraftUI : MonoBehaviour {
         blinking = false;
     }
 
-    private int CheckPool()
+    private int[] CheckPool()
     {
-        int count = 0;
+        int[] unit_nums = {0, 0, 0};
         for (int j = 0; j < playerinfo.PoolUnits.Count; j++)
         {
-    
-            if ( playerinfo.AllP1Units[playerinfo.p1ScrollValue]  == playerinfo.PoolUnits[j])
-                count++;
-            
+
+            if (playerinfo.PoolUnits[j].unit_type == "Ranger")
+                unit_nums[0]++;
+            else if (playerinfo.PoolUnits[j].unit_type == "Tank")
+                unit_nums[1]++;
+            else
+                unit_nums[2]++;
         }
-        return count;
+        return unit_nums;
     }
 
     public void P1Pick1()
