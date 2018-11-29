@@ -44,7 +44,7 @@ public class Grid : MonoBehaviour {
     List<int> water = new List<int>() { };
 
     // prefabs cell and cellLabel should be children of grid
-    public HexagonCell cellPrefab;
+    public HexagonCell[] cellPrefabs;
 
     //public Text cellLabelPrefab;
 
@@ -74,8 +74,8 @@ public class Grid : MonoBehaviour {
         position.x = (a + b * 0.5f - b / 2) * (HexagonInfo.innerRadius * 2f);
         position.y = b * (HexagonInfo.outerRadius * 1.5f);
         position.z = 0f;
-
-        HexagonCell cell = cells[c] = Instantiate<HexagonCell>(cellPrefab);
+        int rand_tile = Random.Range(0, 3);
+        HexagonCell cell = cells[c] = Instantiate<HexagonCell>(cellPrefabs[rand_tile]);
         cell.transform.SetParent(transform, false);
         cell.transform.localPosition = position;
         cell.coords = HexagonCoord.FromOffsetCoordinates(a, b);
@@ -215,7 +215,7 @@ public class Grid : MonoBehaviour {
 
     public HexagonCell[] CreateGrid()
     {
-        ten = true;
+        //ten = true;
         if (ten)
         {
             height = 10;
@@ -233,34 +233,15 @@ public class Grid : MonoBehaviour {
             result = ChangeHexInfo(cells, wall_list1, powerlist1, hazards, water);
         }
 
-        if (twenty)
-        {
-            height = 20;
-        width = 20;
+        //if (twenty)
+        //{
+        //    height = 20;
+        //width = 20;
         //int randmap = Random.Range(0, 2);
         //if (randmap == 0)
         //{
-        height = 10;
-        width = 10;
-        cells = new HexagonCell[height * width]; // create an array of correct length
-
-        for (int b = 0, c = 0; b < height; b++) // fill the array with actual hexagon cells
-        {
-
-            for (int a = 0; a < width; a++)
-            {
-                CreateCell(a, b, c++);
-            }
-        }
-        result = ChangeHexInfo(cells, wall_list2, powerlist2, hazards2, water2);
-        }
-        result = ChangeHexInfo(cells, wall_list1, powerlist1, hazards, water);
-        //}
-
-        //if(randmap == 1)
-        //{
-        //height = 20;
-        //width = 20;
+        //height = 10;
+        //width = 10;
         //cells = new HexagonCell[height * width]; // create an array of correct length
 
         //for (int b = 0, c = 0; b < height; b++) // fill the array with actual hexagon cells
@@ -273,6 +254,25 @@ public class Grid : MonoBehaviour {
         //}
         //result = ChangeHexInfo(cells, wall_list2, powerlist2, hazards2, water2);
         //}
+        //result = ChangeHexInfo(cells, wall_list1, powerlist1, hazards, water);
+        //}
+
+        if(twenty)
+        {
+            height = 20;
+            width = 20;
+            cells = new HexagonCell[height * width]; // create an array of correct length
+
+            for (int b = 0, c = 0; b < height; b++) // fill the array with actual hexagon cells
+            {
+
+                for (int a = 0; a < width; a++)
+                {
+                    CreateCell(a, b, c++);
+                }
+            }
+            result = ChangeHexInfo(cells, wall_list2, powerlist2, hazards2, water2);
+        }
 
         //if (thirty)
         //{
@@ -316,7 +316,8 @@ public class Grid : MonoBehaviour {
             {
                 int randval = Random.Range(1, 5);
                 cells_[powercells_[i]].gameObject.AddComponent<TeamPowerupTiles>();
-                cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().PoweredDownSprite = PoweredDown;
+                //cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().PoweredDownSprite = PoweredDown;
+                //cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().discovered = true;
                 cells_[powercells_[i]].tag = "TeamBuff";
                 if (randval == 1)
                 {
@@ -353,6 +354,8 @@ public class Grid : MonoBehaviour {
                 cells_[hazards_[i]].gameObject.tag = "SlowingTile";
                 cells_[hazards_[i]].gameObject.AddComponent<TeamPowerupTiles>();
                 cells_[hazards_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = SlowingTile;
+                //cells_[hazards_[i]].gameObject.GetComponent<TeamPowerupTiles>().discovered = true;
+                cells_[hazards_[i]].gameObject.GetComponent<TeamPowerupTiles>().grassDebuff = true;
                // cells_[hazards_[i]].gameObject.GetComponent<SpriteRenderer>().color = Color.green;
             }
         }
@@ -364,6 +367,8 @@ public class Grid : MonoBehaviour {
                 cells_[water_[i]].gameObject.tag = "Water";
                 cells_[water_[i]].gameObject.AddComponent<TeamPowerupTiles>();
                 cells_[water_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = Water;
+               // cells_[hazards_[i]].gameObject.GetComponent<TeamPowerupTiles>().discovered = true;
+                cells_[water_[i]].gameObject.GetComponent<TeamPowerupTiles>().waterDebuff = true;
               //  cells_[water_[i]].gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
             }
         }

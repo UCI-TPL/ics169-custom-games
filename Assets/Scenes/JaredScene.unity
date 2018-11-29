@@ -2314,6 +2314,8 @@ MonoBehaviour:
   - {fileID: 114565556080221656, guid: f3506773eed3ba44c80ef9f1cb562563, type: 2}
   - {fileID: 114565556080221656, guid: f3506773eed3ba44c80ef9f1cb562563, type: 2}
   - {fileID: 114836417496467364, guid: 3aa888738f10d674685d0f97568eb8df, type: 2}
+  P1starting_pos: 7c0000007d0000007e000000900000009100000092000000a5000000a6000000
+  P2starting_pos: 3a01000039010000380100002701000026010000250100001201000013010000
   P1Team: []
   P2Team: []
   SelectedUnit: {fileID: 0}
@@ -7787,11 +7789,13 @@ MonoBehaviour:
   Water: {fileID: 21300000, guid: ee8a4eeb5c9632e44ae89bf93a8d4595, type: 3}
   PoweredDown: {fileID: 21300000, guid: d0254cf88cce04a4080914146bd38fd6, type: 3}
   ten: 0
-  twenty: 0
+  twenty: 1
   thirty: 0
   sprites_per_tile: 5
-  cellPrefab: {fileID: 114090098638288174, guid: 9d4ee7f126fd0534f8d63d538fcd7dad,
-    type: 2}
+  cellPrefabs:
+  - {fileID: 114090098638288174, guid: 9d4ee7f126fd0534f8d63d538fcd7dad, type: 2}
+  - {fileID: 114090098638288174, guid: 08dcb04ea17cf3749b56fb2c052006fe, type: 2}
+  - {fileID: 114090098638288174, guid: 1022cf1b930c35f4496a6c906a684137, type: 2}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   touchedColor: {r: 0, g: 0.8492365, b: 1, a: 1}
   attackColor: {r: 0.49803922, g: 0, b: 0, a: 1}
@@ -7859,6 +7863,8 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 0
   Player2Chosen: []
+  P1starting_pos: 7c0000007d0000007e000000900000009100000092000000a5000000a6000000
+  P2starting_pos: 3a01000039010000380100002701000026010000250100001201000013010000
   P1Team: []
   P2Team: []
   SelectedUnit: {fileID: 0}
