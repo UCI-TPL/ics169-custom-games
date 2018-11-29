@@ -39,6 +39,9 @@ public class DraftUI : MonoBehaviour {
     public Image Warrior;
     public Image WarriorBack;
     public Text WarriorNum;
+    public Image Healer;
+    public Image HealerBack;
+    public Text HealerNum;
 
     public Color baby_blue = new Color(0.49f,0.74f,1f);
     public bool blinking = false;
@@ -72,9 +75,13 @@ public class DraftUI : MonoBehaviour {
                 {
                     WarriorBack.enabled = false;
                 }
-                else if(TankBack.enabled)
+                if(TankBack.enabled)
                 {
                     TankBack.enabled = false;
+                }
+                if(HealerBack.enabled)
+                {
+                    HealerBack.enabled = false;
                 }
                 RangerBack.enabled = true;
             }
@@ -84,9 +91,13 @@ public class DraftUI : MonoBehaviour {
                 {
                     RangerBack.enabled = false;
                 }
-                else if (TankBack.enabled)
+                if (TankBack.enabled)
                 {
                     TankBack.enabled = false;
+                }
+                if(HealerBack.enabled)
+                {
+                    HealerBack.enabled = false;
                 }
                 WarriorBack.enabled = true;
             }
@@ -96,11 +107,31 @@ public class DraftUI : MonoBehaviour {
                 {
                     RangerBack.enabled = false;
                 }
-                else if (WarriorBack.enabled)
+                if (WarriorBack.enabled)
                 {
                     WarriorBack.enabled = false;
                 }
+                if(HealerBack.enabled)
+                {
+                    HealerBack.enabled = false;
+                }
                 TankBack.enabled = true;
+            }
+            if(temp.unit_type == "Healer")
+            {
+                if (Tank.enabled)
+                {
+                    TankBack.enabled = false;
+                }
+                if (WarriorBack.enabled)
+                {
+                    WarriorBack.enabled = false;
+                }
+                if(RangerBack.enabled)
+                {
+                    RangerBack.enabled = false;
+                }
+                HealerBack.enabled = true;
             }
         }
 
@@ -123,6 +154,11 @@ public class DraftUI : MonoBehaviour {
             WarriorNum.text = "x" + unit_count[2].ToString();
             if (unit_count[2] == 0)
                 Warrior.color = Color.grey;
+            HealerNum.text = "x" + unit_count[3].ToString();
+            if(unit_count[3] == 0)
+            {
+                Healer.color = Color.grey;
+            }
         }
 
     }
@@ -139,7 +175,7 @@ public class DraftUI : MonoBehaviour {
 
     private int[] CheckPool()
     {
-        int[] unit_nums = {0, 0, 0};
+        int[] unit_nums = {0, 0, 0,0};
         for (int j = 0; j < playerinfo.PoolUnits.Count; j++)
         {
 
@@ -147,8 +183,10 @@ public class DraftUI : MonoBehaviour {
                 unit_nums[0]++;
             else if (playerinfo.PoolUnits[j].unit_type == "Tank")
                 unit_nums[1]++;
-            else
+            else if (playerinfo.PoolUnits[j].unit_type == "Warrior")
                 unit_nums[2]++;
+            else
+                unit_nums[3]++;
         }
         return unit_nums;
     }
