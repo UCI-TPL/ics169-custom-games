@@ -43,7 +43,7 @@ public class HexagonMapEditor : MonoBehaviour
     public List<StartUnit> Player2Chosen = new List<StartUnit>();
 
     public List<int> P1starting_pos = new List<int>() { 104, 105, 106, 124, 125, 126, 145, 146 };
-    public List<int> P2starting_pos = new List<int>() { 254, 255, 272, 273, 274, 292, 293, 294 };
+    public List<int> P2starting_pos = new List<int>() { 253, 254, 272, 273, 274, 292, 293, 294 };
 
     public List<StartUnit> P1Team = new List<StartUnit>(); // list of player 1 team
     public List<StartUnit> P2Team = new List<StartUnit>(); // list of player 2 team

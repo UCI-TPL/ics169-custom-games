@@ -44,7 +44,7 @@ public class Grid : MonoBehaviour {
     List<int> water = new List<int>() { };
 
     // prefabs cell and cellLabel should be children of grid
-    public HexagonCell cellPrefab;
+    public HexagonCell[] cellPrefabs;
 
     //public Text cellLabelPrefab;
 
@@ -74,8 +74,8 @@ public class Grid : MonoBehaviour {
         position.x = (a + b * 0.5f - b / 2) * (HexagonInfo.innerRadius * 2f);
         position.y = b * (HexagonInfo.outerRadius * 1.5f);
         position.z = 0f;
-
-        HexagonCell cell = cells[c] = Instantiate<HexagonCell>(cellPrefab);
+        int rand_tile = Random.Range(0, 3);
+        HexagonCell cell = cells[c] = Instantiate<HexagonCell>(cellPrefabs[rand_tile]);
         cell.transform.SetParent(transform, false);
         cell.transform.localPosition = position;
         cell.coords = HexagonCoord.FromOffsetCoordinates(a, b);

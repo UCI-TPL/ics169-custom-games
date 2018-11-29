@@ -17,6 +17,8 @@ public class StartUnit : MonoBehaviour
     public float crit;
     public float miss;
     public float crit_multiplier;
+    public int weight;
+    public int selectedTarget;
     public Sprite Icon;
     public int cost;
     public bool direction = true; // right = true, left = false
@@ -87,6 +89,7 @@ public class StartUnit : MonoBehaviour
     public virtual IEnumerator BasicAttack(Grid hexGrid, HexagonCell unitCell) // return bool yes if dead false if no
     {
         end_attack_without_retaliate = true;
+
         //add a call to a retaliate function on the other unit   
         List<HexagonCell> targetable = new List<HexagonCell>();
         foreach (HexagonCell cell in hexGrid.cells)
@@ -104,8 +107,25 @@ public class StartUnit : MonoBehaviour
             editor.Main_Cam.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, editor.Main_Cam.transform.position.z);
             //StartCoroutine(this.Blink(Color.green, this, Time.time + 0.8f));
             yield return new WaitForSeconds(1.5f);
-            
-            int rand_index = Random.Range(0, targetable.Count);
+
+            //int rand_index = Random.Range(0, targetable.Count);
+            int totalWeight = 0;
+            for(int i = 0; i < targetable.Count; i++)
+            {
+                totalWeight += targetable[i].unitOnTile.weight;
+            }
+            int rand_val = Random.Range(1, totalWeight);
+            for(int i = 0; i < targetable.Count; i++)
+            {
+                if(rand_val - targetable[i].unitOnTile.weight <= 0)
+                {
+                    selectedTarget = i;
+                    break;
+                }
+                rand_val -= targetable[i].unitOnTile.weight;
+            }
+
+
             float crit_chance = Random.value;
             float miss_chance = Random.value;
             float damage = current_attack;
@@ -120,7 +140,7 @@ public class StartUnit : MonoBehaviour
             //    dmg_txt = (int)damage;
             //}
                   
-            if (targetable[rand_index].unitOnTile.FloatingTextPrefab)
+            if (targetable[selectedTarget].unitOnTile.FloatingTextPrefab)
             {
                 if (miss_chance <= miss)
                     damage = 0;
@@ -135,8 +155,8 @@ public class StartUnit : MonoBehaviour
                 dmg_txt = (int)damage;
             }
 
-            StartUnit attacked_unit = targetable[rand_index].unitOnTile;
-            HexagonCell attacked_cell = targetable[rand_index];
+            StartUnit attacked_unit = targetable[selectedTarget].unitOnTile;
+            HexagonCell attacked_cell = targetable[selectedTarget];
             HexagonCoord current = unitCell.coords;
 
             if (attacked_cell.gameObject.transform.position.x > transform.position.x) //unit is to the right
@@ -227,7 +247,7 @@ public class StartUnit : MonoBehaviour
             
 
             //Debug.Log("he dead");
-            if (targetable[rand_index].unitOnTile.current_health <= 0)
+            if (targetable[selectedTarget].unitOnTile.current_health <= 0)
             {
                 end_attack_without_retaliate = true;
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
@@ -249,7 +269,7 @@ public class StartUnit : MonoBehaviour
                 
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 yield return new WaitForSeconds(0.3f);
-                StartCoroutine(targetable[rand_index].unitOnTile.Hit());
+                StartCoroutine(targetable[selectedTarget].unitOnTile.Hit());
                 StartCoroutine(attacked_unit.Blink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f));
             }
         }

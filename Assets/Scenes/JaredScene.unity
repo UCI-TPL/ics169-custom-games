@@ -7788,8 +7788,10 @@ MonoBehaviour:
   twenty: 1
   thirty: 0
   sprites_per_tile: 5
-  cellPrefab: {fileID: 114090098638288174, guid: 9d4ee7f126fd0534f8d63d538fcd7dad,
-    type: 2}
+  cellPrefabs:
+  - {fileID: 114090098638288174, guid: 9d4ee7f126fd0534f8d63d538fcd7dad, type: 2}
+  - {fileID: 114090098638288174, guid: 08dcb04ea17cf3749b56fb2c052006fe, type: 2}
+  - {fileID: 114090098638288174, guid: 1022cf1b930c35f4496a6c906a684137, type: 2}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   touchedColor: {r: 0, g: 0.8492365, b: 1, a: 1}
   attackColor: {r: 0.49803922, g: 0, b: 0, a: 1}
