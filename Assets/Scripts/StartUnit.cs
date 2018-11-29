@@ -540,16 +540,21 @@ public class StartUnit : MonoBehaviour
         attacked_unit.current_health -= damage;
         attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
 
-        float attack_deduction = attacked_unit.current_attack * (current_attack - attacked_unit.current_health / attacked_unit.health);
-        if (attack_deduction > attacked_unit.basedmg)
-            attacked_unit.current_attack = attack_deduction;
-        else
-        {
-            if (attack_deduction <= basedmg)
-            {
-                attacked_unit.current_attack = basedmg;
-            }
-        }
+        float healthpercent = attacked_unit.current_health / attacked_unit.health;//    120/180 = .667
+        float attack_deduction = 1 - healthpercent;//   1 - .667 = .333
+        float new_attack = attacked_unit.attack * attack_deduction;//   72 * .333 = 23.76
+        attacked_unit.current_attack = attacked_unit.attack - new_attack;// 72 - 23.76 = 48
+
+        //float attack_deduction = attacked_unit.current_attack * (current_attack - attacked_unit.current_health / attacked_unit.health);
+        //if (attack_deduction > attacked_unit.basedmg)
+        //    attacked_unit.current_attack = attack_deduction;
+        //else
+        //{
+        //    if (attack_deduction <= basedmg)
+        //    {
+        //        attacked_unit.current_attack = basedmg;
+        //    }
+        //}
     }
 
     public void Change_Health(int change_by, StartUnit target)

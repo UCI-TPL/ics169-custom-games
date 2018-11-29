@@ -17,15 +17,16 @@ public class UnitStats : MonoBehaviour {
 
         //if (this.gameObject.GetComponent<StartUnit>().unit_ID == 1)
         //{//Tank
-            int.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][1], out this.gameObject.GetComponent<StartUnit>().mobility);
-            int.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][2], out this.gameObject.GetComponent<StartUnit>().attackRange);
-            float.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][3], out this.gameObject.GetComponent<StartUnit>().health);
-            int.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][4], out this.gameObject.GetComponent<StartUnit>().attack);
-            int.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][5], out this.gameObject.GetComponent<StartUnit>().basedmg);
-            float.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][6], out this.gameObject.GetComponent<StartUnit>().crit);
-            float.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][7], out this.gameObject.GetComponent<StartUnit>().miss);
-            float.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][8], out this.gameObject.GetComponent<StartUnit>().crit_multiplier);
-            int.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][9], out this.gameObject.GetComponent<StartUnit>().cost);
+        int.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][1], out this.gameObject.GetComponent<StartUnit>().mobility);
+        int.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][2], out this.gameObject.GetComponent<StartUnit>().attackRange);
+        float.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][3], out this.gameObject.GetComponent<StartUnit>().health);
+        int.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][4], out this.gameObject.GetComponent<StartUnit>().attack);
+        int.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][5], out this.gameObject.GetComponent<StartUnit>().basedmg);
+        float.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][6], out this.gameObject.GetComponent<StartUnit>().crit);
+        float.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][7], out this.gameObject.GetComponent<StartUnit>().miss);
+        float.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][8], out this.gameObject.GetComponent<StartUnit>().crit_multiplier);
+        int.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][9], out this.gameObject.GetComponent<StartUnit>().cost);
+        int.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][10], out this.gameObject.GetComponent<StartUnit>().weight);
         //}
         //if (this.gameObject.GetComponent<StartUnit>().unit_ID == 2)
         //{//Melee
