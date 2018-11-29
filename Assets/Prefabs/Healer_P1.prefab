@@ -1429,6 +1429,7 @@ MonoBehaviour:
   unit_name: 
   unit_ID: 3
   mobility: 0
+  current_mobility: 0
   attackRange: 0
   health: 0
   attack: 0
@@ -1436,6 +1437,8 @@ MonoBehaviour:
   crit: 0
   miss: 0
   crit_multiplier: 0
+  weight: 0
+  selectedTarget: 0
   Icon: {fileID: 21300000, guid: 6e785a2532b5646f69afe472b2716330, type: 3}
   cost: 0
   direction: 1

@@ -10,7 +10,7 @@ public class BerzerkerUnit : StartUnit {
         base.Start();
     }
 
-    public override void takeDamage(StartUnit attacked_unit, float damage)
+    public override void TakeDamage(StartUnit attacked_unit, float damage)
     {
         attacked_unit.current_health -= damage;
         attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?

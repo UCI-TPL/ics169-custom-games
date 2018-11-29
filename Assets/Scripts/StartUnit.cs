@@ -36,7 +36,7 @@ public class StartUnit : MonoBehaviour
     private float time = 0.0f;
     public Color32 attack_blink_color;
     public bool removed = false;
-
+    public bool slowed = false;
     //to determine if a retaliation is neccessary
     public bool end_attack_without_retaliate;
 
@@ -142,6 +142,7 @@ public class StartUnit : MonoBehaviour
                   
             if (targetable[selectedTarget].unitOnTile.FloatingTextPrefab)
             {
+                Debug.Log("fadef");
                 if (miss_chance <= miss)
                     damage = 0;
                 else
@@ -156,7 +157,9 @@ public class StartUnit : MonoBehaviour
             }
 
             StartUnit attacked_unit = targetable[selectedTarget].unitOnTile;
+            Debug.Log("fefew");
             HexagonCell attacked_cell = targetable[selectedTarget];
+            Debug.Log("eriq");
             HexagonCoord current = unitCell.coords;
 
             if (attacked_cell.gameObject.transform.position.x > transform.position.x) //unit is to the right
@@ -220,7 +223,7 @@ public class StartUnit : MonoBehaviour
                 }
                     
             }
-            takeDamage(attacked_unit, damage);
+            TakeDamage(attacked_unit, damage);
 
             //attacked_unit.current_health -= damage;
             //attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
@@ -534,12 +537,12 @@ public class StartUnit : MonoBehaviour
     }
 
 
-    public virtual void takeDamage(StartUnit attacked_unit, float damage)
+    public virtual void TakeDamage(StartUnit attacked_unit, float damage)
     {
 
         attacked_unit.current_health -= damage;
         attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
-
+        Debug.Log("Made it");
         float healthpercent = attacked_unit.current_health / attacked_unit.health;//    120/180 = .667
         float attack_deduction = 1 - healthpercent;//   1 - .667 = .333
         float new_attack = attacked_unit.attack * attack_deduction;//   72 * .333 = 23.76
