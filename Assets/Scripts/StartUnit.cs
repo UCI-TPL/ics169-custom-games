@@ -36,7 +36,7 @@ public class StartUnit : MonoBehaviour
     public bool removed = false;
 
     //to determine if a retaliation is neccessary
-    private bool end_attack_without_retaliate;
+    public bool end_attack_without_retaliate;
 
 
     private float dmg_txt_char_size;
