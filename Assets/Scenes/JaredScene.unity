@@ -2308,7 +2308,6 @@ MonoBehaviour:
   Unit_Hurt_Color:
     serializedVersion: 2
     rgba: 4285164234
-  Player1Chosen: []
   Player2Chosen:
   - {fileID: 114836417496467364, guid: 3aa888738f10d674685d0f97568eb8df, type: 2}
   - {fileID: 114358444280044280, guid: ccf8af24ecfa5b742a20ffb055df681a, type: 2}
@@ -2319,7 +2318,6 @@ MonoBehaviour:
   P2starting_pos: 3a01000039010000380100002701000026010000250100001201000013010000
   P1Team: []
   P2Team: []
-  MoveableUnits: []
   SelectedUnit: {fileID: 0}
   isUnitSelected: 0
   unitCell: {fileID: 0}
@@ -2330,6 +2328,12 @@ MonoBehaviour:
   onePlayer: 0
   cur_attacking: 0
   attack_count: 0
+  hazardList:
+  - {fileID: 114591343487103536, guid: 6c8ad155576b2d4478a8d6464d2cde8f, type: 2}
+  - {fileID: 114881700081576812, guid: fc8fbfdab82c6ef48b384b654a4cf157, type: 2}
+  - {fileID: 114307976132037704, guid: 6ac0d3a6bfffb0d4baa85b1cf814330d, type: 2}
+  incoming: 0
+  incoming_in: 2147483647
   allow_cursor_control: 0
   Units_To_Delete: []
   max_sprites_per_unit: 4
@@ -7858,13 +7862,11 @@ MonoBehaviour:
   Unit_Hurt_Color:
     serializedVersion: 2
     rgba: 0
-  Player1Chosen: []
   Player2Chosen: []
   P1starting_pos: 7c0000007d0000007e000000900000009100000092000000a5000000a6000000
   P2starting_pos: 3a01000039010000380100002701000026010000250100001201000013010000
   P1Team: []
   P2Team: []
-  MoveableUnits: []
   SelectedUnit: {fileID: 0}
   isUnitSelected: 0
   unitCell: {fileID: 0}
@@ -7875,6 +7877,9 @@ MonoBehaviour:
   onePlayer: 0
   cur_attacking: 0
   attack_count: 0
+  hazardList: []
+  incoming: 0
+  incoming_in: 2147483647
   allow_cursor_control: 0
   Units_To_Delete: []
   max_sprites_per_unit: 0

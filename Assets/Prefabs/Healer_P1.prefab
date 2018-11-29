@@ -327,7 +327,7 @@ GameObject:
   - component: {fileID: 4217251836018554}
   - component: {fileID: 114678273727983350}
   - component: {fileID: 95376166299980826}
-  - component: {fileID: 114388790422670728}
+  - component: {fileID: 114360579568270836}
   - component: {fileID: 82016278777584256}
   - component: {fileID: 82860769173642726}
   - component: {fileID: 82519965302197772}
@@ -1414,6 +1414,49 @@ MonoBehaviour:
   m_Bones: []
   m_BoneTransforms:
   - {fileID: 4239261682504166}
+--- !u!114 &114360579568270836
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1538475170806518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20c0a32979bd03f4d87238b0c763f69c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit_type: Healer
+  unit_name: 
+  unit_ID: 3
+  mobility: 0
+  attackRange: 0
+  health: 0
+  attack: 0
+  basedmg: 0
+  crit: 0
+  miss: 0
+  crit_multiplier: 0
+  Icon: {fileID: 21300000, guid: 6e785a2532b5646f69afe472b2716330, type: 3}
+  cost: 0
+  direction: 1
+  current_health: 0
+  current_attack: 0
+  FloatingTextPrefab: {fileID: 1120425126322546, guid: 093bcb706ed94e3428f7bd3526dbc7e6,
+    type: 2}
+  dead: 0
+  health_bar: {fileID: 1239900389209884}
+  anim: {fileID: 0}
+  editor: {fileID: 0}
+  Unit_Stats_Panel: {fileID: 1200568856688846}
+  currently_attacking: 0
+  attack_blink_color:
+    serializedVersion: 2
+    rgba: 0
+  removed: 0
+  end_attack_without_retaliate: 0
+  attackSound: {fileID: 82016278777584256}
+  hitSound: {fileID: 82860769173642726}
+  moveSound: {fileID: 82519965302197772}
 --- !u!114 &114363573936358100
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1485,48 +1528,6 @@ MonoBehaviour:
     targetPosition: {x: 0.8278769, y: 10.104313, z: 0}
     iterations: 10
     damping: 0.8
---- !u!114 &114388790422670728
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1538475170806518}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ac37cb15116681498736a09e39043bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unit_type: Healer
-  unit_name: 
-  unit_ID: 3
-  mobility: 0
-  attackRange: 0
-  health: 0
-  attack: 0
-  basedmg: 0
-  crit: 0
-  miss: 0
-  crit_multiplier: 0
-  Icon: {fileID: 21300000, guid: 2086ccd06548046d48f57be397fe8b93, type: 3}
-  cost: 0
-  direction: 1
-  current_health: 0
-  current_attack: 0
-  FloatingTextPrefab: {fileID: 1120425126322546, guid: 093bcb706ed94e3428f7bd3526dbc7e6,
-    type: 2}
-  dead: 0
-  health_bar: {fileID: 1239900389209884}
-  anim: {fileID: 0}
-  editor: {fileID: 0}
-  Unit_Stats_Panel: {fileID: 1200568856688846}
-  currently_attacking: 0
-  attack_blink_color:
-    serializedVersion: 2
-    rgba: 4282253155
-  removed: 0
-  attackSound: {fileID: 82016278777584256}
-  hitSound: {fileID: 82860769173642726}
-  moveSound: {fileID: 82519965302197772}
 --- !u!114 &114440497074789932
 MonoBehaviour:
   m_ObjectHideFlags: 1
