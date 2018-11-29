@@ -51,5 +51,17 @@ public class UnitStats : MonoBehaviour {
             float.TryParse(unit_stats[2][8], out this.gameObject.GetComponent<StartUnit>().crit_multiplier);
             int.TryParse(unit_stats[2][9], out this.gameObject.GetComponent<StartUnit>().cost);
         }
+        if (this.gameObject.GetComponent<StartUnit>().unit_ID == 4)
+        {
+            int.TryParse(unit_stats[3][1], out this.gameObject.GetComponent<StartUnit>().mobility);
+            int.TryParse(unit_stats[3][2], out this.gameObject.GetComponent<StartUnit>().attackRange);
+            float.TryParse(unit_stats[3][3], out this.gameObject.GetComponent<StartUnit>().health);
+            int.TryParse(unit_stats[3][4], out this.gameObject.GetComponent<StartUnit>().attack);
+            int.TryParse(unit_stats[3][5], out this.gameObject.GetComponent<StartUnit>().basedmg);
+            float.TryParse(unit_stats[3][6], out this.gameObject.GetComponent<StartUnit>().crit);
+            float.TryParse(unit_stats[3][7], out this.gameObject.GetComponent<StartUnit>().miss);
+            float.TryParse(unit_stats[3][8], out this.gameObject.GetComponent<StartUnit>().crit_multiplier);
+            int.TryParse(unit_stats[3][9], out this.gameObject.GetComponent<StartUnit>().cost);
+        }
     }
 }
