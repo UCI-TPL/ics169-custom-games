@@ -162,7 +162,12 @@ public class Grid : MonoBehaviour {
                  *else if(grass)
                  * distance += 2
                  */
-                distance += 1;
+                if (neighbor.tag == "SlowingTile")
+                    distance += 2;
+                else
+                    distance += 1;
+
+                //distance += 1;
                 //if (neighbor.Distance == int.MaxValue)
                 //{
                 //    neighbor.spriteRenderer.color = color_m;
@@ -170,6 +175,8 @@ public class Grid : MonoBehaviour {
                 //    neighbor.PathFrom = curr;
                 //    frontier.Add(neighbor);
                 //}
+                if (distance > mobility)
+                    continue;
                 if (distance < neighbor.Distance)
                 {
                     //neighbor.spriteRenderer.color = color_m;
@@ -459,7 +466,11 @@ public class Grid : MonoBehaviour {
                  *else if(grass)
                  * distance += 2
                  */
-                distance += 1;
+                if (current.tag == "SlowingTile")
+                    distance += 2;
+                else 
+                    distance += 1;
+     
                 if (neighbor.Distance == int.MaxValue)
                 {
                     neighbor.Distance = distance;
