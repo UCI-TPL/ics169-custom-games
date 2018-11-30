@@ -1293,6 +1293,7 @@ MonoBehaviour:
   unit_name: 
   unit_ID: 0
   mobility: 2
+  current_mobility: 0
   attackRange: 3
   health: 180
   attack: 72
@@ -1300,6 +1301,8 @@ MonoBehaviour:
   crit: 0.2
   miss: 0.2
   crit_multiplier: 2
+  weight: 0
+  selectedTarget: 0
   Icon: {fileID: 21300000, guid: 2086ccd06548046d48f57be397fe8b93, type: 3}
   cost: 400
   direction: 0

@@ -42,6 +42,9 @@ public class HexagonMapEditor : MonoBehaviour
     private List<StartUnit> Player1Chosen = new List<StartUnit>();
     public List<StartUnit> Player2Chosen = new List<StartUnit>();
 
+    public List<int> P1starting_pos = new List<int>() { 104, 105, 106, 124, 125, 126, 145, 146 };
+    public List<int> P2starting_pos = new List<int>() { 253, 254, 272, 273, 274, 292, 293, 294 };
+
     public List<StartUnit> P1Team = new List<StartUnit>(); // list of player 1 team
     public List<StartUnit> P2Team = new List<StartUnit>(); // list of player 2 team
     private List<StartUnit> MoveableUnits; // mulitpurpose list to hold units with actions
@@ -415,36 +418,38 @@ public class HexagonMapEditor : MonoBehaviour
         string[] names_adj = System.IO.File.ReadAllLines(path_adjectives);
         //Random rand_gen = new Random();
         initializing = false;
-        if (player == 1)
-        {
-            for (int i = 0; i < team.Count; i++)
-            {
+        //if (player == 1)
+        //{
+          for (int i = 0; i < team.Count; i++)
+          {
+            int rand_index_p = Random.Range(0, names_proper.Length - 1);
+            int rand_index_a = Random.Range(0, names_adj.Length - 1);
+            string rand_proper = names_proper[rand_index_p];
+            string rand_adj = names_adj[rand_index_a];
+            //string rand_proper = "Steve";
+            //string rand_adj = "Big";
+            if(player == 1)
+                CreateUnit(P1starting_pos[i], team[i], rand_proper, rand_adj);
+            if (player == 2)
+                CreateUnit(P2starting_pos[i], team[i], rand_proper, rand_adj);
 
-                int rand_index_p = Random.Range(0, names_proper.Length - 1);
-                int rand_index_a = Random.Range(0, names_adj.Length - 1);
-                string rand_proper = names_proper[rand_index_p];
-                string rand_adj = names_adj[rand_index_a];
-                //string rand_proper = "Steve";
-                //string rand_adj = "Big";
-                CreateUnit(i, team[i], rand_proper, rand_adj);
-
-            }
-        }
-        else
-        {
-            int k = 0;
-            for (int j = hexGrid.cells.Length - 1; j > hexGrid.cells.Length - 1 - team.Count; j--)
-            {
-                int rand_index_p = Random.Range(0, names_proper.Length - 1);
-                int rand_index_a = Random.Range(0, names_adj.Length - 1);
-                string rand_proper = names_proper[rand_index_p];
-                string rand_adj = names_adj[rand_index_a];
-                //string rand_proper = "Thomas";
-                //string rand_adj = "Large";
-                CreateUnit(j, team[k], rand_proper, rand_adj);
-                k++;
-            }
-        }
+          }
+        //}
+        //else
+        //{
+        //    int k = 0;
+        //    for (int j = 0; j < team.Count; j++)
+        //    {
+        //        int rand_index_p = Random.Range(0, names_proper.Length - 1);
+        //        int rand_index_a = Random.Range(0, names_adj.Length - 1);
+        //        string rand_proper = names_proper[rand_index_p];
+        //        string rand_adj = names_adj[rand_index_a];
+        //        //string rand_proper = "Thomas";
+        //        //string rand_adj = "Large";
+        //        CreateUnit(P2starting_pos[j], team[j], rand_proper, rand_adj);
+        //        k++;
+        //    }
+        //}
         //initializing = true;
     }
 
@@ -574,7 +579,7 @@ public class HexagonMapEditor : MonoBehaviour
         //UI.name.text = SelectedUnit.name.ToString();
         //UI.stats.text = "HEALTH:" + (int)SelectedUnit.current_health + "\nATTACK:" + (int)SelectedUnit.current_attack;
 
-        hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
+        hexGrid.ShowPath(unitCell, SelectedUnit.current_mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
 
         if (SelectedUnit.CompareTag("Player 1"))
         {
@@ -690,7 +695,7 @@ public class HexagonMapEditor : MonoBehaviour
         //Debug.Log("Distance From: " + unitCell.coords.ToString() + " To: " +
         //hexGrid.cells[index].coords.ToString() +
         //" = " + distance.ToString()); //for debugging distance
-        if (SelectedUnit.mobility >= distance && MoveableUnits.Contains(SelectedUnit))
+        if (SelectedUnit.current_mobility >= distance && MoveableUnits.Contains(SelectedUnit))
         {
             StartCoroutine(SelectedUnit.HopToPlace(hexGrid, unitCell, index, distance));
             //StartCoroutine(SelectedUnit.Moving());
@@ -792,7 +797,7 @@ public class HexagonMapEditor : MonoBehaviour
     //fill this out
     public bool Is_Tile_In_Move_Range()
     {
-        int move_range = SelectedUnit.mobility;
+        int move_range = SelectedUnit.current_mobility;
         HexagonCell Selected_Unit_Cell = hexGrid.GetCell(SelectedUnit.transform.position);
         if (Selected_Unit_Cell.coords.FindDistanceTo(cursor.coords) <= move_range)
         {
@@ -836,7 +841,7 @@ public class HexagonMapEditor : MonoBehaviour
         _UI.obj_name.text = _unit.unit_name;
         _UI.obj_type.text = _unit.unit_type;
         _UI.stats_atk.text = "ATK: " + (int)_unit.current_attack;
-        _UI.stats_mov.text = "MOV: " + _unit.mobility;
+        _UI.stats_mov.text = "MOV: " + _unit.current_mobility;
         _UI.stats_crit.text = "CRIT: " + (int)_unit.crit + "%";
         _UI.stats_range.text = "RNG: " + _unit.attackRange;
     }
