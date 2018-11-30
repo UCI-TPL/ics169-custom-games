@@ -15,9 +15,9 @@ public class TeamPowerupTiles : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debuff();
+        //Debuff();
         Buff();
-        ResetStats();
+        //ResetStats();
 	}
 
     void Buff()
@@ -256,13 +256,16 @@ public class TeamPowerupTiles : MonoBehaviour {
             }
             if (waterDebuff)
             {
-                if (PrevUnit.current_mobility + 2 >= mobility)
-                    PrevUnit.current_mobility = mobility;
-                else
+                if (!this.GetComponent<HexagonCell>().occupied)
                 {
-                    PrevUnit.current_mobility = PrevUnit.current_mobility + 2;
+                    if (PrevUnit.current_mobility + 2 >= mobility)
+                        PrevUnit.current_mobility = mobility;
+                    else
+                    {
+                        PrevUnit.current_mobility = PrevUnit.current_mobility + 2;
+                    }
+                    PrevUnit = null;
                 }
-                PrevUnit = null;
             }
         }
     }

@@ -115,14 +115,14 @@ public class StartUnit : MonoBehaviour
                 totalWeight += targetable[i].unitOnTile.weight;
             }
             int rand_val = Random.Range(1, totalWeight);
-            for(int i = 0; i < targetable.Count; i++)
+            for(int j = 0; j < targetable.Count; j++)
             {
-                if(rand_val - targetable[i].unitOnTile.weight <= 0)
+                if(rand_val - targetable[j].unitOnTile.weight <= 0)
                 {
-                    selectedTarget = i;
+                    selectedTarget = j;
                     break;
                 }
-                rand_val -= targetable[i].unitOnTile.weight;
+                rand_val -= targetable[j].unitOnTile.weight;
             }
 
 
@@ -157,9 +157,7 @@ public class StartUnit : MonoBehaviour
             }
 
             StartUnit attacked_unit = targetable[selectedTarget].unitOnTile;
-            Debug.Log("fefew");
             HexagonCell attacked_cell = targetable[selectedTarget];
-            Debug.Log("eriq");
             HexagonCoord current = unitCell.coords;
 
             if (attacked_cell.gameObject.transform.position.x > transform.position.x) //unit is to the right
