@@ -114,7 +114,7 @@ public class StartUnit : MonoBehaviour
             {
                 totalWeight += targetable[i].unitOnTile.weight;
             }
-            int rand_val = Random.Range(1, totalWeight);
+            int rand_val = Random.Range(1, totalWeight+1);
             for(int j = 0; j < targetable.Count; j++)
             {
                 if(rand_val - targetable[j].unitOnTile.weight <= 0)
@@ -385,12 +385,13 @@ public class StartUnit : MonoBehaviour
 
         //Deals with damage health scaling... prolly shouldn't be done like this TBH
 
-        if (attacked_unit.current_attack > 10)
-        {
-            float percenthealth = attacked_unit.current_health / attacked_unit.health;
-            attacked_unit.current_attack *= percenthealth;
-        }
+        //if (attacked_unit.current_attack > 10)
+        //{
+        //    float percenthealth = attacked_unit.current_health / attacked_unit.health;
+        //    attacked_unit.current_attack *= percenthealth;
+        //}
 
+        TakeDamage(attacked_unit, damage);
 
         StartCoroutine(Retaliate_Anim(attacked_unit));
         //Debug.Log("he dead");
@@ -543,7 +544,8 @@ public class StartUnit : MonoBehaviour
         Debug.Log("Made it");
         float healthpercent = attacked_unit.current_health / attacked_unit.health;//    120/180 = .667
         float attack_deduction = 1 - healthpercent;//   1 - .667 = .333
-        float new_attack = attacked_unit.attack * attack_deduction;//   72 * .333 = 23.76
+        float reduction = attack_deduction / 2;
+        float new_attack = attacked_unit.attack * reduction;//   72 * .333 = 23.76
         attacked_unit.current_attack = attacked_unit.attack - new_attack;// 72 - 23.76 = 48
 
         //float attack_deduction = attacked_unit.current_attack * (current_attack - attacked_unit.current_health / attacked_unit.health);

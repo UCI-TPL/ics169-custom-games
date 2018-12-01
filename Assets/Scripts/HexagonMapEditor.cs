@@ -235,10 +235,10 @@ public class HexagonMapEditor : MonoBehaviour
                             
                             StartCoroutine(P1Team[attack_count].BasicAttack(hexGrid, hexGrid.GetCell(P1Team[attack_count].transform.position)));
                         }
-                        else
-                        {
-                            //unit is still attacking so do nothing I guess
-                        }
+                        //else
+                        //{
+                        //    //unit is still attacking so do nothing I guess
+                        //}
                     }
 
                     if(P1Team[P1Team.Count - 1] == null || P1Team[P1Team.Count - 1].currently_attacking == false)
