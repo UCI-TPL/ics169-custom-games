@@ -162,7 +162,12 @@ public class Grid : MonoBehaviour {
                  *else if(grass)
                  * distance += 2
                  */
-                distance += 1;
+                if (neighbor.tag == "SlowingTile")
+                    distance += 2;
+                else
+                    distance += 1;
+
+                //distance += 1;
                 //if (neighbor.Distance == int.MaxValue)
                 //{
                 //    neighbor.spriteRenderer.color = color_m;
@@ -170,6 +175,8 @@ public class Grid : MonoBehaviour {
                 //    neighbor.PathFrom = curr;
                 //    frontier.Add(neighbor);
                 //}
+                if (distance > mobility)
+                    continue;
                 if (distance < neighbor.Distance)
                 {
                     //neighbor.spriteRenderer.color = color_m;
@@ -233,6 +240,7 @@ public class Grid : MonoBehaviour {
             result = ChangeHexInfo(cells, wall_list1, powerlist1, hazards, water);
         }
 
+
         //if (twenty)
         //{
         //    height = 20;
@@ -242,6 +250,7 @@ public class Grid : MonoBehaviour {
         //{
         //height = 10;
         //width = 10;
+
         //cells = new HexagonCell[height * width]; // create an array of correct length
 
         //for (int b = 0, c = 0; b < height; b++) // fill the array with actual hexagon cells
@@ -457,7 +466,11 @@ public class Grid : MonoBehaviour {
                  *else if(grass)
                  * distance += 2
                  */
-                distance += 1;
+                if (current.tag == "SlowingTile")
+                    distance += 2;
+                else 
+                    distance += 1;
+     
                 if (neighbor.Distance == int.MaxValue)
                 {
                     neighbor.Distance = distance;

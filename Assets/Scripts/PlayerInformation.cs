@@ -22,7 +22,8 @@ public class PlayerInformation : MonoBehaviour
     //___________________________________________________________________________________________
     public List<StartUnit> AllP1Units = new List<StartUnit>(); // p2 can share this list but just change their tag later
     public List<StartUnit> AllP2Units = new List<StartUnit>();
-    public List<StartUnit> HeroUnits = new List<StartUnit>();
+    public List<StartUnit> Hero1Units = new List<StartUnit>();
+    public List<StartUnit> Hero2Units = new List<StartUnit>();
     public List<StartUnit> PoolUnits = new List<StartUnit>(); // random  pool of units
     private float p1ScrollTime;
     private float p2ScrollTime;
@@ -369,7 +370,7 @@ public class PlayerInformation : MonoBehaviour
         int newVal = counter + direction;
         int limit;
         if(hero)
-            limit = HeroUnits.Count - 1;
+            limit = Hero1Units.Count - 1;
         else
             limit = AllP1Units.Count - 1;
       
@@ -437,10 +438,10 @@ public class PlayerInformation : MonoBehaviour
                 p1PickTime = Time.time + 1f;
                 if(hero)
                 {
-                    if (p1Cost - HeroUnits[p1ScrollValue].cost >= 0)
+                    if (p1Cost - Hero1Units[p1ScrollValue].cost >= 0)
                     {
-                        Player1Chosen.Add(HeroUnits[p1ScrollValue]);
-                        p1Cost -= HeroUnits[p1ScrollValue].cost;
+                        Player1Chosen.Add(Hero1Units[p1ScrollValue]);
+                        p1Cost -= Hero1Units[p1ScrollValue].cost;
                     }
                     else
                     {
@@ -475,10 +476,10 @@ public class PlayerInformation : MonoBehaviour
 	            p2PickTime = Time.time + 1f;
                 if (hero)
                 {
-                    if (p2Cost - HeroUnits[p1ScrollValue].cost >= 0)
+                    if (p2Cost - Hero2Units[p1ScrollValue].cost >= 0)
                     {
-                        Player2Chosen.Add(HeroUnits[p1ScrollValue]);
-                        p2Cost -= HeroUnits[p1ScrollValue].cost;
+                        Player2Chosen.Add(Hero2Units[p1ScrollValue]);
+                        p2Cost -= Hero2Units[p1ScrollValue].cost;
                     }
                     else
                     {

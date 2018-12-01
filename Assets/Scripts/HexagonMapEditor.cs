@@ -409,13 +409,17 @@ public class HexagonMapEditor : MonoBehaviour
 
         //application.datapath returns a different place in build vs in editor
         //place text in root directory where executable is located when creating the actual build for this to work as is
-        string path_proper = Application.dataPath + "/proper.txt";
+        //string path_proper = Application.dataPath + "/proper.txt";
         //Debug.Log(path_proper);
         //Debug.Log(Application.dataPath);
-        string path_adjectives = Application.dataPath + "/adjectives.txt";
+        //string path_adjectives = Application.dataPath + "/adjectives.txt";
         //Debug.Log(path_adjectives);
-        string[] names_proper = System.IO.File.ReadAllLines(path_proper);
-        string[] names_adj = System.IO.File.ReadAllLines(path_adjectives);
+        TextAsset names_proper_ass = Resources.Load<TextAsset>("proper");
+        string[] names_proper = names_proper_ass.text.Split(new char[] { '\n' });
+        //string[] names_proper = System.IO.File.ReadAllLines(path_proper);
+        //string[] names_adj = System.IO.File.ReadAllLines(path_adjectives);
+        TextAsset names_adj_ass = Resources.Load<TextAsset>("adjectives");
+        string[] names_adj = names_adj_ass.text.Split(new char[] { '\n' });
         //Random rand_gen = new Random();
         initializing = false;
         //if (player == 1)

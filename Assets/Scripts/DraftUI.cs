@@ -59,7 +59,7 @@ public class DraftUI : MonoBehaviour {
         StartUnit temp;
         if (playerinfo.currentState == PlayerInformation.DraftStates.P1_Pick_1 || (playerinfo.currentState == PlayerInformation.DraftStates.P2_Pick_1 && playerinfo.Player2Chosen.Count == 0))
         {
-            temp = playerinfo.HeroUnits[playerinfo.p1ScrollValue];
+            temp = playerinfo.Hero1Units[playerinfo.p1ScrollValue];
             HeroNum.text = "0";
             HeroBack.enabled = true;
 

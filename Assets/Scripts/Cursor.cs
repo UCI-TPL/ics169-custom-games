@@ -18,8 +18,8 @@ public class Cursor : MonoBehaviour
     void Start()
     {
         point = GameObject.Find("Point");
-        coords.x = 0;
-        coords.z = 0;
+        //coords.x = 0;
+        //coords.z = 0;
         cascade_dir = false;
         //original_sorting_value = gameObject.GetComponent<SpriteRenderer>().sortingOrder;
         //Debug.Log("--------------- " + original_sorting_value);
