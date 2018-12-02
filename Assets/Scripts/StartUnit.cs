@@ -139,10 +139,13 @@ public class StartUnit : MonoBehaviour
             //    damage = current_attack * crit_multiplier;
             //    dmg_txt = (int)damage;
             //}
-                  
+            //Debug.Log(targetable);
+            Debug.Log("Attacker  Unit: " + unit_name);
+            Debug.Log("Targetted Unit: " + targetable[selectedTarget].unitOnTile.unit_name);
+            editor.printState();
             if (targetable[selectedTarget].unitOnTile.FloatingTextPrefab)
             {
-                Debug.Log("fadef");
+                //Debug.Log("fadef");
                 if (miss_chance <= miss)
                     damage = 0;
                 else
@@ -471,7 +474,7 @@ public class StartUnit : MonoBehaviour
         else
         {
             //call retaliate I guess
-            Debug.Log("Retaliated");
+            //Debug.Log("Retaliated");
             StartCoroutine(retaliator.unitOnTile.Retaliate(hexGrid, target, retaliator));
         }
     }
