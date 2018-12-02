@@ -1173,6 +1173,7 @@ MonoBehaviour:
   unit_name: 
   unit_ID: 0
   mobility: 2
+  current_mobility: 0
   attackRange: 1
   health: 400
   attack: 60
@@ -1180,6 +1181,8 @@ MonoBehaviour:
   crit: 0.1
   miss: 0.1
   crit_multiplier: 1.5
+  weight: 0
+  selectedTarget: 0
   Icon: {fileID: 21300000, guid: 750701238cbf0498fa65b88cbd96cc73, type: 3}
   cost: 0
   direction: 1
@@ -1197,6 +1200,8 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 0
   removed: 0
+  slowed: 0
+  end_attack_without_retaliate: 0
   attackSound: {fileID: 82206011043883028}
   hitSound: {fileID: 82130299057365804}
   moveSound: {fileID: 82582137956987016}

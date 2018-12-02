@@ -2308,16 +2308,16 @@ MonoBehaviour:
   Unit_Hurt_Color:
     serializedVersion: 2
     rgba: 4285164234
-  Player1Chosen: []
   Player2Chosen:
   - {fileID: 114836417496467364, guid: 3aa888738f10d674685d0f97568eb8df, type: 2}
   - {fileID: 114358444280044280, guid: ccf8af24ecfa5b742a20ffb055df681a, type: 2}
   - {fileID: 114565556080221656, guid: f3506773eed3ba44c80ef9f1cb562563, type: 2}
   - {fileID: 114565556080221656, guid: f3506773eed3ba44c80ef9f1cb562563, type: 2}
   - {fileID: 114836417496467364, guid: 3aa888738f10d674685d0f97568eb8df, type: 2}
+  P1starting_pos: 7c0000007d0000007e000000900000009100000092000000a5000000a6000000
+  P2starting_pos: 3a01000039010000380100002701000026010000250100001201000013010000
   P1Team: []
   P2Team: []
-  MoveableUnits: []
   SelectedUnit: {fileID: 0}
   isUnitSelected: 0
   unitCell: {fileID: 0}
@@ -2328,6 +2328,12 @@ MonoBehaviour:
   onePlayer: 0
   cur_attacking: 0
   attack_count: 0
+  hazardList:
+  - {fileID: 114591343487103536, guid: 6c8ad155576b2d4478a8d6464d2cde8f, type: 2}
+  - {fileID: 114881700081576812, guid: fc8fbfdab82c6ef48b384b654a4cf157, type: 2}
+  - {fileID: 114307976132037704, guid: 6ac0d3a6bfffb0d4baa85b1cf814330d, type: 2}
+  incoming: 0
+  incoming_in: 2147483647
   allow_cursor_control: 0
   Units_To_Delete: []
   max_sprites_per_unit: 4
@@ -3841,7 +3847,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 60
+  orthographic size: 100
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -7783,11 +7789,13 @@ MonoBehaviour:
   Water: {fileID: 21300000, guid: ee8a4eeb5c9632e44ae89bf93a8d4595, type: 3}
   PoweredDown: {fileID: 21300000, guid: d0254cf88cce04a4080914146bd38fd6, type: 3}
   ten: 0
-  twenty: 0
+  twenty: 1
   thirty: 0
   sprites_per_tile: 5
-  cellPrefab: {fileID: 114090098638288174, guid: 9d4ee7f126fd0534f8d63d538fcd7dad,
-    type: 2}
+  cellPrefabs:
+  - {fileID: 114090098638288174, guid: 9d4ee7f126fd0534f8d63d538fcd7dad, type: 2}
+  - {fileID: 114090098638288174, guid: 08dcb04ea17cf3749b56fb2c052006fe, type: 2}
+  - {fileID: 114090098638288174, guid: 1022cf1b930c35f4496a6c906a684137, type: 2}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   touchedColor: {r: 0, g: 0.8492365, b: 1, a: 1}
   attackColor: {r: 0.49803922, g: 0, b: 0, a: 1}
@@ -7854,11 +7862,11 @@ MonoBehaviour:
   Unit_Hurt_Color:
     serializedVersion: 2
     rgba: 0
-  Player1Chosen: []
   Player2Chosen: []
+  P1starting_pos: 7c0000007d0000007e000000900000009100000092000000a5000000a6000000
+  P2starting_pos: 3a01000039010000380100002701000026010000250100001201000013010000
   P1Team: []
   P2Team: []
-  MoveableUnits: []
   SelectedUnit: {fileID: 0}
   isUnitSelected: 0
   unitCell: {fileID: 0}
@@ -7869,6 +7877,9 @@ MonoBehaviour:
   onePlayer: 0
   cur_attacking: 0
   attack_count: 0
+  hazardList: []
+  incoming: 0
+  incoming_in: 2147483647
   allow_cursor_control: 0
   Units_To_Delete: []
   max_sprites_per_unit: 0
