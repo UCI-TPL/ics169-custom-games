@@ -597,6 +597,7 @@ public class StartUnit : MonoBehaviour
     public void Hide_Arrow_Select()
     {
         selection_arrow.SetActive(false);
+    }
 
     public int ChosenEnemy(List<HexagonCell> targetable)
     {
