@@ -18,9 +18,10 @@ public class StartUnit : MonoBehaviour
     public float miss;
     public float crit_multiplier;
     public int weight;
-    public int selectedTarget;
+   // public int selectedTarget;
     public Sprite Icon;
     public int cost;
+    public int slowing_counter;
     public bool direction = true; // right = true, left = false
     //public int attack_loss; // how much attack a unit loses when hit
     //public int check_dmg; // check if dmg is greater than this amount to know if you lower the dmg or not
@@ -89,7 +90,7 @@ public class StartUnit : MonoBehaviour
     public virtual IEnumerator BasicAttack(Grid hexGrid, HexagonCell unitCell) // return bool yes if dead false if no
     {
         end_attack_without_retaliate = true;
-
+        
         //add a call to a retaliate function on the other unit   
         List<HexagonCell> targetable = new List<HexagonCell>();
         foreach (HexagonCell cell in hexGrid.cells)
@@ -107,23 +108,23 @@ public class StartUnit : MonoBehaviour
             editor.Main_Cam.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, editor.Main_Cam.transform.position.z);
             //StartCoroutine(this.Blink(Color.green, this, Time.time + 0.8f));
             yield return new WaitForSeconds(1.5f);
-
+            int selectedTarget = ChosenEnemy(targetable);
             //int rand_index = Random.Range(0, targetable.Count);
-            int totalWeight = 0;
-            for(int i = 0; i < targetable.Count; i++)
-            {
-                totalWeight += targetable[i].unitOnTile.weight;
-            }
-            int rand_val = Random.Range(1, totalWeight+1);
-            for(int j = 0; j < targetable.Count; j++)
-            {
-                if(rand_val - targetable[j].unitOnTile.weight <= 0)
-                {
-                    selectedTarget = j;
-                    break;
-                }
-                rand_val -= targetable[j].unitOnTile.weight;
-            }
+            //int totalWeight = 0;
+            //for(int i = 0; i < targetable.Count; i++)
+            //{
+            //    totalWeight += targetable[i].unitOnTile.weight;
+            //}
+            //int rand_val = Random.Range(1, totalWeight+1);
+            //for(int j = 0; j < targetable.Count; j++)
+            //{
+            //    if(rand_val - targetable[j].unitOnTile.weight <= 0)
+            //    {
+            //        selectedTarget = j;
+            //        break;
+            //    }
+            //    rand_val -= targetable[j].unitOnTile.weight;
+            //}
 
 
             float crit_chance = Random.value;
@@ -444,6 +445,15 @@ public class StartUnit : MonoBehaviour
             editor.re_sort_unit_position(this, hexGrid.GetCell(temp.transform.position));
             yield return new WaitForSeconds(0.3f);
         }
+        if (slowed)
+        {
+            slowing_counter -= 1;
+            if (slowing_counter == 0)
+            {
+                current_mobility = mobility;
+                slowed = false;
+            }
+        }
 
     }
 
@@ -564,5 +574,25 @@ public class StartUnit : MonoBehaviour
     {
         target.current_health = target.current_health + change_by;
         target.health_bar.GetComponent<Image>().fillAmount = target.current_health / target.health;
+    }
+    public int ChosenEnemy(List<HexagonCell> targetable)
+    {
+        int result = 0;
+        int totalWeight = 0;
+        for (int i = 0; i < targetable.Count; i++)
+        {
+            totalWeight += targetable[i].unitOnTile.weight;
+        }
+        int rand_val = Random.Range(1, totalWeight + 1);
+        for (int j = 0; j < targetable.Count; j++)
+        {
+            if (rand_val - targetable[j].unitOnTile.weight <= 0)
+            {
+                result = j;
+                break;
+            }
+            rand_val -= targetable[j].unitOnTile.weight;
+        }
+        return result;
     }
 }

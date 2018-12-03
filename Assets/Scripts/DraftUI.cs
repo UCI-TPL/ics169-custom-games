@@ -141,7 +141,7 @@ public class DraftUI : MonoBehaviour {
         PChoice.text = temp.unit_type + "  /  Cost:" + temp.cost;
         UnitIcon.sprite = temp.Icon;
         StatText.text = "Hlth:" + temp.health.ToString("000") + "\t Att:" + temp.attack.ToString("000")
-            + "\nRange:" + temp.attackRange + "\t Move:" + temp.mobility;
+            + "\nRange:" + temp.attackRange + "\t Move:" + temp.current_mobility;
         if (playerinfo.pool)
         {
             int[] unit_count = CheckPool();
