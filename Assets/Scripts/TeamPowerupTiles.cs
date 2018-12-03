@@ -29,6 +29,8 @@ public class TeamPowerupTiles : MonoBehaviour {
                 if (this.gameObject.GetComponent<HexagonCell>().occupied)
                 {
                     this.gameObject.GetComponent<HexagonCell>().unitOnTile.attack += 20;
+                    this.gameObject.GetComponent<HexagonCell>().unitOnTile.current_attack += 20;
+                    this.gameObject.GetComponent<SpriteRenderer>().sprite = this.gameObject.GetComponent<Grid>().PoweredDown;
                     this.gameObject.GetComponent<TeamPowerupTiles>().enabled = !this.gameObject.GetComponent<TeamPowerupTiles>().enabled;
                 }
                 discovered = false;
@@ -38,6 +40,8 @@ public class TeamPowerupTiles : MonoBehaviour {
                 if (this.gameObject.GetComponent<HexagonCell>().occupied)
                 {
                     this.gameObject.GetComponent<HexagonCell>().unitOnTile.health += 100;
+                    this.gameObject.GetComponent<HexagonCell>().unitOnTile.current_health += 100;
+                    this.gameObject.GetComponent<SpriteRenderer>().sprite = this.gameObject.GetComponent<Grid>().PoweredDown;
                     this.gameObject.GetComponent<TeamPowerupTiles>().enabled = !this.gameObject.GetComponent<TeamPowerupTiles>().enabled;
                 }
                 discovered = false;
@@ -48,7 +52,9 @@ public class TeamPowerupTiles : MonoBehaviour {
             {
                 if (this.gameObject.GetComponent<HexagonCell>().occupied)
                 {
+                    this.gameObject.GetComponent<HexagonCell>().unitOnTile.mobility += 1;
                     this.gameObject.GetComponent<HexagonCell>().unitOnTile.current_mobility += 1;
+                    this.gameObject.GetComponent<SpriteRenderer>().sprite = this.gameObject.GetComponent<Grid>().PoweredDown;
                     this.gameObject.GetComponent<TeamPowerupTiles>().enabled = !this.gameObject.GetComponent<TeamPowerupTiles>().enabled;
                 }
                 discovered = false;
@@ -59,6 +65,7 @@ public class TeamPowerupTiles : MonoBehaviour {
                 if (this.gameObject.GetComponent<HexagonCell>().occupied)
                 {
                     this.gameObject.GetComponent<HexagonCell>().unitOnTile.crit += 0.3f;
+                    this.gameObject.GetComponent<SpriteRenderer>().sprite = this.gameObject.GetComponent<Grid>().PoweredDown;
                     this.gameObject.GetComponent<TeamPowerupTiles>().enabled = !this.gameObject.GetComponent<TeamPowerupTiles>().enabled;
                 }
                 discovered = false;
@@ -68,6 +75,7 @@ public class TeamPowerupTiles : MonoBehaviour {
                 if (this.gameObject.GetComponent<HexagonCell>().occupied)
                 {
                     this.gameObject.GetComponent<HexagonCell>().unitOnTile.attackRange += 1;
+                    this.gameObject.GetComponent<SpriteRenderer>().sprite = this.gameObject.GetComponent<Grid>().PoweredDown;
                     this.gameObject.GetComponent<TeamPowerupTiles>().enabled = !this.gameObject.GetComponent<TeamPowerupTiles>().enabled;
                 }
                 discovered = false;
