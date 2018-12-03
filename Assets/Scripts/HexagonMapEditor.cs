@@ -180,6 +180,8 @@ public class HexagonMapEditor : MonoBehaviour
                     StartCoroutine(HandleHazards()); // goes through all the hazards on the board and handles their effect
                     //handle effects here
                     environmentExecuting = false;
+                    BattleUI_Turn.turn.text = "PLAYER 1";
+                    BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P1_Color;
                     currentState = TurnStates.P1_MOVE;  // go to next phase
                 }
                 break;
@@ -202,8 +204,7 @@ public class HexagonMapEditor : MonoBehaviour
                 }
                 //UI.turn.text = "TURN:PLAYER 1";
 
-                BattleUI_Turn.turn.text = "PLAYER 1";
-                BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P1_Color;
+                
                 MovePhase(PlayerInfo.player1);
                 //MovePhase();
 
@@ -260,6 +261,8 @@ public class HexagonMapEditor : MonoBehaviour
                     cur_attacking = false;
                     attack_count = 0;
                     attacking = false;
+                    BattleUI_Turn.turn.text = "PLAYER 2";
+                    BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P2_Color;
                     currentState = TurnStates.P2_MOVE;
                     allow_cursor_control = true;
                     if (MoveableUnits.Count > 0)
@@ -291,8 +294,7 @@ public class HexagonMapEditor : MonoBehaviour
                 //UI.turn.text = "TURN:PLAYER 2";
 
 
-                BattleUI_Turn.turn.text = "PLAYER 2";
-                BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P2_Color;
+                
                 if (PlayerInfo.one_player)
                     MovePhase(PlayerInfo.player1);
                 else
@@ -873,6 +875,27 @@ public class HexagonMapEditor : MonoBehaviour
         {
             sprite_rend.sortingOrder = sprite_rend.GetComponent<Mesh_Layer>()._ordered_layer
                 + ((_target_location.coords.X_coord + _target_location.coords.Y_coord) * max_sprites_per_unit);
+        }
+    }
+
+    public void printState()
+    {
+        string state_string = "";
+        state_string += "Current State: \n";
+        state_string += currentState;
+        state_string += "\n P1 Team: \n";
+        foreach(StartUnit _unit in P1Team){
+            state_string += _unit.unit_name + " | ";
+        }
+        state_string += "\n P2 Team: \n";
+        foreach (StartUnit _unit in P2Team)
+        {
+            state_string += _unit.unit_name + " | ";
+        }
+        state_string += "\n Units To Delete: \n";
+        foreach (HexagonCell _unit_cell in Units_To_Delete)
+        {
+            state_string += _unit_cell.unitOnTile.unit_name + " | ";
         }
     }
 

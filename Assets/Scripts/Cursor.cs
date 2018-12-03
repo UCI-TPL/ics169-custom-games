@@ -171,7 +171,7 @@ public class Cursor : MonoBehaviour
                 //It found a real tile.
                 if (editor.isUnitSelected)
                 {
-                    if (editor.Is_Tile_In_Move_Range())
+                    if (next_hex_cell.distance <= editor.SelectedUnit.mobility)
                     {
                         gameObject.transform.position = _Grid.Get_Cell_Index(coords).gameObject.transform.position;
                     }
@@ -266,8 +266,8 @@ public class Cursor : MonoBehaviour
         int _current_sorting_order = gameObject.GetComponent<SpriteRenderer>().sortingOrder;
         gameObject.GetComponent<SpriteRenderer>().sortingOrder = original_sorting_value +
             ((_coord.X_coord + _coord.Y_coord) * num_sprites_per_cell);
-        Debug.Log(original_sorting_value +
-            ((_coord.X_coord + _coord.Y_coord) * num_sprites_per_cell));
+        //Debug.Log(original_sorting_value +
+        //    ((_coord.X_coord + _coord.Y_coord) * num_sprites_per_cell));
     }
 
         private void Hide_Prev_UI()
