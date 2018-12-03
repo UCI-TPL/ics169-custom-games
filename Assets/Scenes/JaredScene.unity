@@ -12344,6 +12344,7 @@ GameObject:
   - component: {fileID: 1946020867}
   - component: {fileID: 1946020869}
   - component: {fileID: 1946020868}
+  - component: {fileID: 1946020870}
   m_Layer: 5
   m_Name: Turn_Info_Image
   m_TagString: Untagged
@@ -12404,6 +12405,24 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1946020866}
   m_CullTransparentMesh: 0
+--- !u!95 &1946020870
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1946020866}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a635427e1fe1d4e4c88b6d47163487cb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1957856025
 GameObject:
   m_ObjectHideFlags: 0

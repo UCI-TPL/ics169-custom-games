@@ -182,6 +182,8 @@ public class HexagonMapEditor : MonoBehaviour
                     environmentExecuting = false;
                     BattleUI_Turn.turn.text = "PLAYER 1";
                     BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P1_Color;
+                    //start coroutine for turn info image animation
+                    StartCoroutine(turn_animation_starter());
                     currentState = TurnStates.P1_MOVE;  // go to next phase
                 }
                 break;
@@ -263,6 +265,7 @@ public class HexagonMapEditor : MonoBehaviour
                     attacking = false;
                     BattleUI_Turn.turn.text = "PLAYER 2";
                     BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P2_Color;
+                    StartCoroutine(turn_animation_starter());
                     currentState = TurnStates.P2_MOVE;
                     allow_cursor_control = true;
                     if (MoveableUnits.Count > 0)
@@ -576,7 +579,15 @@ public class HexagonMapEditor : MonoBehaviour
     void SelectUnit(HexagonCell current, int index) // sets variables to the clicked position's unit
     {
         hexGrid.ClearPath();
+        if (SelectedUnit != null)
+        {
+            //Debug.Log("unitCell is assigned");
+            SelectedUnit.Hide_Arrow_Select();
+        }
+        
         SelectedUnit = current.unitOnTile;
+        SelectedUnit.Show_Arrow_Select();
+        //current.Show_Selected_Icon();
         StartCoroutine(SelectedUnit.Blink(Color.grey, SelectedUnit, Time.time + 0.6f));
         unitCell = hexGrid.cells[index];
         isUnitSelected = true;
@@ -615,6 +626,7 @@ public class HexagonMapEditor : MonoBehaviour
 
     private void DeselectUnit() // clears all variables to the clicked position
     {
+        SelectedUnit.Hide_Arrow_Select();
         SelectedUnit = null;
         unitCell = null;
         isUnitSelected = false;
@@ -897,6 +909,13 @@ public class HexagonMapEditor : MonoBehaviour
         {
             state_string += _unit_cell.unitOnTile.unit_name + " | ";
         }
+    }
+
+    IEnumerator turn_animation_starter()
+    {
+        BattleUI_Turn.turn_info_Image.GetComponent<Animator>().SetBool("Transition", true);
+        yield return new WaitForSeconds(1f);
+        BattleUI_Turn.turn_info_Image.GetComponent<Animator>().SetBool("Transition", false);
     }
 
     public void Snap_To_Next_Unit(bool back_forward)
