@@ -266,8 +266,8 @@ public class Cursor : MonoBehaviour
         int _current_sorting_order = gameObject.GetComponent<SpriteRenderer>().sortingOrder;
         gameObject.GetComponent<SpriteRenderer>().sortingOrder = original_sorting_value +
             ((_coord.X_coord + _coord.Y_coord) * num_sprites_per_cell);
-        Debug.Log(original_sorting_value +
-            ((_coord.X_coord + _coord.Y_coord) * num_sprites_per_cell));
+        //Debug.Log(original_sorting_value +
+        //    ((_coord.X_coord + _coord.Y_coord) * num_sprites_per_cell));
     }
 
         private void Hide_Prev_UI()
