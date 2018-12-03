@@ -133,7 +133,10 @@ public class HexagonMapEditor : MonoBehaviour
             FindTeam("Player 1"); // find the units for player 1's team
             FindTeam("Player 2"); // "             " for player 2's team
             if (P1Team[0].GetComponent<HeroUnit>().myType == HeroUnit.BuffType.OneTime || P1Team[0].GetComponent<HeroUnit>().myType == HeroUnit.BuffType.EveryTurn)
-                P1Team[0].GetComponent<HeroUnit>().BuffTeam("P1");
+            {
+                HexagonCell myCell = hexGrid.GetCell(P1Team[0].transform.position);
+                P1Team[0].GetComponent<HeroUnit>().BuffTeam("P1", myCell);
+            }
             //P2Team[0].GetComponent<HeroUnit>().BuffTeam("P2");
         }
         MoveableUnits = new List<StartUnit>(P1Team); // put player 1's team in since they're going first
@@ -191,14 +194,18 @@ public class HexagonMapEditor : MonoBehaviour
             case (TurnStates.P1_MOVE):
                 if (P1Team[0].GetComponent<HeroUnit>().myType == HeroUnit.BuffType.EveryTurn && !debuffed)
                 {
-                    P1Team[0].GetComponent<HeroUnit>().DebufTeam("P1");
+                    HexagonCell myCell = hexGrid.GetCell(P1Team[0].transform.position);
+                    P1Team[0].GetComponent<HeroUnit>().DebufTeam("P1", myCell);
                     debuffed = true;
 
                 }
                 if (MoveableUnits.Count == 0) // once all units move break
                 {
                     if (P1Team[0].GetComponent<HeroUnit>().myType == HeroUnit.BuffType.EveryTurn)
-                        P1Team[0].GetComponent<HeroUnit>().BuffTeam("P1");
+                    {
+                        HexagonCell myCell = hexGrid.GetCell(P1Team[0].transform.position);
+                        P1Team[0].GetComponent<HeroUnit>().BuffTeam("P1", myCell);
+                    }
                     currentState = TurnStates.P1_ATTACK;
                     debuffed = false;
                     allow_cursor_control = false;

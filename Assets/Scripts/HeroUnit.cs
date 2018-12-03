@@ -11,13 +11,13 @@ public class HeroUnit : StartUnit {
     }
     public BuffType myType;
 
-    public void Awake()
+    public virtual void Awake()
     {
         base.Start();
         
     }
 
-    public virtual void BuffTeam(string team)
+    public virtual void BuffTeam(string team, HexagonCell myCell)
     {
         if (team == "P1")
         {
@@ -36,7 +36,7 @@ public class HeroUnit : StartUnit {
         }
     }
 
-    public virtual void DebufTeam(string team)
+    public virtual void DebufTeam(string team, HexagonCell myCell)
     {
         if (team == "P1")
         {
