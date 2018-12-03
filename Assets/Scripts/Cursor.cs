@@ -18,8 +18,8 @@ public class Cursor : MonoBehaviour
     void Start()
     {
         point = GameObject.Find("Point");
-        coords.x = 0;
-        coords.z = 0;
+        //coords.x = 0;
+        //coords.z = 0;
         cascade_dir = false;
         //original_sorting_value = gameObject.GetComponent<SpriteRenderer>().sortingOrder;
         //Debug.Log("--------------- " + original_sorting_value);
@@ -171,7 +171,7 @@ public class Cursor : MonoBehaviour
                 //It found a real tile.
                 if (editor.isUnitSelected)
                 {
-                    if (editor.Is_Tile_In_Move_Range())
+                    if (next_hex_cell.distance <= editor.SelectedUnit.mobility)
                     {
                         gameObject.transform.position = _Grid.Get_Cell_Index(coords).gameObject.transform.position;
                     }

@@ -183,6 +183,8 @@ public class HexagonMapEditor : MonoBehaviour
                     StartCoroutine(HandleHazards()); // goes through all the hazards on the board and handles their effect
                     //handle effects here
                     environmentExecuting = false;
+                    BattleUI_Turn.turn.text = "PLAYER 1";
+                    BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P1_Color;
                     currentState = TurnStates.P1_MOVE;  // go to next phase
                 }
                 break;
@@ -214,8 +216,7 @@ public class HexagonMapEditor : MonoBehaviour
                 }
                 //UI.turn.text = "TURN:PLAYER 1";
 
-                BattleUI_Turn.turn.text = "PLAYER 1";
-                BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P1_Color;
+                
                 MovePhase(PlayerInfo.player1);
                 //MovePhase();
 
@@ -271,9 +272,13 @@ public class HexagonMapEditor : MonoBehaviour
                     cur_attacking = false;
                     attack_count = 0;
                     attacking = false;
+
                     //currentState = TurnStates.P2_MOVE;
+					BattleUI_Turn.turn.text = "PLAYER 2";
+                    BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P2_Color;
                     wasP1Turn = true;
                     currentState = TurnStates.CHECK;
+
                     allow_cursor_control = true;
                     if (MoveableUnits.Count > 0)
                     {
@@ -304,8 +309,7 @@ public class HexagonMapEditor : MonoBehaviour
                 //UI.turn.text = "TURN:PLAYER 2";
 
 
-                BattleUI_Turn.turn.text = "PLAYER 2";
-                BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P2_Color;
+                
                 if (PlayerInfo.one_player)
                     MovePhase(PlayerInfo.player1);
                 else
@@ -423,13 +427,17 @@ public class HexagonMapEditor : MonoBehaviour
 
         //application.datapath returns a different place in build vs in editor
         //place text in root directory where executable is located when creating the actual build for this to work as is
-        string path_proper = Application.dataPath + "/proper.txt";
+        //string path_proper = Application.dataPath + "/proper.txt";
         //Debug.Log(path_proper);
         //Debug.Log(Application.dataPath);
-        string path_adjectives = Application.dataPath + "/adjectives.txt";
+        //string path_adjectives = Application.dataPath + "/adjectives.txt";
         //Debug.Log(path_adjectives);
-        string[] names_proper = System.IO.File.ReadAllLines(path_proper);
-        string[] names_adj = System.IO.File.ReadAllLines(path_adjectives);
+        TextAsset names_proper_ass = Resources.Load<TextAsset>("proper");
+        string[] names_proper = names_proper_ass.text.Split(new char[] { '\n' });
+        //string[] names_proper = System.IO.File.ReadAllLines(path_proper);
+        //string[] names_adj = System.IO.File.ReadAllLines(path_adjectives);
+        TextAsset names_adj_ass = Resources.Load<TextAsset>("adjectives");
+        string[] names_adj = names_adj_ass.text.Split(new char[] { '\n' });
         //Random rand_gen = new Random();
         initializing = false;
         //if (player == 1)
@@ -721,16 +729,16 @@ public class HexagonMapEditor : MonoBehaviour
             hexGrid.cells[index].occupied = true;
             hexGrid.cells[index].unitOnTile = SelectedUnit;
 
-            //if (hexGrid.cells[index].tag == "TeamBuff" && hexGrid.cells[index].occupied)
-            //{
-            //    // hexGrid.cells[index].occupied = true;
-            //    // hexGrid.cells[index].unitOnTile = SelectedUnit;
-            //    hexGrid.cells[index].GetComponent<TeamPowerupTiles>().discovered = true;
-            //    if (hexGrid.cells[index].unitOnTile.tag == "Player 1")
-            //        hexGrid.cells[index].GetComponent<TeamPowerupTiles>().UnitsTeam = P1Team;
-            //    if (hexGrid.cells[index].unitOnTile.tag == "Player 2")
-            //        hexGrid.cells[index].GetComponent<TeamPowerupTiles>().UnitsTeam = P2Team;
-            //}
+            if (hexGrid.cells[index].tag == "TeamBuff" && hexGrid.cells[index].occupied)
+            {
+                // hexGrid.cells[index].occupied = true;
+                // hexGrid.cells[index].unitOnTile = SelectedUnit;
+                hexGrid.cells[index].GetComponent<TeamPowerupTiles>().discovered = true;
+                //if (hexGrid.cells[index].unitOnTile.tag == "Player 1")
+                //    hexGrid.cells[index].GetComponent<TeamPowerupTiles>().UnitsTeam = P1Team;
+                //if (hexGrid.cells[index].unitOnTile.tag == "Player 2")
+                //    hexGrid.cells[index].GetComponent<TeamPowerupTiles>().UnitsTeam = P2Team;
+            }
 
             MoveableUnits.Remove(SelectedUnit);
             Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
@@ -885,6 +893,27 @@ public class HexagonMapEditor : MonoBehaviour
         {
             sprite_rend.sortingOrder = sprite_rend.GetComponent<Mesh_Layer>()._ordered_layer
                 + ((_target_location.coords.X_coord + _target_location.coords.Y_coord) * max_sprites_per_unit);
+        }
+    }
+
+    public void printState()
+    {
+        string state_string = "";
+        state_string += "Current State: \n";
+        state_string += currentState;
+        state_string += "\n P1 Team: \n";
+        foreach(StartUnit _unit in P1Team){
+            state_string += _unit.unit_name + " | ";
+        }
+        state_string += "\n P2 Team: \n";
+        foreach (StartUnit _unit in P2Team)
+        {
+            state_string += _unit.unit_name + " | ";
+        }
+        state_string += "\n Units To Delete: \n";
+        foreach (HexagonCell _unit_cell in Units_To_Delete)
+        {
+            state_string += _unit_cell.unitOnTile.unit_name + " | ";
         }
     }
 

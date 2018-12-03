@@ -53,5 +53,6 @@ public class UnitStats : MonoBehaviour {
         //    float.TryParse(unit_stats[2][8], out this.gameObject.GetComponent<StartUnit>().crit_multiplier);
         //    int.TryParse(unit_stats[2][9], out this.gameObject.GetComponent<StartUnit>().cost);
         //}
+
     }
 }

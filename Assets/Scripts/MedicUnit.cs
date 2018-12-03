@@ -146,7 +146,7 @@ public class MedicUnit : StartUnit {
             {
                 if (unitCell.coords.FindDistanceTo(attacked_cell.coords) <= attacked_cell.unitOnTile.attackRange)
                 {
-                    end_attack_without_retaliate = false;
+                    end_attack_without_retaliate = true;
                 }
                 else
                 {
