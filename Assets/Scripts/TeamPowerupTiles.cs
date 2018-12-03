@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TeamPowerupTiles : MonoBehaviour {
     public bool discovered,unoccupied,attackBuff,healthBuff,mobilityBuff,critBuff,attackrangeBuff,waterDebuff,grassDebuff;
-    public List<StartUnit> UnitsTeam;
+    //public StartUnit Unit;
     public StartUnit PrevUnit;
     public int mobility;
     //public Sprite PoweredDownSprite;
@@ -26,139 +26,133 @@ public class TeamPowerupTiles : MonoBehaviour {
         {
             if (attackBuff)
             {
-                if (this.GetComponent<HexagonCell>().occupied)
+                if (this.gameObject.GetComponent<HexagonCell>().occupied)
                 {
-                    for (int i = 0; i < UnitsTeam.Count; i++)
-                    {
-                        UnitsTeam[i].attack += 20;
-                        UnitsTeam[i].current_attack += 20;
-                    }
-                    discovered = false;
-                    unoccupied = true;
+                    this.gameObject.GetComponent<HexagonCell>().unitOnTile.attack += 20;
+                    this.gameObject.GetComponent<HexagonCell>().unitOnTile.current_attack += 20;
+                    this.gameObject.GetComponent<SpriteRenderer>().sprite = this.gameObject.GetComponent<Grid>().PoweredDown;
+                    this.gameObject.GetComponent<TeamPowerupTiles>().enabled = !this.gameObject.GetComponent<TeamPowerupTiles>().enabled;
                 }
+                discovered = false;
             }
             if (healthBuff)
             {
-                if (this.GetComponent<HexagonCell>().occupied)
+                if (this.gameObject.GetComponent<HexagonCell>().occupied)
                 {
-                    for (int i = 0; i < UnitsTeam.Count; i++)
-                    {
-                        UnitsTeam[i].health += 100;
-                        UnitsTeam[i].current_health += 100;
-                    }
-                    discovered = false;
-                    unoccupied = true;
+                    this.gameObject.GetComponent<HexagonCell>().unitOnTile.health += 100;
+                    this.gameObject.GetComponent<HexagonCell>().unitOnTile.current_health += 100;
+                    this.gameObject.GetComponent<SpriteRenderer>().sprite = this.gameObject.GetComponent<Grid>().PoweredDown;
+                    this.gameObject.GetComponent<TeamPowerupTiles>().enabled = !this.gameObject.GetComponent<TeamPowerupTiles>().enabled;
                 }
+                discovered = false;
+                //unoccupied = true;
             }
+
             if (mobilityBuff)
             {
-                if (this.GetComponent<HexagonCell>().occupied)
+                if (this.gameObject.GetComponent<HexagonCell>().occupied)
                 {
-                    for (int i = 0; i < UnitsTeam.Count; i++)
-                    {
-                        UnitsTeam[i].mobility += 1;
-                    }
-                    discovered = false;
-                    unoccupied = true;
+                    this.gameObject.GetComponent<HexagonCell>().unitOnTile.mobility += 1;
+                    this.gameObject.GetComponent<HexagonCell>().unitOnTile.current_mobility += 1;
+                    this.gameObject.GetComponent<SpriteRenderer>().sprite = this.gameObject.GetComponent<Grid>().PoweredDown;
+                    this.gameObject.GetComponent<TeamPowerupTiles>().enabled = !this.gameObject.GetComponent<TeamPowerupTiles>().enabled;
                 }
+                discovered = false;
             }
+
             if (critBuff)
             {
-                if (this.GetComponent<HexagonCell>().occupied)
+                if (this.gameObject.GetComponent<HexagonCell>().occupied)
                 {
-                    for (int i = 0; i < UnitsTeam.Count; i++)
-                    {
-                        UnitsTeam[i].crit += .2f;
-                    }
-                    discovered = false;
-                    unoccupied = true;
+                    this.gameObject.GetComponent<HexagonCell>().unitOnTile.crit += 0.3f;
+                    this.gameObject.GetComponent<SpriteRenderer>().sprite = this.gameObject.GetComponent<Grid>().PoweredDown;
+                    this.gameObject.GetComponent<TeamPowerupTiles>().enabled = !this.gameObject.GetComponent<TeamPowerupTiles>().enabled;
                 }
+                discovered = false;
             }
             if (attackrangeBuff)
             {
-                if (this.GetComponent<HexagonCell>().occupied)
+                if (this.gameObject.GetComponent<HexagonCell>().occupied)
                 {
-                    for (int i = 0; i < UnitsTeam.Count; i++)
-                    {
-                        UnitsTeam[i].attackRange += 1;
-                    }
-                    discovered = false;
-                    unoccupied = true;
+                    this.gameObject.GetComponent<HexagonCell>().unitOnTile.attackRange += 1;
+                    this.gameObject.GetComponent<SpriteRenderer>().sprite = this.gameObject.GetComponent<Grid>().PoweredDown;
+                    this.gameObject.GetComponent<TeamPowerupTiles>().enabled = !this.gameObject.GetComponent<TeamPowerupTiles>().enabled;
                 }
+                discovered = false;
             }
             //this.gameObject.tag = "Floor";
             //this.gameObject.GetComponent<SpriteRenderer>().sprite = this.gameObject.GetComponent<Grid>().PoweredDown;
             //this.gameObject.GetComponent<SpriteRenderer>().sprite = PoweredDownSprite;
             //this.gameObject.GetComponent<TeamPowerupTiles>().enabled = !this.gameObject.GetComponent<TeamPowerupTiles>().enabled;
         }
-        if (unoccupied)
-        {
-            if (attackBuff)
-            {
-                if (!this.GetComponent<HexagonCell>().occupied && UnitsTeam.Count != 0)
-                {
-                    for (int i = 0; i < UnitsTeam.Count; i++)
-                    {
-                        UnitsTeam[i].attack -= 20;
-                        UnitsTeam[i].current_attack -= 20;
-                        UnitsTeam.Remove(UnitsTeam[i]);
-                    }
-                    discovered = false;
-                }
-            }
-            if (healthBuff)
-            {
-                if (!this.GetComponent<HexagonCell>().occupied && UnitsTeam.Count != 0)
-                {
-                    for (int i = 0; i < UnitsTeam.Count; i++)
-                    {
-                        UnitsTeam[i].health -= 100;
-                        UnitsTeam[i].current_health -= 100;
-                        UnitsTeam.Remove(UnitsTeam[i]);
-                    }
-                    discovered = false;
-                }
-            }
-            if (mobilityBuff)
-            {
-                    if (!this.GetComponent<HexagonCell>().occupied && UnitsTeam.Count != 0)
-                    {
-                        for (int i = 0; i < UnitsTeam.Count; i++)
-                        {
-                            UnitsTeam[i].mobility -= 1;
-                            UnitsTeam.Remove(UnitsTeam[i]);
-                        }
-                        discovered = false;
-                    }
-            }
-            if (critBuff)
-            {
+    //    if (unoccupied)
+    //    {
+    //        if (attackBuff)
+    //        {
+    //            if (!this.GetComponent<HexagonCell>().occupied && UnitsTeam.Count != 0)
+    //            {
+    //                for (int i = 0; i < UnitsTeam.Count; i++)
+    //                {
+    //                    UnitsTeam[i].attack -= 20;
+    //                    UnitsTeam[i].current_attack -= 20;
+    //                    UnitsTeam.Remove(UnitsTeam[i]);
+    //                }
+    //                discovered = false;
+    //            }
+    //        }
+    //        if (healthBuff)
+    //        {
+    //            if (!this.GetComponent<HexagonCell>().occupied && UnitsTeam.Count != 0)
+    //            {
+    //                for (int i = 0; i < UnitsTeam.Count; i++)
+    //                {
+    //                    UnitsTeam[i].health -= 100;
+    //                    UnitsTeam[i].current_health -= 100;
+    //                    UnitsTeam.Remove(UnitsTeam[i]);
+    //                }
+    //                discovered = false;
+    //            }
+    //        }
+    //        if (mobilityBuff)
+    //        {
+    //                if (!this.GetComponent<HexagonCell>().occupied && UnitsTeam.Count != 0)
+    //                {
+    //                    for (int i = 0; i < UnitsTeam.Count; i++)
+    //                    {
+    //                        UnitsTeam[i].mobility -= 1;
+    //                        UnitsTeam.Remove(UnitsTeam[i]);
+    //                    }
+    //                    discovered = false;
+    //                }
+    //        }
+    //        if (critBuff)
+    //        {
 
-                if (!this.GetComponent<HexagonCell>().occupied && UnitsTeam.Count != 0)
-                {
-                    for (int i = 0; i < UnitsTeam.Count; i++)
-                    {
-                        UnitsTeam[i].crit -= .2f;
-                        UnitsTeam.Remove(UnitsTeam[i]);
-                    }
-                    discovered = false;
-                }
-            }
-            if (attackrangeBuff)
-            {
-                if (!this.GetComponent<HexagonCell>().occupied && UnitsTeam.Count != 0)
-                {
-                    for (int i = 0; i < UnitsTeam.Count; i++)
-                    {
-                        UnitsTeam[i].attackRange -= 1;
-                        UnitsTeam.Remove(UnitsTeam[i]);
-                    }
-                    discovered = false;
-                }
-            }
+    //            if (!this.GetComponent<HexagonCell>().occupied && UnitsTeam.Count != 0)
+    //            {
+    //                for (int i = 0; i < UnitsTeam.Count; i++)
+    //                {
+    //                    UnitsTeam[i].crit -= .2f;
+    //                    UnitsTeam.Remove(UnitsTeam[i]);
+    //                }
+    //                discovered = false;
+    //            }
+    //        }
+    //        if (attackrangeBuff)
+    //        {
+    //            if (!this.GetComponent<HexagonCell>().occupied && UnitsTeam.Count != 0)
+    //            {
+    //                for (int i = 0; i < UnitsTeam.Count; i++)
+    //                {
+    //                    UnitsTeam[i].attackRange -= 1;
+    //                    UnitsTeam.Remove(UnitsTeam[i]);
+    //                }
+    //                discovered = false;
+    //            }
+    //        }
 
-        }
-        //discovered = false;
+    //    }
+    //    //discovered = false;
     }
 
     void Debuff()

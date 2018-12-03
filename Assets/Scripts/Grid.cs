@@ -20,26 +20,27 @@ public class Grid : MonoBehaviour {
 
     List<int> wall_list2 = new List<int>() { 18, 23, 24, 36, 42, 47, 52, 57, 63, 69,
                                              75, 76, 81 , 89, 90, 103, 115, 123, 136,
-                                             163, 181, 196, 197, 202, 203, 218, 236,
+                                             163, 176,177,181,197, 202, 203, 216,
                                              263, 275, 284, 295, 309, 310, 318, 323,
                                              324, 330, 335, 342, 347, 352, 357, 363,
                                              375, 376, 381};
 
-    List<int> water2 = new List<int> {    147, 148, 149, 150, 151,
-                                        167, 168, 169, 170, 171, 172,
-                                      186, 187, 188, 190, 191, 192,
-                                        207, 208, 209, 210, 211, 212,
-                                          227, 228, 229, 230, 231};
+    List<int> water2 = new List<int> {          128,129,130,131,
+                                            147, 148, 149, 150, 151,
+                                        167, 168, /*169, 170,*/ 171, 172,
+                                      186, 187, /*188, 190,*/ 191, 192,
+                                        207, 208, /*209, 210,*/ 211, 212,
+                                          227, 228, 229, 230, 231,
+                                              248,249,250,251,
+                                       162,183,195,217                       };
 
     List<int> powerlist1 = new List<int>() { 18, 81 };
-    List<int> powerlist2 = new List<int>() { 182, 189, 217};
+    List<int> powerlist2 = new List<int>() { 182, 189, 196};
 
-    List<int> hazards2 = new List<int> { 37, 58, 77, 78, 127, 128, 129,
-                                         130, 131, 132, 146, 152, 162,
-                                         166, 173, 183, 185, 193, 206,
-                                         213, 216, 226, 232, 237, 247,
-                                         248, 249, 250, 251, 252,
-                                         321, 322, 341,362};
+    List<int> hazards2 = new List<int> { 37, 58, 77, 78, 127,107,108,109,110,111, 132, 146,
+                                         152, 166, 173, 185,
+                                         193, 206, 213, 226, 232,
+                                         247, 252,267,268,269,270,271, 321, 322, 341,362};
     List<int> hazards = new List<int>() { };
     List<int> water = new List<int>() { };
 
@@ -162,7 +163,7 @@ public class Grid : MonoBehaviour {
                  *else if(grass)
                  * distance += 2
                  */
-                if (neighbor.tag == "SlowingTile")
+                if (neighbor.tag == "Water")
                     distance += 2;
                 else
                     distance += 1;
@@ -466,7 +467,7 @@ public class Grid : MonoBehaviour {
                  *else if(grass)
                  * distance += 2
                  */
-                if (current.tag == "SlowingTile")
+                if (current.tag == "Water")
                     distance += 2;
                 else 
                     distance += 1;

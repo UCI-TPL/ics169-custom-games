@@ -12,15 +12,19 @@ public class StartUnit : MonoBehaviour
     public int mobility,current_mobility; // how far a unit can move
     public int attackRange; // how far a unit can attack
     public float health;
-    public int attack;
+    public float attack;
     public int basedmg;
     public float crit;
     public float miss;
     public float crit_multiplier;
     public int weight;
-    public int selectedTarget;
+
+    public int defense = 0;
+    //public int selectedTarget;
+
     public Sprite Icon;
     public int cost;
+    public int slowing_counter;
     public bool direction = true; // right = true, left = false
     //public int attack_loss; // how much attack a unit loses when hit
     //public int check_dmg; // check if dmg is greater than this amount to know if you lower the dmg or not
@@ -60,7 +64,6 @@ public class StartUnit : MonoBehaviour
         editor = FindObjectOfType<HexagonMapEditor>();
         anim = GetComponent<Animator>();
         current_health = health;
-        current_attack = attack;
         current_mobility = mobility;
         currently_attacking = false;
         
@@ -90,9 +93,10 @@ public class StartUnit : MonoBehaviour
     public virtual IEnumerator BasicAttack(Grid hexGrid, HexagonCell unitCell) // return bool yes if dead false if no
     {
         end_attack_without_retaliate = true;
-
+        
         //add a call to a retaliate function on the other unit   
         List<HexagonCell> targetable = new List<HexagonCell>();
+        Debug.Log(unitCell.unitOnTile.unit_name + " atttacking: ");
         foreach (HexagonCell cell in hexGrid.cells)
         {
             if (unitCell.coords.FindDistanceTo(cell.coords) <= attackRange
@@ -108,23 +112,25 @@ public class StartUnit : MonoBehaviour
             editor.Main_Cam.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, editor.Main_Cam.transform.position.z);
             //StartCoroutine(this.Blink(Color.green, this, Time.time + 0.8f));
             yield return new WaitForSeconds(1.5f);
-
+            int selectedTarget = ChosenEnemy(targetable);
             //int rand_index = Random.Range(0, targetable.Count);
-            int totalWeight = 0;
-            for(int i = 0; i < targetable.Count; i++)
-            {
-                totalWeight += targetable[i].unitOnTile.weight;
-            }
-            int rand_val = Random.Range(1, totalWeight);
-            for(int j = 0; j < targetable.Count; j++)
-            {
-                if(rand_val - targetable[j].unitOnTile.weight <= 0)
-                {
-                    selectedTarget = j;
-                    break;
-                }
-                rand_val -= targetable[j].unitOnTile.weight;
-            }
+
+            //int totalWeight = 0;
+            //for(int i = 0; i < targetable.Count; i++)
+            //{
+            //    totalWeight += targetable[i].unitOnTile.weight;
+            //}
+            //int rand_val = Random.Range(1, totalWeight+1);
+            //for(int j = 0; j < targetable.Count; j++)
+            //{
+            //    if(rand_val - targetable[j].unitOnTile.weight <= 0)
+            //    {
+            //        selectedTarget = j;
+            //        break;
+            //    }
+            //    rand_val -= targetable[j].unitOnTile.weight;
+            //}
+
 
 
             float crit_chance = Random.value;
@@ -258,6 +264,7 @@ public class StartUnit : MonoBehaviour
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 //int index = targetable[rand_index].coords.X_coord + targetable[rand_index].coords.Z_coord * hexGrid.width + targetable[rand_index].coords.Z_coord / 2;
                 //editor.RemoveUnitInfo(targetable[rand_index], index);
+                Debug.Log("Putting unit in delete list from basic attack");
                 editor.Units_To_Delete.Add(attacked_cell);
                 attacked_unit.dead = true;
             }
@@ -389,12 +396,13 @@ public class StartUnit : MonoBehaviour
 
         //Deals with damage health scaling... prolly shouldn't be done like this TBH
 
-        if (attacked_unit.current_attack > 10)
-        {
-            float percenthealth = attacked_unit.current_health / attacked_unit.health;
-            attacked_unit.current_attack *= percenthealth;
-        }
+        //if (attacked_unit.current_attack > 10)
+        //{
+        //    float percenthealth = attacked_unit.current_health / attacked_unit.health;
+        //    attacked_unit.current_attack *= percenthealth;
+        //}
 
+        TakeDamage(attacked_unit, damage);
 
         StartCoroutine(Retaliate_Anim(attacked_unit));
         //Debug.Log("he dead");
@@ -403,6 +411,7 @@ public class StartUnit : MonoBehaviour
 
             //int index = attacked_cell.coords.X_coord + attacked_cell.coords.Z_coord * hexGrid.width + attacked_cell.coords.Z_coord / 2;
             //editor.RemoveUnitInfo(attacked_cell, index);
+            Debug.Log("adding unit to delete list in relatiation");
             attacked_unit.dead = true;
             editor.Units_To_Delete.Add(attacked_cell);
         }
@@ -446,6 +455,15 @@ public class StartUnit : MonoBehaviour
             current = temp.coords;
             editor.re_sort_unit_position(this, hexGrid.GetCell(temp.transform.position));
             yield return new WaitForSeconds(0.3f);
+        }
+        if (slowed)
+        {
+            slowing_counter -= 1;
+            if (slowing_counter == 0)
+            {
+                current_mobility = mobility;
+                slowed = false;
+            }
         }
 
     }
@@ -543,12 +561,15 @@ public class StartUnit : MonoBehaviour
     {
 
         attacked_unit.current_health -= damage;
-        attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
+        attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health;
         Debug.Log("Made it");
         float healthpercent = attacked_unit.current_health / attacked_unit.health;//    120/180 = .667
+
         float attack_deduction = 1 - healthpercent;//   1 - .667 = .333
-        float new_attack = attacked_unit.attack * attack_deduction;//   72 * .333 = 23.76
+        float reduction = attack_deduction / 2;
+        float new_attack = attacked_unit.attack * reduction;//   72 * .333 = 23.76
         attacked_unit.current_attack = attacked_unit.attack - new_attack;// 72 - 23.76 = 48
+
 
         //float attack_deduction = attacked_unit.current_attack * (current_attack - attacked_unit.current_health / attacked_unit.health);
         //if (attack_deduction > attacked_unit.basedmg)
@@ -576,5 +597,25 @@ public class StartUnit : MonoBehaviour
     public void Hide_Arrow_Select()
     {
         selection_arrow.SetActive(false);
+
+    public int ChosenEnemy(List<HexagonCell> targetable)
+    {
+        int result = 0;
+        int totalWeight = 0;
+        for (int i = 0; i < targetable.Count; i++)
+        {
+            totalWeight += targetable[i].unitOnTile.weight;
+        }
+        int rand_val = Random.Range(1, totalWeight + 1);
+        for (int j = 0; j < targetable.Count; j++)
+        {
+            if (rand_val - targetable[j].unitOnTile.weight <= 0)
+            {
+                result = j;
+                break;
+            }
+            rand_val -= targetable[j].unitOnTile.weight;
+        }
+        return result;
     }
 }

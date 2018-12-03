@@ -42,8 +42,8 @@ public class HexagonMapEditor : MonoBehaviour
     private List<StartUnit> Player1Chosen = new List<StartUnit>();
     public List<StartUnit> Player2Chosen = new List<StartUnit>();
 
-    public List<int> P1starting_pos = new List<int>() { 104, 105, 106, 124, 125, 126, 145, 146 };
-    public List<int> P2starting_pos = new List<int>() { 253, 254, 272, 273, 274, 292, 293, 294 };
+    public List<int> P1start = new List<int>() { 104, 105, 106, 124, 125, 126, 145, 146 };
+    public List<int> P2start = new List<int>() { 233, 234, 252, 253, 254, 272, 273, 274 };
 
     public List<StartUnit> P1Team = new List<StartUnit>(); // list of player 1 team
     public List<StartUnit> P2Team = new List<StartUnit>(); // list of player 2 team
@@ -63,6 +63,8 @@ public class HexagonMapEditor : MonoBehaviour
     public bool onePlayer;
     public bool cur_attacking;
     public int attack_count;
+    public bool wasP1Turn = true;
+    public bool debuffed = false;
 
 
     /***********************ENVIRONMENTAL VARIABLES*****************************/
@@ -130,7 +132,11 @@ public class HexagonMapEditor : MonoBehaviour
                 InitialPhase(PlayerInfo.Player2Chosen, 2);
             FindTeam("Player 1"); // find the units for player 1's team
             FindTeam("Player 2"); // "             " for player 2's team
-            P1Team[0].GetComponent<HeroUnit>().BuffTeam("P1");
+            if (P1Team[0].GetComponent<HeroUnit>().myType == HeroUnit.BuffType.OneTime || P1Team[0].GetComponent<HeroUnit>().myType == HeroUnit.BuffType.EveryTurn)
+            {
+                HexagonCell myCell = hexGrid.GetCell(P1Team[0].transform.position);
+                P1Team[0].GetComponent<HeroUnit>().BuffTeam("P1", myCell);
+            }
             //P2Team[0].GetComponent<HeroUnit>().BuffTeam("P2");
         }
         MoveableUnits = new List<StartUnit>(P1Team); // put player 1's team in since they're going first
@@ -148,7 +154,7 @@ public class HexagonMapEditor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(currentState);
+
         switch (currentState)
         {
             case (TurnStates.ENVIRONMENT):
@@ -188,9 +194,22 @@ public class HexagonMapEditor : MonoBehaviour
                 }
                 break;
             case (TurnStates.P1_MOVE):
+                if (P1Team[0].GetComponent<HeroUnit>().myType == HeroUnit.BuffType.EveryTurn && !debuffed)
+                {
+                    HexagonCell myCell = hexGrid.GetCell(P1Team[0].transform.position);
+                    P1Team[0].GetComponent<HeroUnit>().DebufTeam("P1", myCell);
+                    debuffed = true;
+
+                }
                 if (MoveableUnits.Count == 0) // once all units move break
                 {
+                    if (P1Team[0].GetComponent<HeroUnit>().myType == HeroUnit.BuffType.EveryTurn)
+                    {
+                        HexagonCell myCell = hexGrid.GetCell(P1Team[0].transform.position);
+                        P1Team[0].GetComponent<HeroUnit>().BuffTeam("P1", myCell);
+                    }
                     currentState = TurnStates.P1_ATTACK;
+                    debuffed = false;
                     allow_cursor_control = false;
                     MoveableUnits = new List<StartUnit>(P2Team);
                     //Turn Units Back To Normal Color
@@ -224,7 +243,7 @@ public class HexagonMapEditor : MonoBehaviour
                         }
                         cur_attacking = true;
                         //get the ball rolling with attack_count
-                        
+                        //************************************somehow P1Team is losing all of its units BEGIN
                         StartCoroutine(P1Team[attack_count].BasicAttack(hexGrid, hexGrid.GetCell(P1Team[attack_count].transform.position)));
                     }
 
@@ -235,16 +254,15 @@ public class HexagonMapEditor : MonoBehaviour
                         {
                             //next unit attacks because prev has finished
                             attack_count += 1;
-                            
                             StartCoroutine(P1Team[attack_count].BasicAttack(hexGrid, hexGrid.GetCell(P1Team[attack_count].transform.position)));
                         }
-                        else
-                        {
-                            //unit is still attacking so do nothing I guess
-                        }
+                        //else
+                        //{
+                        //    //unit is still attacking so do nothing I guess
+                        //}
                     }
-
-                    if(P1Team[P1Team.Count - 1] == null || P1Team[P1Team.Count - 1].currently_attacking == false)
+                    //*********************************END
+                    if (P1Team[P1Team.Count - 1] == null || P1Team[P1Team.Count - 1].currently_attacking == false) // index out of range thrown
                     {
                         //the final unit has finished attacking or there were no units to attack in the first place
                         attacking = true;
@@ -263,10 +281,13 @@ public class HexagonMapEditor : MonoBehaviour
                     cur_attacking = false;
                     attack_count = 0;
                     attacking = false;
-                    BattleUI_Turn.turn.text = "PLAYER 2";
+
+                    //currentState = TurnStates.P2_MOVE;
+					BattleUI_Turn.turn.text = "PLAYER 2";
                     BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P2_Color;
                     StartCoroutine(turn_animation_starter());
-                    currentState = TurnStates.P2_MOVE;
+                    wasP1Turn = true;
+                    currentState = TurnStates.CHECK;
                     allow_cursor_control = true;
                     if (MoveableUnits.Count > 0)
                     {
@@ -339,7 +360,7 @@ public class HexagonMapEditor : MonoBehaviour
                         }
                     }
 
-                    if (P2Team[P2Team.Count - 1] == null || P2Team[P2Team.Count - 1].currently_attacking == false)
+                    if (P2Team[P2Team.Count - 1] == null || P2Team[P2Team.Count - 1].currently_attacking == false) // where the index out of range is being thrown
                     {
                         //the final unit has finished attacking or there were no units to attack in the first place
                         attacking = true;
@@ -368,15 +389,16 @@ public class HexagonMapEditor : MonoBehaviour
                 }
                 break;
             case (TurnStates.CHECK):
-                if (P1Team.Count == 0)
-                    currentState = TurnStates.P2_WIN;
-                else if (P2Team.Count == 0)
-                    currentState = TurnStates.P1_WIN;
                 if (P1Team[0].GetComponent<HeroUnit>() == null)
                     currentState = TurnStates.P2_WIN;
-                else if (P2Team[0].GetComponent<HeroUnit>() == null && !PlayerInfo.one_player)
+                else if (P2Team[0].GetComponent<HeroUnit>() == null)
 
                     currentState = TurnStates.P1_WIN;
+                else if(wasP1Turn)
+                {
+                    wasP1Turn = false;
+                    currentState = TurnStates.P2_MOVE;
+                }
                 else
                 {
                     currentState = TurnStates.ENVIRONMENT;
@@ -438,9 +460,9 @@ public class HexagonMapEditor : MonoBehaviour
             //string rand_proper = "Steve";
             //string rand_adj = "Big";
             if(player == 1)
-                CreateUnit(P1starting_pos[i], team[i], rand_proper, rand_adj);
+                CreateUnit(P1start[i], team[i], rand_proper, rand_adj);
             if (player == 2)
-                CreateUnit(P2starting_pos[i], team[i], rand_proper, rand_adj);
+                CreateUnit(P2start[i], team[i], rand_proper, rand_adj);
 
           }
         //}
@@ -724,16 +746,18 @@ public class HexagonMapEditor : MonoBehaviour
             _unitCell = hexGrid.cells[index];
             hexGrid.cells[index].occupied = true;
             hexGrid.cells[index].unitOnTile = SelectedUnit;
+
             if (hexGrid.cells[index].tag == "TeamBuff" && hexGrid.cells[index].occupied)
             {
                 // hexGrid.cells[index].occupied = true;
                 // hexGrid.cells[index].unitOnTile = SelectedUnit;
                 hexGrid.cells[index].GetComponent<TeamPowerupTiles>().discovered = true;
-                if (hexGrid.cells[index].unitOnTile.tag == "Player 1")
-                    hexGrid.cells[index].GetComponent<TeamPowerupTiles>().UnitsTeam = P1Team;
-                if (hexGrid.cells[index].unitOnTile.tag == "Player 2")
-                    hexGrid.cells[index].GetComponent<TeamPowerupTiles>().UnitsTeam = P2Team;
+                //if (hexGrid.cells[index].unitOnTile.tag == "Player 1")
+                //    hexGrid.cells[index].GetComponent<TeamPowerupTiles>().UnitsTeam = P1Team;
+                //if (hexGrid.cells[index].unitOnTile.tag == "Player 2")
+                //    hexGrid.cells[index].GetComponent<TeamPowerupTiles>().UnitsTeam = P2Team;
             }
+
             MoveableUnits.Remove(SelectedUnit);
             Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
             for (int i = 0; i < Unit_Meshes.Length; i++)

@@ -497,7 +497,7 @@ GameObject:
   - component: {fileID: 4305035397801886}
   - component: {fileID: 114392982716636322}
   - component: {fileID: 95267118870457956}
-  - component: {fileID: 114027078366652160}
+  - component: {fileID: 114969397969523808}
   - component: {fileID: 82634392391321608}
   - component: {fileID: 82126319852824748}
   - component: {fileID: 82251617378530748}
@@ -1205,72 +1205,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!95 &95818099959836784
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1316997111080338}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2086ebd1708963a44823458115c3c851, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114027078366652160
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1702919331231088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ac37cb15116681498736a09e39043bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unit_type: Fortress
-  unit_name: 
-  unit_ID: 2
-  mobility: 0
-  current_mobility: 0
-  attackRange: 0
-  health: 0
-  attack: 0
-  basedmg: 0
-  crit: 0
-  miss: 0
-  crit_multiplier: 0
-  weight: 0
-  selectedTarget: 0
-  Icon: {fileID: 21300000, guid: b7f0290fa4b4741ec8efe37b7b3bbc5a, type: 3}
-  cost: 0
-  direction: 1
-  current_health: 0
-  current_attack: 0
-  FloatingTextPrefab: {fileID: 1120425126322546, guid: 093bcb706ed94e3428f7bd3526dbc7e6,
-    type: 2}
-  dead: 0
-  health_bar: {fileID: 1647412176236576}
-  anim: {fileID: 0}
-  editor: {fileID: 0}
-  Unit_Stats_Panel: {fileID: 1531727583569306}
-  currently_attacking: 0
-  attack_blink_color:
-    serializedVersion: 2
-    rgba: 4282253155
-  removed: 0
-  slowed: 0
-  end_attack_without_retaliate: 0
-  attackSound: {fileID: 82126319852824748}
-  hitSound: {fileID: 82251617378530748}
-  moveSound: {fileID: 82634392391321608}
-  selection_arrow: {fileID: 1316997111080338}
 --- !u!114 &114029103351844066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2228,6 +2162,56 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Steve Rogers
+--- !u!114 &114969397969523808
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1702919331231088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c556f986eafa16644a098513832d694d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit_type: Fortress
+  unit_name: 
+  unit_ID: 1
+  mobility: 0
+  current_mobility: 0
+  attackRange: 0
+  health: 0
+  attack: 0
+  basedmg: 0
+  crit: 0
+  miss: 0
+  crit_multiplier: 0
+  weight: 0
+  defense: 0
+  Icon: {fileID: 21300000, guid: 058137bcb777c407a95a9b4809cdc35b, type: 3}
+  cost: 0
+  slowing_counter: 0
+  direction: 1
+  current_health: 0
+  current_attack: 0
+  FloatingTextPrefab: {fileID: 1120425126322546, guid: 093bcb706ed94e3428f7bd3526dbc7e6,
+    type: 2}
+  dead: 0
+  health_bar: {fileID: 1647412176236576}
+  anim: {fileID: 0}
+  editor: {fileID: 0}
+  Unit_Stats_Panel: {fileID: 1531727583569306}
+  currently_attacking: 0
+  attack_blink_color:
+    serializedVersion: 2
+    rgba: 0
+  removed: 0
+  slowed: 0
+  end_attack_without_retaliate: 0
+  attackSound: {fileID: 82634392391321608}
+  hitSound: {fileID: 82126319852824748}
+  moveSound: {fileID: 82251617378530748}
+  myType: 1
+  wasBuffed: []
 --- !u!114 &114982546665357088
 MonoBehaviour:
   m_ObjectHideFlags: 1
