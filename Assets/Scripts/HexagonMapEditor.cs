@@ -42,8 +42,8 @@ public class HexagonMapEditor : MonoBehaviour
     private List<StartUnit> Player1Chosen = new List<StartUnit>();
     public List<StartUnit> Player2Chosen = new List<StartUnit>();
 
-    public List<int> P1starting_pos = new List<int>() { 104, 105, 106, 124, 125, 126, 145, 146 };
-    public List<int> P2starting_pos = new List<int>() { 253, 254, 272, 273, 274, 292, 293, 294 };
+    public List<int> P1start = new List<int>() { 104, 105, 106, 124, 125, 126, 145, 146 };
+    public List<int> P2start = new List<int>() { 233, 234, 252, 253, 254, 272, 273, 274 };
 
     public List<StartUnit> P1Team = new List<StartUnit>(); // list of player 1 team
     public List<StartUnit> P2Team = new List<StartUnit>(); // list of player 2 team
@@ -458,9 +458,9 @@ public class HexagonMapEditor : MonoBehaviour
             //string rand_proper = "Steve";
             //string rand_adj = "Big";
             if(player == 1)
-                CreateUnit(P1starting_pos[i], team[i], rand_proper, rand_adj);
+                CreateUnit(P1start[i], team[i], rand_proper, rand_adj);
             if (player == 2)
-                CreateUnit(P2starting_pos[i], team[i], rand_proper, rand_adj);
+                CreateUnit(P2start[i], team[i], rand_proper, rand_adj);
 
           }
         //}
