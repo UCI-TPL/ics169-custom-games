@@ -95,7 +95,7 @@ public class StartUnit : MonoBehaviour
         
         //add a call to a retaliate function on the other unit   
         List<HexagonCell> targetable = new List<HexagonCell>();
-        Debug.Log(unitCell.unitOnTile.unit_name + " atttacking: ");
+        //Debug.Log(unitCell.unitOnTile.unit_name + " atttacking: ");
         foreach (HexagonCell cell in hexGrid.cells)
         {
             if (unitCell.coords.FindDistanceTo(cell.coords) <= attackRange
@@ -146,8 +146,8 @@ public class StartUnit : MonoBehaviour
             //    dmg_txt = (int)damage;
             //}
             //Debug.Log(targetable);
-            Debug.Log("Attacker  Unit: " + unit_name);
-            Debug.Log("Targetted Unit: " + targetable[selectedTarget].unitOnTile.unit_name);
+            //Debug.Log("Attacker  Unit: " + unit_name);
+            //Debug.Log("Targetted Unit: " + targetable[selectedTarget].unitOnTile.unit_name);
             editor.printState();
             if (targetable[selectedTarget].unitOnTile.FloatingTextPrefab)
             {
