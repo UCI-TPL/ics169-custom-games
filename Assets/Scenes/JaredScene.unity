@@ -2309,13 +2309,13 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4285164234
   Player2Chosen:
-  - {fileID: 114836417496467364, guid: 3aa888738f10d674685d0f97568eb8df, type: 2}
+  - {fileID: 114969397969523808, guid: a4e85b2bfaf0147d89d412a238a3241c, type: 2}
   - {fileID: 114358444280044280, guid: ccf8af24ecfa5b742a20ffb055df681a, type: 2}
   - {fileID: 114565556080221656, guid: f3506773eed3ba44c80ef9f1cb562563, type: 2}
   - {fileID: 114565556080221656, guid: f3506773eed3ba44c80ef9f1cb562563, type: 2}
-  - {fileID: 114105511160281960, guid: 19643488bf616d849b7aaf4c208654b9, type: 2}
-  P1starting_pos: 7c0000007d0000007e000000900000009100000092000000a5000000a6000000
-  P2starting_pos: 3a01000039010000380100002701000026010000250100001201000013010000
+  - {fileID: 114750922995084544, guid: 5de81a82645aa4496b65a418302ae378, type: 2}
+  P1start: 68000000690000006a0000007c0000007d0000007e0000009100000092000000
+  P2start: e9000000ea000000fc000000fd000000fe000000100100001101000012010000
   P1Team: []
   P2Team: []
   SelectedUnit: {fileID: 0}
@@ -2328,6 +2328,8 @@ MonoBehaviour:
   onePlayer: 0
   cur_attacking: 0
   attack_count: 0
+  wasP1Turn: 1
+  debuffed: 0
   hazardList:
   - {fileID: 114591343487103536, guid: 6c8ad155576b2d4478a8d6464d2cde8f, type: 2}
   - {fileID: 114881700081576812, guid: fc8fbfdab82c6ef48b384b654a4cf157, type: 2}
@@ -7863,8 +7865,8 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 0
   Player2Chosen: []
-  P1starting_pos: 7c0000007d0000007e000000900000009100000092000000a5000000a6000000
-  P2starting_pos: 3a01000039010000380100002701000026010000250100001201000013010000
+  P1start: 68000000690000006a0000007c0000007d0000007e0000009100000092000000
+  P2start: e9000000ea000000fc000000fd000000fe000000100100001101000012010000
   P1Team: []
   P2Team: []
   SelectedUnit: {fileID: 0}
@@ -7877,6 +7879,8 @@ MonoBehaviour:
   onePlayer: 0
   cur_attacking: 0
   attack_count: 0
+  wasP1Turn: 1
+  debuffed: 0
   hazardList: []
   incoming: 0
   incoming_in: 2147483647
@@ -12344,6 +12348,7 @@ GameObject:
   - component: {fileID: 1946020867}
   - component: {fileID: 1946020869}
   - component: {fileID: 1946020868}
+  - component: {fileID: 1946020870}
   m_Layer: 5
   m_Name: Turn_Info_Image
   m_TagString: Untagged
@@ -12404,6 +12409,24 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1946020866}
   m_CullTransparentMesh: 0
+--- !u!95 &1946020870
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1946020866}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a635427e1fe1d4e4c88b6d47163487cb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1957856025
 GameObject:
   m_ObjectHideFlags: 0

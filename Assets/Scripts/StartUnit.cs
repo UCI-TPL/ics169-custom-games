@@ -50,6 +50,7 @@ public class StartUnit : MonoBehaviour
 
     //Attack, Hit, and Move sounds
     public AudioSource attackSound, hitSound, moveSound;
+    public GameObject selection_arrow;
 
 
 
@@ -587,6 +588,17 @@ public class StartUnit : MonoBehaviour
         target.current_health = target.current_health + change_by;
         target.health_bar.GetComponent<Image>().fillAmount = target.current_health / target.health;
     }
+
+    public void Show_Arrow_Select()
+    {
+        selection_arrow.SetActive(true);
+    }
+
+    public void Hide_Arrow_Select()
+    {
+        selection_arrow.SetActive(false);
+    }
+
     public int ChosenEnemy(List<HexagonCell> targetable)
     {
         int result = 0;
