@@ -1352,6 +1352,7 @@ MonoBehaviour:
   miss: 0.2
   crit_multiplier: 2
   weight: 40
+  defense: 0
   Icon: {fileID: 21300000, guid: 2086ccd06548046d48f57be397fe8b93, type: 3}
   cost: 400
   slowing_counter: 0
@@ -1376,6 +1377,7 @@ MonoBehaviour:
   hitSound: {fileID: 82215094379298936}
   moveSound: {fileID: 82215094379298936}
   selection_arrow: {fileID: 1575712863010118}
+  myType: 0
 --- !u!114 &114152355493504036
 MonoBehaviour:
   m_ObjectHideFlags: 1
