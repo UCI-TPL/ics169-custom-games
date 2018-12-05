@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SlowingHero : StartUnit {
+public class SlowingHero : HeroUnit {
 
 	// Use this for initialization
 	void Awake () {
@@ -11,7 +11,7 @@ public class SlowingHero : StartUnit {
 	}
     public override void TakeDamage(StartUnit attacked_unit, float damage)
     {
-        attacked_unit.current_health -= damage;
+        attacked_unit.current_health -= damage - defense;
         attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
 
         float healthpercent = attacked_unit.current_health / attacked_unit.health;//    120/180 = .667

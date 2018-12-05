@@ -853,7 +853,7 @@ Transform:
   m_GameObject: {fileID: 1743767600354772}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.4, y: 3.4, z: 1}
+  m_LocalScale: {x: 4.2, y: 4.2, z: 1}
   m_Children: []
   m_Father: {fileID: 4986954657937502}
   m_RootOrder: 12
@@ -879,7 +879,7 @@ Transform:
   m_GameObject: {fileID: 1907056652650708}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_Children:
   - {fileID: 4519061881950022}
   - {fileID: 4600141397806192}
@@ -1767,8 +1767,10 @@ MonoBehaviour:
   miss: 0
   crit_multiplier: 0
   weight: 0
+  defense: 0
   Icon: {fileID: 21300000, guid: b7f0290fa4b4741ec8efe37b7b3bbc5a, type: 3}
   cost: 0
+  description: 'A fast moving melee unit '
   slowing_counter: 0
   direction: 1
   current_health: 0

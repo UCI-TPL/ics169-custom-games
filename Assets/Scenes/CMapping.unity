@@ -363,13 +363,13 @@ MonoBehaviour:
   plr2Set: 0
   AllP1Units:
   - {fileID: 114836417496467364, guid: 4c08b09ba2069f4478f37ba868df4a97, type: 2}
-  - {fileID: 114610350379064482, guid: 312be59517471a0419fa209e90dc426d, type: 2}
   - {fileID: 114593018511485496, guid: 9835f1dce7fdfab41963d00eba015be8, type: 2}
+  - {fileID: 114610350379064482, guid: 312be59517471a0419fa209e90dc426d, type: 2}
   - {fileID: 114360579568270836, guid: 806acc49c5eea4ff9b1fc7694f98a3dd, type: 2}
   AllP2Units:
   - {fileID: 114836417496467364, guid: 3aa888738f10d674685d0f97568eb8df, type: 2}
-  - {fileID: 114358444280044280, guid: ccf8af24ecfa5b742a20ffb055df681a, type: 2}
   - {fileID: 114565556080221656, guid: f3506773eed3ba44c80ef9f1cb562563, type: 2}
+  - {fileID: 114358444280044280, guid: ccf8af24ecfa5b742a20ffb055df681a, type: 2}
   - {fileID: 114750922995084544, guid: 5de81a82645aa4496b65a418302ae378, type: 2}
   Hero1Units:
   - {fileID: 114081837882046222, guid: f889233dfb96246aaa3f2deee0af89ab, type: 2}
@@ -385,7 +385,7 @@ MonoBehaviour:
   nextScene: 0
   draftUI: {fileID: 0}
   currentState: 0
-  one_player: 0
+  one_player: 1
   pool: 1
 --- !u!4 &1666635607
 Transform:

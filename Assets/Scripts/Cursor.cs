@@ -171,7 +171,7 @@ public class Cursor : MonoBehaviour
                 //It found a real tile.
                 if (editor.isUnitSelected)
                 {
-                    if (next_hex_cell.distance <= editor.SelectedUnit.mobility)
+                    if (next_hex_cell.distance <= editor.SelectedUnit.current_mobility)
                     {
                         gameObject.transform.position = _Grid.Get_Cell_Index(coords).gameObject.transform.position;
                     }

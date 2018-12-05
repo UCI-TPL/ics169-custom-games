@@ -13,6 +13,7 @@ public class Grid : MonoBehaviour {
     public Sprite Wall, AttackBuff, Healthbuff, MobilityBuff, CritBuff, AttackRangebuff, SlowingTile, Water, PoweredDown;
     public bool ten, twenty, thirty;
     public int sprites_per_tile;
+    public GameObject buffPrefab;
 
     //Grid Details
     HexagonCell[] result;
@@ -239,6 +240,8 @@ public class Grid : MonoBehaviour {
                 }
             }
             result = ChangeHexInfo(cells, wall_list1, powerlist1, hazards, water);
+            
+
         }
 
 
@@ -282,6 +285,7 @@ public class Grid : MonoBehaviour {
                 }
             }
             result = ChangeHexInfo(cells, wall_list2, powerlist2, hazards2, water2);
+            
         }
 
         //if (thirty)
@@ -324,6 +328,7 @@ public class Grid : MonoBehaviour {
         {
             for (int i = 0; i < powercells_.Count; i++)
             {
+                /* old code
                 int randval = Random.Range(1, 5);
                 cells_[powercells_[i]].gameObject.AddComponent<TeamPowerupTiles>();
                 //cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().PoweredDownSprite = PoweredDown;
@@ -354,6 +359,14 @@ public class Grid : MonoBehaviour {
                     cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = AttackRangebuff; //Need Range buff sprite
                     cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().attackrangeBuff = true;
                 }
+                */
+                GameObject GO = Instantiate(buffPrefab);
+                GO.transform.position = cells[powercells_[i]].transform.position;
+                cells[powercells_[i]].occupied = true;
+                StartUnit startUnit = GO.GetComponent<StartUnit>();
+                cells[powercells_[i]].unitOnTile = startUnit;
+                startUnit.Unit_Stats_Panel.GetComponent<BattleUI>().Hide();
+                Anima2D.SpriteMeshInstance[] Unit_Meshes = startUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
             }
         }
 
@@ -361,12 +374,14 @@ public class Grid : MonoBehaviour {
         {
         for (int i = 0; i < hazards_.Count; i++)
             {
+                  
                 cells_[hazards_[i]].gameObject.tag = "SlowingTile";
                 cells_[hazards_[i]].gameObject.AddComponent<TeamPowerupTiles>();
                 cells_[hazards_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = SlowingTile;
                 //cells_[hazards_[i]].gameObject.GetComponent<TeamPowerupTiles>().discovered = true;
                 cells_[hazards_[i]].gameObject.GetComponent<TeamPowerupTiles>().grassDebuff = true;
                // cells_[hazards_[i]].gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+               
             }
         }
 

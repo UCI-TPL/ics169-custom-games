@@ -396,12 +396,12 @@ public class PlayerInformation : MonoBehaviour
                 p1ScrollTime = Time.time + 0.25f;
                 if (value > 0.0f)
                 {
-                    p1ScrollValue = ChangeCharacter(p1ScrollValue, -1, hero);
+                    p1ScrollValue = ChangeCharacter(p1ScrollValue, 1, hero);
                     //p1Text.text = AllP1Units[p1ScrollValue].name;
                 }
                 else
                 {
-                    p1ScrollValue = ChangeCharacter(p1ScrollValue, 1, hero);
+                    p1ScrollValue = ChangeCharacter(p1ScrollValue, -1, hero);
                     //p1Text.text = AllP1Units[p1ScrollValue].name;
                 }
             }

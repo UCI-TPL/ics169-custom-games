@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class HeroUnit : StartUnit {
+    
     public enum BuffType
     {
         OneTime,

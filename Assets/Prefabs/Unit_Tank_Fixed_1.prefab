@@ -720,7 +720,7 @@ Transform:
   m_GameObject: {fileID: 1504916799593874}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.4, y: 3.4, z: 1}
+  m_LocalScale: {x: 4.2, y: 4.2, z: 1}
   m_Children: []
   m_Father: {fileID: 4880758690227294}
   m_RootOrder: 12
@@ -864,7 +864,7 @@ Transform:
   m_GameObject: {fileID: 1767324749333156}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_Children:
   - {fileID: 4602938316209980}
   - {fileID: 4262772276216686}
@@ -1741,8 +1741,10 @@ MonoBehaviour:
   miss: 0
   crit_multiplier: 0
   weight: 0
+  defense: 0
   Icon: {fileID: 21300000, guid: 750701238cbf0498fa65b88cbd96cc73, type: 3}
   cost: 0
+  description: A high-health unit with an increased priority of being targeted
   slowing_counter: 0
   direction: 1
   current_health: 0
