@@ -70,5 +70,6 @@ public class EnvironmentalHazard : MonoBehaviour {
             }
         }
         yield return new WaitForSeconds(anim_time);
+        Debug.Log("effect finishing");
     }
 }

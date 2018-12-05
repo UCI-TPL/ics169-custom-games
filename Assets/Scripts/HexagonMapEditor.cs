@@ -75,6 +75,9 @@ public class HexagonMapEditor : MonoBehaviour
     public bool incoming = false;
     public int incoming_in = int.MaxValue; // the counter for how long until the hazard comes to the map
     int whichHazard; // keep track of which hazard, int gives you the index in hazardList
+    public bool hazardsExecuting = false;
+    public bool hazardsFinished = false;
+    public int hazardCount = 0;
     
 
     public bool allow_cursor_control;
@@ -137,7 +140,11 @@ public class HexagonMapEditor : MonoBehaviour
                 HexagonCell myCell = hexGrid.GetCell(P1Team[0].transform.position);
                 P1Team[0].GetComponent<HeroUnit>().BuffTeam("P1", myCell);
             }
-            //P2Team[0].GetComponent<HeroUnit>().BuffTeam("P2");
+            if (P2Team[0].GetComponent<HeroUnit>().myType == HeroUnit.BuffType.OneTime || P2Team[0].GetComponent<HeroUnit>().myType == HeroUnit.BuffType.EveryTurn)
+            {
+                HexagonCell myCell = hexGrid.GetCell(P2Team[0].transform.position);
+                P2Team[0].GetComponent<HeroUnit>().BuffTeam("P2", myCell);
+            }
         }
         MoveableUnits = new List<StartUnit>(P1Team); // put player 1's team in since they're going first
         currentState = TurnStates.P1_MOVE;
@@ -158,8 +165,9 @@ public class HexagonMapEditor : MonoBehaviour
         switch (currentState)
         {
             case (TurnStates.ENVIRONMENT):
-                if (!environmentExecuting)
+                if (!environmentExecuting) // do once
                 {
+                    allow_cursor_control = false;
                     environmentExecuting = true;
                     if (incoming) //a environmental hazard is coming already
                     {
@@ -182,16 +190,39 @@ public class HexagonMapEditor : MonoBehaviour
                             whichHazard = hazard;
                         }
                     }
-
-                    StartCoroutine(HandleHazards()); // goes through all the hazards on the board and handles their effect
-                    //handle effects here
-                    environmentExecuting = false;
-                    BattleUI_Turn.turn.text = "PLAYER 1";
-                    BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P1_Color;
-                    //start coroutine for turn info image animation
-                    StartCoroutine(turn_animation_starter());
-                    currentState = TurnStates.P1_MOVE;  // go to next phase
                 }
+                if (!hazardsExecuting && environmentExecuting) // hazard exectution 
+                {
+                    hazardsExecuting = true;
+                    if (hazardCount == hazardsOnGrid.Count) // when hazards are done
+                    {
+                        for(int i = 0; i < hazardsOnGrid.Count; i++)
+                        {
+                            if (hazardsOnGrid[i].timeLeft <= 0)
+                            {
+                                hazardsOnGrid.Remove(hazardsOnGrid[i]);
+                            }
+                        }
+                        hazardsFinished = true;
+                    }
+                    if (hazardCount < hazardsOnGrid.Count) //for every hazard
+                    {
+                        StartCoroutine(HandleHazards(hazardCount));
+                        
+                    }
+                }
+                if (hazardsFinished) // when hazarrds are done
+                {
+                    StartCoroutine(turn_animation_starter());
+                    environmentExecuting = false;
+                    hazardsExecuting = false;
+                    hazardsFinished = false;
+                    hazardCount = 0;
+                    allow_cursor_control = true;
+                    currentState = TurnStates.P1_MOVE;
+                    Debug.Log("here");
+                }
+                
                 break;
             case (TurnStates.P1_MOVE):
                 if (P1Team[0].GetComponent<HeroUnit>().myType == HeroUnit.BuffType.EveryTurn && !debuffed)
@@ -243,7 +274,7 @@ public class HexagonMapEditor : MonoBehaviour
                         }
                         cur_attacking = true;
                         //get the ball rolling with attack_count
-                        //************************************somehow P1Team is losing all of its units BEGIN
+
                         StartCoroutine(P1Team[attack_count].BasicAttack(hexGrid, hexGrid.GetCell(P1Team[attack_count].transform.position)));
                     }
 
@@ -261,8 +292,7 @@ public class HexagonMapEditor : MonoBehaviour
                         //    //unit is still attacking so do nothing I guess
                         //}
                     }
-                    //*********************************END
-                    if (P1Team[P1Team.Count - 1] == null || P1Team[P1Team.Count - 1].currently_attacking == false) // index out of range thrown
+                    if (P1Team[P1Team.Count - 1] == null || P1Team[P1Team.Count - 1].currently_attacking == false) 
                     {
                         //the final unit has finished attacking or there were no units to attack in the first place
                         attacking = true;
@@ -299,9 +329,22 @@ public class HexagonMapEditor : MonoBehaviour
                 }
                 break;
             case (TurnStates.P2_MOVE):
+                if (P2Team[0].GetComponent<HeroUnit>().myType == HeroUnit.BuffType.EveryTurn && !debuffed)
+                {
+                    HexagonCell myCell = hexGrid.GetCell(P2Team[0].transform.position);
+                    P2Team[0].GetComponent<HeroUnit>().DebufTeam("P2", myCell);
+                    debuffed = true;
+
+                }
                 if (MoveableUnits.Count == 0)
                 {
+                    if (P2Team[0].GetComponent<HeroUnit>().myType == HeroUnit.BuffType.EveryTurn)
+                    {
+                        HexagonCell myCell = hexGrid.GetCell(P2Team[0].transform.position);
+                        P2Team[0].GetComponent<HeroUnit>().BuffTeam("P2", myCell);
+                    }
                     currentState = TurnStates.P2_ATTACK;
+                    debuffed = false;
                     allow_cursor_control = false;
                     MoveableUnits = new List<StartUnit>(P1Team);
                     for (int i = 0; i < MoveableUnits.Count; i++)
@@ -484,19 +527,18 @@ public class HexagonMapEditor : MonoBehaviour
         //initializing = true;
     }
 
-    public IEnumerator HandleHazards()
+    public IEnumerator HandleHazards(int count)
     {
-        for(int i = 0; i < hazardsOnGrid.Count; i++)
-        {
-            EnvironmentalHazard.HazardInfo h_info = hazardsOnGrid[i];
-            StartCoroutine(h_info.type.Effect(hexGrid, h_info.x, h_info.z, h_info.size));
-            yield return new WaitForSeconds(h_info.type.anim_time);
-            h_info.timeLeft -= 1;
-            if (h_info.timeLeft <= 0)
-            {
-                hazardsOnGrid.Remove(hazardsOnGrid[i]);
-            }
-        }
+
+        EnvironmentalHazard.HazardInfo h_info = hazardsOnGrid[count];
+        StartCoroutine(h_info.type.Effect(hexGrid, h_info.x, h_info.z, h_info.size));
+        yield return new WaitForSeconds(h_info.type.anim_time);
+        hazardsExecuting = false;
+        hazardCount++;
+        h_info.timeLeft -= 1;
+        
+        
+        //hazardsFinished = true;
     }
 
     public void MovePhase(string joystick) // handles input from the player to correctly move the unit

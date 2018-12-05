@@ -24,6 +24,7 @@ public class StartUnit : MonoBehaviour
 
     public Sprite Icon;
     public int cost;
+    public string description;
     public int slowing_counter;
     public bool direction = true; // right = true, left = false
     //public int attack_loss; // how much attack a unit loses when hit
@@ -135,7 +136,7 @@ public class StartUnit : MonoBehaviour
 
             float crit_chance = Random.value;
             float miss_chance = Random.value;
-            float damage = current_attack;
+            float damage = current_attack - targetable[selectedTarget].unitOnTile.defense;
             int dmg_txt = (int)damage;
             bool crit_happened = false;
 
@@ -260,11 +261,45 @@ public class StartUnit : MonoBehaviour
             //Debug.Log("he dead");
             if (targetable[selectedTarget].unitOnTile.current_health <= 0)
             {
+                if(targetable[selectedTarget].unitOnTile.tag == "TeamBuff") // was a buffmonster
+                {
+                    int randBuff = Random.Range(0, 4);
+                    //give correct buff accordingly
+                    Debug.Log("acquiring buff");
+                    if (randBuff == 0) // movement buff
+                    {
+                        Debug.Log("movement buff");
+                        current_mobility += 1;
+                        if (current_health != health)
+                            current_health += 10;
+                    }
+                    else if (randBuff == 1) // crit buff
+                    {
+                        Debug.Log("crit buff");
+                        crit += 0.20f;
+                        if (current_health != health)
+                            current_health += 10;
+                    }
+                    else if(randBuff == 2) // attack buff
+                    {
+                        Debug.Log("attack buff");
+                        attack += 25;
+                        current_attack += 25;
+                        if (current_health != health)
+                            current_health += 10;
+                    }
+                    else // health buff
+                    {
+                        Debug.Log("health buff");
+                        health += 100;
+                        current_health = health;
+                    }
+
+                }
                 end_attack_without_retaliate = true;
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 //int index = targetable[rand_index].coords.X_coord + targetable[rand_index].coords.Z_coord * hexGrid.width + targetable[rand_index].coords.Z_coord / 2;
                 //editor.RemoveUnitInfo(targetable[rand_index], index);
-                Debug.Log("Putting unit in delete list from basic attack");
                 editor.Units_To_Delete.Add(attacked_cell);
                 attacked_unit.dead = true;
             }
@@ -411,7 +446,7 @@ public class StartUnit : MonoBehaviour
 
             //int index = attacked_cell.coords.X_coord + attacked_cell.coords.Z_coord * hexGrid.width + attacked_cell.coords.Z_coord / 2;
             //editor.RemoveUnitInfo(attacked_cell, index);
-            Debug.Log("adding unit to delete list in relatiation");
+            //Debug.Log("adding unit to delete list in relatiation");
             attacked_unit.dead = true;
             editor.Units_To_Delete.Add(attacked_cell);
         }
@@ -562,7 +597,7 @@ public class StartUnit : MonoBehaviour
 
         attacked_unit.current_health -= damage;
         attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health;
-        Debug.Log("Made it");
+        //Debug.Log("Made it");
         float healthpercent = attacked_unit.current_health / attacked_unit.health;//    120/180 = .667
 
         float attack_deduction = 1 - healthpercent;//   1 - .667 = .333
