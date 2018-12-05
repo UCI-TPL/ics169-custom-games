@@ -29,6 +29,8 @@ public class HexagonCell : MonoBehaviour {
 
     public GameObject cross_tile;
 
+    public GameObject selected_tile;
+
     public int Distance
     {
         get
@@ -114,5 +116,17 @@ public class HexagonCell : MonoBehaviour {
     public void Hide_Cross_Icon()
     {
         cross_tile.SetActive(false);
+    }
+
+    public void Show_Selected_Icon()
+    {
+        selected_tile.SetActive(true);
+        selected_tile.GetComponent<Blinking>().next_blink = Time.time;
+        selected_tile.GetComponent<Blinking>().color_bool = true;
+    }
+
+    public void Hide_Selected_Icon()
+    {
+        selected_tile.SetActive(false);
     }
 }

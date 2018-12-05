@@ -12,13 +12,16 @@ public class StartUnit : MonoBehaviour
     public int mobility,current_mobility; // how far a unit can move
     public int attackRange; // how far a unit can attack
     public float health;
-    public int attack;
+    public float attack;
     public int basedmg;
     public float crit;
     public float miss;
     public float crit_multiplier;
     public int weight;
-   // public int selectedTarget;
+
+    public int defense = 0;
+    //public int selectedTarget;
+
     public Sprite Icon;
     public int cost;
     public int slowing_counter;
@@ -47,6 +50,7 @@ public class StartUnit : MonoBehaviour
 
     //Attack, Hit, and Move sounds
     public AudioSource attackSound, hitSound, moveSound;
+    public GameObject selection_arrow;
 
 
 
@@ -60,7 +64,6 @@ public class StartUnit : MonoBehaviour
         editor = FindObjectOfType<HexagonMapEditor>();
         anim = GetComponent<Animator>();
         current_health = health;
-        current_attack = attack;
         current_mobility = mobility;
         currently_attacking = false;
         
@@ -93,6 +96,7 @@ public class StartUnit : MonoBehaviour
         
         //add a call to a retaliate function on the other unit   
         List<HexagonCell> targetable = new List<HexagonCell>();
+        Debug.Log(unitCell.unitOnTile.unit_name + " atttacking: ");
         foreach (HexagonCell cell in hexGrid.cells)
         {
             if (unitCell.coords.FindDistanceTo(cell.coords) <= attackRange
@@ -110,6 +114,7 @@ public class StartUnit : MonoBehaviour
             yield return new WaitForSeconds(1.5f);
             int selectedTarget = ChosenEnemy(targetable);
             //int rand_index = Random.Range(0, targetable.Count);
+
             //int totalWeight = 0;
             //for(int i = 0; i < targetable.Count; i++)
             //{
@@ -125,6 +130,7 @@ public class StartUnit : MonoBehaviour
             //    }
             //    rand_val -= targetable[j].unitOnTile.weight;
             //}
+
 
 
             float crit_chance = Random.value;
@@ -258,6 +264,7 @@ public class StartUnit : MonoBehaviour
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 //int index = targetable[rand_index].coords.X_coord + targetable[rand_index].coords.Z_coord * hexGrid.width + targetable[rand_index].coords.Z_coord / 2;
                 //editor.RemoveUnitInfo(targetable[rand_index], index);
+                Debug.Log("Putting unit in delete list from basic attack");
                 editor.Units_To_Delete.Add(attacked_cell);
                 attacked_unit.dead = true;
             }
@@ -404,6 +411,7 @@ public class StartUnit : MonoBehaviour
 
             //int index = attacked_cell.coords.X_coord + attacked_cell.coords.Z_coord * hexGrid.width + attacked_cell.coords.Z_coord / 2;
             //editor.RemoveUnitInfo(attacked_cell, index);
+            Debug.Log("adding unit to delete list in relatiation");
             attacked_unit.dead = true;
             editor.Units_To_Delete.Add(attacked_cell);
         }
@@ -553,13 +561,15 @@ public class StartUnit : MonoBehaviour
     {
 
         attacked_unit.current_health -= damage;
-        attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
+        attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health;
         Debug.Log("Made it");
         float healthpercent = attacked_unit.current_health / attacked_unit.health;//    120/180 = .667
+
         float attack_deduction = 1 - healthpercent;//   1 - .667 = .333
         float reduction = attack_deduction / 2;
         float new_attack = attacked_unit.attack * reduction;//   72 * .333 = 23.76
         attacked_unit.current_attack = attacked_unit.attack - new_attack;// 72 - 23.76 = 48
+
 
         //float attack_deduction = attacked_unit.current_attack * (current_attack - attacked_unit.current_health / attacked_unit.health);
         //if (attack_deduction > attacked_unit.basedmg)
@@ -578,6 +588,17 @@ public class StartUnit : MonoBehaviour
         target.current_health = target.current_health + change_by;
         target.health_bar.GetComponent<Image>().fillAmount = target.current_health / target.health;
     }
+
+    public void Show_Arrow_Select()
+    {
+        selection_arrow.SetActive(true);
+    }
+
+    public void Hide_Arrow_Select()
+    {
+        selection_arrow.SetActive(false);
+    }
+
     public int ChosenEnemy(List<HexagonCell> targetable)
     {
         int result = 0;

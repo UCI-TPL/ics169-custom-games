@@ -20,7 +20,8 @@ public class UnitStats : MonoBehaviour {
         int.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][1], out this.gameObject.GetComponent<StartUnit>().mobility);
         int.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][2], out this.gameObject.GetComponent<StartUnit>().attackRange);
         float.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][3], out this.gameObject.GetComponent<StartUnit>().health);
-        int.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][4], out this.gameObject.GetComponent<StartUnit>().attack);
+        float.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][4], out this.gameObject.GetComponent<StartUnit>().attack);
+        float.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][4], out this.gameObject.GetComponent<StartUnit>().current_attack);
         int.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][5], out this.gameObject.GetComponent<StartUnit>().basedmg);
         float.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][6], out this.gameObject.GetComponent<StartUnit>().crit);
         float.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][7], out this.gameObject.GetComponent<StartUnit>().miss);

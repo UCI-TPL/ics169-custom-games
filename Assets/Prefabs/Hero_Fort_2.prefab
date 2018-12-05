@@ -230,6 +230,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1316997111080338
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4809425613254840}
+  - component: {fileID: 212766549505613818}
+  - component: {fileID: 114477768483276030}
+  m_Layer: 0
+  m_Name: Selection_Arrow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!1 &1321976407268850
 GameObject:
   m_ObjectHideFlags: 0
@@ -479,7 +496,7 @@ GameObject:
   - component: {fileID: 4305035397801886}
   - component: {fileID: 114392982716636322}
   - component: {fileID: 95267118870457956}
-  - component: {fileID: 114027078366652160}
+  - component: {fileID: 114969397969523808}
   - component: {fileID: 82634392391321608}
   - component: {fileID: 82126319852824748}
   - component: {fileID: 82251617378530748}
@@ -611,6 +628,7 @@ Transform:
   - {fileID: 224095471523378964}
   - {fileID: 224836468546606624}
   - {fileID: 4786713908024600}
+  - {fileID: 4809425613254840}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -830,6 +848,19 @@ Transform:
   m_Father: {fileID: 4305035397801886}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4809425613254840
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1316997111080338}
+  m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0.47399998, y: 6.66, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4305035397801886}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!4 &4890290615747024
 Transform:
   m_ObjectHideFlags: 1
@@ -1173,48 +1204,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114027078366652160
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1702919331231088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ac37cb15116681498736a09e39043bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unit_type: Fortress
-  unit_name: 
-  unit_ID: 2
-  mobility: 0
-  attackRange: 0
-  health: 0
-  attack: 0
-  basedmg: 0
-  crit: 0
-  miss: 0
-  crit_multiplier: 0
-  Icon: {fileID: 21300000, guid: b7f0290fa4b4741ec8efe37b7b3bbc5a, type: 3}
-  cost: 0
-  direction: 1
-  current_health: 0
-  current_attack: 0
-  FloatingTextPrefab: {fileID: 1120425126322546, guid: 093bcb706ed94e3428f7bd3526dbc7e6,
-    type: 2}
-  dead: 0
-  health_bar: {fileID: 1647412176236576}
-  anim: {fileID: 0}
-  editor: {fileID: 0}
-  Unit_Stats_Panel: {fileID: 1531727583569306}
-  currently_attacking: 0
-  attack_blink_color:
-    serializedVersion: 2
-    rgba: 4282253155
-  removed: 0
-  attackSound: {fileID: 82126319852824748}
-  hitSound: {fileID: 82251617378530748}
-  moveSound: {fileID: 82634392391321608}
 --- !u!114 &114029103351844066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1696,6 +1685,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ordered_layer: -1
+--- !u!114 &114477768483276030
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1316997111080338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b56cf06341c044ba26472bd11dd362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ordered_layer: 3
 --- !u!114 &114490971541470354
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2160,6 +2161,57 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Steve Rogers
+--- !u!114 &114969397969523808
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1702919331231088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c556f986eafa16644a098513832d694d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit_type: Fortress
+  unit_name: 
+  unit_ID: 1
+  mobility: 0
+  current_mobility: 0
+  attackRange: 0
+  health: 0
+  attack: 0
+  basedmg: 0
+  crit: 0
+  miss: 0
+  crit_multiplier: 0
+  weight: 0
+  defense: 0
+  Icon: {fileID: 21300000, guid: 058137bcb777c407a95a9b4809cdc35b, type: 3}
+  cost: 0
+  slowing_counter: 0
+  direction: 1
+  current_health: 0
+  current_attack: 0
+  FloatingTextPrefab: {fileID: 1120425126322546, guid: 093bcb706ed94e3428f7bd3526dbc7e6,
+    type: 2}
+  dead: 0
+  health_bar: {fileID: 1647412176236576}
+  anim: {fileID: 0}
+  editor: {fileID: 0}
+  Unit_Stats_Panel: {fileID: 1531727583569306}
+  currently_attacking: 0
+  attack_blink_color:
+    serializedVersion: 2
+    rgba: 0
+  removed: 0
+  slowed: 0
+  end_attack_without_retaliate: 0
+  attackSound: {fileID: 82634392391321608}
+  hitSound: {fileID: 82126319852824748}
+  moveSound: {fileID: 82251617378530748}
+  selection_arrow: {fileID: 1316997111080338}
+  myType: 1
+  wasBuffed: []
 --- !u!114 &114982546665357088
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2408,6 +2460,52 @@ SpriteRenderer:
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!212 &212766549505613818
+SpriteRenderer:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1316997111080338}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -839455769
+  m_SortingLayer: 1
+  m_SortingOrder: 3
+  m_Sprite: {fileID: 21300000, guid: 4a96eb7fdd79d744e888b3bec674324c, type: 3}
+  m_Color: {r: 1, g: 0, b: 0.047002792, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 4, y: 4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

@@ -163,7 +163,7 @@ public class Grid : MonoBehaviour {
                  *else if(grass)
                  * distance += 2
                  */
-                if (neighbor.tag == "SlowingTile")
+                if (neighbor.tag == "Water")
                     distance += 2;
                 else
                     distance += 1;
@@ -467,7 +467,7 @@ public class Grid : MonoBehaviour {
                  *else if(grass)
                  * distance += 2
                  */
-                if (current.tag == "SlowingTile")
+                if (current.tag == "Water")
                     distance += 2;
                 else 
                     distance += 1;
