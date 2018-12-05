@@ -3,16 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PauseMenu : MonoBehaviour {
-    public GameObject UI_P1_Sel;
-    public GameObject UI_P2_Sel;
-    public GameObject UI_P1_Portraits;
-    public GameObject UI_P2_Portraits;
-    public GameObject UI_Turn;
-    public GameObject pause_menu;
-
-    public bool pause_on = false;
-    public float next_time = 0.0f;
-
+    public Transform pause_menu;
+    public Transform editor;
+    public Transform cursor;
+    public Transform controls_menu;
     // Use this for initialization
     void Start () {
 		
@@ -20,22 +14,32 @@ public class PauseMenu : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetButton("J1 Start Button") && next_time < Time.time)
+		if(Input.GetButtonDown("J1 Start Button") || Input.GetButtonDown("J2 Start Button"))
         {
-            if(pause_on) // pause on, set everything back on
+            if(pause_menu.gameObject.activeInHierarchy == false)
             {
-                next_time += 1f;
-                Time.timeScale = 1.0f;
-                pause_menu.SetActive(false);
-                pause_on = false;
+                editor.gameObject.SetActive(false);
+                cursor.gameObject.SetActive(false);
+                pause_menu.gameObject.SetActive(true);
+                Time.timeScale = 0;
             }
-            else // pause off, freeze everything
+            else
             {
-                next_time += 1f;
-                Time.timeScale = 0.0f;
-                pause_menu.SetActive(true);
-                pause_on = true;
+                editor.gameObject.SetActive(true);
+                cursor.gameObject.SetActive(true);
+                pause_menu.gameObject.SetActive(false);
+                Time.timeScale = 1;
             }
         }
-	}
+        GotoControls();
+    }
+
+    public void GotoControls()
+    {
+        if (Input.GetButtonDown("J1 X Button") || Input.GetButtonDown("J2 X Button"))
+        {
+            pause_menu.gameObject.SetActive(false);
+            controls_menu.gameObject.SetActive(true);
+        }
+    }
 }
