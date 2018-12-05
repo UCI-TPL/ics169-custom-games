@@ -56,11 +56,11 @@ public class FortressHero : HeroUnit {
 
     public override void Buff(StartUnit unit)
     {
-        unit.defense += 30;
+        unit.defense += 15;
     }
 
     public override void Debuf(StartUnit unit)
     {
-        unit.defense -= 30;
+        unit.defense -= 15;
     }
 }

@@ -137,6 +137,7 @@ public class StartUnit : MonoBehaviour
             float crit_chance = Random.value;
             float miss_chance = Random.value;
             float damage = current_attack - targetable[selectedTarget].unitOnTile.defense;
+            Debug.Log("Damage: " + damage);
             int dmg_txt = (int)damage;
             bool crit_happened = false;
 
@@ -341,7 +342,7 @@ public class StartUnit : MonoBehaviour
 
         float crit_chance = Random.value;
         float miss_chance = Random.value;
-        float damage = current_attack;
+        float damage = current_attack - attacked_unit.defense;
         int dmg_txt = (int)damage;
         bool crit_happened = false;
 
