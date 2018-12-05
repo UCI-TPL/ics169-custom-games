@@ -1975,9 +1975,9 @@ MonoBehaviour:
   miss: 0
   crit_multiplier: 0
   weight: 0
-  selectedTarget: 0
   Icon: {fileID: 21300000, guid: 2086ccd06548046d48f57be397fe8b93, type: 3}
   cost: 0
+  slowing_counter: 0
   direction: 1
   current_health: 0
   current_attack: 0
@@ -1998,7 +1998,6 @@ MonoBehaviour:
   attackSound: {fileID: 82247731109023220}
   hitSound: {fileID: 82728571445358314}
   moveSound: {fileID: 82447873015287384}
-  selection_arrow: {fileID: 1393892994930828}
 --- !u!114 &114892380320799950
 MonoBehaviour:
   m_ObjectHideFlags: 1
