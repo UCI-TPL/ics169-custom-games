@@ -66,7 +66,7 @@ public class EnvironmentalHazard : MonoBehaviour {
             if(frontier[j].occupied)
             {
                 frontier[j].unitOnTile.current_health -= 10;
-                Debug.Log("hurt unit");
+                Debug.Log("Hazard effected " + frontier[j].unitOnTile.unit_name + " for 10 damage");
             }
         }
         yield return new WaitForSeconds(anim_time);
