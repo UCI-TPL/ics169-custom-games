@@ -221,6 +221,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4704665018228222}
   - component: {fileID: 212394265475910232}
+  - component: {fileID: 114497897307692152}
+  - component: {fileID: 95069317208905862}
   m_Layer: 0
   m_Name: Selection_Arrow
   m_TagString: Untagged
@@ -1181,6 +1183,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &95069317208905862
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1318686690141410}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2086ebd1708963a44823458115c3c851, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!95 &95515793802386748
 Animator:
   serializedVersion: 3
@@ -1710,6 +1730,18 @@ MonoBehaviour:
   hitSound: {fileID: 82314993178317642}
   moveSound: {fileID: 82312614700532162}
   selection_arrow: {fileID: 1318686690141410}
+--- !u!114 &114497897307692152
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1318686690141410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b56cf06341c044ba26472bd11dd362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ordered_layer: 3
 --- !u!114 &114499944962007940
 MonoBehaviour:
   m_ObjectHideFlags: 1
