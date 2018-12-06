@@ -94,6 +94,7 @@ public class StartUnit : MonoBehaviour
     public virtual IEnumerator BasicAttack(Grid hexGrid, HexagonCell unitCell) // return bool yes if dead false if no
     {
         end_attack_without_retaliate = true;
+
         
         //add a call to a retaliate function on the other unit   
         List<HexagonCell> targetable = new List<HexagonCell>();
@@ -233,6 +234,7 @@ public class StartUnit : MonoBehaviour
                 }
                     
             }
+            Debug.log(unitCell.unitOnTile.unit_name + " attacked " + attacked_unit.unit_name + " for " + damage);
             TakeDamage(attacked_unit, damage);
 
             //attacked_unit.current_health -= damage;
