@@ -94,6 +94,7 @@ public class StartUnit : MonoBehaviour
     public virtual IEnumerator BasicAttack(Grid hexGrid, HexagonCell unitCell) // return bool yes if dead false if no
     {
         end_attack_without_retaliate = true;
+        string name = unitCell.unitOnTile.unit_name; 
 
         
         //add a call to a retaliate function on the other unit   
@@ -234,7 +235,7 @@ public class StartUnit : MonoBehaviour
                 }
                     
             }
-            Debug.log(unitCell.unitOnTile.unit_name + " attacked " + attacked_unit.unit_name + " for " + damage);
+            Debug.Log(name + " attacked " + attacked_unit.unit_name + " for " + damage);
             TakeDamage(attacked_unit, damage);
 
             //attacked_unit.current_health -= damage;
@@ -271,21 +272,21 @@ public class StartUnit : MonoBehaviour
                     Debug.Log("acquiring buff");
                     if (randBuff == 0) // movement buff
                     {
-                        Debug.Log("movement buff");
+                        Debug.Log(name + " got a movement buff");
                         current_mobility += 1;
                         if (current_health != health)
                             current_health += 10;
                     }
                     else if (randBuff == 1) // crit buff
                     {
-                        Debug.Log("crit buff");
+                        Debug.Log(name + " got a crit buff");
                         crit += 0.20f;
                         if (current_health != health)
                             current_health += 10;
                     }
                     else if(randBuff == 2) // attack buff
                     {
-                        Debug.Log("attack buff");
+                        Debug.Log(name + " got an attack buff");
                         attack += 25;
                         current_attack += 25;
                         if (current_health != health)
@@ -293,7 +294,7 @@ public class StartUnit : MonoBehaviour
                     }
                     else // health buff
                     {
-                        Debug.Log("health buff");
+                        Debug.Log(name + " got a health buff");
                         health += 100;
                         current_health = health;
                     }
@@ -332,6 +333,8 @@ public class StartUnit : MonoBehaviour
     public virtual IEnumerator Retaliate(Grid hexGrid, HexagonCell unitCell_to_attack, HexagonCell unitCell_is_attacking) // return bool yes if dead false if no
     {
         //Debug.Log("Called_Retaliate");
+       	string attacker = unitCell_is_attacking.unitOnTile.unit_name;
+       	string receiver = unitCell_to_attack.unitOnTile.unit_name;
         editor.cursor.Assign_Position(this.transform.position, hexGrid.GetCell(this.transform.position).coords);
         editor.Main_Cam.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, editor.Main_Cam.transform.position.z);
         //StartCoroutine(this.Blink(Color.green, this, Time.time + 0.8f));
@@ -439,7 +442,7 @@ public class StartUnit : MonoBehaviour
         //    float percenthealth = attacked_unit.current_health / attacked_unit.health;
         //    attacked_unit.current_attack *= percenthealth;
         //}
-
+        Debug.Log("Retaliation: " + attacker + "hit " + receiver + "for " + damage);
         TakeDamage(attacked_unit, damage);
 
         StartCoroutine(Retaliate_Anim(attacked_unit));
@@ -465,7 +468,7 @@ public class StartUnit : MonoBehaviour
 
     public IEnumerator HopToPlace(Grid hexGrid, HexagonCell unitCell, int index, int distance)
     {
-        
+        string name = unitCell.unitOnTile.unit_name;
         Stack<HexagonCell> result = hexGrid.FindPath(unitCell, hexGrid.cells[index]);
         HexagonCoord current = unitCell.coords;
         while(result.Count > 0)
@@ -497,10 +500,12 @@ public class StartUnit : MonoBehaviour
         if (slowed)
         {
             slowing_counter -= 1;
+            Debug.Log(name + " is slowed for " + slowing_counter + " more turns");
             if (slowing_counter == 0)
             {
                 current_mobility = mobility;
                 slowed = false;
+                Debug.Log(name + " is no longer slowed");
             }
         }
 
