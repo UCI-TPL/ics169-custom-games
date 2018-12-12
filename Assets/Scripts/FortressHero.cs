@@ -56,11 +56,13 @@ public class FortressHero : HeroUnit {
 
     public override void Buff(StartUnit unit)
     {
+        Debug.Log(unit.unit_name + " was buffed with +15 defense");
         unit.defense += 15;
     }
 
     public override void Debuf(StartUnit unit)
     {
+        Debug.Log(unit.unit_name + " lost its buff of +15 defense");
         unit.defense -= 15;
     }
 }

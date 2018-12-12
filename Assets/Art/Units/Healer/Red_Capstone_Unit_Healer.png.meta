@@ -1,7 +1,10 @@
 fileFormatVersion: 2
 guid: 27a7c025c0b7a4b6081df839f69176b1
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Red_Capstone_Unit_Healer_0
+    21300002: Red_Capstone_Unit_Healer_1
+    21300004: Red_Capstone_Unit_Healer_2
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -40,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -69,9 +72,80 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Red_Capstone_Unit_Healer_0
+      rect:
+        serializedVersion: 2
+        x: 43
+        y: 831
+        width: 210
+        height: 222
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 177a14ed165bebd4ea20d93679eb7b2f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red_Capstone_Unit_Healer_1
+      rect:
+        serializedVersion: 2
+        x: 422.00003
+        y: 745
+        width: 236.99997
+        height: 317
+      alignment: 9
+      pivot: {x: 0.50843877, y: 0.5015773}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb3aeea59832eb74da171fe35945cdd0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red_Capstone_Unit_Healer_2
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 391
+        width: 377
+        height: 207
+      alignment: 9
+      pivot: {x: 0.5, y: 0.49758452}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c3effafad3f5824aa6650a5cae30ead
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -83,6 +157,6 @@ TextureImporter:
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
-  userData: 
+  userData: 636796453559818219
   assetBundleName: 
   assetBundleVariant: 

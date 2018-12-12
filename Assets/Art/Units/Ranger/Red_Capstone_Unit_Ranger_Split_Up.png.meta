@@ -1,7 +1,10 @@
 fileFormatVersion: 2
-guid: 2449eaf7ceca9a14cba159acf1a80ae3
+guid: cd8f3f7ebf7914858b975c216fae5a82
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Red_Capstone_Unit_Ranger_Split_Up_0
+    21300002: Red_Capstone_Unit_Ranger_Split_Up_1
+    21300004: Red_Capstone_Unit_Ranger_Split_Up_2
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -40,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -69,13 +72,84 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Red_Capstone_Unit_Ranger_Split_Up_0
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 849
+        width: 234
+        height: 216
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 973ddcca8c0bb124f95bb43334e7d342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red_Capstone_Unit_Ranger_Split_Up_1
+      rect:
+        serializedVersion: 2
+        x: 436
+        y: 719
+        width: 219
+        height: 326
+      alignment: 9
+      pivot: {x: 0.49999997, y: 0.5030675}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b64ebf0550e4ac94998cffc619f9f538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red_Capstone_Unit_Ranger_Split_Up_2
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 278
+        width: 451
+        height: 292
+      alignment: 9
+      pivot: {x: 0.49889135, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f4dfacd36fd887478b44bfb39f624ef
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: d4bb3f07b55bb23449048580a64cda7b
+    spriteID: 869d8419d8b6d48f8bb8f81f6f016bf6
     vertices: []
     indices: 
     edges: []
@@ -83,6 +157,6 @@ TextureImporter:
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
-  userData: 
+  userData: 636796460659946921
   assetBundleName: 
   assetBundleVariant: 

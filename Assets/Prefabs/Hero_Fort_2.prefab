@@ -240,6 +240,7 @@ GameObject:
   - component: {fileID: 4809425613254840}
   - component: {fileID: 212766549505613818}
   - component: {fileID: 114477768483276030}
+  - component: {fileID: 95497644254659446}
   m_Layer: 0
   m_Name: Selection_Arrow
   m_TagString: Untagged
@@ -912,7 +913,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 3eb0835f582ad4a798d39458af1a37ea, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1007,7 +1008,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 10ddb3d20bb7847a1b1856a362cdae35, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1102,7 +1103,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: dab90bd61196849ba8c9d123d00dbaf2, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1196,6 +1197,24 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: b68e5d886b57e417da9d089042c1588d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!95 &95497644254659446
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1316997111080338}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2086ebd1708963a44823458115c3c851, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1824,6 +1843,11 @@ MonoBehaviour:
   turn_info_Image: {fileID: 0}
   stats_2: {fileID: 0}
   obj_type: {fileID: 114239773332152654}
+  buff_background: {fileID: 0}
+  attack_buff: {fileID: 0}
+  health_buff: {fileID: 0}
+  critical_buff: {fileID: 0}
+  mobility_buff: {fileID: 0}
 --- !u!114 &114659451954687842
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2207,10 +2231,17 @@ MonoBehaviour:
   removed: 0
   slowed: 0
   end_attack_without_retaliate: 0
-  attackSound: {fileID: 82634392391321608}
-  hitSound: {fileID: 82126319852824748}
-  moveSound: {fileID: 82251617378530748}
+  crit_buff: 0
+  attack_buff: 0
+  health_buff: 0
+  move_buff: 0
+  attackSound: {fileID: 82126319852824748}
+  hitSound: {fileID: 82251617378530748}
+  moveSound: {fileID: 82634392391321608}
   selection_arrow: {fileID: 1316997111080338}
+  Moving_Lines_List: []
+  Attacking_Lines_List: []
+  Getting_Hit_Lines_List: []
   myType: 1
   wasBuffed: []
 --- !u!114 &114982546665357088
@@ -2456,7 +2487,7 @@ SpriteRenderer:
   m_SortingLayer: -1
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: de64c35b70fc16a44870f718a6978a35, type: 3}
-  m_Color: {r: 0.47843137, g: 0.2901961, b: 0.50980395, a: 1}
+  m_Color: {r: 1, g: 0.627451, b: 0.75686276, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

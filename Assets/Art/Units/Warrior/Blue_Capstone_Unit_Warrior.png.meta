@@ -1,7 +1,11 @@
 fileFormatVersion: 2
-guid: 911a17e9a4cf80e49b315fb41d431555
+guid: 46e57a2eca8dd4850b7546200f56cfb5
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Blue_Capstone_Unit_Warrior_0
+    21300002: Blue_Capstone_Unit_Warrior_1
+    21300004: Blue_Capstone_Unit_Warrior_2
+    21300006: Blue_Capstone_Unit_Warrior_3
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -40,7 +44,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -69,13 +73,104 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Blue_Capstone_Unit_Warrior_0
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 758
+        width: 230
+        height: 295
+      alignment: 9
+      pivot: {x: 0.49999997, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10488958f796d42d5aaa6040836b8af2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Capstone_Unit_Warrior_1
+      rect:
+        serializedVersion: 2
+        x: 361.00003
+        y: 815.00006
+        width: 188.99997
+        height: 230.99994
+      alignment: 9
+      pivot: {x: 0.4999999, y: 0.50216436}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9143ef16197d7407bb1e5c49f17fbdb9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Capstone_Unit_Warrior_2
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 436
+        width: 159
+        height: 237
+      alignment: 9
+      pivot: {x: 0.49371067, y: 0.5042194}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 793459cc7b8d24ca28f9236458360a9e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_Capstone_Unit_Warrior_3
+      rect:
+        serializedVersion: 2
+        x: 407
+        y: 511
+        width: 139
+        height: 143
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ed8b9b98d7a84cd1a9ee41dbac0b8b8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 434985c809123a34fa2b63008787a2e5
+    spriteID: f21e10a4beb924e41a288e547d304005
     vertices: []
     indices: 
     edges: []
@@ -83,6 +178,6 @@ TextureImporter:
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
-  userData: 
+  userData: 636796467691721135
   assetBundleName: 
   assetBundleVariant: 

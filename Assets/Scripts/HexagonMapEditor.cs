@@ -66,6 +66,12 @@ public class HexagonMapEditor : MonoBehaviour
     public bool wasP1Turn = true;
     public bool debuffed = false;
 
+    /***************************************************************************/
+    public AudioSource select_sound, turn_change_sound, cycle_unit_sound;
+
+
+    /***************************************************************************/
+    private bool first_turn = true;
 
     /***********************ENVIRONMENTAL VARIABLES*****************************/
     public EnvironmentalHazard[] hazardList; // list of all the types of hazards possible
@@ -152,6 +158,7 @@ public class HexagonMapEditor : MonoBehaviour
         {
             Snap_To_First_Unit();
             p1_unit_rotation_value = 0;
+            //Snap_To_Next_Unit(true);
         }
         //StartCoroutine(InitializingTeams());
         P1_Team_portrait_UI.Initialize_Portraits(P1Team);
@@ -213,6 +220,8 @@ public class HexagonMapEditor : MonoBehaviour
                 }
                 if (hazardsFinished) // when hazarrds are done
                 {
+                    BattleUI_Turn.turn.text = "PLAYER 1";
+                    BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P1_Color;
                     StartCoroutine(turn_animation_starter());
                     environmentExecuting = false;
                     hazardsExecuting = false;
@@ -225,6 +234,15 @@ public class HexagonMapEditor : MonoBehaviour
                 
                 break;
             case (TurnStates.P1_MOVE):
+                if (first_turn)
+                {
+                    first_turn = false;
+                    if (MoveableUnits.Count > 0)
+                    {
+                        Snap_To_First_Unit();
+                        p1_unit_rotation_value = 0;
+                    }
+                }
                 if (P1Team[0].GetComponent<HeroUnit>().myType == HeroUnit.BuffType.EveryTurn && !debuffed)
                 {
                     HexagonCell myCell = hexGrid.GetCell(P1Team[0].transform.position);
@@ -283,6 +301,7 @@ public class HexagonMapEditor : MonoBehaviour
                     {
                         if(P1Team[attack_count].currently_attacking == false)
                         {
+                            
                             //next unit attacks because prev has finished
                             attack_count += 1;
                             StartCoroutine(P1Team[attack_count].BasicAttack(hexGrid, hexGrid.GetCell(P1Team[attack_count].transform.position)));
@@ -294,6 +313,7 @@ public class HexagonMapEditor : MonoBehaviour
                     }
                     if (P1Team[P1Team.Count - 1] == null || P1Team[P1Team.Count - 1].currently_attacking == false) 
                     {
+                        
                         //the final unit has finished attacking or there were no units to attack in the first place
                         attacking = true;
                     }
@@ -392,6 +412,7 @@ public class HexagonMapEditor : MonoBehaviour
                     {
                         if (P2Team[attack_count].currently_attacking == false)
                         {
+                            
                             //next unit attacks because prev has finished
                             attack_count += 1;
                             
@@ -405,6 +426,7 @@ public class HexagonMapEditor : MonoBehaviour
 
                     if (P2Team[P2Team.Count - 1] == null || P2Team[P2Team.Count - 1].currently_attacking == false) // where the index out of range is being thrown
                     {
+                        
                         //the final unit has finished attacking or there were no units to attack in the first place
                         attacking = true;
                     }
@@ -548,9 +570,13 @@ public class HexagonMapEditor : MonoBehaviour
             if (!EventSystem.current.IsPointerOverGameObject())
             {
                 if (Input.GetButtonDown(joystick + "A Button"))
+                {
                     HandleInput();
+                }
+                    
                 if (Input.GetButtonDown(joystick + "B Button"))
                 {
+                    select_sound.Play();
                     DeselectUnit();
                 }
             }
@@ -615,16 +641,22 @@ public class HexagonMapEditor : MonoBehaviour
                         Snap_To_Next_Unit(true);
                         //Debug.Log("Snapped");
                     }
+                    //Play Movement Selected Sound
+                    select_sound.Play();
                 }
             }
             else
             {
                 SelectUnit(currentCell, index); // make the selected unit that unit
+                //Play Unit Selected Sound
+                select_sound.Play();
             }
         }
         else if (!currentCell.occupied && isUnitSelected && !attacking) // a unit is already selected
         {
             StartCoroutine(MoveUnit(hexGrid.GetCell(SelectedUnit.transform.position), currentCell));//move that selected unit
+            //Play Movement Selected Sound
+            select_sound.Play();
         }
 
     }
@@ -652,7 +684,7 @@ public class HexagonMapEditor : MonoBehaviour
         SelectedUnit = current.unitOnTile;
         SelectedUnit.Show_Arrow_Select();
         //current.Show_Selected_Icon();
-        StartCoroutine(SelectedUnit.Blink(Color.grey, SelectedUnit, Time.time + 0.6f));
+        //StartCoroutine(SelectedUnit.Blink(Color.grey, SelectedUnit, Time.time + 0.6f));
         unitCell = hexGrid.cells[index];
         isUnitSelected = true;
 
@@ -841,36 +873,67 @@ public class HexagonMapEditor : MonoBehaviour
 
                 if (currentState == TurnStates.P1_MOVE && SelectedUnit.gameObject.CompareTag("Player 1"))
                 {
-                    if (cursor.coords.FindDistanceTo(hexGrid.cells[i].coords) <= range && hexGrid.cells[i].occupied
-                        && hexGrid.cells[i].unitOnTile.gameObject.CompareTag("Player 2"))
-                    {
-                        //hexGrid.cells[i].spriteRenderer.color = color_r;
-                        //in range create blinking crosshair
-                        hexGrid.cells[i].Show_Cross_Icon();
-
-                    }
-                    else if (hexGrid.cells[i].occupied && hexGrid.cells[i].unitOnTile.gameObject.CompareTag("Player 2"))
+                    if (hexGrid.cells[i].occupied)
                     {
                         //hexGrid.cells[i].spriteRenderer.color = color_w;
                         hexGrid.cells[i].Hide_Cross_Icon();
+                        hexGrid.cells[i].Hide_Selected_Icon();
                     }
+
+                    if (cursor.coords.FindDistanceTo(hexGrid.cells[i].coords) <= range && hexGrid.cells[i].occupied
+                        && (hexGrid.cells[i].unitOnTile.gameObject.CompareTag("Player 2") || hexGrid.cells[i].unitOnTile.gameObject.CompareTag("TeamBuff")))
+                    {
+                        //hexGrid.cells[i].spriteRenderer.color = color_r;
+                        //in range create blinking crosshair
+                        if(SelectedUnit.unit_type != "Healer")
+                        {
+                            hexGrid.cells[i].Show_Cross_Icon();
+                        }
+                    }
+                    else if (cursor.coords.FindDistanceTo(hexGrid.cells[i].coords) <= range && hexGrid.cells[i].occupied && hexGrid.cells[i].unitOnTile.gameObject.CompareTag("Player 1")
+                        && hexGrid.cells[i].unitOnTile.current_health < hexGrid.cells[i].unitOnTile.health && hexGrid.cells[i].unitOnTile != SelectedUnit)
+                    {
+                        if (SelectedUnit.unit_type == "Healer")
+                        {
+                            //Show healable ICON
+                            hexGrid.cells[i].Show_Selected_Icon();
+                        }
+                    }
+                    
+                    
                 }
 
                 //Should make editor change a text value so that we dont have to do a text comapare every time
                 else if (currentState == TurnStates.P2_MOVE && SelectedUnit.gameObject.CompareTag("Player 2"))
                 {
-                    if (cursor.coords.FindDistanceTo(hexGrid.cells[i].coords) <= range && hexGrid.cells[i].occupied
-                        && hexGrid.cells[i].unitOnTile.gameObject.CompareTag("Player 1"))
-                    {
-                        //hexGrid.cells[i].spriteRenderer.color = color_r;
-                        //in range
-                        hexGrid.cells[i].Show_Cross_Icon();
-                    }
-                    else if (hexGrid.cells[i].occupied && hexGrid.cells[i].unitOnTile.gameObject.CompareTag("Player 1"))
+                    if (hexGrid.cells[i].occupied)
                     {
                         //hexGrid.cells[i].spriteRenderer.color = color_w;
                         hexGrid.cells[i].Hide_Cross_Icon();
+                        hexGrid.cells[i].Hide_Selected_Icon();
                     }
+
+                    if (cursor.coords.FindDistanceTo(hexGrid.cells[i].coords) <= range && hexGrid.cells[i].occupied
+                        && (hexGrid.cells[i].unitOnTile.gameObject.CompareTag("Player 1") || hexGrid.cells[i].unitOnTile.gameObject.CompareTag("TeamBuff")))
+                    {
+                        //hexGrid.cells[i].spriteRenderer.color = color_r;
+                        //in range
+                        if (SelectedUnit.unit_type != "Healer")
+                        {
+                            hexGrid.cells[i].Show_Cross_Icon();
+                        }
+                    }
+                    else if (cursor.coords.FindDistanceTo(hexGrid.cells[i].coords) <= range && hexGrid.cells[i].occupied && hexGrid.cells[i].unitOnTile.gameObject.CompareTag("Player 2")
+                        && hexGrid.cells[i].unitOnTile.current_health < hexGrid.cells[i].unitOnTile.health && hexGrid.cells[i].unitOnTile != SelectedUnit)
+                    {
+                        if (SelectedUnit.unit_type == "Healer")
+                        {
+                            //Show healable ICON
+                            hexGrid.cells[i].Show_Selected_Icon();
+                        }
+                    }
+                    
+                    
                 }
 
             }
@@ -890,34 +953,68 @@ public class HexagonMapEditor : MonoBehaviour
         return false;
     }
 
-    public void Snap_To_First_Unit()
-    {
-        StartUnit unit_to_select;
-        HexagonCell currentCell = hexGrid.Get_Cell_Index(cursor.coords);
-        int unit_to_select_index = 0;
-        int index = 0;
-
-        unit_to_select = MoveableUnits[unit_to_select_index];
-        //get coordinates of the tile under the selected unit and give them to the cursor
-        //cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
-        //move the cursor to the position of the newly selected tile/unit
-        //cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
-        HexagonCoord _new_coord = HexagonCoord.FromPosition(unit_to_select.transform.position);
-        cursor.Assign_Position(hexGrid.Get_Cell_Index(_new_coord).gameObject.transform.position, _new_coord);
-        currentCell = hexGrid.Get_Cell_Index(cursor.coords);
-        index = cursor.coords.X_coord + cursor.coords.Z_coord * hexGrid.width + cursor.coords.Z_coord / 2;
-        if (currentCell.occupied) // if clicked and there is a unit there
-        {
-            SelectUnit(currentCell, index); // make the selected unit that unit
-            Show_Units_In_Range();
-        }
-    }
+    
 
     public void Assign_BUI_Var(BattleUI _UI)
     {
         _UI.obj_name.text = SelectedUnit.unit_name;
         _UI.unit_icon.GetComponent<Image>().sprite = SelectedUnit.Icon;
         _UI.health_Bar.GetComponent<Image>().fillAmount = SelectedUnit.current_health / SelectedUnit.health;
+        Show_Current_Buffs(_UI);
+    }
+
+    public void Show_Current_Buffs(BattleUI _UI)
+    {
+        bool no_buffs = true;
+
+        if(SelectedUnit.attack_buff == true)
+        {
+            _UI.attack_buff.SetActive(true);
+            no_buffs = false;
+        }
+        else
+        {
+            _UI.attack_buff.SetActive(false);
+        }
+
+        if (SelectedUnit.health_buff == true)
+        {
+            _UI.health_buff.SetActive(true);
+            no_buffs = false;
+        }
+        else
+        {
+            _UI.health_buff.SetActive(false);
+        }
+
+        if(SelectedUnit.move_buff == true)
+        {
+            _UI.mobility_buff.SetActive(true);
+            no_buffs = false;
+        }
+        else
+        {
+            _UI.mobility_buff.SetActive(false);
+        }
+
+        if(SelectedUnit.crit_buff == true)
+        {
+            _UI.critical_buff.SetActive(true);
+            no_buffs = false;
+        }
+        else
+        {
+            _UI.critical_buff.SetActive(false);
+        }
+
+        if (no_buffs)
+        {
+            _UI.buff_background.SetActive(false);
+        }
+        else
+        {
+            _UI.buff_background.SetActive(true);
+        }
     }
 
     public void Assign_Stats_Var(BattleUI _UI, StartUnit _unit)
@@ -979,9 +1076,34 @@ public class HexagonMapEditor : MonoBehaviour
 
     IEnumerator turn_animation_starter()
     {
+        turn_change_sound.Play();
         BattleUI_Turn.turn_info_Image.GetComponent<Animator>().SetBool("Transition", true);
         yield return new WaitForSeconds(1f);
         BattleUI_Turn.turn_info_Image.GetComponent<Animator>().SetBool("Transition", false);
+    }
+
+    public void Snap_To_First_Unit()
+    {
+        StartUnit unit_to_select;
+        HexagonCell currentCell = hexGrid.Get_Cell_Index(cursor.coords);
+        int unit_to_select_index = 0;
+        int index = 0;
+
+        unit_to_select = MoveableUnits[unit_to_select_index];
+        //get coordinates of the tile under the selected unit and give them to the cursor
+        //cursor.coords = HexagonCoord.FromPosition(unit_to_select.transform.position);
+        //move the cursor to the position of the newly selected tile/unit
+        //cursor.transform.position = hexGrid.Get_Cell_Index(cursor.coords).gameObject.transform.position;
+        HexagonCoord _new_coord = HexagonCoord.FromPosition(unit_to_select.transform.position);
+        cursor.Assign_Position(hexGrid.Get_Cell_Index(_new_coord).gameObject.transform.position, _new_coord);
+        currentCell = hexGrid.Get_Cell_Index(cursor.coords);
+        index = cursor.coords.X_coord + cursor.coords.Z_coord * hexGrid.width + cursor.coords.Z_coord / 2;
+        if (currentCell.occupied) // if clicked and there is a unit there
+        {
+            SelectUnit(currentCell, index); // make the selected unit that unit
+            Show_Units_In_Range();
+            SelectedUnit.Unit_Stats_Panel.SetActive(true);
+        }
     }
 
     public void Snap_To_Next_Unit(bool back_forward)
@@ -993,6 +1115,8 @@ public class HexagonMapEditor : MonoBehaviour
         HexagonCell currentCell = hexGrid.Get_Cell_Index(cursor.coords);
         int index = 0;
         HexagonCoord _new_coord;
+        //play swap to next unit sound
+        cycle_unit_sound.Play();
 
         if (back_forward)
         {
@@ -1016,6 +1140,7 @@ public class HexagonMapEditor : MonoBehaviour
                     {
                         SelectUnit(currentCell, index); // make the selected unit that unit
                         Show_Units_In_Range();
+                        SelectedUnit.Unit_Stats_Panel.SetActive(true);
                     }
                     break;
                 case (TurnStates.P2_MOVE):
@@ -1036,6 +1161,7 @@ public class HexagonMapEditor : MonoBehaviour
                     {
                         SelectUnit(currentCell, index); // make the selected unit that unit
                         Show_Units_In_Range();
+                        SelectedUnit.Unit_Stats_Panel.SetActive(true);
                     }
                     break;
             }
@@ -1062,6 +1188,7 @@ public class HexagonMapEditor : MonoBehaviour
                     {
                         SelectUnit(currentCell, index); // make the selected unit that unit
                         Show_Units_In_Range();
+                        SelectedUnit.Unit_Stats_Panel.SetActive(true);
                     }
                     break;
                 case (TurnStates.P2_MOVE):
@@ -1082,6 +1209,7 @@ public class HexagonMapEditor : MonoBehaviour
                     {
                         SelectUnit(currentCell, index); // make the selected unit that unit
                         Show_Units_In_Range();
+                        SelectedUnit.Unit_Stats_Panel.SetActive(true);
                     }
                     break;
             }
