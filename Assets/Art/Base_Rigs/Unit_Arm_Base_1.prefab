@@ -1856,6 +1856,7 @@ MonoBehaviour:
   defense: 0
   Icon: {fileID: 21300000, guid: 2086ccd06548046d48f57be397fe8b93, type: 3}
   cost: 0
+  description: 
   slowing_counter: 0
   direction: 1
   current_health: 0
@@ -1877,6 +1878,7 @@ MonoBehaviour:
   attackSound: {fileID: 82085219187140854}
   hitSound: {fileID: 82824166287239792}
   moveSound: {fileID: 82259894984176984}
+  selection_arrow: {fileID: 0}
 --- !u!114 &114758660409970144
 MonoBehaviour:
   m_ObjectHideFlags: 1

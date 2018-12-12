@@ -2543,7 +2543,6 @@ MonoBehaviour:
   - {fileID: 114565556080221656, guid: f3506773eed3ba44c80ef9f1cb562563, type: 2}
   - {fileID: 114565556080221656, guid: f3506773eed3ba44c80ef9f1cb562563, type: 2}
   - {fileID: 114750922995084544, guid: 5de81a82645aa4496b65a418302ae378, type: 2}
-
   P1start: 68000000690000006a0000007c0000007d0000007e0000009100000092000000
   P2start: e9000000ea000000fc000000fd000000fe000000100100001101000012010000
   P1Team: []
@@ -2566,6 +2565,9 @@ MonoBehaviour:
   - {fileID: 114307976132037704, guid: 6ac0d3a6bfffb0d4baa85b1cf814330d, type: 2}
   incoming: 0
   incoming_in: 2147483647
+  hazardsExecuting: 0
+  hazardsFinished: 0
+  hazardCount: 0
   allow_cursor_control: 0
   Units_To_Delete: []
   max_sprites_per_unit: 4
@@ -8605,7 +8607,7 @@ MonoBehaviour:
   twenty: 1
   thirty: 0
   sprites_per_tile: 5
-  buffPrefab: {fileID: 1215226028949906, guid: f21257dcd3912814ab21c0be58866351, type: 2}
+  buffPrefab: {fileID: 1215226028949906, guid: cbe895fa99f9fcf4ea6dcc5fc5b2d541, type: 2}
   cellPrefabs:
   - {fileID: 114090098638288174, guid: 9d4ee7f126fd0534f8d63d538fcd7dad, type: 2}
   - {fileID: 114090098638288174, guid: 08dcb04ea17cf3749b56fb2c052006fe, type: 2}
@@ -8696,6 +8698,9 @@ MonoBehaviour:
   hazardList: []
   incoming: 0
   incoming_in: 2147483647
+  hazardsExecuting: 0
+  hazardsFinished: 0
+  hazardCount: 0
   allow_cursor_control: 0
   Units_To_Delete: []
   max_sprites_per_unit: 0
