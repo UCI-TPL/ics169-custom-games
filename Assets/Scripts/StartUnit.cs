@@ -56,7 +56,12 @@ public class StartUnit : MonoBehaviour
     //Attack, Hit, and Move sounds
     public AudioSource attackSound, hitSound, moveSound;
     public GameObject selection_arrow;
-
+    [SerializeField]
+    public AudioSource[] Moving_Lines_List = new AudioSource[0];
+    [SerializeField]
+    public AudioSource[] Attacking_Lines_List = new AudioSource[0];
+    [SerializeField]
+    public AudioSource[] Getting_Hit_Lines_List = new AudioSource[0];
 
 
     // Use this for initialization
@@ -378,8 +383,16 @@ public class StartUnit : MonoBehaviour
         }
 
         //Half Damage On Retaliate???
-        damage = damage * 0.5f;
-        dmg_txt = (int)damage;
+        if(!unitCell_is_attacking.unitOnTile.gameObject.CompareTag("TeamBuff"))
+        {
+            damage = damage * 0.5f;
+            dmg_txt = (int)damage;
+        }
+        else
+        {
+            Debug.Log("Buff Mob Retaliated ------->");
+        }
+        
 
         //Deals with facing the individual that is getting attacked
 
@@ -485,6 +498,13 @@ public class StartUnit : MonoBehaviour
 
     public IEnumerator HopToPlace(Grid hexGrid, HexagonCell unitCell, int index, int distance)
     {
+        //All Movement Audio Goes Here
+        if(Moving_Lines_List.Length > 0)
+        {
+            int Chosen_Voice_Line_Index = Random.Range(0, Moving_Lines_List.Length);
+            Moving_Lines_List[Chosen_Voice_Line_Index].Play();
+        }
+
         string name = unitCell.unitOnTile.unit_name;
         Stack<HexagonCell> result = hexGrid.FindPath(unitCell, hexGrid.cells[index]);
         HexagonCoord current = unitCell.coords;
@@ -531,6 +551,11 @@ public class StartUnit : MonoBehaviour
     //should be depreciated... doesn't prock retaliate... however it is used as a way to cause a heal on medic... 
     public IEnumerator Attack()
     {
+        if (Attacking_Lines_List.Length > 0)
+        {
+            int Chosen_Voice_Line_Index = Random.Range(0, Attacking_Lines_List.Length);
+            Attacking_Lines_List[Chosen_Voice_Line_Index].Play();
+        }
         anim.SetBool("Attacking", true);
         attackSound.Play();
         yield return new WaitForSeconds(0.5f);
@@ -566,6 +591,11 @@ public class StartUnit : MonoBehaviour
 
     public IEnumerator Retaliate_Anim(StartUnit retaliated_upon_unit)
     {
+        if (Attacking_Lines_List.Length > 0)
+        {
+            int Chosen_Voice_Line_Index = Random.Range(0, Attacking_Lines_List.Length);
+            Attacking_Lines_List[Chosen_Voice_Line_Index].Play();
+        }
         anim.SetBool("Attacking", true);
         yield return new WaitForSeconds(0.2f);
         attackSound.Play();

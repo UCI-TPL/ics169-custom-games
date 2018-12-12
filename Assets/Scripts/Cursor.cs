@@ -13,6 +13,7 @@ public class Cursor : MonoBehaviour
     private bool cascade_dir;
     public HexagonMapEditor editor;
     public int original_sorting_value;
+    public AudioSource Move_Sound;
 
     // Use this for initialization
     void Start()
@@ -174,6 +175,7 @@ public class Cursor : MonoBehaviour
                     if (next_hex_cell.distance <= editor.SelectedUnit.current_mobility)
                     {
                         gameObject.transform.position = _Grid.Get_Cell_Index(coords).gameObject.transform.position;
+                        Move_Sound.Play();
                     }
                     else
                     {
@@ -184,6 +186,7 @@ public class Cursor : MonoBehaviour
                 else
                 {
                     gameObject.transform.position = _Grid.Get_Cell_Index(coords).gameObject.transform.position;
+                    Move_Sound.Play();
                 }
             }
             else

@@ -67,6 +67,10 @@ public class HexagonMapEditor : MonoBehaviour
     public bool debuffed = false;
 
     /***************************************************************************/
+    public AudioSource select_sound, turn_change_sound, cycle_unit_sound;
+
+
+    /***************************************************************************/
     private bool first_turn = true;
 
     /***********************ENVIRONMENTAL VARIABLES*****************************/
@@ -566,9 +570,13 @@ public class HexagonMapEditor : MonoBehaviour
             if (!EventSystem.current.IsPointerOverGameObject())
             {
                 if (Input.GetButtonDown(joystick + "A Button"))
+                {
                     HandleInput();
+                }
+                    
                 if (Input.GetButtonDown(joystick + "B Button"))
                 {
+                    select_sound.Play();
                     DeselectUnit();
                 }
             }
@@ -633,16 +641,22 @@ public class HexagonMapEditor : MonoBehaviour
                         Snap_To_Next_Unit(true);
                         //Debug.Log("Snapped");
                     }
+                    //Play Movement Selected Sound
+                    select_sound.Play();
                 }
             }
             else
             {
                 SelectUnit(currentCell, index); // make the selected unit that unit
+                //Play Unit Selected Sound
+                select_sound.Play();
             }
         }
         else if (!currentCell.occupied && isUnitSelected && !attacking) // a unit is already selected
         {
             StartCoroutine(MoveUnit(hexGrid.GetCell(SelectedUnit.transform.position), currentCell));//move that selected unit
+            //Play Movement Selected Sound
+            select_sound.Play();
         }
 
     }
@@ -877,7 +891,7 @@ public class HexagonMapEditor : MonoBehaviour
                         }
                     }
                     else if (cursor.coords.FindDistanceTo(hexGrid.cells[i].coords) <= range && hexGrid.cells[i].occupied && hexGrid.cells[i].unitOnTile.gameObject.CompareTag("Player 1")
-                        && hexGrid.cells[i].unitOnTile.current_health < hexGrid.cells[i].unitOnTile.health)
+                        && hexGrid.cells[i].unitOnTile.current_health < hexGrid.cells[i].unitOnTile.health && hexGrid.cells[i].unitOnTile != SelectedUnit)
                     {
                         if (SelectedUnit.unit_type == "Healer")
                         {
@@ -910,7 +924,7 @@ public class HexagonMapEditor : MonoBehaviour
                         }
                     }
                     else if (cursor.coords.FindDistanceTo(hexGrid.cells[i].coords) <= range && hexGrid.cells[i].occupied && hexGrid.cells[i].unitOnTile.gameObject.CompareTag("Player 2")
-                        && hexGrid.cells[i].unitOnTile.current_health < hexGrid.cells[i].unitOnTile.health)
+                        && hexGrid.cells[i].unitOnTile.current_health < hexGrid.cells[i].unitOnTile.health && hexGrid.cells[i].unitOnTile != SelectedUnit)
                     {
                         if (SelectedUnit.unit_type == "Healer")
                         {
@@ -1062,6 +1076,7 @@ public class HexagonMapEditor : MonoBehaviour
 
     IEnumerator turn_animation_starter()
     {
+        turn_change_sound.Play();
         BattleUI_Turn.turn_info_Image.GetComponent<Animator>().SetBool("Transition", true);
         yield return new WaitForSeconds(1f);
         BattleUI_Turn.turn_info_Image.GetComponent<Animator>().SetBool("Transition", false);
@@ -1100,6 +1115,8 @@ public class HexagonMapEditor : MonoBehaviour
         HexagonCell currentCell = hexGrid.Get_Cell_Index(cursor.coords);
         int index = 0;
         HexagonCoord _new_coord;
+        //play swap to next unit sound
+        cycle_unit_sound.Play();
 
         if (back_forward)
         {

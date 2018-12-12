@@ -365,9 +365,17 @@ public class Grid : MonoBehaviour {
                 GO.transform.position = cells[powercells_[i]].transform.position;
                 cells[powercells_[i]].occupied = true;
                 StartUnit startUnit = GO.GetComponent<StartUnit>();
+                Anima2D.SpriteMeshInstance[] Unit_Meshes = GO.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
+                for (int k = 0; k < Unit_Meshes.Length; k++)
+                {
+                    //puts each unit in a section of the sorting layer according to the tile they are on.
+                    Unit_Meshes[k].sortingOrder = Unit_Meshes[k].GetComponent<Mesh_Layer>()._ordered_layer
+                        + ((cells[powercells_[i]].coords.X_coord + cells[powercells_[i]].coords.Y_coord) * 4);
+                    //Debug.Log("Color_Changed");
+                }
                 cells[powercells_[i]].unitOnTile = startUnit;
                 startUnit.Unit_Stats_Panel.GetComponent<BattleUI>().Hide();
-                Anima2D.SpriteMeshInstance[] Unit_Meshes = startUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
+                //Anima2D.SpriteMeshInstance[] Unit_Meshes = startUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
             }
         }
 

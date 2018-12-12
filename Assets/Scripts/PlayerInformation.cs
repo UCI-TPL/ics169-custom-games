@@ -44,6 +44,10 @@ public class PlayerInformation : MonoBehaviour
 
     public DraftUI draftUI;
 
+    /********************************************************************************/
+    //sound stuff
+    public AudioSource move_sound, pick_sound;
+
     public enum DraftStates
     {
         Initialize,
@@ -393,6 +397,8 @@ public class PlayerInformation : MonoBehaviour
             value = Input.GetAxis(player1 + "Left Horizontal");
             if (value != 0.0f && p1ScrollTime <= Time.time)
             {
+                //play move sound
+                move_sound.Play();
                 p1ScrollTime = Time.time + 0.25f;
                 if (value > 0.0f)
                 {
@@ -412,6 +418,8 @@ public class PlayerInformation : MonoBehaviour
             value = Input.GetAxis(player2 + "Left Horizontal");
             if (value != 0.0f && p2ScrollTime <= Time.time)
             {
+                //play move sound
+                move_sound.Play();
                 p2ScrollTime = Time.time + 0.5f;
                 if (value > 0.0f)
                 {
@@ -435,6 +443,8 @@ public class PlayerInformation : MonoBehaviour
             
             if (Input.GetButton(player1 + "A Button") && p1PickTime <= Time.time)
             {
+                //play the picked sound or voice line???
+                pick_sound.Play();
                 p1PickTime = Time.time + 1f;
                 if(hero)
                 {
@@ -473,7 +483,9 @@ public class PlayerInformation : MonoBehaviour
         {
             if (Input.GetButton(player2 + "A Button") && p2PickTime <= Time.time)
             {
-	            p2PickTime = Time.time + 1f;
+                //play the picked sound or voice line???
+                pick_sound.Play();
+                p2PickTime = Time.time + 1f;
                 if (hero)
                 {
                     if (p2Cost - Hero2Units[p1ScrollValue].cost >= 0)
