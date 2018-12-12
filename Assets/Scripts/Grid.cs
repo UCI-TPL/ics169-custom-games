@@ -199,6 +199,7 @@ public class Grid : MonoBehaviour {
             //cells[i].spriteRenderer.color = defaultColor;
             cells[i].Hide_Move_Icon();
             cells[i].Hide_Cross_Icon();
+            cells[i].Hide_Selected_Icon();
         }
     }
 

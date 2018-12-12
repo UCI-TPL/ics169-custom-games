@@ -270,7 +270,7 @@ public class Cursor : MonoBehaviour
         //    ((_coord.X_coord + _coord.Y_coord) * num_sprites_per_cell));
     }
 
-        private void Hide_Prev_UI()
+    private void Hide_Prev_UI()
     {
         if (_Grid.Get_Cell_Index(prev_coords).unitOnTile != null)
         {
