@@ -114,7 +114,7 @@ public class Grid : MonoBehaviour {
         //label.rectTransform.SetParent(gridCanvas.transform);
         //label.rectTransform.anchoredPosition = new Vector2(position.x, position.y);
         //label.text = cell.coords.ToStringSeparateLines();
-
+        cell.Create_Rain();
     }
 
 
