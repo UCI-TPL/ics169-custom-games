@@ -44,6 +44,10 @@ public class StartUnit : MonoBehaviour
     public bool slowed = false;
     //to determine if a retaliation is neccessary
     public bool end_attack_without_retaliate;
+    public bool crit_buff;
+    public bool attack_buff;
+    public bool health_buff;
+    public bool move_buff;
 
 
     private float dmg_txt_char_size;
@@ -52,7 +56,12 @@ public class StartUnit : MonoBehaviour
     //Attack, Hit, and Move sounds
     public AudioSource attackSound, hitSound, moveSound;
     public GameObject selection_arrow;
-
+    [SerializeField]
+    public AudioSource[] Moving_Lines_List = new AudioSource[0];
+    [SerializeField]
+    public AudioSource[] Attacking_Lines_List = new AudioSource[0];
+    [SerializeField]
+    public AudioSource[] Getting_Hit_Lines_List = new AudioSource[0];
 
 
     // Use this for initialization
@@ -67,7 +76,10 @@ public class StartUnit : MonoBehaviour
         current_health = health;
         current_mobility = mobility;
         currently_attacking = false;
-        
+        crit_buff = false;
+        attack_buff = false;
+        health_buff = false;
+        move_buff = false;
     }
 
     // Update is called once per frame
@@ -112,7 +124,9 @@ public class StartUnit : MonoBehaviour
         if (targetable.Count >= 1)
         {
             editor.cursor.Assign_Position(this.transform.position, hexGrid.GetCell(this.transform.position).coords);
-            editor.Main_Cam.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, editor.Main_Cam.transform.position.z);
+            Vector3 _new_Camera_Pos = new Vector3(this.transform.position.x, this.transform.position.y, editor.Main_Cam.transform.position.z);
+            editor.Main_Cam.transform.position = Vector3.Lerp(editor.Main_Cam.transform.position, _new_Camera_Pos, 1f);
+            
             //StartCoroutine(this.Blink(Color.green, this, Time.time + 0.8f));
             yield return new WaitForSeconds(1.5f);
             int selectedTarget = ChosenEnemy(targetable);
@@ -197,7 +211,7 @@ public class StartUnit : MonoBehaviour
                 if (damage == 0)
                 {
                     damagetext.GetComponent<TextMesh>().text = "MISS";
-                    damagetext.GetComponent<TextMesh>().color = Color.gray;
+                    damagetext.GetComponent<TextMesh>().color = Color.white;
                     damagetext.GetComponent<TextMesh>().characterSize = 0.06f;
                 }
                     
@@ -207,13 +221,13 @@ public class StartUnit : MonoBehaviour
                     damagetext.GetComponent<TextMesh>().text = dmg_txt.ToString();
                     if (crit_happened)
                     {
-                        damagetext.GetComponent<TextMesh>().color = Color.yellow;
-                        damagetext.GetComponent<TextMesh>().characterSize = 0.1f;
+                        damagetext.GetComponent<TextMesh>().color = Color.red;
+                        damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * ((float)dmg_txt / 75f));
                     }
                     else
                     {
-                        damagetext.GetComponent<TextMesh>().color = Color.white;
-                        damagetext.GetComponent<TextMesh>().characterSize = 0.06f;
+                        damagetext.GetComponent<TextMesh>().color = Color.yellow;
+                        damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * ((float)dmg_txt / 75f));
                     }
                 }
                     
@@ -274,6 +288,7 @@ public class StartUnit : MonoBehaviour
                     {
                         Debug.Log(name + " got a movement buff");
                         current_mobility += 1;
+                        move_buff = true;
                         if (current_health != health)
                             current_health += 10;
                     }
@@ -281,6 +296,7 @@ public class StartUnit : MonoBehaviour
                     {
                         Debug.Log(name + " got a crit buff");
                         crit += 0.20f;
+                        crit_buff = true;
                         if (current_health != health)
                             current_health += 10;
                     }
@@ -289,6 +305,7 @@ public class StartUnit : MonoBehaviour
                         Debug.Log(name + " got an attack buff");
                         attack += 25;
                         current_attack += 25;
+                        attack_buff = true;
                         if (current_health != health)
                             current_health += 10;
                     }
@@ -297,6 +314,7 @@ public class StartUnit : MonoBehaviour
                         Debug.Log(name + " got a health buff");
                         health += 100;
                         current_health = health;
+                        health_buff = true;
                     }
 
                 }
@@ -364,6 +382,18 @@ public class StartUnit : MonoBehaviour
             crit_happened = true;
         }
 
+        //Half Damage On Retaliate???
+        if(!unitCell_is_attacking.unitOnTile.gameObject.CompareTag("TeamBuff"))
+        {
+            damage = damage * 0.5f;
+            dmg_txt = (int)damage;
+        }
+        else
+        {
+            Debug.Log("Buff Mob Retaliated ------->");
+        }
+        
+
         //Deals with facing the individual that is getting attacked
 
         if (attacked_cell.gameObject.transform.position.x > transform.position.x) //going right
@@ -391,7 +421,7 @@ public class StartUnit : MonoBehaviour
             if (damage == 0)
             {
                 damagetext.GetComponent<TextMesh>().text = "MISS";
-                damagetext.GetComponent<TextMesh>().color = Color.gray;
+                damagetext.GetComponent<TextMesh>().color = Color.white;
                 damagetext.GetComponent<TextMesh>().characterSize = 0.06f;
             }
 
@@ -401,13 +431,13 @@ public class StartUnit : MonoBehaviour
                 damagetext.GetComponent<TextMesh>().text = dmg_txt.ToString();
                 if (crit_happened)
                 {
-                    damagetext.GetComponent<TextMesh>().color = Color.yellow;
-                    damagetext.GetComponent<TextMesh>().characterSize = 0.1f;
+                    damagetext.GetComponent<TextMesh>().color = Color.red;
+                    damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * ((float)dmg_txt / 75f));
                 }
                 else
                 {
-                    damagetext.GetComponent<TextMesh>().color = Color.white;
-                    damagetext.GetComponent<TextMesh>().characterSize = 0.06f;
+                    damagetext.GetComponent<TextMesh>().color = Color.yellow;
+                    damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * ((float)dmg_txt / 75f));
                 }
             }
 
@@ -468,6 +498,13 @@ public class StartUnit : MonoBehaviour
 
     public IEnumerator HopToPlace(Grid hexGrid, HexagonCell unitCell, int index, int distance)
     {
+        //All Movement Audio Goes Here
+        if(Moving_Lines_List.Length > 0)
+        {
+            int Chosen_Voice_Line_Index = Random.Range(0, Moving_Lines_List.Length);
+            Moving_Lines_List[Chosen_Voice_Line_Index].Play();
+        }
+
         string name = unitCell.unitOnTile.unit_name;
         Stack<HexagonCell> result = hexGrid.FindPath(unitCell, hexGrid.cells[index]);
         HexagonCoord current = unitCell.coords;
@@ -514,9 +551,15 @@ public class StartUnit : MonoBehaviour
     //should be depreciated... doesn't prock retaliate... however it is used as a way to cause a heal on medic... 
     public IEnumerator Attack()
     {
+        if (Attacking_Lines_List.Length > 0)
+        {
+            int Chosen_Voice_Line_Index = Random.Range(0, Attacking_Lines_List.Length);
+            Attacking_Lines_List[Chosen_Voice_Line_Index].Play();
+        }
         anim.SetBool("Attacking", true);
         attackSound.Play();
         yield return new WaitForSeconds(0.5f);
+        
         anim.SetBool("Attacking", false);
         yield return new WaitForSeconds(1f);
         currently_attacking = false;
@@ -524,13 +567,18 @@ public class StartUnit : MonoBehaviour
 
     public IEnumerator Attack(Grid hexGrid, HexagonCell target, HexagonCell retaliator)
     {
+        Camera.main.gameObject.GetComponent<CameraBounder>().Lerp_Change_Zoom(75f);
         anim.SetBool("Attacking", true);
+        yield return new WaitForSeconds(0.2f);
         attackSound.Play();
-        yield return new WaitForSeconds(0.5f);
+        //Camera.main.gameObject.GetComponent<CameraBounder>().Shake_Camera(2f, 20f);
+        yield return new WaitForSeconds(0.3f);
         anim.SetBool("Attacking", false);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         if (end_attack_without_retaliate)
         {
+            Camera.main.gameObject.GetComponent<CameraBounder>().Lerp_Reset_Zoom();
+            yield return new WaitForSeconds(0.3f);
             currently_attacking = false;
         }
         else
@@ -543,15 +591,33 @@ public class StartUnit : MonoBehaviour
 
     public IEnumerator Retaliate_Anim(StartUnit retaliated_upon_unit)
     {
+        if (Attacking_Lines_List.Length > 0)
+        {
+            int Chosen_Voice_Line_Index = Random.Range(0, Attacking_Lines_List.Length);
+            Attacking_Lines_List[Chosen_Voice_Line_Index].Play();
+        }
         anim.SetBool("Attacking", true);
+        yield return new WaitForSeconds(0.2f);
         attackSound.Play();
-        yield return new WaitForSeconds(0.5f);
+        //Camera.main.gameObject.GetComponent<CameraBounder>().Shake_Camera(2f, 20f);
+        yield return new WaitForSeconds(0.3f);
         anim.SetBool("Attacking", false);
-        yield return new WaitForSeconds(1f);
-        
+        yield return new WaitForSeconds(0.5f);
+        Camera.main.gameObject.GetComponent<CameraBounder>().Lerp_Reset_Zoom();
+        yield return new WaitForSeconds(0.3f);
         retaliated_upon_unit.currently_attacking = false;
         
     }
+
+    //public void Play_AttackSound()
+    //{
+    //    attackSound.Play();
+    //}
+
+    //public void Shake_Camera()
+    //{
+    //    Camera.main.gameObject.GetComponent<CameraBounder>().Shake_Camera();
+    //}
 
     public IEnumerator Hit()
     {

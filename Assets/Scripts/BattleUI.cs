@@ -21,6 +21,11 @@ public class BattleUI : MonoBehaviour
     public Image turn_info_Image;
     public Text stats_2;
     public Text obj_type;
+    public GameObject buff_background;
+    public GameObject attack_buff;
+    public GameObject health_buff;
+    public GameObject critical_buff;
+    public GameObject mobility_buff;
 
     private Renderer[] cur_renderers;
 

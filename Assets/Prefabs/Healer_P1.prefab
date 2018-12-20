@@ -1288,6 +1288,11 @@ MonoBehaviour:
   turn_info_Image: {fileID: 0}
   stats_2: {fileID: 0}
   obj_type: {fileID: 114516483326621764}
+  buff_background: {fileID: 0}
+  attack_buff: {fileID: 0}
+  health_buff: {fileID: 0}
+  critical_buff: {fileID: 0}
+  mobility_buff: {fileID: 0}
 --- !u!114 &114067330128426606
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1522,6 +1527,10 @@ MonoBehaviour:
   removed: 0
   slowed: 0
   end_attack_without_retaliate: 0
+  crit_buff: 0
+  attack_buff: 0
+  health_buff: 0
+  move_buff: 0
   attackSound: {fileID: 82016278777584256}
   hitSound: {fileID: 82860769173642726}
   moveSound: {fileID: 82519965302197772}

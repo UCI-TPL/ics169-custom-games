@@ -84,7 +84,7 @@ public class MedicUnit : StartUnit {
                 if (damage == 0)
                 {
                     damagetext.GetComponent<TextMesh>().text = "MISS";
-                    damagetext.GetComponent<TextMesh>().color = Color.gray;
+                    damagetext.GetComponent<TextMesh>().color = Color.white;
                     damagetext.GetComponent<TextMesh>().characterSize = 0.06f;
                 }
 
@@ -94,12 +94,12 @@ public class MedicUnit : StartUnit {
                     damagetext.GetComponent<TextMesh>().text = dmg_txt.ToString();
                     if (crit_happened)
                     {
-                        damagetext.GetComponent<TextMesh>().color = Color.yellow;
+                        damagetext.GetComponent<TextMesh>().color = Color.green;
                         damagetext.GetComponent<TextMesh>().characterSize = 0.1f;
                     }
                     else
                     {
-                        damagetext.GetComponent<TextMesh>().color = Color.white;
+                        damagetext.GetComponent<TextMesh>().color = Color.green;
                         damagetext.GetComponent<TextMesh>().characterSize = 0.06f;
                     }
                 }
