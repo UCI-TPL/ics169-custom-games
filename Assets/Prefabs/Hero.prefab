@@ -1381,6 +1381,9 @@ MonoBehaviour:
   hitSound: {fileID: 82215094379298936}
   moveSound: {fileID: 82215094379298936}
   selection_arrow: {fileID: 1481525703858286}
+  Moving_Lines_List: []
+  Attacking_Lines_List: []
+  Getting_Hit_Lines_List: []
   myType: 0
 --- !u!114 &114152355493504036
 MonoBehaviour:
@@ -2296,7 +2299,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -839455769
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 4a96eb7fdd79d744e888b3bec674324c, type: 3}
   m_Color: {r: 1, g: 0, b: 0.047002792, a: 1}
@@ -2342,7 +2345,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -982681181
-  m_SortingLayer: -1
+  m_SortingLayer: -2
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: de64c35b70fc16a44870f718a6978a35, type: 3}
   m_Color: {r: 0.1882353, g: 0.3137255, b: 0.4509804, a: 1}
