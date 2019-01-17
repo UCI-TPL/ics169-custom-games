@@ -11,6 +11,7 @@ TagManager:
   - Water
   - SlowingTile
   - Floor
+  - Sorted
   layers:
   - Default
   - TransparentFX
@@ -51,8 +52,14 @@ TagManager:
   - name: Background_Object
     uniqueID: 3312286115
     locked: 0
+  - name: Weather_Back
+    uniqueID: 3118440825
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Weather_Front
+    uniqueID: 3322760749
     locked: 0
   - name: Forground_Object
     uniqueID: 3455511527

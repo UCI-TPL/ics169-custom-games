@@ -31,6 +31,8 @@ public class HexagonCell : MonoBehaviour {
 
     public GameObject selected_tile;
 
+    public GameObject Acid_Rain_Effect;
+
     public int Distance
     {
         get
@@ -128,5 +130,48 @@ public class HexagonCell : MonoBehaviour {
     public void Hide_Selected_Icon()
     {
         selected_tile.SetActive(false);
+    }
+
+    public IEnumerator Create_Rain_On_Delay()
+    {
+        //time delay is a bad solution to waiting for everything else to get created
+        yield return new WaitForSeconds(1f);
+        GameObject Cells_Rain = Instantiate(Acid_Rain_Effect);
+        Cells_Rain.transform.position = this.gameObject.transform.position;
+        //do some math to make effect render on the correct layer depth
+        sort_tile_effect_object(Cells_Rain);
+    }
+
+    public void Create_Rain()
+    {
+        GameObject Cells_Rain = Instantiate(Acid_Rain_Effect);
+        Cells_Rain.transform.position = this.gameObject.transform.position;
+        //do some math to make effect render on the correct layer depth
+        sort_tile_effect_object(Cells_Rain);
+    }
+
+    public void sort_tile_effect_object(GameObject to_be_sorted)
+    {
+        //takes all children of object that have a sorting layer and sorts them based on the position of the current tile
+        ParticleSystemRenderer[] PS_list_to_sort = to_be_sorted.GetComponentsInChildren<ParticleSystemRenderer>();
+        SpriteRenderer[] SR_list_to_sort = to_be_sorted.GetComponentsInChildren<SpriteRenderer>();
+        //The scaling number is created in hexagonmap editor
+
+        foreach (ParticleSystemRenderer PS_obj in PS_list_to_sort)
+        {
+            PS_obj.sortingOrder = PS_obj.sortingOrder + ((coords.X_coord + coords.Y_coord) * 4);
+        }
+
+        foreach (SpriteRenderer SR_obj in SR_list_to_sort)
+        {
+            SR_obj.sortingOrder = SR_obj.sortingOrder + ((coords.X_coord + coords.Y_coord) * 4);
+        }
+
+        Debug.Log("------------------------ Looped Through");
+
+        //now must move object back a certain z as to not interfier with other rain planes
+        int scale_by_plane_size = 10;
+        to_be_sorted.transform.position = new Vector3(to_be_sorted.transform.position.x, to_be_sorted.transform.position.y,
+            (to_be_sorted.transform.position.z + ((coords.X_coord + coords.Y_coord) * scale_by_plane_size) + 200) );
     }
 }
