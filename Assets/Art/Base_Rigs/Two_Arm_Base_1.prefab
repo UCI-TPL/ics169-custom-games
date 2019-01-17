@@ -1662,7 +1662,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9bd42c70e53034f0d8b444e67b8994ae, type: 2}
   - {fileID: 11400000, guid: 26867ffc51a7a463bbaa5b087b031aaf, type: 2}
   - {fileID: 11400000, guid: f3ebd9a07de8a4c80a60fd8fb836c8c1, type: 2}
-  - {fileID: 11400000, guid: 8edd1c62fe04741a195afb4751bd3e83, type: 2}
+  - {fileID: 0}
 --- !u!114 &114525419057721456
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1714,7 +1714,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3f21b4464021c48c4b67c0d638b0f6ce, type: 2}
   - {fileID: 11400000, guid: 1c486a126d1804adfb09682d19235492, type: 2}
   - {fileID: 11400000, guid: 8638f731a56e340f7b89ff1839c52e12, type: 2}
-  - {fileID: 11400000, guid: 1e62d73b2dffd4017938c929562617ce, type: 2}
+  - {fileID: 0}
 --- !u!114 &114625997887825290
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1997,6 +1997,9 @@ MonoBehaviour:
   hitSound: {fileID: 82953905497866052}
   moveSound: {fileID: 82619384866840600}
   selection_arrow: {fileID: 0}
+  Moving_Lines_List: []
+  Attacking_Lines_List: []
+  Getting_Hit_Lines_List: []
 --- !u!114 &114858350254592408
 MonoBehaviour:
   m_ObjectHideFlags: 1
