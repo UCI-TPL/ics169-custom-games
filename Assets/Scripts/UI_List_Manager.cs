@@ -9,12 +9,18 @@ public class UI_List_Manager : MonoBehaviour {
     public GameObject ListItemPrefab;
     public GameObject Editor_Obj;
     private HexagonMapEditor Editor;
+    public GameObject cursor_obj;
+    private Cursor cursor;
+    public GameObject Grid_obj;
+    private Grid _Grid;
 
     ArrayList ListItems;
 
     void Start()
     {
         Editor = Editor_Obj.GetComponent<HexagonMapEditor>();
+        cursor = cursor_obj.GetComponent<Cursor>();
+        _Grid = Grid_obj.GetComponent<Grid>();
         // 1. Get the data to be displayed
         ListItems = new ArrayList(){
             new UI_List_Item(IconImages[0],
@@ -72,28 +78,42 @@ public class UI_List_Manager : MonoBehaviour {
     public void populate_current_controls()
     {
         ListItems = new ArrayList();
+        //is unit currently selected
         if (Editor.isUnitSelected)
         {
+            //is that unit still able to move
             if(Editor.MoveableUnits.Contains(Editor.SelectedUnit)){
-                ListItems.Add(new UI_List_Item(IconImages[0],
-                "Move Unit"));
+                //Check if cursor over other unit or over non-occupied tile
+                if(_Grid.Get_Cell_Index(cursor.coords).unitOnTile != null && _Grid.Get_Cell_Index(cursor.coords).unitOnTile != Editor.SelectedUnit)
+                {
+                    ListItems.Add(new UI_List_Item(IconImages[0], "Select Unit"));
+                }
+                else
+                {
+                    ListItems.Add(new UI_List_Item(IconImages[0], "Move Unit"));
+                }
+            }
+            else
+            {
+                if (_Grid.Get_Cell_Index(cursor.coords).unitOnTile != null && _Grid.Get_Cell_Index(cursor.coords).unitOnTile != Editor.SelectedUnit)
+                {
+                    ListItems.Add(new UI_List_Item(IconImages[0], "Select Unit"));
+                }
             }
             
-            ListItems.Add(new UI_List_Item(IconImages[1],
-                "Deselect Unit"));
-            ListItems.Add(new UI_List_Item(IconImages[3],
-                "Cycle Through Units"));
-            ListItems.Add(new UI_List_Item(IconImages[2],
-                "Pause Game"));
+            ListItems.Add(new UI_List_Item(IconImages[1],"Deselect Unit"));
+            ListItems.Add(new UI_List_Item(IconImages[3],"Cycle Through Units"));
+            ListItems.Add(new UI_List_Item(IconImages[2],"Pause Game"));
         }
         else
         {
-            ListItems.Add(new UI_List_Item(IconImages[0],
-                "Select Unit"));
-            ListItems.Add(new UI_List_Item(IconImages[3],
-                "Cycle Through Units"));
-            ListItems.Add(new UI_List_Item(IconImages[2],
-                "Pause Game"));
+            if(_Grid.Get_Cell_Index(cursor.coords).unitOnTile != null)
+            {
+                ListItems.Add(new UI_List_Item(IconImages[0],"Select Unit"));
+            }
+            
+            ListItems.Add(new UI_List_Item(IconImages[3],"Cycle Through Units"));
+            ListItems.Add(new UI_List_Item(IconImages[2],"Pause Game"));
         }
 
         foreach (UI_List_Item list_item in ListItems)
