@@ -47,7 +47,7 @@ public class HexagonMapEditor : MonoBehaviour
 
     public List<StartUnit> P1Team = new List<StartUnit>(); // list of player 1 team
     public List<StartUnit> P2Team = new List<StartUnit>(); // list of player 2 team
-    private List<StartUnit> MoveableUnits; // mulitpurpose list to hold units with actions
+    public List<StartUnit> MoveableUnits; // mulitpurpose list to hold units with actions
 
     public StartUnit SelectedUnit; // the current unit that is selected
     public bool isUnitSelected = false; // boolean to tell if a unit is selected
@@ -72,6 +72,11 @@ public class HexagonMapEditor : MonoBehaviour
 
     /***************************************************************************/
     private bool first_turn = true;
+    public bool move_confirmed = false;
+    public string move_string = "no";
+    public GameObject Confirm_Window;
+    public GameObject Dynamic_Controls_list_obj;
+    private UI_List_Manager Dynamic_Controls_list;
 
     /***********************ENVIRONMENTAL VARIABLES*****************************/
     public EnvironmentalHazard[] hazardList; // list of all the types of hazards possible
@@ -130,6 +135,8 @@ public class HexagonMapEditor : MonoBehaviour
         BattleUI_P2.Hide();
 
         BattleUI_Turn = UI_Turn.GetComponent<BattleUI>();
+
+        Dynamic_Controls_list = Dynamic_Controls_list_obj.GetComponent<UI_List_Manager>();
 
         if (initializing) // stop loop if already doing it
         {
@@ -572,37 +579,41 @@ public class HexagonMapEditor : MonoBehaviour
                 if (Input.GetButtonDown(joystick + "A Button"))
                 {
                     HandleInput();
+                    Dynamic_Controls_list.update_current_controls();
                 }
                     
                 if (Input.GetButtonDown(joystick + "B Button"))
                 {
                     select_sound.Play();
                     DeselectUnit();
+                    Dynamic_Controls_list.update_current_controls();
                 }
             }
 
-            if (Input.GetButtonDown(joystick + "X Button"))
-            {
-                if (MoveableUnits.Contains(SelectedUnit))
-                {
-                    MoveableUnits.Remove(SelectedUnit);
-                    Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
-                    for (int i = 0; i < Unit_Meshes.Length; i++)
-                    {
-                        Unit_Meshes[i].color = Greyed_Unit_Color;
-                        //Debug.Log("Color_Changed");
-                    }
-                }
-            }
+            //if (Input.GetButtonDown(joystick + "X Button"))
+            //{
+            //    if (MoveableUnits.Contains(SelectedUnit))
+            //    {
+            //        MoveableUnits.Remove(SelectedUnit);
+            //        Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
+            //        for (int i = 0; i < Unit_Meshes.Length; i++)
+            //        {
+            //            Unit_Meshes[i].color = Greyed_Unit_Color;
+            //            //Debug.Log("Color_Changed");
+            //        }
+            //    }
+            //}
 
             if (Input.GetButtonDown(joystick + "R Bumper"))
             {
                 Snap_To_Next_Unit(true);
+                Dynamic_Controls_list.update_current_controls();
             }
 
             if (Input.GetButtonDown(joystick + "L Bumper"))
             {
                 Snap_To_Next_Unit(false);
+                Dynamic_Controls_list.update_current_controls();
             }
         }
     }
@@ -628,21 +639,11 @@ public class HexagonMapEditor : MonoBehaviour
             {
                 if (MoveableUnits.Contains(SelectedUnit))
                 {
-                    MoveableUnits.Remove(SelectedUnit);
-                    Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
-                    for (int i = 0; i < Unit_Meshes.Length; i++)
-                    {
-                        Unit_Meshes[i].color = Greyed_Unit_Color;
-                        //Debug.Log("Color_Changed");
-                    }
-                    DeselectUnit();
-                    if (MoveableUnits.Count > 0)
-                    {
-                        Snap_To_Next_Unit(true);
-                        //Debug.Log("Snapped");
-                    }
-                    //Play Movement Selected Sound
+                    //moving to same tile
+                    StartCoroutine(MoveUnit(hexGrid.GetCell(SelectedUnit.transform.position), currentCell));
                     select_sound.Play();
+
+                    
                 }
             }
             else
@@ -654,6 +655,8 @@ public class HexagonMapEditor : MonoBehaviour
         }
         else if (!currentCell.occupied && isUnitSelected && !attacking) // a unit is already selected
         {
+            //prompt user to see if they actually want to move
+            
             StartCoroutine(MoveUnit(hexGrid.GetCell(SelectedUnit.transform.position), currentCell));//move that selected unit
             //Play Movement Selected Sound
             select_sound.Play();
@@ -801,6 +804,42 @@ public class HexagonMapEditor : MonoBehaviour
     IEnumerator MoveUnit(HexagonCell _unitCell, HexagonCell _nextCell)
     {
         allow_cursor_control = false;
+
+        if(hexGrid.GetCell(SelectedUnit.transform.position) == hexGrid.GetCell(cursor.transform.position))
+        {
+            //moving to same tile...
+            
+            Confirm_Window.GetComponent<Confirm_Window>().Activate_Conf_Win();
+            while (move_confirmed == false)
+            {
+                yield return null; //the big wait for user input on conf window
+            }
+            move_confirmed = false;
+
+            if (move_string.Equals("yes"))
+            {
+                //basically just staying in the same spot
+                MoveableUnits.Remove(SelectedUnit);
+                Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
+                for (int i = 0; i < Unit_Meshes.Length; i++)
+                {
+                    Unit_Meshes[i].color = Greyed_Unit_Color;
+                    //Debug.Log("Color_Changed");
+                }
+                DeselectUnit();
+                if (MoveableUnits.Count > 0)
+                {
+                    Snap_To_Next_Unit(true);
+                    //Debug.Log("Snapped");
+                }
+            }
+            else if (move_string.Equals("no"))
+            {
+                Debug.Log("---------- Thats A No On The Move Jimbo ----------");
+            }
+            allow_cursor_control = true;
+            yield break;
+        }
         //int distance = hexGrid.GetCell(SelectedUnit.transform.position).coords.FindDistanceTo(cursor.coords);
         int index = hexGrid.Get_Index(cursor.coords);
         int distance = hexGrid.FindPath(_unitCell, hexGrid.cells[index]).Count;
@@ -811,40 +850,61 @@ public class HexagonMapEditor : MonoBehaviour
         //" = " + distance.ToString()); //for debugging distance
         if (SelectedUnit.current_mobility >= distance && MoveableUnits.Contains(SelectedUnit))
         {
-            StartCoroutine(SelectedUnit.HopToPlace(hexGrid, unitCell, index, distance));
-            //StartCoroutine(SelectedUnit.Moving());
-            yield return new WaitForSeconds(((float)distance * 0.6f) + 0.1f);
-            _unitCell.occupied = false;
-            _unitCell.unitOnTile = null;
-            //SelectedUnit.transform.position = hexGrid.cells[index].transform.position;
-            _unitCell = hexGrid.cells[index];
-            hexGrid.cells[index].occupied = true;
-            hexGrid.cells[index].unitOnTile = SelectedUnit;
+            //ask for confirmation
+            //move_confirmed = true;
+            //while (move_confirmed)
+            //{
+            //    //wait for move to confirm I guess??
+            //}
+            Confirm_Window.GetComponent<Confirm_Window>().Activate_Conf_Win();
+            while(move_confirmed == false)
+            {
+                yield return null; //the big wait for user input on conf window
+            }
+            move_confirmed = false;
 
-            if (hexGrid.cells[index].tag == "TeamBuff" && hexGrid.cells[index].occupied)
+            if (move_string.Equals("yes"))
             {
-                // hexGrid.cells[index].occupied = true;
-                // hexGrid.cells[index].unitOnTile = SelectedUnit;
-                hexGrid.cells[index].GetComponent<TeamPowerupTiles>().discovered = true;
-                //if (hexGrid.cells[index].unitOnTile.tag == "Player 1")
-                //    hexGrid.cells[index].GetComponent<TeamPowerupTiles>().UnitsTeam = P1Team;
-                //if (hexGrid.cells[index].unitOnTile.tag == "Player 2")
-                //    hexGrid.cells[index].GetComponent<TeamPowerupTiles>().UnitsTeam = P2Team;
-            }
+                StartCoroutine(SelectedUnit.HopToPlace(hexGrid, unitCell, index, distance));
+                //StartCoroutine(SelectedUnit.Moving());
+                yield return new WaitForSeconds(((float)distance * 0.6f) + 0.1f);
+                _unitCell.occupied = false;
+                _unitCell.unitOnTile = null;
+                //SelectedUnit.transform.position = hexGrid.cells[index].transform.position;
+                _unitCell = hexGrid.cells[index];
+                hexGrid.cells[index].occupied = true;
+                hexGrid.cells[index].unitOnTile = SelectedUnit;
 
-            MoveableUnits.Remove(SelectedUnit);
-            Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
-            for (int i = 0; i < Unit_Meshes.Length; i++)
-            {
-                Unit_Meshes[i].color = Greyed_Unit_Color;
-                //Debug.Log("Color_Changed");
+                if (hexGrid.cells[index].tag == "TeamBuff" && hexGrid.cells[index].occupied)
+                {
+                    // hexGrid.cells[index].occupied = true;
+                    // hexGrid.cells[index].unitOnTile = SelectedUnit;
+                    hexGrid.cells[index].GetComponent<TeamPowerupTiles>().discovered = true;
+                    //if (hexGrid.cells[index].unitOnTile.tag == "Player 1")
+                    //    hexGrid.cells[index].GetComponent<TeamPowerupTiles>().UnitsTeam = P1Team;
+                    //if (hexGrid.cells[index].unitOnTile.tag == "Player 2")
+                    //    hexGrid.cells[index].GetComponent<TeamPowerupTiles>().UnitsTeam = P2Team;
+                }
+
+                MoveableUnits.Remove(SelectedUnit);
+                Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
+                for (int i = 0; i < Unit_Meshes.Length; i++)
+                {
+                    Unit_Meshes[i].color = Greyed_Unit_Color;
+                    //Debug.Log("Color_Changed");
+                }
+                DeselectUnit();
+                if (MoveableUnits.Count > 0)
+                {
+                    Snap_To_Next_Unit(true);
+                    //Debug.Log("Snapped");
+                }
             }
-            DeselectUnit();
-            if (MoveableUnits.Count > 0)
+            else if (move_string.Equals("no"))
             {
-                Snap_To_Next_Unit(true);
-                //Debug.Log("Snapped");
+                Debug.Log("---------- Thats A No On The Move Jimbo ----------");
             }
+            
 
         }
         else
