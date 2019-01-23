@@ -14,7 +14,8 @@ public class PlayerInformation : MonoBehaviour
     public string player1; // player 1 string to map to the correct input
     public string player2; // player 2 string to map to the correct input
 
-    private Text display;
+    public GameObject display,display2;
+    public Image p1controllerImg, p1controllerImg2;
 
     private Scene current_scene;
 
@@ -41,8 +42,12 @@ public class PlayerInformation : MonoBehaviour
 
     public bool nextScene = false;
     private bool doSelect = false;
+    private bool one_time;
 
     public DraftUI draftUI;
+
+    public GameObject loadingScreen;
+    public Slider loadingSlider;
 
     /********************************************************************************/
     //sound stuff
@@ -57,7 +62,8 @@ public class PlayerInformation : MonoBehaviour
         P2_Pick_2,
         P1_Pick_3,
         P2_Pick_3,
-        Enter_Battle
+        Check_Teams,
+        //Enter_Battle
     }
 
     [SerializeField] public DraftStates currentState = DraftStates.Initialize;
@@ -66,14 +72,21 @@ public class PlayerInformation : MonoBehaviour
     public bool one_player;
     public bool pool = false;
 
+    private void Awake()
+    {
+        loadingScreen = GameObject.Find("LoadingScreen");
+        loadingSlider = loadingScreen.GetComponentInChildren<Slider>();
+    }
 
     // Use this for initialization
     void Start()
     {
-        display = FindObjectOfType<Text>();
+        one_time = true;
+        //display = FindObjectOfType<Text>();
         DontDestroyOnLoad(this.gameObject);
         current_scene = SceneManager.GetActiveScene();
-        
+
+        loadingScreen.SetActive(false);
     }
 
     // Update is called once per frame
@@ -83,10 +96,12 @@ public class PlayerInformation : MonoBehaviour
         if (current_scene.name == "CMapping")
         {
 
-            if (ctrsSet.Contains(1) && ctrsSet.Contains(2) && !one_player) // both players ready
-                SceneManager.LoadScene(2);
-            else if (ctrsSet.Contains(1) && one_player)
-                SceneManager.LoadScene(2);
+            if (ctrsSet.Contains(1) && (ctrsSet.Contains(2) || one_player)) // both players ready
+                //SceneManager.LoadScene(2);
+                LoadGame(2);
+            //else if (ctrsSet.Contains(1) && one_player)
+            //    //SceneManager.LoadScene(2);
+            //    LoadGame(2);
             else
             {
                 ControllerMapping();
@@ -107,6 +122,7 @@ public class PlayerInformation : MonoBehaviour
                         currentState = DraftStates.P1_Pick_1;
                     }
                     break;
+
                 case (DraftStates.P1_Pick_1):
                     if (Player1Chosen.Count == 1)
                     {
@@ -128,6 +144,7 @@ public class PlayerInformation : MonoBehaviour
                     ChooseCharacter("P1",true);
                     DraftPick("P1", true);
                     break;
+
                 case (DraftStates.P2_Pick_1):
                     if(Player2Chosen.Count == 0)
                     {
@@ -155,6 +172,7 @@ public class PlayerInformation : MonoBehaviour
                     ChooseCharacter("P2",false);
                     DraftPick("P2",false);
                     break;
+
                 case (DraftStates.P1_Pick_2):
                     if(p1Cost <= 0)
                     {
@@ -189,6 +207,7 @@ public class PlayerInformation : MonoBehaviour
                     ChooseCharacter("P1",false);
                     DraftPick("P1",false);
                     break;
+
                 case (DraftStates.P2_Pick_2):
                     if (p2Cost <= 0)
                     {
@@ -218,11 +237,12 @@ public class PlayerInformation : MonoBehaviour
                     ChooseCharacter("P2",false);
                     DraftPick("P2",false);
                     break;
+
                 case (DraftStates.P1_Pick_3):
-                    if (p1Cost <= 0)
-                    {
-                        currentState = DraftStates.Enter_Battle;
-                    }
+                    //if (p1Cost <= 0)
+                    //{
+                    //    currentState = DraftStates.Check_Teams; //DraftStates.Enter_Battle;
+                    //}
                     if(Player1Chosen.Count == 3)
                     {
                         draftUI.P1Choice4.color = draftUI.baby_blue;
@@ -239,8 +259,8 @@ public class PlayerInformation : MonoBehaviour
                     if (Player1Chosen.Count == 5)
                     {
                         draftUI.P1Pick5();
-                        if(one_player)
-                            currentState = DraftStates.Enter_Battle;
+                        if (one_player)
+                           currentState = DraftStates.Check_Teams;// DraftStates.Enter_Battle;
                         else
                         {
                             currentState = DraftStates.P2_Pick_3;
@@ -251,11 +271,12 @@ public class PlayerInformation : MonoBehaviour
                     ChooseCharacter("P1",false);
                     DraftPick("P1",false);
                     break;
+
                 case (DraftStates.P2_Pick_3):
-                    if (p2Cost <= 0)
-                    {
-                        currentState = DraftStates.Enter_Battle;
-                    }
+                    //if (p2Cost <= 0)
+                    //{
+                    //    currentState = DraftStates.Check_Teams; //DraftStates.Enter_Battle;
+                    //}
                     if(Player2Chosen.Count == 3)
                     {
                         draftUI.P2Choice4.color = draftUI.baby_blue;
@@ -272,17 +293,31 @@ public class PlayerInformation : MonoBehaviour
                     if (Player2Chosen.Count == 5) 
                     {
                         draftUI.P2Pick5();
-                        currentState = DraftStates.Enter_Battle;
+                        currentState = DraftStates.Check_Teams; //DraftStates.Enter_Battle;
                     }
                     if (pool)
                         CheckPool();
                     ChooseCharacter("P2",false);
                     DraftPick("P2",false);
                     break;
-                case (DraftStates.Enter_Battle):
-                    SceneManager.LoadScene(3);
+
+                case (DraftStates.Check_Teams):
+                   // if (Player1Chosen.Count == 5 && (Player2Chosen.Count == 5 || one_player))
+                   //     currentState = DraftStates.Enter_Battle;
+                   // else if (Player1Chosen.Count == 5 && Player2Chosen.Count == 5 && !one_player)
+                   //     currentState = DraftStates.Enter_Battle;
                     break;
+
+                //case (DraftStates.Enter_Battle):
+                    //SceneManager.LoadScene(3);
+                //    LoadGame(3);
+                //    break;
             }
+        }
+        if (((Player1Chosen.Count == 5 && Player2Chosen.Count == 5) || (Player1Chosen.Count == 5 && one_player) && one_time))
+        {
+            LoadGame(3);
+            one_time = false;
         }
     }
 
@@ -337,14 +372,22 @@ public class PlayerInformation : MonoBehaviour
         {
             if (Input.GetButtonDown("J1 A Button") && !ctrsSet.Contains(1))
             {
-                display.text += "PLAYER 1 READY\n";
+                display.SetActive(true);
+                //display.text += "PLAYER 1 READY\n";
+                Color c = p1controllerImg.color;
+                c.a = 1f;
+                p1controllerImg.color = c; 
                 plr1Set = true;
                 player1 = "J1 ";
                 ctrsSet.Add(1);
             }
             else if (Input.GetButtonDown("J2 A Button") && !ctrsSet.Contains(2))
             {
-                display.text += "PLAYER 1 READY\n";
+                display.SetActive(true);
+                //display.text += "PLAYER 1 READY\n";
+                Color c = p1controllerImg.color;
+                c.a = 1f;
+                p1controllerImg.color = c;
                 plr1Set = true;
                 player1 = "J2 ";
                 ctrsSet.Add(2);
@@ -354,14 +397,22 @@ public class PlayerInformation : MonoBehaviour
         {
             if (Input.GetButtonDown("J1 A Button") && !ctrsSet.Contains(1))
             {
-                display.text += "PLAYER 2 READY\n";
+                display2.SetActive(true);
+                //display2.text += "PLAYER 2 READY\n";
+                Color c = p1controllerImg2.color;
+                c.a = 1f;
+                p1controllerImg2.color = c;
                 plr2Set = true;
                 player2 = "J1 ";
                 ctrsSet.Add(1);
             }
             else if (Input.GetButtonDown("J2 A Button") && !ctrsSet.Contains(2))
             {
-                display.text += "PLAYER 2 READY\n";
+                display2.SetActive(true);
+                //display2.text += "PLAYER 2 READY\n";
+                Color c = p1controllerImg2.color;
+                c.a = 1f;
+                p1controllerImg2.color = c;
                 plr2Set = true;
                 player2 = "J2 ";
                 ctrsSet.Add(2);
@@ -522,5 +573,22 @@ public class PlayerInformation : MonoBehaviour
         }
 
 
+    }
+
+    void LoadGame(int sceneIndex)
+    {
+        Debug.Log("NewScene");
+        StartCoroutine(UsingLoadingBar(sceneIndex));
+    }
+
+    IEnumerator UsingLoadingBar(int sceneIndex)
+    {
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);//prepares the upcoming scene in the background
+        loadingScreen.SetActive(true);
+        while (!operation.isDone)
+        {
+            loadingSlider.value = Mathf.Clamp01(operation.progress / .9f);//creates the percentage for the loading bar
+            yield return null;
+        }
     }
 }

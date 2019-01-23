@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Cursor : MonoBehaviour
 {
@@ -14,7 +15,8 @@ public class Cursor : MonoBehaviour
     public HexagonMapEditor editor;
     public int original_sorting_value;
     public AudioSource Move_Sound;
-
+    public GameObject UI_List_Manager_Obj;
+    private UI_List_Manager UI_List_Manager;
     // Use this for initialization
     void Start()
     {
@@ -25,6 +27,7 @@ public class Cursor : MonoBehaviour
         //original_sorting_value = gameObject.GetComponent<SpriteRenderer>().sortingOrder;
         //Debug.Log("--------------- " + original_sorting_value);
         Order_Cursor(_Grid.GetCell(transform.position).coords, _Grid.sprites_per_tile);
+        UI_List_Manager = UI_List_Manager_Obj.GetComponent<UI_List_Manager>();
     }
 
     // Update is called once per frame
@@ -237,6 +240,8 @@ public class Cursor : MonoBehaviour
 
         Order_Cursor(_Grid.GetCell(transform.position).coords, _Grid.sprites_per_tile);
 
+        //deal with UI_List_Manager On Move
+        UI_List_Manager.update_current_controls();
 
         //Debug.Log("Current X " + coords.X_coord);
         //Debug.Log("Current Y " + coords.Y_coord);
