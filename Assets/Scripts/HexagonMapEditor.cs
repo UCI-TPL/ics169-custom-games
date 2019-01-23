@@ -191,7 +191,7 @@ public class HexagonMapEditor : MonoBehaviour
                         int chance = Random.Range(0, 1); // 1/10  chance to create hazard
                         if (chance == 0)
                         {
-                            int hazard = Random.Range(0, 3); // 3 hazards right now *** Random.Range(inclusive, exclusive)
+                            int hazard = Random.Range(0, 1); // 3 hazards right now *** Random.Range(inclusive, exclusive)
                             incoming = true;
                             incoming_in = hazardList[hazard].timeToCome;
                             whichHazard = hazard;
@@ -207,6 +207,8 @@ public class HexagonMapEditor : MonoBehaviour
                         {
                             if (hazardsOnGrid[i].timeLeft <= 0)
                             {
+                                EnvironmentalHazard.HazardInfo h = hazardsOnGrid[i];
+                                h.type.RemoveHazard(hexGrid, h.x, h.z, h.size);
                                 hazardsOnGrid.Remove(hazardsOnGrid[i]);
                             }
                         }
@@ -214,6 +216,9 @@ public class HexagonMapEditor : MonoBehaviour
                     }
                     if (hazardCount < hazardsOnGrid.Count) //for every hazard
                     {
+                        EnvironmentalHazard.HazardInfo h = hazardsOnGrid[hazardCount];
+                        hazardsOnGrid[hazardCount] = new EnvironmentalHazard.HazardInfo(h.type, h.x, h.y, h.z, h.timeLeft-1, h.size);
+                        Debug.Log("hazard time left: " + h.timeLeft--.ToString()); 
                         StartCoroutine(HandleHazards(hazardCount));
                         
                     }

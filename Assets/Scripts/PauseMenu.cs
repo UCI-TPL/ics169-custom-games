@@ -31,7 +31,7 @@ public class PauseMenu : MonoBehaviour {
                 Time.timeScale = 1;
             }
         }
-        GotoControls();
+        //GotoControls();
     }
 
     public void GotoControls()

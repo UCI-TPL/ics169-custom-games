@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class DraftUI : MonoBehaviour {
     private PlayerInformation playerinfo;
-    public Text P1CostText; //done
-    public Text P2CostText; //done
     public Text PoolText; //done
     public Text PChoice; //done
     public Text StatText; //done
@@ -136,9 +134,8 @@ public class DraftUI : MonoBehaviour {
         }
 
 
-        P1CostText.text = "Cost: " + playerinfo.p1Cost.ToString();
-        P2CostText.text = "Cost: " + playerinfo.p2Cost.ToString();
-        PChoice.text = temp.unit_type + "  /  Cost:" + temp.cost;
+
+        PChoice.text = temp.unit_type;
         UnitIcon.sprite = temp.Icon;
         StatText.text = "Hlth:" + temp.health.ToString("000") + "\t Att:" + temp.attack.ToString("000")
             + "\nRange:" + temp.attackRange + "\t Move:" + temp.current_mobility;

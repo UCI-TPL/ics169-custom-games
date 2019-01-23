@@ -33,6 +33,8 @@ public class HexagonCell : MonoBehaviour {
 
     public GameObject Acid_Rain_Effect;
 
+    public GameObject HazardObject;
+
     public int Distance
     {
         get
@@ -146,6 +148,7 @@ public class HexagonCell : MonoBehaviour {
     {
         GameObject Cells_Rain = Instantiate(Acid_Rain_Effect);
         Cells_Rain.transform.position = this.gameObject.transform.position;
+        HazardObject = Cells_Rain;
         //do some math to make effect render on the correct layer depth
         sort_tile_effect_object(Cells_Rain);
     }
