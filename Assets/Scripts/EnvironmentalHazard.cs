@@ -27,10 +27,11 @@ public class EnvironmentalHazard : MonoBehaviour {
     public int timeToCome;
     public int timeOnBoard;
     public float anim_time = 2f;
+    public SoundManager soundManager;
 
 	// Use this for initialization
 	void Start () {
-		
+        soundManager = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>();
 	}
 	
 	// Update is called once per frame
@@ -38,13 +39,18 @@ public class EnvironmentalHazard : MonoBehaviour {
 		
 	}
 
-    public HazardInfo CreateHazard(Grid hexGrid)
+    public virtual HazardInfo CreateHazard(Grid hexGrid)
     {
         HexagonCoord rand = hexGrid.cells[Random.Range(0, hexGrid.cells.Length)].coords;
 
         int size = Random.Range(0, 3); // 0 = 1, 1 = 3, 2 = 5
         Debug.Log("hazard at (" + rand.x + "," + rand.z + ") with size: " + size);
         return new HazardInfo(this, rand.x, rand.Y_coord, rand.z, timeOnBoard, size);
+    }
+
+    public virtual void RemoveHazard(Grid hexGrid, int x, int z, int size)
+    {
+
     }
 
     public virtual IEnumerator Effect(Grid hexGrid, int x, int z, int size) // does the effect of the hazard on the tiles that are in its size
