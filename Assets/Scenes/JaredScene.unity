@@ -1389,9 +1389,24 @@ Prefab:
       propertyPath: Grid_obj
       value: 
       objectReference: {fileID: 1152803763}
+    - target: {fileID: 224553223027085826, guid: 7c9365bc021568c4785b1e510c6d3f60,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224553223027085826, guid: 7c9365bc021568c4785b1e510c6d3f60,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c9365bc021568c4785b1e510c6d3f60, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &171695037 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1046000831234746, guid: 7c9365bc021568c4785b1e510c6d3f60,
+    type: 2}
+  m_PrefabInternal: {fileID: 171695036}
 --- !u!224 &186085069 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224194695696160150, guid: 7c9365bc021568c4785b1e510c6d3f60,
@@ -2949,7 +2964,7 @@ MonoBehaviour:
   move_confirmed: 0
   move_string: no
   Confirm_Window: {fileID: 264218355}
-  Dynamic_Controls_list_obj: {fileID: 744263850}
+  Dynamic_Controls_list_obj: {fileID: 171695037}
   hazardList:
   - {fileID: 114591343487103536, guid: 6c8ad155576b2d4478a8d6464d2cde8f, type: 2}
   - {fileID: 114881700081576812, guid: fc8fbfdab82c6ef48b384b654a4cf157, type: 2}
@@ -6606,7 +6621,7 @@ MonoBehaviour:
   editor: {fileID: 330579867}
   original_sorting_value: 4
   Move_Sound: {fileID: 630863163}
-  UI_List_Manager_Obj: {fileID: 744263850}
+  UI_List_Manager_Obj: {fileID: 171695037}
 --- !u!82 &630863163
 AudioSource:
   m_ObjectHideFlags: 0
