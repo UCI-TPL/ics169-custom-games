@@ -314,7 +314,7 @@ public class PlayerInformation : MonoBehaviour
                 //    break;
             }
         }
-        if (((Player1Chosen.Count == 5 && Player2Chosen.Count == 5) || (Player1Chosen.Count == 5 && one_player) && one_time))
+        if ((((Player1Chosen.Count == 5 && Player2Chosen.Count == 5) || (Player1Chosen.Count == 5 && one_player)) && one_time))
         {
             LoadGame(3);
             one_time = false;
