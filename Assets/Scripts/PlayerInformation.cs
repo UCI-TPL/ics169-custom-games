@@ -49,6 +49,8 @@ public class PlayerInformation : MonoBehaviour
     public GameObject loadingScreen;
     public Slider loadingSlider;
 
+    public GameObject ranger;
+
     /********************************************************************************/
     //sound stuff
     public AudioSource move_sound, pick_sound;
@@ -314,7 +316,7 @@ public class PlayerInformation : MonoBehaviour
                 //    break;
             }
         }
-        if (((Player1Chosen.Count == 5 && Player2Chosen.Count == 5) || (Player1Chosen.Count == 5 && one_player) && one_time))
+        if (((Player1Chosen.Count == 5 && Player2Chosen.Count == 5) || (Player1Chosen.Count == 5 && one_player)) && one_time)
         {
             LoadGame(3);
             one_time = false;

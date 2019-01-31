@@ -8,6 +8,7 @@ public class DraftUI : MonoBehaviour {
     public Text PoolText; //done
     public Text PChoice; //done
     public Text StatText; //done
+    public Text DescriptionText;
     public Image Panel; //done
     public Image UnitIcon; //done but could be better
     public Image P1Choice1; //done
@@ -137,8 +138,10 @@ public class DraftUI : MonoBehaviour {
 
         PChoice.text = temp.unit_type;
         UnitIcon.sprite = temp.Icon;
-        StatText.text = "Hlth:" + temp.health.ToString("000") + "\t Att:" + temp.attack.ToString("000")
-            + "\nRange:" + temp.attackRange + "\t Move:" + temp.current_mobility;
+        GameObject Icon = GameObject.Find(temp.unit_type);
+        DescriptionText.text = Icon.GetComponent<IconStats>().description;
+        StatText.text = "HP: " + Icon.GetComponent<IconStats>().health.ToString() + "  ATT: " + Icon.GetComponent<IconStats>().attack
+            + "  RANGE: " + Icon.GetComponent<IconStats>().range + "  MOBILITY: " + Icon.GetComponent<IconStats>().movement + " tiles";
         if (playerinfo.pool)
         {
             int[] unit_count = CheckPool();

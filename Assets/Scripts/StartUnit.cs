@@ -49,8 +49,8 @@ public class StartUnit : MonoBehaviour
     public bool health_buff;
     public bool move_buff;
 
-
     private float dmg_txt_char_size;
+
 
 
     //Attack, Hit, and Move sounds

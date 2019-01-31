@@ -28,6 +28,7 @@ public class UnitStats : MonoBehaviour {
         float.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][8], out this.gameObject.GetComponent<StartUnit>().crit_multiplier);
         int.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][9], out this.gameObject.GetComponent<StartUnit>().cost);
         int.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][10], out this.gameObject.GetComponent<StartUnit>().weight);
+        this.gameObject.GetComponent<StartUnit>().description = unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][11];
         //}
         //if (this.gameObject.GetComponent<StartUnit>().unit_ID == 2)
         //{//Melee
