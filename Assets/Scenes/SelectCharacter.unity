@@ -774,7 +774,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16df0b04288d74a4ab355a514e0a1ef7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PoolText: {fileID: 1545535867}
+  ChoiceText: {fileID: 1120654243}
   PChoice: {fileID: 1992957335}
   StatText: {fileID: 847455299}
   Panel: {fileID: 1898058577}
@@ -2724,8 +2724,8 @@ RectTransform:
   m_Father: {fileID: 1133198646}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.109, y: 0}
-  m_AnchorMax: {x: 0.89113057, y: 0.4588096}
+  m_AnchorMin: {x: 0.08054685, y: 0}
+  m_AnchorMax: {x: 0.91945314, y: 0.6588096}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2741,7 +2741,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2750,20 +2750,18 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 100
-    m_Alignment: 7
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Atk: Health:
-
-    Rng: Move:'
+  m_Text: DESCRIPTION
 --- !u!222 &847455300
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3586,6 +3584,7 @@ GameObject:
   - component: {fileID: 1120654242}
   - component: {fileID: 1120654244}
   - component: {fileID: 1120654243}
+  - component: {fileID: 1120654245}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -3606,8 +3605,8 @@ RectTransform:
   m_Father: {fileID: 1898058576}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.28556252, y: 0.9162223}
-  m_AnchorMax: {x: 0.71954167, y: 1}
+  m_AnchorMin: {x: 0.2, y: 0.9162223}
+  m_AnchorMax: {x: 0.8, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3623,7 +3622,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3643,7 +3642,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Select Your Team
+  m_Text: Player 1 Select Your Hero
 --- !u!222 &1120654244
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3651,6 +3650,20 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1120654241}
   m_CullTransparentMesh: 0
+--- !u!114 &1120654245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1120654241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 091baa92a8d6c574d891139e61f76026, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeScale: 0.15
+  maxScale: 0.15
+  minScale: 1
 --- !u!1 &1126360465
 GameObject:
   m_ObjectHideFlags: 0
@@ -5522,7 +5535,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

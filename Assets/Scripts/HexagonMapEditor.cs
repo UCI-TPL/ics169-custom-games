@@ -224,8 +224,11 @@ public class HexagonMapEditor : MonoBehaviour
                     if (hazardCount < hazardsOnGrid.Count) //for every hazard
                     {
                         EnvironmentalHazard.HazardInfo h = hazardsOnGrid[hazardCount];
+
                         hazardsOnGrid[hazardCount] = new EnvironmentalHazard.HazardInfo(h.type, h.x, h.y, h.z, h.timeLeft-1, h.size);
-                        Debug.Log("hazard time left: " + h.timeLeft--.ToString()); 
+                        Debug.Log("hazard time left: " + h.timeLeft--.ToString());
+                        Debug.Log("x: " + h.x + " z: " + h.z);
+                        StartCoroutine(Snap_To_Hazard(h.x, h.z));
                         StartCoroutine(HandleHazards(hazardCount));
                         
                     }
@@ -240,6 +243,7 @@ public class HexagonMapEditor : MonoBehaviour
                     hazardsFinished = false;
                     hazardCount = 0;
                     allow_cursor_control = true;
+                    Snap_To_First_Unit();
                     currentState = TurnStates.P1_MOVE;
                     Debug.Log("here");
                 }
@@ -1169,6 +1173,14 @@ public class HexagonMapEditor : MonoBehaviour
             Show_Units_In_Range();
             SelectedUnit.Unit_Stats_Panel.SetActive(true);
         }
+    }
+
+    public IEnumerator Snap_To_Hazard(int x, int z)
+    {
+        HexagonCoord newCoord = new HexagonCoord(x, z);
+        cursor.Assign_Position(hexGrid.Get_Cell_Index(newCoord).gameObject.transform.position, newCoord);
+        yield return new WaitForSeconds(4f);
+
     }
 
     public void Snap_To_Next_Unit(bool back_forward)

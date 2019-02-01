@@ -119,6 +119,7 @@ public class PlayerInformation : MonoBehaviour
                         {
                             RandomPool();
                         }
+                        draftUI.ChoiceText.text = "Player 1 Select Your Hero";
                         currentState = DraftStates.P1_Pick_1;
                     }
                     break;
@@ -153,12 +154,14 @@ public class PlayerInformation : MonoBehaviour
                             StartCoroutine(draftUI.Blink(draftUI.P2Choice1));
                         ChooseCharacter("P2", true);
                         DraftPick("P2", true);
+                        draftUI.ChoiceText.text = "Player 2 Select Your Hero";
                         break;
                     }
                     if(Player2Chosen.Count == 1)
                     {
                         draftUI.P2Pick1();
                         draftUI.P2Choice2.color = draftUI.baby_blue;
+                        draftUI.ChoiceText.text = "Player 2 Select Your Unit";
                         if (!draftUI.blinking)
                             StartCoroutine(draftUI.Blink(draftUI.P2Choice2));
                     }
@@ -171,6 +174,7 @@ public class PlayerInformation : MonoBehaviour
                         CheckPool();
                     ChooseCharacter("P2",false);
                     DraftPick("P2",false);
+                    
                     break;
 
                 case (DraftStates.P1_Pick_2):
@@ -206,6 +210,7 @@ public class PlayerInformation : MonoBehaviour
                         CheckPool();
                     ChooseCharacter("P1",false);
                     DraftPick("P1",false);
+                    draftUI.ChoiceText.text = "Player 1 Select Your Unit";
                     break;
 
                 case (DraftStates.P2_Pick_2):
@@ -236,6 +241,7 @@ public class PlayerInformation : MonoBehaviour
                         CheckPool();
                     ChooseCharacter("P2",false);
                     DraftPick("P2",false);
+                    draftUI.ChoiceText.text = "Player 2 Select Your Unit";
                     break;
 
                 case (DraftStates.P1_Pick_3):
@@ -270,6 +276,7 @@ public class PlayerInformation : MonoBehaviour
                         CheckPool();
                     ChooseCharacter("P1",false);
                     DraftPick("P1",false);
+                    draftUI.ChoiceText.text = "Player 1 Select Your Unit";
                     break;
 
                 case (DraftStates.P2_Pick_3):
@@ -299,6 +306,7 @@ public class PlayerInformation : MonoBehaviour
                         CheckPool();
                     ChooseCharacter("P2",false);
                     DraftPick("P2",false);
+                    draftUI.ChoiceText.text = "Player 2 Select Your Unit";
                     break;
 
                 case (DraftStates.Check_Teams):
@@ -446,6 +454,8 @@ public class PlayerInformation : MonoBehaviour
         if (plr1Set && team == "P1")
         {
             value = Input.GetAxis(player1 + "Left Horizontal");
+            if (value == 0.0f)
+                value = Input.GetAxis(player1 + "Horizontal D-Pad");
             if (value != 0.0f && p1ScrollTime <= Time.time)
             {
                 //play move sound
@@ -467,6 +477,8 @@ public class PlayerInformation : MonoBehaviour
         if (plr2Set && team == "P2")
         {
             value = Input.GetAxis(player2 + "Left Horizontal");
+            if (value == 0.0f)
+                value = Input.GetAxis(player2 + "Horizontal D-Pad");
             if (value != 0.0f && p2ScrollTime <= Time.time)
             {
                 //play move sound
