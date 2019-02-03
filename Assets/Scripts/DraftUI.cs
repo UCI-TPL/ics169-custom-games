@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class DraftUI : MonoBehaviour {
     private PlayerInformation playerinfo;
-    public Text PoolText; //done
+    public Text ChoiceText; //done
     public Text PChoice; //done
     public Text StatText; //done
     public Text DescriptionText;
@@ -49,6 +49,10 @@ public class DraftUI : MonoBehaviour {
     {
         playerinfo = GameObject.FindObjectOfType<PlayerInformation>();
         playerinfo.draftUI = this;
+        Tank.color = Color.grey;
+        Healer.color = Color.grey;
+        Warrior.color = Color.grey;
+        Ranger.color = Color.grey;
     }
 
 
@@ -62,11 +66,16 @@ public class DraftUI : MonoBehaviour {
             HeroNum.text = "1";
             HeroBack.enabled = true;
 
+
         }
         else
         {
             HeroBack.enabled = false;
             Hero.color = Color.grey;
+            Tank.color = Color.white;
+            Healer.color = Color.white;
+            Warrior.color = Color.white;
+            Ranger.color = Color.white;
             temp = playerinfo.AllP1Units[playerinfo.p1ScrollValue];
             if(temp.unit_type == "Ranger")
             {
@@ -167,9 +176,9 @@ public class DraftUI : MonoBehaviour {
     {
         i.enabled = false;
         blinking = true;
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.3f);
         i.enabled = true;
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.3f);
         blinking = false;
     }
 
@@ -244,17 +253,5 @@ public class DraftUI : MonoBehaviour {
     {
         P2Choice5.sprite = playerinfo.Player2Chosen[4].Icon;
         P2Choice5.color = Color.white;
-    }
-
-    public void ChangePlayer()
-    {
-        if(Panel.GetComponent<Image>().color == Color.blue)
-        {
-            Panel.GetComponent<Image>().color = Color.red;
-        }
-        else
-        {
-            Panel.GetComponent<Image>().color = Color.blue;
-        }
     }
 }
