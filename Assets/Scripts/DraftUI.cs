@@ -149,8 +149,8 @@ public class DraftUI : MonoBehaviour {
         UnitIcon.sprite = temp.Icon;
         GameObject Icon = GameObject.Find(temp.unit_type);
         DescriptionText.text = Icon.GetComponent<IconStats>().description;
-        StatText.text = "HP: " + Icon.GetComponent<IconStats>().health.ToString() + "  ATT: " + Icon.GetComponent<IconStats>().attack
-            + "  RANGE: " + Icon.GetComponent<IconStats>().range + "  MOBILITY: " + Icon.GetComponent<IconStats>().movement + " tiles";
+        //StatText.text = "HP: " + Icon.GetComponent<IconStats>().health.ToString() + "  ATT: " + Icon.GetComponent<IconStats>().attack
+        //    + "  RANGE: " + Icon.GetComponent<IconStats>().range + "  MOBILITY: " + Icon.GetComponent<IconStats>().movement + " tiles";
         if (playerinfo.pool)
         {
             int[] unit_count = CheckPool();
