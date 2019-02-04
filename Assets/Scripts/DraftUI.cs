@@ -154,19 +154,30 @@ public class DraftUI : MonoBehaviour {
         if (playerinfo.pool)
         {
             int[] unit_count = CheckPool();
-            RangerNum.text =  "x" + unit_count[0].ToString();
-            if (unit_count[0] == 0)
-                Ranger.color = Color.grey;
-            TankNum.text = "x" + unit_count[1].ToString();
-            if (unit_count[1] == 0)
-                Tank.color = Color.grey;
-            WarriorNum.text = "x" + unit_count[2].ToString();
-            if (unit_count[2] == 0)
-                Warrior.color = Color.grey;
+            RangerNum.text = "x" + unit_count[0].ToString();
+            //if (unit_count[0] == 0)
+            //    Ranger.color = Color.grey;
+            WarriorNum.text = "x" + unit_count[1].ToString();
+            //if (unit_count[1] == 0)
+            //    Warrior.color = Color.grey;
+            TankNum.text = "x" + unit_count[2].ToString();
+            //if (unit_count[2] == 0)
+            //    Tank.color = Color.grey;
             HealerNum.text = "x" + unit_count[3].ToString();
-            if(unit_count[3] == 0)
+            //if(unit_count[3] == 0)
+            //{
+            //    Healer.color = Color.grey;
+            //}
+            for (int i = 0; i < playerinfo.RemovedP1Units.Count; i++)
             {
-                Healer.color = Color.grey;
+                if(playerinfo.RemovedP1Units[i].unit_type == "Ranger")
+                    Ranger.color = Color.grey;
+                else if (playerinfo.RemovedP1Units[i].unit_type == "Warrior")
+                    Warrior.color = Color.grey;
+                else if (playerinfo.RemovedP1Units[i].unit_type == "Tank")
+                    Tank.color = Color.grey;
+                else if (playerinfo.RemovedP1Units[i].unit_type == "Healer")
+                    Healer.color = Color.grey;
             }
         }
 
@@ -182,7 +193,7 @@ public class DraftUI : MonoBehaviour {
         blinking = false;
     }
 
-    private int[] CheckPool()
+    public int[] CheckPool() //for all the units in the pool, add their count up
     {
         int[] unit_nums = {0, 0, 0,0};
         for (int j = 0; j < playerinfo.PoolUnits.Count; j++)
@@ -190,9 +201,9 @@ public class DraftUI : MonoBehaviour {
 
             if (playerinfo.PoolUnits[j].unit_type == "Ranger")
                 unit_nums[0]++;
-            else if (playerinfo.PoolUnits[j].unit_type == "Tank")
-                unit_nums[1]++;
             else if (playerinfo.PoolUnits[j].unit_type == "Warrior")
+                unit_nums[1]++;
+            else if (playerinfo.PoolUnits[j].unit_type == "Tank")
                 unit_nums[2]++;
             else
                 unit_nums[3]++;
