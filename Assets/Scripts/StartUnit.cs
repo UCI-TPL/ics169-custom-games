@@ -251,29 +251,6 @@ public class StartUnit : MonoBehaviour
             }
             Debug.Log(name + " attacked " + attacked_unit.unit_name + " for " + damage);
             TakeDamage(attacked_unit, damage);
-
-            //attacked_unit.current_health -= damage;
-            //attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
-
-            //float attack_deduction = attacked_unit.current_attack * (current_attack - attacked_unit.current_health / attacked_unit.health);
-            //if (attacked_unit.unit_ID == 6)//if attacked unit is berzerker then add to current attack
-            //{
-            //    float attack_increase = current_attack - attack_deduction;
-            //    current_attack += attack_increase;
-            //}
-            //else // reduce the units attack by certain amount
-            //{
-            //    if (attack_deduction > attacked_unit.basedmg)
-            //        attacked_unit.current_attack = attack_deduction;
-            //    else
-            //    {
-            //        if (attack_deduction <= basedmg)
-            //        {
-            //            attacked_unit.current_attack = basedmg;
-            //        }
-            //    }
-            //}
-
             
 
             //Debug.Log("he dead");

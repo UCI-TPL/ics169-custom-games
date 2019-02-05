@@ -26,9 +26,12 @@ public class DraftUI : MonoBehaviour {
     public Image P2Choice6;
     public Image P2Choice7;
 
-    public Image Hero;
-    public Image HeroBack;
-    public Text HeroNum;
+    public Image FortressHero;
+    public Image FortressHeroBack;
+    public Text FortressHeroNum;
+    public Image PoisonHero;
+    public Image PoisonHeroBack;
+    public Text PoisonHeroNum;
     public Image Ranger;
     public Image RangerBack;
     public Text RangerNum;
@@ -62,38 +65,64 @@ public class DraftUI : MonoBehaviour {
         StartUnit temp;
         if (playerinfo.currentState == PlayerInformation.DraftStates.P1_Pick_1 || (playerinfo.currentState == PlayerInformation.DraftStates.P2_Pick_1 && playerinfo.Player2Chosen.Count == 0))
         {
-            temp = playerinfo.Hero1Units[playerinfo.p1ScrollValue];
-            HeroNum.text = "1";
-            HeroBack.enabled = true;
+            if (playerinfo.currentState == PlayerInformation.DraftStates.P1_Pick_1)
+                temp = playerinfo.Hero1Units[playerinfo.p1ScrollValue];
+            else
+                temp = playerinfo.Hero2Units[playerinfo.p1ScrollValue];
 
-
+            //FortressHeroNum.text = "1";
+            if (temp.unit_type == "Fortress")
+            {
+                if(PoisonHeroBack.enabled)
+                {
+                    PoisonHeroBack.enabled = false;
+                }
+                FortressHeroBack.enabled = true;
+            }
+            if(temp.unit_type == "Poison")
+            {
+                if(FortressHeroBack.enabled)
+                {
+                    FortressHeroBack.enabled = false;
+                }
+                PoisonHeroBack.enabled = true;
+            }
         }
+
         else
         {
-            HeroBack.enabled = false;
-            Hero.color = Color.grey;
+            PoisonHeroBack.enabled = false;
+            PoisonHero.color = Color.grey;
+            FortressHeroBack.enabled = false;
+            FortressHero.color = Color.grey;
             Tank.color = Color.white;
             Healer.color = Color.white;
             Warrior.color = Color.white;
             Ranger.color = Color.white;
-            temp = playerinfo.AllP1Units[playerinfo.p1ScrollValue];
-            if(temp.unit_type == "Ranger")
+            if (playerinfo.currentState == PlayerInformation.DraftStates.P1_Pick_1 || playerinfo.currentState == PlayerInformation.DraftStates.P1_Pick_2 ||
+                playerinfo.currentState == PlayerInformation.DraftStates.P1_Pick_3)
+                temp = playerinfo.AllP1Units[playerinfo.p1ScrollValue];
+            else
             {
-                if(WarriorBack.enabled)
+                temp = playerinfo.AllP2Units[playerinfo.p1ScrollValue];
+            }
+            if (temp.unit_type == "Ranger")
+            {
+                if (WarriorBack.enabled)
                 {
                     WarriorBack.enabled = false;
                 }
-                if(TankBack.enabled)
+                if (TankBack.enabled)
                 {
                     TankBack.enabled = false;
                 }
-                if(HealerBack.enabled)
+                if (HealerBack.enabled)
                 {
                     HealerBack.enabled = false;
                 }
                 RangerBack.enabled = true;
             }
-            if(temp.unit_type == "Warrior")
+            if (temp.unit_type == "Warrior")
             {
                 if (RangerBack.enabled)
                 {
@@ -103,13 +132,13 @@ public class DraftUI : MonoBehaviour {
                 {
                     TankBack.enabled = false;
                 }
-                if(HealerBack.enabled)
+                if (HealerBack.enabled)
                 {
                     HealerBack.enabled = false;
                 }
                 WarriorBack.enabled = true;
             }
-            if(temp.unit_type == "Tank")
+            if (temp.unit_type == "Tank")
             {
                 if (RangerBack.enabled)
                 {
@@ -119,13 +148,13 @@ public class DraftUI : MonoBehaviour {
                 {
                     WarriorBack.enabled = false;
                 }
-                if(HealerBack.enabled)
+                if (HealerBack.enabled)
                 {
                     HealerBack.enabled = false;
                 }
                 TankBack.enabled = true;
             }
-            if(temp.unit_type == "Healer")
+            if (temp.unit_type == "Healer")
             {
                 if (Tank.enabled)
                 {
@@ -135,7 +164,7 @@ public class DraftUI : MonoBehaviour {
                 {
                     WarriorBack.enabled = false;
                 }
-                if(RangerBack.enabled)
+                if (RangerBack.enabled)
                 {
                     RangerBack.enabled = false;
                 }
@@ -153,32 +182,39 @@ public class DraftUI : MonoBehaviour {
         //    + "  RANGE: " + Icon.GetComponent<IconStats>().range + "  MOBILITY: " + Icon.GetComponent<IconStats>().movement + " tiles";
         if (playerinfo.pool)
         {
-            int[] unit_count = CheckPool();
+            int[] unit_count;
+            if (playerinfo.currentState == PlayerInformation.DraftStates.P1_Pick_1 || playerinfo.currentState == PlayerInformation.DraftStates.P1_Pick_2 ||
+                playerinfo.currentState == PlayerInformation.DraftStates.P1_Pick_3)
+                unit_count = CheckPool("P1");
+            else
+                unit_count = CheckPool("P2");
+
             RangerNum.text = "x" + unit_count[0].ToString();
-            //if (unit_count[0] == 0)
-            //    Ranger.color = Color.grey;
+            if (unit_count[0] == 0)
+                Ranger.color = Color.grey;
             WarriorNum.text = "x" + unit_count[1].ToString();
-            //if (unit_count[1] == 0)
-            //    Warrior.color = Color.grey;
+            if (unit_count[1] == 0)
+                Warrior.color = Color.grey;
             TankNum.text = "x" + unit_count[2].ToString();
-            //if (unit_count[2] == 0)
-            //    Tank.color = Color.grey;
+            if (unit_count[2] == 0)
+                Tank.color = Color.grey;
             HealerNum.text = "x" + unit_count[3].ToString();
-            //if(unit_count[3] == 0)
-            //{
-            //    Healer.color = Color.grey;
-            //}
-            for (int i = 0; i < playerinfo.RemovedP1Units.Count; i++)
+            if (unit_count[3] == 0)
             {
-                if(playerinfo.RemovedP1Units[i].unit_type == "Ranger")
-                    Ranger.color = Color.grey;
-                else if (playerinfo.RemovedP1Units[i].unit_type == "Warrior")
-                    Warrior.color = Color.grey;
-                else if (playerinfo.RemovedP1Units[i].unit_type == "Tank")
-                    Tank.color = Color.grey;
-                else if (playerinfo.RemovedP1Units[i].unit_type == "Healer")
-                    Healer.color = Color.grey;
+                Healer.color = Color.grey;
             }
+
+            //for (int i = 0; i < playerinfo.RemovedP1Units.Count; i++)
+            //{
+            //    if(playerinfo.RemovedP1Units[i].unit_type == "Ranger")
+            //        Ranger.color = Color.grey;
+            //    else if (playerinfo.RemovedP1Units[i].unit_type == "Warrior")
+            //        Warrior.color = Color.grey;
+            //    else if (playerinfo.RemovedP1Units[i].unit_type == "Tank")
+            //        Tank.color = Color.grey;
+            //    else if (playerinfo.RemovedP1Units[i].unit_type == "Healer")
+            //        Healer.color = Color.grey;
+            //}
         }
 
     }
@@ -193,20 +229,38 @@ public class DraftUI : MonoBehaviour {
         blinking = false;
     }
 
-    public int[] CheckPool() //for all the units in the pool, add their count up
+    public int[] CheckPool(string playerNum) //for all the units in the pool, add their count up
     {
         int[] unit_nums = {0, 0, 0,0};
-        for (int j = 0; j < playerinfo.PoolUnits.Count; j++)
+        if (playerNum == "P1")
         {
+            for (int j = 0; j < playerinfo.P1PoolUnits.Count; j++)
+            {
 
-            if (playerinfo.PoolUnits[j].unit_type == "Ranger")
-                unit_nums[0]++;
-            else if (playerinfo.PoolUnits[j].unit_type == "Warrior")
-                unit_nums[1]++;
-            else if (playerinfo.PoolUnits[j].unit_type == "Tank")
-                unit_nums[2]++;
-            else
-                unit_nums[3]++;
+                if (playerinfo.P1PoolUnits[j].unit_type == "Ranger")
+                    unit_nums[0]++;
+                else if (playerinfo.P1PoolUnits[j].unit_type == "Warrior")
+                    unit_nums[1]++;
+                else if (playerinfo.P1PoolUnits[j].unit_type == "Tank")
+                    unit_nums[2]++;
+                else
+                    unit_nums[3]++;
+            }
+        }
+        else
+        {
+            for (int j = 0; j < playerinfo.P2PoolUnits.Count; j++)
+            {
+
+                if (playerinfo.P2PoolUnits[j].unit_type == "Ranger")
+                    unit_nums[0]++;
+                else if (playerinfo.P2PoolUnits[j].unit_type == "Warrior")
+                    unit_nums[1]++;
+                else if (playerinfo.P2PoolUnits[j].unit_type == "Tank")
+                    unit_nums[2]++;
+                else
+                    unit_nums[3]++;
+            }
         }
         return unit_nums;
     }

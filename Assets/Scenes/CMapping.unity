@@ -375,7 +375,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.0906875, y: 0.20476647}
   m_AnchorMax: {x: 0.36312503, y: 0.3494252}
-  m_AnchoredPosition: {x: -3.0860596, y: 3.5913696}
+  m_AnchoredPosition: {x: -3.0860596, y: 3.5913086}
   m_SizeDelta: {x: -7.104187, y: -0.38224792}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &578497617
@@ -979,9 +979,15 @@ MonoBehaviour:
   - {fileID: 114791955595557596, guid: 3551bfdff04dd2f41864d52770aa223e, type: 2}
   Hero1Units:
   - {fileID: 114081837882046222, guid: f889233dfb96246aaa3f2deee0af89ab, type: 2}
+  - {fileID: 114384606648791530, guid: 64668d74d13dac84e8a35ea521ac3391, type: 2}
   Hero2Units:
   - {fileID: 114969397969523808, guid: a4e85b2bfaf0147d89d412a238a3241c, type: 2}
-  PoolUnits: []
+  - {fileID: 114817855430310704, guid: 9c6c42afc8800fc449b4545aee585dfa, type: 2}
+  P1PoolUnits: []
+  P2PoolUnits: []
+  RemovedP1Units: []
+  RemovedP2Units: []
+  removed: 0
   p1ScrollValue: 0
   p2ScrollValue: 0
   p1Cost: 20
