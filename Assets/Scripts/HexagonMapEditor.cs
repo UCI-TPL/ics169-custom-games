@@ -226,8 +226,8 @@ public class HexagonMapEditor : MonoBehaviour
                         EnvironmentalHazard.HazardInfo h = hazardsOnGrid[hazardCount];
 
                         hazardsOnGrid[hazardCount] = new EnvironmentalHazard.HazardInfo(h.type, h.x, h.y, h.z, h.timeLeft-1, h.size);
-                        Debug.Log("hazard time left: " + h.timeLeft--.ToString());
-                        Debug.Log("x: " + h.x + " z: " + h.z);
+                        //Debug.Log("hazard time left: " + h.timeLeft--.ToString());
+                        //Debug.Log("x: " + h.x + " z: " + h.z);
                         StartCoroutine(Snap_To_Hazard(h.x, h.z));
                         StartCoroutine(HandleHazards(hazardCount));
                         
@@ -245,7 +245,6 @@ public class HexagonMapEditor : MonoBehaviour
                     allow_cursor_control = true;
                     Snap_To_First_Unit();
                     currentState = TurnStates.P1_MOVE;
-                    Debug.Log("here");
                 }
                 
                 break;

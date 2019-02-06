@@ -57,7 +57,7 @@ public class EnvironmentalHazard : MonoBehaviour {
     {
         List<HexagonCell> frontier = new List<HexagonCell>(); // list of nodes that the hazard has effect over
         HexagonCell curr = hexGrid.Get_Cell_Index(new HexagonCoord(x,z));
-        Debug.Log(type_name  +" hazard epicenter at: " + curr.coords.x + "," + curr.coords.Y_coord + "," + curr.coords.z);
+        //Debug.Log(type_name  +" hazard epicenter at: " + curr.coords.x + "," + curr.coords.Y_coord + "," + curr.coords.z);
         for (int i = 0; i < hexGrid.cells.Length; i++)
         {
 

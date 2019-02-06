@@ -19,9 +19,10 @@ public class PoisonHero : HeroUnit {
 
     public override void TakeDamage(StartUnit attacked_unit, float damage) // will occur when the hero retaliates and attacks (2 per turn)
     {
+        print("using the TakeDamage() function");
         base.TakeDamage(attacked_unit, damage); // the normal function from StartUnit
 
-        specialAttackCounter = DecrementCounter();
+        DecrementCounter();
         if (specialAttackCounter == 0)
         {
             ShootPoisonGas(HexagonCoord.FromPosition(attacked_unit.transform.position));
@@ -31,11 +32,12 @@ public class PoisonHero : HeroUnit {
 
     public void ShootPoisonGas(HexagonCoord coord) // spawn the environmental hazard "PoisonGas"
     {
-        poisonGas.CreateHazardAt(coord);
+        editor.hazardsOnGrid.Add(poisonGas.CreateHazardAt(coord));
+       
         specialAttackCounter = 5;
     }
-    public int DecrementCounter() // decrease the counter in a nicer way? don't know why i wrote this function honestly
+    public void DecrementCounter() // decrease the counter in a nicer way? don't know why i wrote this function honestly
     {
-            return specialAttackCounter--;
+            specialAttackCounter -= 1;
     }
 }
