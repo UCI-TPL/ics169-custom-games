@@ -33,7 +33,11 @@ public class HexagonCell : MonoBehaviour {
 
     public GameObject Acid_Rain_Effect;
 
+    public GameObject Poison_Cloud_Effect;
+
     public GameObject HazardObject;
+
+    public GameObject Poison_Cloud_Obj;
 
     public int Distance
     {
@@ -151,6 +155,14 @@ public class HexagonCell : MonoBehaviour {
         HazardObject = Cells_Rain;
         //do some math to make effect render on the correct layer depth
         sort_tile_effect_object(Cells_Rain);
+    }
+
+    public void Create_Poison_Cloud()
+    {
+        GameObject Poison_Obj = Instantiate(Poison_Cloud_Effect);
+        Poison_Obj.transform.position = this.gameObject.transform.position;
+        Poison_Cloud_Obj = Poison_Obj;
+        sort_tile_effect_object(Poison_Obj);
     }
 
     public void sort_tile_effect_object(GameObject to_be_sorted)

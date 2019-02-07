@@ -4,12 +4,38 @@ using UnityEngine;
 
 public class PoisonGas : EnvironmentalHazard {
 
-    public HazardInfo CreateHazardAt(HexagonCoord coord)
+    public HazardInfo CreateHazardAt(HexagonCell cell, Grid hexGrid)
     {
         // code to spawn the particle system or whatever to show the effect
-        Debug.Log("creating poison gas on map");
-        HazardInfo h_info = new HazardInfo(this, coord.x, coord.Y_coord, coord.z, timeOnBoard, 1);
-        return h_info;
+
+        Debug.Log("shooting poison gas on map");
+        HexagonCoord coord = cell.coords;
+        int size = 1;
+        List<HexagonCell> frontier = new List<HexagonCell>();
+        //HexagonCell curr = hexGrid.Get_Cell_Index(new HexagonCoord(rand.x, rand.z));
+
+        //HexagonCell hexa_cell = coord.
+
+        for (int i = 0; i < hexGrid.cells.Length; i++)
+        {
+
+            int distance = cell.coords.FindDistanceTo(hexGrid.cells[i].coords);
+            if (distance <= size)
+            {
+                frontier.Add(hexGrid.cells[i]);
+            }
+        }
+
+        for (int j = 0; j < frontier.Count; j++)
+        {
+            frontier[j].Create_Poison_Cloud();
+        }
+        //GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().lightningSound.Play();
+        //GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().rainSound.Play();
+
+
+        return new HazardInfo(this, coord.x, coord.Y_coord, coord.z, timeOnBoard, 1);
+
     }
 
     public override void RemoveHazard(Grid hexGrid, int x, int z, int size)
@@ -20,18 +46,20 @@ public class PoisonGas : EnvironmentalHazard {
         //for (int i = 0; i < hexGrid.cells.Length; i++)
         //{
 
-        //    int distance = curr.coords.FindDistanceTo(hexGrid.cells[i].coords);
-        //    if (distance <= size)
-        //    {
-        //        frontier.Add(hexGrid.cells[i]);
-        //    }
-        //}
-        //for (int j = 0; j < frontier.Count; j++)
-        //{
-        //    Destroy(frontier[j].HazardObject);
-        //}
-        //GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().birdSound.Play();
-        //GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().rainSound.Stop();
+
+            int distance = curr.coords.FindDistanceTo(hexGrid.cells[i].coords);
+            if (distance <= size)
+            {
+                frontier.Add(hexGrid.cells[i]);
+            }
+        }
+        for (int j = 0; j < frontier.Count; j++)
+        {
+            Destroy(frontier[j].Poison_Cloud_Obj);
+        }
+        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().birdSound.Play();
+        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().rainSound.Stop();
+
     }
 
     public override IEnumerator Effect(Grid hexGrid, int x, int z, int size)

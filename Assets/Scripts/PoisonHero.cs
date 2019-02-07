@@ -24,18 +24,21 @@ public class PoisonHero : HeroUnit {
         DecrementCounter();
         if (specialAttackCounter == 0)
         {
-            ShootPoisonGas(HexagonCoord.FromPosition(attacked_unit.transform.position));
+            
+            ShootPoisonGas(editor.hexGrid.GetCell(attacked_unit.transform.position));
         }
     }
 
 
-    public void ShootPoisonGas(HexagonCoord coord) // spawn the environmental hazard "PoisonGas"
+    public void ShootPoisonGas(HexagonCell cell) // spawn the environmental hazard "PoisonGas"
     {
+
         print("shooting poison  from hero");
         if(gameObject.tag == "Player 1")
-            editor.P1StatusOnGrid.Add(poisonGas.CreateHazardAt(coord));
+            editor.P1StatusOnGrid.Add(poisonGas.CreateHazardAt(cell, editor.hexGrid));
         else if(gameObject.tag == "Player 2")
-            editor.P2StatusOnGrid.Add(poisonGas.CreateHazardAt(coord));
+            editor.P2StatusOnGrid.Add(poisonGas.CreateHazardAt(cell, editor.hexGrid));
+
 
         specialAttackCounter = 5;
     }
