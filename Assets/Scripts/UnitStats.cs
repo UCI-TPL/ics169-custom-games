@@ -18,8 +18,10 @@ public class UnitStats : MonoBehaviour {
         //if (this.gameObject.GetComponent<StartUnit>().unit_ID == 1)
         //{//Tank
         int.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][1], out this.gameObject.GetComponent<StartUnit>().mobility);
+        int.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][1], out this.gameObject.GetComponent<StartUnit>().current_mobility);
         int.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][2], out this.gameObject.GetComponent<StartUnit>().attackRange);
         float.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][3], out this.gameObject.GetComponent<StartUnit>().health);
+        float.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][3], out this.gameObject.GetComponent<StartUnit>().current_health);
         float.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][4], out this.gameObject.GetComponent<StartUnit>().attack);
         float.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][4], out this.gameObject.GetComponent<StartUnit>().current_attack);
         int.TryParse(unit_stats[this.gameObject.GetComponent<StartUnit>().unit_ID - 1][5], out this.gameObject.GetComponent<StartUnit>().basedmg);
