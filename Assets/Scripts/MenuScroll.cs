@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class MenuScroll : MonoBehaviour {
     public List<GameObject> scrollItems;
     public int currentItem;
-    public GameObject controlsMenu, maincanvas, FirstObject;
+    public GameObject controlsMenu, maincanvas, FirstObject,B_button;
 	// Use this for initialization
 	void Start () {
         currentItem = 0;
@@ -16,11 +16,20 @@ public class MenuScroll : MonoBehaviour {
     void Update() {
         if (Input.GetButtonDown("J1 A Button") || Input.GetButtonDown("J2 A Button"))
         {
-            if(currentItem == scrollItems.Count-1)
+            if (currentItem == scrollItems.Count - 1)
+            {
                 currentItem = 0;
+                B_button.SetActive(false);
+            }
             else
             {
                 currentItem++;
+                if (currentItem != 0)
+                    B_button.SetActive(true);
+                else
+                {
+                    B_button.SetActive(false);
+                }
             }
             for (int i = 0; i < scrollItems.Count; i++)
             {
@@ -37,7 +46,7 @@ public class MenuScroll : MonoBehaviour {
 
         if (Input.GetButtonDown("J1 B Button") || Input.GetButtonDown("J2 B Button"))
         {
-            if(currentItem == 0)
+            if(currentItem == 0 || currentItem == scrollItems.Count-1)
             {
                 controlsMenu.SetActive(false);
                 maincanvas.SetActive(true);
@@ -47,6 +56,14 @@ public class MenuScroll : MonoBehaviour {
             else
             {
                 currentItem--;
+                if (currentItem != 0)
+                {
+                    B_button.SetActive(true);
+                }
+                else
+                {
+                    B_button.SetActive(false);
+                }
                 for(int i = 0; i < scrollItems.Count; i++)
                 {
                     if( i != currentItem)
