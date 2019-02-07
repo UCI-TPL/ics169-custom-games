@@ -32,10 +32,10 @@ public class PoisonHero : HeroUnit {
     public void ShootPoisonGas(HexagonCoord coord) // spawn the environmental hazard "PoisonGas"
     {
         print("shooting poison  from hero");
-        if(gameObject.tag  == "Player 1")
-            editor.hazardsOnGrid.Add(poisonGas.CreateHazardAt(coord, "P1"));
+        if(gameObject.tag == "Player 1")
+            editor.P1StatusOnGrid.Add(poisonGas.CreateHazardAt(coord));
         else if(gameObject.tag == "Player 2")
-            editor.hazardsOnGrid.Add(poisonGas.CreateHazardAt(coord, "P2"));
+            editor.P2StatusOnGrid.Add(poisonGas.CreateHazardAt(coord));
 
         specialAttackCounter = 5;
     }

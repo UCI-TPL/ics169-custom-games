@@ -92,6 +92,9 @@ public class HexagonMapEditor : MonoBehaviour
     /***********************STATUS EFFECTS*****************************/
     public List<EnvironmentalHazard.HazardInfo> P1StatusOnGrid = new List<EnvironmentalHazard.HazardInfo>();
     public List<EnvironmentalHazard.HazardInfo> P2StatusOnGrid = new List<EnvironmentalHazard.HazardInfo>();
+    public bool statusExecuting = false;
+    public bool statusFinished = false;
+    public int statusCount = 0;
 
     public bool allow_cursor_control;
 
@@ -355,8 +358,7 @@ public class HexagonMapEditor : MonoBehaviour
 					BattleUI_Turn.turn.text = "PLAYER 2";
                     BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P2_Color;
                     StartCoroutine(turn_animation_starter());
-                    wasP1Turn = true;
-                    currentState = TurnStates.CHECK;
+                    currentState = TurnStates.P1_STATUS_EFFECT;
                     allow_cursor_control = true;
                     if (MoveableUnits.Count > 0)
                     {
@@ -367,6 +369,51 @@ public class HexagonMapEditor : MonoBehaviour
                     P1_Team_portrait_UI.Update_Portraits();
                 }
                 break;
+
+            case (TurnStates.P1_STATUS_EFFECT):
+
+                if (!statusExecuting) // status effect exectution 
+                {
+                    statusExecuting = true;
+                    if (statusCount == P1StatusOnGrid.Count) // when status effects are done
+                    {
+                        for (int i = 0; i < P1StatusOnGrid.Count; i++)
+                        {
+                            if (P1StatusOnGrid[i].timeLeft <= 0)
+                            {
+                                EnvironmentalHazard.HazardInfo h = P1StatusOnGrid[i];
+                                h.type.RemoveHazard(hexGrid, h.x, h.z, h.size);
+                                P1StatusOnGrid.Remove(P1StatusOnGrid[i]);
+                            }
+                        }
+                        statusFinished = true;
+                    }
+                    if (statusCount < P1StatusOnGrid.Count) //for every status
+                    {
+                        EnvironmentalHazard.HazardInfo h = P1StatusOnGrid[statusCount];
+
+                        P1StatusOnGrid[statusCount] = new EnvironmentalHazard.HazardInfo(h.type, h.x, h.y, h.z, h.timeLeft - 1, h.size);
+                        //Debug.Log("hazard time left: " + h.timeLeft--.ToString());
+                        //Debug.Log("x: " + h.x + " z: " + h.z);
+                        StartCoroutine(Snap_To_Hazard(h.x, h.z));
+                        StartCoroutine(HandleStatus(statusCount,1));
+
+                    }
+                }
+                if (statusFinished) // when hazarrds are done
+                {
+                    //BattleUI_Turn.turn.text = "PLAYER 1";
+                    //BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P1_Color;
+                    wasP1Turn = true;
+                    statusExecuting = false;
+                    statusFinished = false;
+                    statusCount = 0;
+                    allow_cursor_control = true;
+                    Snap_To_First_Unit();
+                    currentState = TurnStates.CHECK;
+                }
+                break;
+
             case (TurnStates.P2_MOVE):
                 if (P2Team[0].GetComponent<HeroUnit>().myType == HeroUnit.BuffType.EveryTurn && !debuffed)
                 {
@@ -461,7 +508,7 @@ public class HexagonMapEditor : MonoBehaviour
                     cur_attacking = false;
                     attack_count = 0;
                     attacking = false;
-                    currentState = TurnStates.CHECK;
+                    currentState = TurnStates.P2_STATUS_EFFECT;
                     allow_cursor_control = true;
                     if (MoveableUnits.Count > 0)
                     {
@@ -470,6 +517,50 @@ public class HexagonMapEditor : MonoBehaviour
                     }
                     P1_Team_portrait_UI.Update_Portraits();
                     P2_Team_portrait_UI.Update_Portraits();
+                }
+                break;
+
+            case (TurnStates.P2_STATUS_EFFECT):
+
+                if (!statusExecuting) // status effect exectution 
+                {
+                    statusExecuting = true;
+                    if (statusCount == P2StatusOnGrid.Count) // when status effects are done
+                    {
+                        for (int i = 0; i < P2StatusOnGrid.Count; i++)
+                        {
+                            if (P2StatusOnGrid[i].timeLeft <= 0)
+                            {
+                                EnvironmentalHazard.HazardInfo h = P2StatusOnGrid[i];
+                                h.type.RemoveHazard(hexGrid, h.x, h.z, h.size);
+                                P2StatusOnGrid.Remove(P2StatusOnGrid[i]);
+                            }
+                        }
+                        statusFinished = true;
+                    }
+                    if (statusCount < P2StatusOnGrid.Count) //for every status
+                    {
+                        EnvironmentalHazard.HazardInfo h = P2StatusOnGrid[statusCount];
+
+                        P2StatusOnGrid[statusCount] = new EnvironmentalHazard.HazardInfo(h.type, h.x, h.y, h.z, h.timeLeft - 1, h.size);
+                        //Debug.Log("hazard time left: " + h.timeLeft--.ToString());
+                        //Debug.Log("x: " + h.x + " z: " + h.z);
+                        StartCoroutine(Snap_To_Hazard(h.x, h.z));
+                        StartCoroutine(HandleStatus(statusCount, 1));
+
+                    }
+                }
+                if (statusFinished) // when hazarrds are done
+                {
+                    //BattleUI_Turn.turn.text = "PLAYER 1";
+                    //BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P1_Color;
+                    wasP1Turn = true;
+                    statusExecuting = false;
+                    statusFinished = false;
+                    statusCount = 0;
+                    allow_cursor_control = true;
+                    Snap_To_First_Unit();
+                    currentState = TurnStates.CHECK;
                 }
                 break;
             case (TurnStates.CHECK):
@@ -580,6 +671,19 @@ public class HexagonMapEditor : MonoBehaviour
         
         
         //hazardsFinished = true;
+    }
+    public IEnumerator HandleStatus(int count, int playerNum)
+    {
+        EnvironmentalHazard.HazardInfo h_info;
+        if (playerNum == 1)
+            h_info = P1StatusOnGrid[count];
+        else
+            h_info = P2StatusOnGrid[count];
+        StartCoroutine(h_info.type.Effect(hexGrid, h_info.x, h_info.z, h_info.size));
+        yield return new WaitForSeconds(h_info.type.anim_time);
+        statusExecuting = false;
+        statusCount++;
+        h_info.timeLeft -= 1;
     }
 
     public void MovePhase(string joystick) // handles input from the player to correctly move the unit
