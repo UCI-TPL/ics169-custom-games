@@ -583,9 +583,9 @@ public class StartUnit : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         //attackSound.Play();
         //Camera.main.gameObject.GetComponent<CameraBounder>().Shake_Camera(2f, 20f);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.8f);
         anim.SetBool("Attacking", false);
-        yield return new WaitForSeconds(0.5f);
+        //yield return new WaitForSeconds(0.5f);
         if (end_attack_without_retaliate)
         {
             if (attacked_unit_has_died)
@@ -624,9 +624,9 @@ public class StartUnit : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         //attackSound.Play();
         //Camera.main.gameObject.GetComponent<CameraBounder>().Shake_Camera(2f, 20f);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.8f);
         anim.SetBool("Attacking", false);
-        yield return new WaitForSeconds(0.5f);
+        //yield return new WaitForSeconds(0.5f);
         Camera.main.gameObject.GetComponent<CameraBounder>().Lerp_Reset_Zoom();
         yield return new WaitForSeconds(0.1f);
         retaliated_upon_unit.currently_attacking = false;
