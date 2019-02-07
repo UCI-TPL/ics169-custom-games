@@ -36,7 +36,7 @@ public class StartMenu : MonoBehaviour {
 
     public void Back2Menu()
     {
-        if (Input.GetButtonDown("Cancel") && controlsMenu.activeInHierarchy)
+        if (Input.GetButtonDown("Cancel") && controlsMenu.activeInHierarchy && controlsMenu.GetComponent<MenuScroll>().currentItem == 0)
         {
             controlsMenu.SetActive(false);
             maincanvas.SetActive(true);
