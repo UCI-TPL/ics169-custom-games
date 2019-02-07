@@ -79,7 +79,7 @@ public class DraftUI : MonoBehaviour {
                 }
                 FortressHeroBack.enabled = true;
             }
-            if(temp.unit_type == "Poison")
+            if(temp.unit_type == "Plague")
             {
                 if(FortressHeroBack.enabled)
                 {
