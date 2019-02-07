@@ -19,7 +19,6 @@ public class PoisonHero : HeroUnit {
 
     public override void TakeDamage(StartUnit attacked_unit, float damage) // will occur when the hero retaliates and attacks (2 per turn)
     {
-        print("using the TakeDamage() function");
         base.TakeDamage(attacked_unit, damage); // the normal function from StartUnit
 
         DecrementCounter();
@@ -32,8 +31,12 @@ public class PoisonHero : HeroUnit {
 
     public void ShootPoisonGas(HexagonCoord coord) // spawn the environmental hazard "PoisonGas"
     {
-        editor.hazardsOnGrid.Add(poisonGas.CreateHazardAt(coord));
-       
+        print("shooting poison  from hero");
+        if(gameObject.tag  == "Player 1")
+            editor.hazardsOnGrid.Add(poisonGas.CreateHazardAt(coord, "P1"));
+        else if(gameObject.tag == "Player 2")
+            editor.hazardsOnGrid.Add(poisonGas.CreateHazardAt(coord, "P2"));
+
         specialAttackCounter = 5;
     }
     public void DecrementCounter() // decrease the counter in a nicer way? don't know why i wrote this function honestly

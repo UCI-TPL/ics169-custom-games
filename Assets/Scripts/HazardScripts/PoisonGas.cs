@@ -7,30 +7,31 @@ public class PoisonGas : EnvironmentalHazard {
     public HazardInfo CreateHazardAt(HexagonCoord coord)
     {
         // code to spawn the particle system or whatever to show the effect
-        Debug.Log("shooting poison gas on map");
-        return new HazardInfo(this, coord.x, coord.Y_coord, coord.z, timeOnBoard, 1);
+        Debug.Log("creating poison gas on map");
+        HazardInfo h_info = new HazardInfo(this, coord.x, coord.Y_coord, coord.z, timeOnBoard, 1);
+        return h_info;
     }
 
     public override void RemoveHazard(Grid hexGrid, int x, int z, int size)
     {
         Debug.Log("removing poison gas from map");
-        List<HexagonCell> frontier = new List<HexagonCell>();
-        HexagonCell curr = hexGrid.Get_Cell_Index(new HexagonCoord(x, z));
-        for (int i = 0; i < hexGrid.cells.Length; i++)
-        {
+        //List<HexagonCell> frontier = new List<HexagonCell>();
+        //HexagonCell curr = hexGrid.Get_Cell_Index(new HexagonCoord(x, z));
+        //for (int i = 0; i < hexGrid.cells.Length; i++)
+        //{
 
-            int distance = curr.coords.FindDistanceTo(hexGrid.cells[i].coords);
-            if (distance <= size)
-            {
-                frontier.Add(hexGrid.cells[i]);
-            }
-        }
-        for (int j = 0; j < frontier.Count; j++)
-        {
-            Destroy(frontier[j].HazardObject);
-        }
-        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().birdSound.Play();
-        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().rainSound.Stop();
+        //    int distance = curr.coords.FindDistanceTo(hexGrid.cells[i].coords);
+        //    if (distance <= size)
+        //    {
+        //        frontier.Add(hexGrid.cells[i]);
+        //    }
+        //}
+        //for (int j = 0; j < frontier.Count; j++)
+        //{
+        //    Destroy(frontier[j].HazardObject);
+        //}
+        //GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().birdSound.Play();
+        //GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().rainSound.Stop();
     }
 
     public override IEnumerator Effect(Grid hexGrid, int x, int z, int size)
@@ -50,7 +51,7 @@ public class PoisonGas : EnvironmentalHazard {
         }
         for (int j = 0; j < frontier.Count; j++)
         {
-            if (frontier[j].occupied)
+            if (frontier[j].occupied && frontier[j].unitOnTile.gameObject.tag != gameObject.tag)
             {
                 frontier[j].unitOnTile.current_health -= 25;
 

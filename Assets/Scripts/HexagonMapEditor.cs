@@ -89,7 +89,9 @@ public class HexagonMapEditor : MonoBehaviour
     public bool hazardsExecuting = false;
     public bool hazardsFinished = false;
     public int hazardCount = 0;
-    
+    /***********************STATUS EFFECTS*****************************/
+    public List<EnvironmentalHazard.HazardInfo> P1StatusOnGrid = new List<EnvironmentalHazard.HazardInfo>();
+    public List<EnvironmentalHazard.HazardInfo> P2StatusOnGrid = new List<EnvironmentalHazard.HazardInfo>();
 
     public bool allow_cursor_control;
 
@@ -108,6 +110,8 @@ public class HexagonMapEditor : MonoBehaviour
         CHECK,
         P1_WIN,
         P2_WIN,
+        P1_STATUS_EFFECT,
+        P2_STATUS_EFFECT,
         END
     }
 
