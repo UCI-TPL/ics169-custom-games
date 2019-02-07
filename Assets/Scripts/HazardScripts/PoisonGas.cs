@@ -41,10 +41,10 @@ public class PoisonGas : EnvironmentalHazard {
     public override void RemoveHazard(Grid hexGrid, int x, int z, int size)
     {
         Debug.Log("removing poison gas from map");
-        //List<HexagonCell> frontier = new List<HexagonCell>();
-        //HexagonCell curr = hexGrid.Get_Cell_Index(new HexagonCoord(x, z));
-        //for (int i = 0; i < hexGrid.cells.Length; i++)
-        //{
+        List<HexagonCell> frontier = new List<HexagonCell>();
+        HexagonCell curr = hexGrid.Get_Cell_Index(new HexagonCoord(x, z));
+        for (int i = 0; i < hexGrid.cells.Length; i++)
+        {
 
 
             int distance = curr.coords.FindDistanceTo(hexGrid.cells[i].coords);
