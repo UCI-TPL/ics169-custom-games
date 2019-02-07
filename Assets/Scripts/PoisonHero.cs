@@ -25,14 +25,15 @@ public class PoisonHero : HeroUnit {
         DecrementCounter();
         if (specialAttackCounter == 0)
         {
-            ShootPoisonGas(HexagonCoord.FromPosition(attacked_unit.transform.position));
+            
+            ShootPoisonGas(editor.hexGrid.GetCell(attacked_unit.transform.position));
         }
     }
 
 
-    public void ShootPoisonGas(HexagonCoord coord) // spawn the environmental hazard "PoisonGas"
+    public void ShootPoisonGas(HexagonCell cell) // spawn the environmental hazard "PoisonGas"
     {
-        editor.hazardsOnGrid.Add(poisonGas.CreateHazardAt(coord));
+        editor.hazardsOnGrid.Add(poisonGas.CreateHazardAt(cell, editor.hexGrid));
        
         specialAttackCounter = 5;
     }

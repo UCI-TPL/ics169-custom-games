@@ -4,10 +4,35 @@ using UnityEngine;
 
 public class PoisonGas : EnvironmentalHazard {
 
-    public HazardInfo CreateHazardAt(HexagonCoord coord)
+    public HazardInfo CreateHazardAt(HexagonCell cell, Grid hexGrid)
     {
         // code to spawn the particle system or whatever to show the effect
         Debug.Log("shooting poison gas on map");
+        HexagonCoord coord = cell.coords;
+        int size = 1;
+        List<HexagonCell> frontier = new List<HexagonCell>();
+        //HexagonCell curr = hexGrid.Get_Cell_Index(new HexagonCoord(rand.x, rand.z));
+
+        //HexagonCell hexa_cell = coord.
+
+        for (int i = 0; i < hexGrid.cells.Length; i++)
+        {
+
+            int distance = cell.coords.FindDistanceTo(hexGrid.cells[i].coords);
+            if (distance <= size)
+            {
+                frontier.Add(hexGrid.cells[i]);
+            }
+        }
+
+        for (int j = 0; j < frontier.Count; j++)
+        {
+            frontier[j].Create_Poison_Cloud();
+        }
+        //GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().lightningSound.Play();
+        //GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().rainSound.Play();
+
+
         return new HazardInfo(this, coord.x, coord.Y_coord, coord.z, timeOnBoard, 1);
     }
 
@@ -27,7 +52,7 @@ public class PoisonGas : EnvironmentalHazard {
         }
         for (int j = 0; j < frontier.Count; j++)
         {
-            Destroy(frontier[j].HazardObject);
+            Destroy(frontier[j].Poison_Cloud_Obj);
         }
         GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().birdSound.Play();
         GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().rainSound.Stop();
