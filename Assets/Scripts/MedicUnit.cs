@@ -30,7 +30,7 @@ public class MedicUnit : StartUnit {
             editor.cursor.Assign_Position(this.transform.position, hexGrid.GetCell(this.transform.position).coords);
             editor.Main_Cam.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, editor.Main_Cam.transform.position.z);
             //StartCoroutine(this.Blink(Color.green, this, Time.time + 0.8f));
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(0.3f);
 
             int rand_index = Random.Range(0, targetable.Count);
             float crit_chance = Random.value;

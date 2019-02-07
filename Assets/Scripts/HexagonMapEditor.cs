@@ -653,9 +653,12 @@ public class HexagonMapEditor : MonoBehaviour
             }
             else
             {
-                SelectUnit(currentCell, index); // make the selected unit that unit
-                //Play Unit Selected Sound
-                select_sound.Play();
+                if (MoveableUnits.Contains(currentCell.unitOnTile))
+                {
+                    SelectUnit(currentCell, index); // make the selected unit that unit
+                    select_sound.Play(); //Play Unit Selected Sound
+                }
+                
             }
         }
         else if (!currentCell.occupied && isUnitSelected && !attacking) // a unit is already selected
