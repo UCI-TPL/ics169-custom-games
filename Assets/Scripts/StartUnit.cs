@@ -642,6 +642,10 @@ public class StartUnit : MonoBehaviour
     //{
     //    Camera.main.gameObject.GetComponent<CameraBounder>().Shake_Camera();
     //}
+    public void PlayHit() // for objects not actually in the scene to call coroutines ex) AcidRain.Effect()
+    {
+        StartCoroutine(Hit());
+    }
 
     public IEnumerator Hit()
     {
@@ -658,6 +662,11 @@ public class StartUnit : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
         anim.SetBool("Moving", false);
         moveSound.Stop();
+    }
+
+    public void PlayBlink(Color32 color, StartUnit unit, float time_until) // similar to PlayHit() to pass initiative to the object so it can actually perform the coroutine
+    {
+        StartCoroutine(Blink(color, unit, time_until));
     }
 
     public IEnumerator Blink(Color32 color, StartUnit unit, float time_until)
