@@ -25,7 +25,11 @@ public class PlayerInformation : MonoBehaviour
     public List<StartUnit> AllP2Units = new List<StartUnit>();
     public List<StartUnit> Hero1Units = new List<StartUnit>();
     public List<StartUnit> Hero2Units = new List<StartUnit>();
-    public List<StartUnit> PoolUnits = new List<StartUnit>(); // random  pool of units
+    public List<StartUnit> P1PoolUnits = new List<StartUnit>(); // random  pool of units
+    public List<StartUnit> P2PoolUnits = new List<StartUnit>();
+    public List<StartUnit> RemovedP1Units = new List<StartUnit>(); // list of units that will get put back in after because they cant be chosen by that player
+    public List<StartUnit> RemovedP2Units = new List<StartUnit>(); // **** doesnt work for two players make it work for two players later!!!!!!!!!!!
+    public bool removed = false;
     private float p1ScrollTime;
     private float p2ScrollTime;
     public int p1ScrollValue;
@@ -142,8 +146,8 @@ public class PlayerInformation : MonoBehaviour
                     }
                     if (!draftUI.blinking)
                         StartCoroutine(draftUI.Blink(draftUI.P1Choice1));
-                    if (pool)
-                        CheckPool();
+                    //if (pool)
+                    //    CheckPool();
                     ChooseCharacter("P1",true);
                     DraftPick("P1", true);
                     break;
@@ -172,8 +176,8 @@ public class PlayerInformation : MonoBehaviour
                         draftUI.P2Pick2();
                         currentState = DraftStates.P1_Pick_2;
                     }
-                    if (pool)
-                        CheckPool();
+                    //if (pool)
+                    //    CheckPool();
                     ChooseCharacter("P2",false);
                     DraftPick("P2",false);
                     
@@ -208,8 +212,8 @@ public class PlayerInformation : MonoBehaviour
                         }
                     }
 
-                    if (pool)
-                        CheckPool();
+                    //if (pool)
+                    //    CheckPool();
                     ChooseCharacter("P1",false);
                     DraftPick("P1",false);
                     draftUI.ChoiceText.text = "Player 1 Select Your Unit";
@@ -239,8 +243,8 @@ public class PlayerInformation : MonoBehaviour
                         draftUI.P2Pick4();
                         currentState = DraftStates.P1_Pick_3;
                     }
-                    if (pool)
-                        CheckPool();
+                    //if (pool)
+                    //    CheckPool();
                     ChooseCharacter("P2",false);
                     DraftPick("P2",false);
                     draftUI.ChoiceText.text = "Player 2 Select Your Unit";
@@ -274,8 +278,8 @@ public class PlayerInformation : MonoBehaviour
                             currentState = DraftStates.P2_Pick_3;
                         }
                     }
-                    if (pool)
-                        CheckPool();
+                    //if (pool)
+                    //    CheckPool();
                     ChooseCharacter("P1",false);
                     DraftPick("P1",false);
                     draftUI.ChoiceText.text = "Player 1 Select Your Unit";
@@ -304,8 +308,8 @@ public class PlayerInformation : MonoBehaviour
                         draftUI.P2Pick5();
                         currentState = DraftStates.Check_Teams; //DraftStates.Enter_Battle;
                     }
-                    if (pool)
-                        CheckPool();
+                    //if (pool)
+                    //    CheckPool();
                     ChooseCharacter("P2",false);
                     DraftPick("P2",false);
                     draftUI.ChoiceText.text = "Player 2 Select Your Unit";
@@ -332,47 +336,89 @@ public class PlayerInformation : MonoBehaviour
         }
     }
 
-    private void CheckPool()
+    private void CheckPool(string playerNum) // for all the units, for all the units in the pool, add their count
     {
-        int[] counts = new int[AllP1Units.Count];
-        for (int j = 0; j < AllP1Units.Count; j++)
+        if (playerNum == "P1")
         {
-            for (int i = 0; i < PoolUnits.Count; i++)
+            int[] counts = new int[AllP1Units.Count];
+            for (int j = 0; j < AllP1Units.Count; j++)
             {
-                if(PoolUnits[i] == AllP1Units[j])
-                    counts[j]++;
+                for (int i = 0; i < P1PoolUnits.Count; i++)
+                {
+                    if (P1PoolUnits[i] == AllP1Units[j])
+                        counts[j]++;
+                }
+            }
+            string result = "";
+            for (int k = 0; k < counts.Length; k++)
+            {
+                result += AllP1Units[k].name + " x" + counts[k] + "\n";
+            }
+            //display.text = result;
+        }
+        else
+        {
+            int[] counts = new int[AllP2Units.Count];
+            for (int j = 0; j < AllP2Units.Count; j++)
+            {
+                for (int i = 0; i < P2PoolUnits.Count; i++)
+                {
+                    if (P2PoolUnits[i] == AllP2Units[j])
+                        counts[j]++;
+                }
+            }
+            string result = "";
+            for (int k = 0; k < counts.Length; k++)
+            {
+                result += AllP2Units[k].name + " x" + counts[k] + "\n";
             }
         }
-        string result = "";
-        for(int k = 0; k < counts.Length; k++)
-        {
-            result += AllP1Units[k].name + " x" + counts[k] + "\n";
-        }
-        //display.text = result;
     }
 
     public void RandomPool()
     {
-        for(int i = 0; i < 10; i++)
+        for(int j = 0; j < 4; j++)
+        {
+            P1PoolUnits.Add(AllP1Units[j]);
+            P2PoolUnits.Add(AllP2Units[j]);
+        }
+        for(int i = 0; i < 6; i++)
         {
             int rand_index = Random.Range(0, AllP1Units.Count);
-            PoolUnits.Add(AllP1Units[rand_index]);
+            P1PoolUnits.Add(AllP1Units[rand_index]);
+            P2PoolUnits.Add(AllP2Units[rand_index]);
         }
-        CheckUnits();
+        CheckUnits("P1");
+        CheckUnits("P2");
     }
 
-    public void CheckUnits()
+    public void CheckUnits(string playerNum) // for all the units, if there are no more of them, remove them from the list
     {
-        for(int i = 0; i < AllP1Units.Count; i++)
+        if (playerNum == "P1")
         {
-            if(!PoolUnits.Contains(AllP1Units[i]))
+            for (int i = 0; i < AllP1Units.Count; i++)
             {
-                AllP1Units.Remove(AllP1Units[i]);
-                AllP2Units.Remove(AllP2Units[i]);
-                if (p1ScrollValue == AllP1Units.Count)
-                    p1ScrollValue = 0;
+                if (!P1PoolUnits.Contains(AllP1Units[i]))
+                {
+                    AllP1Units.Remove(AllP1Units[i]);
+                    if (p1ScrollValue == AllP1Units.Count)
+                        p1ScrollValue = 0;
+                }
+
             }
-                
+        }
+        else if (playerNum == "P2")
+        {
+            for (int i = 0; i < AllP2Units.Count; i++)
+            {
+                if (!P2PoolUnits.Contains(AllP2Units[i]))
+                {
+                    AllP2Units.Remove(AllP2Units[i]);
+                    if (p1ScrollValue == AllP2Units.Count)
+                        p1ScrollValue = 0;
+                }
+
+            }
         }
     }
 
@@ -431,14 +477,16 @@ public class PlayerInformation : MonoBehaviour
         }
     }
 
-    private int ChangeCharacter(int counter, int direction, bool hero)
+    private int ChangeCharacter(int counter, int direction, bool hero, string playerNum)
     {
         int newVal = counter + direction;
         int limit;
-        if(hero)
+        if (hero)
             limit = Hero1Units.Count - 1;
-        else
+        else if (playerNum == "P1")
             limit = AllP1Units.Count - 1;
+        else
+            limit = AllP2Units.Count - 1;
       
         if (newVal < 0)
         {
@@ -466,12 +514,12 @@ public class PlayerInformation : MonoBehaviour
                 p1ScrollTime = Time.time + 0.25f;
                 if (value > 0.0f)
                 {
-                    p1ScrollValue = ChangeCharacter(p1ScrollValue, 1, hero);
+                    p1ScrollValue = ChangeCharacter(p1ScrollValue, 1, hero, "P1"  );
                     //p1Text.text = AllP1Units[p1ScrollValue].name;
                 }
                 else
                 {
-                    p1ScrollValue = ChangeCharacter(p1ScrollValue, -1, hero);
+                    p1ScrollValue = ChangeCharacter(p1ScrollValue, -1, hero, "P1");
                     //p1Text.text = AllP1Units[p1ScrollValue].name;
                 }
             }
@@ -489,12 +537,12 @@ public class PlayerInformation : MonoBehaviour
                 p2ScrollTime = Time.time + 0.5f;
                 if (value > 0.0f)
                 {
-                    p1ScrollValue = ChangeCharacter(p1ScrollValue, 1, hero);
+                    p1ScrollValue = ChangeCharacter(p1ScrollValue, 1, hero, "P2");
                     //p2Text.text = AllP1Units[p2ScrollValue].name;
                 }
                 else
                 {
-                    p1ScrollValue = ChangeCharacter(p1ScrollValue, -1, hero);
+                    p1ScrollValue = ChangeCharacter(p1ScrollValue, -1, hero, "P2");
                     //p2Text.text = AllP1Units[p2ScrollValue].name;
                 }
             }
@@ -502,11 +550,53 @@ public class PlayerInformation : MonoBehaviour
 
     }
 
+    
+
+    private void AddUnitsBack(string playerNum) // couuld be cause not adding back the units properly?
+    {
+        Debug.Log("added units back");
+        if (playerNum == "P1")
+        {
+            for (int i = 0; i < RemovedP1Units.Count; i++)
+            {
+                if (RemovedP1Units[i].unit_type == "Ranger")
+                {
+                    AllP1Units.Insert(0, RemovedP1Units[i]);
+                    Debug.Log("inserted ranger");
+                }
+                else if (RemovedP1Units[i].unit_type == "Warrior")
+                    AllP1Units.Insert(1, RemovedP1Units[i]);
+                else if (RemovedP1Units[i].unit_type == "Tank")
+                    AllP1Units.Insert(2, RemovedP1Units[i]);
+                else if (RemovedP1Units[i].unit_type == "Healer")
+                    AllP1Units.Insert(3, RemovedP1Units[i]);
+                //RemovedP1Units.Remove(RemovedP1Units[i]);
+            }
+            RemovedP1Units.Clear();
+        }
+        else
+        {
+            for (int j = 0; j < RemovedP2Units.Count; j++)
+            {
+                if (RemovedP2Units[j].unit_type == "Ranger")
+                    AllP2Units.Insert(0, RemovedP1Units[j]);
+                else if (RemovedP2Units[j].unit_type == "Warrior")
+                    AllP2Units.Insert(1, RemovedP1Units[j]);
+                else if (RemovedP2Units[j].unit_type == "Tank")
+                    AllP2Units.Insert(2, RemovedP1Units[j]);
+                else if (RemovedP2Units[j].unit_type == "Healer")
+                    AllP2Units.Insert(3, RemovedP1Units[j]);
+                //RemovedP2Units.Remove(RemovedP2Units[j]);
+            }
+            RemovedP2Units.Clear();
+        }
+    }
+
     private void DraftPick(string team, bool hero)
     {
         if(team == "P1")
         {
-            
+
             if (Input.GetButton(player1 + "A Button") && p1PickTime <= Time.time)
             {
                 //play the picked sound or voice line???
@@ -514,39 +604,28 @@ public class PlayerInformation : MonoBehaviour
                 p1PickTime = Time.time + 1f;
                 if(hero)
                 {
-                    if (p1Cost - Hero1Units[p1ScrollValue].cost >= 0)
-                    {
-                        Player1Chosen.Add(Hero1Units[p1ScrollValue]);
-                        p1Cost -= Hero1Units[p1ScrollValue].cost;
-                    }
-                    else
-                    {
-                        Debug.Log("unit cost too much");
-                        return;
-                    }
+
+                   Player1Chosen.Add(Hero1Units[p1ScrollValue]);
+
                 }
                 else
                 {
-                    if (p1Cost - AllP1Units[p1ScrollValue].cost >= 0)
-                    {
-                        Player1Chosen.Add(AllP1Units[p1ScrollValue]);
-                        p1Cost -= AllP1Units[p1ScrollValue].cost;
-                    }
-                    else
-                    {
-                        Debug.Log("unit cost too much");
-                        return;
-                    }
+
+                   Player1Chosen.Add(AllP1Units[p1ScrollValue]);
+
                 }
                 if (pool && !hero)
                 {
-                    PoolUnits.Remove(AllP1Units[p1ScrollValue]);
-                    CheckUnits();
+                    P1PoolUnits.Remove(AllP1Units[p1ScrollValue]);
+                    CheckUnits("P1");
                 }
+
             }
+            
         }
         if(team == "P2")
         {
+
             if (Input.GetButton(player2 + "A Button") && p2PickTime <= Time.time)
             {
                 //play the picked sound or voice line???
@@ -554,37 +633,25 @@ public class PlayerInformation : MonoBehaviour
                 p2PickTime = Time.time + 1f;
                 if (hero)
                 {
-                    if (p2Cost - Hero2Units[p1ScrollValue].cost >= 0)
-                    {
-                        Player2Chosen.Add(Hero2Units[p1ScrollValue]);
-                        p2Cost -= Hero2Units[p1ScrollValue].cost;
-                    }
-                    else
-                    {
-                        Debug.Log("unit cost too much");
-                        return;
-                    }
+
+                   Player2Chosen.Add(Hero2Units[p1ScrollValue]);
+
                 }
                 else
                 {
-                    if (p2Cost - AllP2Units[p1ScrollValue].cost >= 0)
-                    {
-                        Player2Chosen.Add(AllP2Units[p1ScrollValue]);
-                        p2Cost -= AllP2Units[p1ScrollValue].cost;
-                    }
-                    else
-                    {
-                        Debug.Log("unit cost too much");
-                        return;
-                    }
+                
+                   Player2Chosen.Add(AllP2Units[p1ScrollValue]);
+
                 }
-	            if (pool)
-	            {
-	                PoolUnits.Remove(AllP1Units[p1ScrollValue]);
-	                CheckUnits();
-	            }
+                if (pool && !hero)
+                {
+                    P2PoolUnits.Remove(AllP2Units[p1ScrollValue]);
+                    CheckUnits("P2");
+                }
+
             }
-            
+
+
         }
 
 

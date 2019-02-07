@@ -44,6 +44,7 @@ public class StartUnit : MonoBehaviour
     public bool slowed = false;
     //to determine if a retaliation is neccessary
     public bool end_attack_without_retaliate;
+    public bool attacked_unit_has_died;
     public bool crit_buff;
     public bool attack_buff;
     public bool health_buff;
@@ -106,6 +107,8 @@ public class StartUnit : MonoBehaviour
     public virtual IEnumerator BasicAttack(Grid hexGrid, HexagonCell unitCell) // return bool yes if dead false if no
     {
         end_attack_without_retaliate = true;
+        attacked_unit_has_died = false;
+        
         string name = unitCell.unitOnTile.unit_name; 
 
         
@@ -128,7 +131,7 @@ public class StartUnit : MonoBehaviour
             editor.Main_Cam.transform.position = Vector3.Lerp(editor.Main_Cam.transform.position, _new_Camera_Pos, 1f);
             
             //StartCoroutine(this.Blink(Color.green, this, Time.time + 0.8f));
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(0.3f);
             int selectedTarget = ChosenEnemy(targetable);
             //int rand_index = Random.Range(0, targetable.Count);
 
@@ -251,29 +254,6 @@ public class StartUnit : MonoBehaviour
             }
             Debug.Log(name + " attacked " + attacked_unit.unit_name + " for " + damage);
             TakeDamage(attacked_unit, damage);
-
-            //attacked_unit.current_health -= damage;
-            //attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
-
-            //float attack_deduction = attacked_unit.current_attack * (current_attack - attacked_unit.current_health / attacked_unit.health);
-            //if (attacked_unit.unit_ID == 6)//if attacked unit is berzerker then add to current attack
-            //{
-            //    float attack_increase = current_attack - attack_deduction;
-            //    current_attack += attack_increase;
-            //}
-            //else // reduce the units attack by certain amount
-            //{
-            //    if (attack_deduction > attacked_unit.basedmg)
-            //        attacked_unit.current_attack = attack_deduction;
-            //    else
-            //    {
-            //        if (attack_deduction <= basedmg)
-            //        {
-            //            attacked_unit.current_attack = basedmg;
-            //        }
-            //    }
-            //}
-
             
 
             //Debug.Log("he dead");
@@ -319,11 +299,22 @@ public class StartUnit : MonoBehaviour
 
                 }
                 end_attack_without_retaliate = true;
+                attacked_unit_has_died = true;
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 //int index = targetable[rand_index].coords.X_coord + targetable[rand_index].coords.Z_coord * hexGrid.width + targetable[rand_index].coords.Z_coord / 2;
                 //editor.RemoveUnitInfo(targetable[rand_index], index);
+
                 editor.Units_To_Delete.Add(attacked_cell);
                 attacked_unit.dead = true;
+                
+
+                yield return new WaitForSeconds(0.3f);
+
+                StartCoroutine(targetable[selectedTarget].unitOnTile.Hit());
+                StartCoroutine(attacked_unit.Blink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f));
+                
+                //attacked_unit.Fade_Out_Body();
+                //Should start some sort of DEATH ANIMATION COROUTINE HERE
             }
             else
             {
@@ -351,12 +342,13 @@ public class StartUnit : MonoBehaviour
     public virtual IEnumerator Retaliate(Grid hexGrid, HexagonCell unitCell_to_attack, HexagonCell unitCell_is_attacking) // return bool yes if dead false if no
     {
         //Debug.Log("Called_Retaliate");
-       	string attacker = unitCell_is_attacking.unitOnTile.unit_name;
+        attacked_unit_has_died = false;
+        string attacker = unitCell_is_attacking.unitOnTile.unit_name;
        	string receiver = unitCell_to_attack.unitOnTile.unit_name;
         editor.cursor.Assign_Position(this.transform.position, hexGrid.GetCell(this.transform.position).coords);
         editor.Main_Cam.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, editor.Main_Cam.transform.position.z);
         //StartCoroutine(this.Blink(Color.green, this, Time.time + 0.8f));
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.3f);
         
 
         StartUnit attacked_unit = unitCell_to_attack.unitOnTile;
@@ -475,6 +467,11 @@ public class StartUnit : MonoBehaviour
         Debug.Log("Retaliation: " + attacker + "hit " + receiver + "for " + damage);
         TakeDamage(attacked_unit, damage);
 
+        if(attacked_unit.current_health <= 0)
+        {
+            attacked_unit_has_died = true;
+        }
+
         StartCoroutine(Retaliate_Anim(attacked_unit));
         //Debug.Log("he dead");
         if (attacked_unit.current_health <= 0)
@@ -483,8 +480,17 @@ public class StartUnit : MonoBehaviour
             //int index = attacked_cell.coords.X_coord + attacked_cell.coords.Z_coord * hexGrid.width + attacked_cell.coords.Z_coord / 2;
             //editor.RemoveUnitInfo(attacked_cell, index);
             //Debug.Log("adding unit to delete list in relatiation");
+
+
             attacked_unit.dead = true;
             editor.Units_To_Delete.Add(attacked_cell);
+
+            yield return new WaitForSeconds(0.3f);
+
+            StartCoroutine(attacked_unit.Hit());
+            StartCoroutine(attacked_unit.Blink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f));
+            
+            //Some Kinda Death Animation Coroutine Here
         }
         else
         {
@@ -557,7 +563,7 @@ public class StartUnit : MonoBehaviour
             Attacking_Lines_List[Chosen_Voice_Line_Index].Play();
         }
         anim.SetBool("Attacking", true);
-        attackSound.Play();
+        //attackSound.Play();
         yield return new WaitForSeconds(0.5f);
         
         anim.SetBool("Attacking", false);
@@ -567,19 +573,37 @@ public class StartUnit : MonoBehaviour
 
     public IEnumerator Attack(Grid hexGrid, HexagonCell target, HexagonCell retaliator)
     {
+        if (Attacking_Lines_List.Length > 0)
+        {
+            int Chosen_Voice_Line_Index = Random.Range(0, Attacking_Lines_List.Length);
+            Attacking_Lines_List[Chosen_Voice_Line_Index].Play();
+        }
         Camera.main.gameObject.GetComponent<CameraBounder>().Lerp_Change_Zoom(75f);
         anim.SetBool("Attacking", true);
         yield return new WaitForSeconds(0.2f);
-        attackSound.Play();
+        //attackSound.Play();
         //Camera.main.gameObject.GetComponent<CameraBounder>().Shake_Camera(2f, 20f);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.8f);
         anim.SetBool("Attacking", false);
-        yield return new WaitForSeconds(0.5f);
+        //yield return new WaitForSeconds(0.5f);
         if (end_attack_without_retaliate)
         {
-            Camera.main.gameObject.GetComponent<CameraBounder>().Lerp_Reset_Zoom();
-            yield return new WaitForSeconds(0.3f);
-            currently_attacking = false;
+            if (attacked_unit_has_died)
+            {
+                Debug.Log("----------------------------------------- Unit Dead ---------------------------------------");
+                editor.cursor.Assign_Position(retaliator.gameObject.transform.position, retaliator.coords);
+                Camera.main.gameObject.GetComponent<CameraBounder>().Lerp_Change_Zoom(140f);
+                Camera.main.gameObject.GetComponent<CameraBounder>().Shake_Camera(20f, 0.8f);
+                yield return new WaitForSeconds(1f);
+                Camera.main.gameObject.GetComponent<CameraBounder>().Lerp_Reset_Zoom();
+                currently_attacking = false;
+            }
+            else
+            {
+                Camera.main.gameObject.GetComponent<CameraBounder>().Lerp_Reset_Zoom();
+                yield return new WaitForSeconds(0.1f);
+                currently_attacking = false;
+            }
         }
         else
         {
@@ -598,13 +622,13 @@ public class StartUnit : MonoBehaviour
         }
         anim.SetBool("Attacking", true);
         yield return new WaitForSeconds(0.2f);
-        attackSound.Play();
+        //attackSound.Play();
         //Camera.main.gameObject.GetComponent<CameraBounder>().Shake_Camera(2f, 20f);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.8f);
         anim.SetBool("Attacking", false);
-        yield return new WaitForSeconds(0.5f);
+        //yield return new WaitForSeconds(0.5f);
         Camera.main.gameObject.GetComponent<CameraBounder>().Lerp_Reset_Zoom();
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.1f);
         retaliated_upon_unit.currently_attacking = false;
         
     }
@@ -728,4 +752,63 @@ public class StartUnit : MonoBehaviour
         }
         return result;
     }
+
+    public void Play_Attack_Sound_On_Event()
+    {
+        attackSound.Play();
+        Debug.Log("Attack_Sound_Played");
+    }
+
+    public void Hide_All_Visible_Aspects()
+    {
+        foreach(SpriteRenderer sp_render in this.gameObject.GetComponentsInChildren<SpriteRenderer>())
+        {
+            sp_render.enabled = false;
+        }
+
+        foreach(SkinnedMeshRenderer sk_render in this.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            sk_render.enabled = false;
+        }        
+    }
+
+    public void Fade_Out_Body()
+    {
+        foreach (Anima2D.SpriteMeshInstance sm_instance in this.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>())
+        {
+            fade_out(sm_instance);
+        }
+    }
+
+    public IEnumerator co_Fade_Body()
+    {
+        yield return new WaitForSeconds(0.5f);
+        foreach (Anima2D.SpriteMeshInstance sm_instance in this.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>())
+        {
+            fade_out(sm_instance);
+        }
+    }
+
+    public IEnumerator fade_out(Anima2D.SpriteMeshInstance sm_instance)
+    {
+        Color color = sm_instance.color;
+        while (color.a > 0)
+        {
+            color.a -= 0.1f * Time.deltaTime;
+            sm_instance.color = color;
+            yield return null;
+        }
+    }
+
+    public void trigger_death_animation()
+    {
+        if(dead == true)
+        {
+            anim.SetBool("Hurt", false);
+            anim.SetBool("Death", true);
+            StartCoroutine(co_Fade_Body());
+            Debug.Log("This Character is dead ----------------------------------- ");
+        }
+    }
+
 }

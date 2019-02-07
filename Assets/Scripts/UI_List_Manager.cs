@@ -39,14 +39,26 @@ public class UI_List_Manager : MonoBehaviour {
         //	  instantiate prefab, 
         //	  set the data, 
         //	  add it to panel
+        float num_of_items = ListItems.Count;
+        float curr_num_counter = 0;
+        float desired_width_ratio = 0.1666f; //one eighth of the total size
         foreach (UI_List_Item list_item in ListItems)
         {
             GameObject newListItem = Instantiate(ListItemPrefab) as GameObject;
             UI_List controller = newListItem.GetComponent<UI_List>();
             controller.Icon_Obj.GetComponent<Image>().sprite = list_item.Icon;
             controller.Con_Text_Obj.GetComponent<Text>().text = list_item.Con_Text;
-            newListItem.transform.parent = UI_ListPanel.transform;
+            newListItem.transform.SetParent(UI_ListPanel.transform,false);
             newListItem.transform.localScale = Vector3.one;
+            //max x and min x should always be 1 and 0 respectively, but min and max y should change
+            float max_y_anchor = 1 - (curr_num_counter * desired_width_ratio);
+            float min_y_anchor = 1 - ((curr_num_counter + 1) * desired_width_ratio);
+            newListItem.GetComponent<RectTransform>().anchorMax = new Vector2(1, max_y_anchor);
+            newListItem.GetComponent<RectTransform>().anchorMin = new Vector2(0, min_y_anchor);
+            newListItem.GetComponent<RectTransform>().sizeDelta = UI_ListPanel.GetComponent<RectTransform>().rect.size;
+            newListItem.GetComponent<RectTransform>().offsetMax = new Vector2(0,0);
+            newListItem.GetComponent<RectTransform>().offsetMin = new Vector2(0,0);
+            curr_num_counter += 1;
         }
     }
 
@@ -81,24 +93,16 @@ public class UI_List_Manager : MonoBehaviour {
         //is unit currently selected
         if (Editor.isUnitSelected)
         {
-            //is that unit still able to move
-            if(Editor.MoveableUnits.Contains(Editor.SelectedUnit)){
-                //Check if cursor over other unit or over non-occupied tile
-                if(_Grid.Get_Cell_Index(cursor.coords).unitOnTile != null && _Grid.Get_Cell_Index(cursor.coords).unitOnTile != Editor.SelectedUnit)
-                {
-                    ListItems.Add(new UI_List_Item(IconImages[0], "Select Unit"));
-                }
-                else
-                {
-                    ListItems.Add(new UI_List_Item(IconImages[0], "Move Unit"));
-                }
-            }
-            else
+            
+            //Check if cursor over other unit or over non-occupied tile
+            if(_Grid.Get_Cell_Index(cursor.coords).unitOnTile != null && _Grid.Get_Cell_Index(cursor.coords).unitOnTile != Editor.SelectedUnit 
+                && Editor.MoveableUnits.Contains(_Grid.Get_Cell_Index(cursor.coords).unitOnTile))
             {
-                if (_Grid.Get_Cell_Index(cursor.coords).unitOnTile != null && _Grid.Get_Cell_Index(cursor.coords).unitOnTile != Editor.SelectedUnit)
-                {
-                    ListItems.Add(new UI_List_Item(IconImages[0], "Select Unit"));
-                }
+                ListItems.Add(new UI_List_Item(IconImages[0], "Select Unit"));
+            }
+            else if(_Grid.Get_Cell_Index(cursor.coords).unitOnTile == null || _Grid.Get_Cell_Index(cursor.coords).unitOnTile == Editor.SelectedUnit)
+            {
+                ListItems.Add(new UI_List_Item(IconImages[0], "Move Unit"));
             }
             
             ListItems.Add(new UI_List_Item(IconImages[1],"Deselect Unit"));
@@ -107,7 +111,7 @@ public class UI_List_Manager : MonoBehaviour {
         }
         else
         {
-            if(_Grid.Get_Cell_Index(cursor.coords).unitOnTile != null)
+            if(_Grid.Get_Cell_Index(cursor.coords).unitOnTile != null && Editor.MoveableUnits.Contains(_Grid.Get_Cell_Index(cursor.coords).unitOnTile))
             {
                 ListItems.Add(new UI_List_Item(IconImages[0],"Select Unit"));
             }
@@ -116,14 +120,25 @@ public class UI_List_Manager : MonoBehaviour {
             ListItems.Add(new UI_List_Item(IconImages[2],"Pause Game"));
         }
 
+        float num_of_items = ListItems.Count;
+        float curr_num_counter = 0;
+        float desired_width_ratio = 0.1666f;
         foreach (UI_List_Item list_item in ListItems)
         {
             GameObject newListItem = Instantiate(ListItemPrefab) as GameObject;
             UI_List controller = newListItem.GetComponent<UI_List>();
             controller.Icon_Obj.GetComponent<Image>().sprite = list_item.Icon;
             controller.Con_Text_Obj.GetComponent<Text>().text = list_item.Con_Text;
-            newListItem.transform.parent = UI_ListPanel.transform;
+            newListItem.transform.SetParent(UI_ListPanel.transform);
             newListItem.transform.localScale = Vector3.one;
+            float max_y_anchor = 1 - (curr_num_counter * desired_width_ratio);
+            float min_y_anchor = 1 - ((curr_num_counter + 1) * desired_width_ratio);
+            newListItem.GetComponent<RectTransform>().anchorMax = new Vector2(1, max_y_anchor);
+            newListItem.GetComponent<RectTransform>().anchorMin = new Vector2(0, min_y_anchor);
+            newListItem.GetComponent<RectTransform>().sizeDelta = UI_ListPanel.GetComponent<RectTransform>().rect.size;
+            newListItem.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
+            newListItem.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
+            curr_num_counter += 1;
         }
     }
 

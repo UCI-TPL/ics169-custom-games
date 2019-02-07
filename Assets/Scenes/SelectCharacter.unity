@@ -299,14 +299,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 058137bcb777c407a95a9b4809cdc35b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2b062cacf44b5ff47a0dd88b0c31344a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -794,9 +794,12 @@ MonoBehaviour:
   P2Choice5: {fileID: 690302834}
   P2Choice6: {fileID: 0}
   P2Choice7: {fileID: 0}
-  Hero: {fileID: 342842848}
-  HeroBack: {fileID: 570045128}
-  HeroNum: {fileID: 1974936624}
+  FortressHero: {fileID: 342842848}
+  FortressHeroBack: {fileID: 570045128}
+  FortressHeroNum: {fileID: 1974936624}
+  PoisonHero: {fileID: 83611295}
+  PoisonHeroBack: {fileID: 1594389466}
+  PoisonHeroNum: {fileID: 874600153}
   Ranger: {fileID: 994692834}
   RangerBack: {fileID: 564992227}
   RangerNum: {fileID: 1486784256}
@@ -2615,6 +2618,7 @@ MonoBehaviour:
   removed: 0
   slowed: 0
   end_attack_without_retaliate: 0
+  attacked_unit_has_died: 0
   crit_buff: 0
   attack_buff: 0
   health_buff: 0
@@ -2933,6 +2937,7 @@ MonoBehaviour:
   removed: 0
   slowed: 0
   end_attack_without_retaliate: 0
+  attacked_unit_has_died: 0
   crit_buff: 0
   attack_buff: 0
   health_buff: 0
@@ -3011,7 +3016,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: xX
+  m_Text: 
 --- !u!222 &874600154
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3753,6 +3758,7 @@ MonoBehaviour:
   removed: 0
   slowed: 0
   end_attack_without_retaliate: 0
+  attacked_unit_has_died: 0
   crit_buff: 0
   attack_buff: 0
   health_buff: 0
@@ -3797,7 +3803,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.8805019}
   m_AnchorMax: {x: 0.8, y: 1}
-  m_AnchoredPosition: {x: 0, y: -1.2000122}
+  m_AnchoredPosition: {x: 0, y: -1.1999512}
   m_SizeDelta: {x: 0, y: 2.3999996}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1120654243
@@ -4591,7 +4597,7 @@ GameObject:
   - component: {fileID: 1513724747}
   - component: {fileID: 1513724746}
   m_Layer: 5
-  m_Name: New
+  m_Name: Poison
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4770,7 +4776,11 @@ MonoBehaviour:
   AllP2Units: []
   Hero1Units: []
   Hero2Units: []
-  PoolUnits: []
+  P1PoolUnits: []
+  P2PoolUnits: []
+  RemovedP1Units: []
+  RemovedP2Units: []
+  removed: 0
   p1ScrollValue: 0
   p2ScrollValue: 0
   p1Cost: 5000
@@ -4811,7 +4821,7 @@ GameObject:
   - component: {fileID: 1594389467}
   - component: {fileID: 1594389466}
   m_Layer: 5
-  m_Name: New_Highlight
+  m_Name: Poison_Highlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5229,6 +5239,7 @@ MonoBehaviour:
   removed: 0
   slowed: 0
   end_attack_without_retaliate: 0
+  attacked_unit_has_died: 0
   crit_buff: 0
   attack_buff: 0
   health_buff: 0
@@ -5769,7 +5780,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: xX
+  m_Text: 
 --- !u!1 &1982126621
 GameObject:
   m_ObjectHideFlags: 0
@@ -5916,6 +5927,7 @@ MonoBehaviour:
   removed: 0
   slowed: 0
   end_attack_without_retaliate: 0
+  attacked_unit_has_died: 0
   crit_buff: 0
   attack_buff: 0
   health_buff: 0
