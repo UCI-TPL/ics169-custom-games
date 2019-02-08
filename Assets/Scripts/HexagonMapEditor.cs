@@ -428,7 +428,7 @@ public class HexagonMapEditor : MonoBehaviour
                     statusFinished = false;
                     statusCount = 0;
                     allow_cursor_control = true;
-                    Snap_To_First_Unit();
+                    //Snap_To_First_Unit();
                     currentState = TurnStates.CHECK;
                 }
                 break;
@@ -589,7 +589,7 @@ public class HexagonMapEditor : MonoBehaviour
                     statusFinished = false;
                     statusCount = 0;
                     allow_cursor_control = true;
-                    Snap_To_First_Unit();
+                    //Snap_To_First_Unit();
                     currentState = TurnStates.CHECK;
                 }
                 break;

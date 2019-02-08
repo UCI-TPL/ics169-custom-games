@@ -363,7 +363,7 @@ public class StartUnit : MonoBehaviour
 
         //deals with missing or critting
 
-        if (miss_chance <= miss)
+        if (miss_chance <= miss || damage <= 0)
         {
             damage = 0;
         }
