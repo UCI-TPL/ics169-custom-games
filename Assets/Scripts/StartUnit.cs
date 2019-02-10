@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class StartUnit : MonoBehaviour
 {
 
+    public AnnouncerSoundManager Announcer; 
     public string unit_type;
     public string unit_name;
     public int unit_ID;
@@ -68,6 +69,7 @@ public class StartUnit : MonoBehaviour
     // Use this for initialization
     public void Start()
     {
+        Announcer = FindObjectOfType<AnnouncerSoundManager>();
     	attackSound.playOnAwake = false;
     	hitSound.playOnAwake = false;
     	moveSound.playOnAwake = false;
@@ -808,6 +810,7 @@ public class StartUnit : MonoBehaviour
             anim.SetBool("Death", true);
             StartCoroutine(co_Fade_Body());
             Debug.Log("This Character is dead ----------------------------------- ");
+            Announcer.randKillLine();
         }
     }
 
