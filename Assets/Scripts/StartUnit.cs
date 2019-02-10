@@ -65,6 +65,7 @@ public class StartUnit : MonoBehaviour
     [SerializeField]
     public AudioSource[] Getting_Hit_Lines_List = new AudioSource[0];
 
+    private int killCounter = 0;
 
     // Use this for initialization
     public void Start()
@@ -218,6 +219,7 @@ public class StartUnit : MonoBehaviour
                     damagetext.GetComponent<TextMesh>().text = "MISS";
                     damagetext.GetComponent<TextMesh>().color = Color.white;
                     damagetext.GetComponent<TextMesh>().characterSize = 0.06f;
+                    Announcer.randMissLine();
                 }
                     
                 
@@ -228,6 +230,7 @@ public class StartUnit : MonoBehaviour
                     {
                         damagetext.GetComponent<TextMesh>().color = Color.red;
                         damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * ((float)dmg_txt / 75f));
+                        Announcer.randCritLine();
                     }
                     else
                     {
@@ -805,12 +808,14 @@ public class StartUnit : MonoBehaviour
     public void trigger_death_animation()
     {
         if(dead == true)
-        {
+        {   
+            killCounter = killCounter + 1;
             anim.SetBool("Hurt", false);
             anim.SetBool("Death", true);
             StartCoroutine(co_Fade_Body());
             Debug.Log("This Character is dead ----------------------------------- ");
-            Announcer.randKillLine();
+            Announcer.multiKill(killCounter);
+            //Announcer.randKillLine();
         }
     }
 
