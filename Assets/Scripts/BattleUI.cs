@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class BattleUI : MonoBehaviour
 {
-
+    public Text obj_stats;
     public Text obj_name;
     public Text stats_atk;
     public Text stats_range;
