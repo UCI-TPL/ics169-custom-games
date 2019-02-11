@@ -2212,6 +2212,10 @@ MonoBehaviour:
   weight: 0
   defense: 0
   Icon: {fileID: 21300000, guid: 058137bcb777c407a95a9b4809cdc35b, type: 3}
+  attackBuff: {fileID: 0}
+  healthBuff: {fileID: 0}
+  mobilityBuff: {fileID: 0}
+  critBuff: {fileID: 0}
   cost: 0
   description: When its' units stand adjacent to it they get a defensive buff
   slowing_counter: 0
@@ -2220,6 +2224,7 @@ MonoBehaviour:
   current_attack: 0
   FloatingTextPrefab: {fileID: 1120425126322546, guid: 093bcb706ed94e3428f7bd3526dbc7e6,
     type: 2}
+  FloatingBuffPrefab: {fileID: 0}
   dead: 0
   health_bar: {fileID: 1647412176236576}
   anim: {fileID: 0}
