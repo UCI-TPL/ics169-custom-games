@@ -42,24 +42,6 @@ public class AnnouncerSoundManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		// regular.add(murder);
-		// regular.add(homicide);
-		// regular.add(bloodshed);
-		// regular.add(destruction);
-		// regular.add(manslaughter);
-		// regular.add(massacre);
-
-		// multi.add(double_kill);
-		// multi.add(triple_kill);
-		// multi.add(quadra_kill);
-		// multi.add(penta_kill);
-		// multi.add(hexa_kill);
-		// multi.add(hepta_kill);
-
-		// criticals.add(crit);
-		// criticals.add(critical);
-		// criticals.add(exceptional_hit);
-		// criticals.add(critical_hit);
 		regular =  new AudioClip[]{murder, homicide, bloodshed, destruction,
 								   manslaughter, massacre};
 
@@ -70,8 +52,6 @@ public class AnnouncerSoundManager : MonoBehaviour {
 									critical_hit};
 
 		miss = new AudioClip[]{try_aiming_next_time,you_suck};
-		// miss.add(try_aiming_next_time);
-		// miss.add(you_suck);
 	}
 
 	public void randKillLine()

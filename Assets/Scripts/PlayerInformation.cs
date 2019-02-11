@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class PlayerInformation : MonoBehaviour
 {
 
+    public SelectionSoundManager selectionSounds;
     public List<StartUnit> Player1Chosen = new List<StartUnit>();
     public List<StartUnit> Player2Chosen = new List<StartUnit>();
 
@@ -87,6 +88,7 @@ public class PlayerInformation : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        selectionSounds = FindObjectOfType<SelectionSoundManager>();
         one_time = true;
         //display = FindObjectOfType<Text>();
         DontDestroyOnLoad(this.gameObject);
@@ -606,12 +608,37 @@ public class PlayerInformation : MonoBehaviour
                 {
 
                    Player1Chosen.Add(Hero1Units[p1ScrollValue]);
+                   if(Hero1Units[p1ScrollValue].unit_type == "Fortress")
+                   {
+                        selectionSounds.fortress();
+                   }
+                   if(Hero1Units[p1ScrollValue].unit_type == "Plague")
+                   {
+                        selectionSounds.poison();
+                   }
+
 
                 }
                 else
                 {
 
                    Player1Chosen.Add(AllP1Units[p1ScrollValue]);
+                   if(AllP1Units[p1ScrollValue].unit_type == "Tank")
+                   {
+                        selectionSounds.tank();
+                   }
+                   if(AllP1Units[p1ScrollValue].unit_type == "Warrior")
+                   {
+                        selectionSounds.warrior();
+                   }
+                   if(AllP1Units[p1ScrollValue].unit_type == "Ranger")
+                   {
+                        selectionSounds.ranger();
+                   }
+                   if(AllP1Units[p1ScrollValue].unit_type == "Healer")
+                   {
+                        selectionSounds.healer();
+                   }
 
                 }
                 if (pool && !hero)
@@ -635,12 +662,36 @@ public class PlayerInformation : MonoBehaviour
                 {
 
                    Player2Chosen.Add(Hero2Units[p1ScrollValue]);
+                   if(Hero2Units[p1ScrollValue].unit_type == "Fortress")
+                   {
+                        selectionSounds.fortress();
+                   }
+                   if(Hero2Units[p1ScrollValue].unit_type == "Plague")
+                   {
+                        selectionSounds.poison();
+                   }
 
                 }
                 else
                 {
                 
                    Player2Chosen.Add(AllP2Units[p1ScrollValue]);
+                   if(AllP2Units[p1ScrollValue].unit_type == "Tank")
+                   {
+                        selectionSounds.tank();
+                   }
+                   if(AllP2Units[p1ScrollValue].unit_type == "Warrior")
+                   {
+                        selectionSounds.warrior();
+                   }
+                   if(AllP2Units[p1ScrollValue].unit_type == "Ranger")
+                   {
+                        selectionSounds.ranger();
+                   }
+                   if(AllP2Units[p1ScrollValue].unit_type == "Healer")
+                   {
+                        selectionSounds.healer();
+                   }
 
                 }
                 if (pool && !hero)
