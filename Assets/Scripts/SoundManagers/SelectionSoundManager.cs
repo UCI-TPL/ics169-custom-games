@@ -60,7 +60,7 @@ public class SelectionSoundManager : MonoBehaviour {
 
 	public void warrior()
 	{
-		if(warrior_select)
+		if(warrior_select != null)
 		{
 			select.clip = warrior_select;
 			select.Play();

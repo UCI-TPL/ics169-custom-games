@@ -10,6 +10,7 @@ public class FindLoadingScreen : MonoBehaviour {
         manager = GameObject.Find("GameManager");
         manager.GetComponent<PlayerInformation>().loadingScreen = GameObject.Find("LoadingScreen");
         manager.GetComponent<PlayerInformation>().loadingSlider = manager.GetComponent<PlayerInformation>().loadingScreen.GetComponentInChildren<Slider>();
+        manager.GetComponent<PlayerInformation>().selectionSounds = FindObjectOfType<SelectionSoundManager>();
 
     }
 
