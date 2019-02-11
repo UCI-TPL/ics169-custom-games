@@ -33,7 +33,7 @@ public class PoisonHero : HeroUnit {
     public void ShootPoisonGas(HexagonCell cell) // spawn the environmental hazard "PoisonGas"
     {
 
-        print("shooting poison  from hero");
+        Debug.Log("shooting poison  from hero");
         if(gameObject.tag == "Player 1")
             editor.P1StatusOnGrid.Add(poisonGas.CreateHazardAt(cell, editor.hexGrid));
         else if(gameObject.tag == "Player 2")
