@@ -584,7 +584,10 @@ public class HexagonMapEditor : MonoBehaviour
                 {
                     //BattleUI_Turn.turn.text = "PLAYER 1";
                     //BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P1_Color;
+
                     statusJustStarted = true;
+
+                    //wasP1Turn = false; //commenting this out cause it was breaking the game i think
                     statusExecuting = false;
                     statusFinished = false;
                     statusCount = 0;
