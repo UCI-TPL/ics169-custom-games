@@ -60,7 +60,11 @@ public class KidnapperHero : HeroUnit {
 
             float crit_chance = Random.value;
             float miss_chance = Random.value;
-            float damage = (current_attack * 1.5f) - targetable[selectedTarget].unitOnTile.defense;
+            float damage;
+            if (targetable[selectedTarget].GetComponent<HeroUnit>() != null)
+                damage = (current_attack * 1.5f) - targetable[selectedTarget].unitOnTile.defense;
+            else
+                damage = current_attack - targetable[selectedTarget].unitOnTile.defense;
             Debug.Log("Damage: " + damage);
             int dmg_txt = (int)damage;
             bool crit_happened = false;
