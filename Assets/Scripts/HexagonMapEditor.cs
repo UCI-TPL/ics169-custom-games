@@ -92,6 +92,7 @@ public class HexagonMapEditor : MonoBehaviour
     /***********************STATUS EFFECTS*****************************/
     public List<EnvironmentalHazard.HazardInfo> P1StatusOnGrid = new List<EnvironmentalHazard.HazardInfo>();
     public List<EnvironmentalHazard.HazardInfo> P2StatusOnGrid = new List<EnvironmentalHazard.HazardInfo>();
+    public bool statusJustStarted = true;
     public bool statusExecuting = false;
     public bool statusFinished = false;
     public int statusCount = 0;
@@ -188,6 +189,7 @@ public class HexagonMapEditor : MonoBehaviour
             case (TurnStates.ENVIRONMENT):
                 if (!environmentExecuting) // do once
                 {
+                    Units_To_Delete.Clear();
                     allow_cursor_control = false;
                     environmentExecuting = true;
                     if (incoming) //a environmental hazard is coming already
@@ -225,6 +227,11 @@ public class HexagonMapEditor : MonoBehaviour
                                 h.type.RemoveHazard(hexGrid, h.x, h.z, h.size);
                                 hazardsOnGrid.Remove(hazardsOnGrid[i]);
                             }
+                        }
+                        foreach (HexagonCell units_cell in Units_To_Delete)
+                        {
+                            int index = units_cell.coords.X_coord + units_cell.coords.Z_coord * hexGrid.width + units_cell.coords.Z_coord / 2;
+                            RemoveUnitInfo(units_cell, index);
                         }
                         hazardsFinished = true;
                     }
@@ -371,7 +378,11 @@ public class HexagonMapEditor : MonoBehaviour
                 break;
 
             case (TurnStates.P1_STATUS_EFFECT):
-
+                if(statusJustStarted)
+                {
+                    statusJustStarted = false;
+                    Units_To_Delete.Clear();
+                }
                 if (!statusExecuting) // status effect exectution 
                 {
                     statusExecuting = true;
@@ -386,6 +397,13 @@ public class HexagonMapEditor : MonoBehaviour
                                 P1StatusOnGrid.Remove(P1StatusOnGrid[i]);
                             }
                         }
+
+                        foreach (HexagonCell units_cell in Units_To_Delete)
+                        {
+                            int index = units_cell.coords.X_coord + units_cell.coords.Z_coord * hexGrid.width + units_cell.coords.Z_coord / 2;
+                            RemoveUnitInfo(units_cell, index);
+                        }
+
                         statusFinished = true;
                     }
                     if (statusCount < P1StatusOnGrid.Count) //for every status
@@ -404,12 +422,13 @@ public class HexagonMapEditor : MonoBehaviour
                 {
                     //BattleUI_Turn.turn.text = "PLAYER 1";
                     //BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P1_Color;
+                    statusJustStarted = true;
                     wasP1Turn = true;
                     statusExecuting = false;
                     statusFinished = false;
                     statusCount = 0;
                     allow_cursor_control = true;
-                    Snap_To_First_Unit();
+                    //Snap_To_First_Unit();
                     currentState = TurnStates.CHECK;
                 }
                 break;
@@ -521,7 +540,11 @@ public class HexagonMapEditor : MonoBehaviour
                 break;
 
             case (TurnStates.P2_STATUS_EFFECT):
-
+                if (statusJustStarted)
+                {
+                    statusJustStarted = false;
+                    Units_To_Delete.Clear();
+                }
                 if (!statusExecuting) // status effect exectution 
                 {
                     statusExecuting = true;
@@ -536,6 +559,13 @@ public class HexagonMapEditor : MonoBehaviour
                                 P2StatusOnGrid.Remove(P2StatusOnGrid[i]);
                             }
                         }
+
+                        foreach (HexagonCell units_cell in Units_To_Delete)
+                        {
+                            int index = units_cell.coords.X_coord + units_cell.coords.Z_coord * hexGrid.width + units_cell.coords.Z_coord / 2;
+                            RemoveUnitInfo(units_cell, index);
+                        }
+
                         statusFinished = true;
                     }
                     if (statusCount < P2StatusOnGrid.Count) //for every status
@@ -554,12 +584,15 @@ public class HexagonMapEditor : MonoBehaviour
                 {
                     //BattleUI_Turn.turn.text = "PLAYER 1";
                     //BattleUI_Turn.turn_info_Image.GetComponent<Image>().color = P1_Color;
-                    wasP1Turn = false;
+
+                    statusJustStarted = true;
+
+                    //wasP1Turn = false; //commenting this out cause it was breaking the game i think
                     statusExecuting = false;
                     statusFinished = false;
                     statusCount = 0;
                     allow_cursor_control = true;
-                    Snap_To_First_Unit();
+                    //Snap_To_First_Unit();
                     currentState = TurnStates.CHECK;
                 }
                 break;
@@ -663,7 +696,7 @@ public class HexagonMapEditor : MonoBehaviour
     {
 
         EnvironmentalHazard.HazardInfo h_info = hazardsOnGrid[count];
-        StartCoroutine(h_info.type.Effect(hexGrid, h_info.x, h_info.z, h_info.size));
+        StartCoroutine(h_info.type.Effect(this, hexGrid, h_info.x, h_info.z, h_info.size));
         yield return new WaitForSeconds(h_info.type.anim_time);
         hazardsExecuting = false;
         hazardCount++;
@@ -679,7 +712,7 @@ public class HexagonMapEditor : MonoBehaviour
             h_info = P1StatusOnGrid[count];
         else
             h_info = P2StatusOnGrid[count];
-        StartCoroutine(h_info.type.Effect(hexGrid, h_info.x, h_info.z, h_info.size));
+        StartCoroutine(h_info.type.Effect(this, hexGrid, h_info.x, h_info.z, h_info.size));
         yield return new WaitForSeconds(h_info.type.anim_time);
         statusExecuting = false;
         statusCount++;

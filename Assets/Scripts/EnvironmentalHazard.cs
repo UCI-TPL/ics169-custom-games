@@ -53,7 +53,7 @@ public class EnvironmentalHazard : MonoBehaviour {
 
     }
 
-    public virtual IEnumerator Effect(Grid hexGrid, int x, int z, int size) // does the effect of the hazard on the tiles that are in its size
+    public virtual IEnumerator Effect(HexagonMapEditor editor, Grid hexGrid, int x, int z, int size) // does the effect of the hazard on the tiles that are in its size
     {
         List<HexagonCell> frontier = new List<HexagonCell>(); // list of nodes that the hazard has effect over
         HexagonCell curr = hexGrid.Get_Cell_Index(new HexagonCoord(x,z));

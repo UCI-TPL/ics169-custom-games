@@ -21,6 +21,7 @@ public class FortressHero : HeroUnit {
                     {
                         Buff(editor.P1Team[i]);
                         wasBuffed.Add(editor.P1Team[i]);
+                        defense += 5;
                     }
                 }
             }
@@ -37,6 +38,7 @@ public class FortressHero : HeroUnit {
                     {
                         Buff(editor.P2Team[i]);
                         wasBuffed.Add(editor.P2Team[i]);
+                        defense += 5;
                     }
                 }
             }
@@ -49,6 +51,7 @@ public class FortressHero : HeroUnit {
         for (int i = 0; i < wasBuffed.Count; i++) // for every unit that was buffed
         {
             Debuf(wasBuffed[i]); //debuf them
+            defense -= 5;
         }
         wasBuffed.Clear(); //clear the list
 
