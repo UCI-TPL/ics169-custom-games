@@ -980,9 +980,11 @@ MonoBehaviour:
   Hero1Units:
   - {fileID: 114081837882046222, guid: f889233dfb96246aaa3f2deee0af89ab, type: 2}
   - {fileID: 114901831414425620, guid: 1425e8601e277934b9e7d91ae4e2167b, type: 2}
+  - {fileID: 114968422696335154, guid: 2b27791b74ba3374985a91dfb8bb2948, type: 2}
   Hero2Units:
   - {fileID: 114969397969523808, guid: a4e85b2bfaf0147d89d412a238a3241c, type: 2}
   - {fileID: 114078490175839118, guid: d73160fb45effbb4087bf12c41892742, type: 2}
+  - {fileID: 114968422696335154, guid: 71e662f73bc3a6e4a9828f609d6970f5, type: 2}
   P1PoolUnits: []
   P2PoolUnits: []
   RemovedP1Units: []
@@ -1273,7 +1275,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -88, y: -213}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1730454590

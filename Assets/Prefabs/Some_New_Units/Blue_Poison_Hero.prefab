@@ -2595,6 +2595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c48462514a13e9b4da9d907ba73183b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  obj_stats: {fileID: 0}
   obj_name: {fileID: 114351309604740738}
   stats_atk: {fileID: 114469928507526978}
   stats_range: {fileID: 114165060846190788}
@@ -2759,6 +2760,10 @@ MonoBehaviour:
   weight: 0
   defense: 0
   Icon: {fileID: 21300000, guid: 2b062cacf44b5ff47a0dd88b0c31344a, type: 3}
+  attackBuff: {fileID: 21300000, guid: add407bb7e7c24f499601835ad18636f, type: 3}
+  healthBuff: {fileID: 21300000, guid: 2ab49030cad33fc48befa72d3ac76ae0, type: 3}
+  mobilityBuff: {fileID: 21300000, guid: c7e79b7c7e6fea04f97a6a4ccd066d7e, type: 3}
+  critBuff: {fileID: 21300000, guid: be45326a311d0d74fbc2898af42bece1, type: 3}
   cost: 0
   description: When its' units stand adjacent to it they get a defensive buff
   slowing_counter: 0
@@ -2766,6 +2771,8 @@ MonoBehaviour:
   current_health: 0
   current_attack: 0
   FloatingTextPrefab: {fileID: 1120425126322546, guid: 093bcb706ed94e3428f7bd3526dbc7e6,
+    type: 2}
+  FloatingBuffPrefab: {fileID: 1120425126322546, guid: 2dfd751b869468a40873bfd82ae689a6,
     type: 2}
   dead: 0
   health_bar: {fileID: 1275146029225656}
@@ -2795,7 +2802,7 @@ MonoBehaviour:
   myType: 2
   poisonGas: {fileID: 114959469959674676, guid: d31fc1f2ac967d340b1a2990e1769a18,
     type: 2}
-  specialAttackCounter: 5
+  specialAttackCounter: 0
 --- !u!114 &114931417094591234
 MonoBehaviour:
   m_ObjectHideFlags: 1

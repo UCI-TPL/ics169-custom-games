@@ -22,7 +22,7 @@ public class StartUnit : MonoBehaviour
     public int defense = 0;
     //public int selectedTarget;
 
-    public Sprite Icon;
+    public Sprite Icon,attackBuff,healthBuff,mobilityBuff,critBuff;
     public int cost;
     public string description;
     public int slowing_counter;
@@ -31,7 +31,7 @@ public class StartUnit : MonoBehaviour
     //public int check_dmg; // check if dmg is greater than this amount to know if you lower the dmg or not
     public float current_health;
     public float current_attack;
-    public GameObject FloatingTextPrefab;
+    public GameObject FloatingTextPrefab,FloatingBuffPrefab;
     public bool dead = false;
     public GameObject health_bar;
     public Animator anim;
@@ -261,13 +261,15 @@ public class StartUnit : MonoBehaviour
             //Debug.Log("he dead");
             if (targetable[selectedTarget].unitOnTile.current_health <= 0)
             {
-                if(targetable[selectedTarget].unitOnTile.tag == "TeamBuff") // was a buffmonster
+                if (targetable[selectedTarget].unitOnTile.tag == "TeamBuff") // was a buffmonster
                 {
+                    GameObject buffItem = Instantiate(FloatingBuffPrefab, transform.position, Quaternion.identity, transform);
                     int randBuff = Random.Range(0, 4);
                     //give correct buff accordingly
                     Debug.Log("acquiring buff");
                     if (randBuff == 0) // movement buff
                     {
+                        buffItem.GetComponent<SpriteRenderer>().sprite = mobilityBuff;
                         Debug.Log(name + " got a movement buff");
                         current_mobility += 1;
                         move_buff = true;
@@ -276,6 +278,7 @@ public class StartUnit : MonoBehaviour
                     }
                     else if (randBuff == 1) // crit buff
                     {
+                        buffItem.GetComponent<SpriteRenderer>().sprite = critBuff;
                         Debug.Log(name + " got a crit buff");
                         crit += 0.20f;
                         crit_buff = true;
@@ -285,6 +288,7 @@ public class StartUnit : MonoBehaviour
                     else if(randBuff == 2) // attack buff
                     {
                         Debug.Log(name + " got an attack buff");
+                        buffItem.GetComponent<SpriteRenderer>().sprite = attackBuff;
                         attack += 25;
                         current_attack += 25;
                         attack_buff = true;
@@ -294,6 +298,7 @@ public class StartUnit : MonoBehaviour
                     else // health buff
                     {
                         Debug.Log(name + " got a health buff");
+                        buffItem.GetComponent<SpriteRenderer>().sprite = healthBuff;
                         health += 100;
                         current_health = health;
                         health_buff = true;
@@ -331,6 +336,46 @@ public class StartUnit : MonoBehaviour
                 
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 yield return new WaitForSeconds(0.3f);
+
+
+
+                if(attacked_unit.gameObject.GetComponent<FortressHero>() != null) // handling of if attacking fortress hero
+                {
+                    Debug.Log("Hurt by fortress hero's armor");
+                    if (FloatingTextPrefab)
+                    {
+                        GameObject damagetext = Instantiate(FloatingTextPrefab, transform.position, Quaternion.identity, transform);
+                        damagetext.GetComponent<TextMesh>().text = 10.ToString();
+                        damagetext.GetComponent<TextMesh>().color = Color.yellow;
+                        damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * (10f / 75f));
+                        if (Mathf.Sign(damagetext.transform.parent.localScale.x) == -1 && Mathf.Sign(damagetext.transform.localScale.x) == 1)
+                        {
+                            damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
+                                damagetext.transform.localScale.z);
+
+                        }
+                        else
+                        {
+                            if (Mathf.Sign(damagetext.transform.parent.localScale.x) == 1 && Mathf.Sign(damagetext.transform.localScale.x) == -1)
+                            {
+                                damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
+                                    damagetext.transform.localScale.z);
+                            }
+                        }
+                    }
+                    
+                    TakeDamage(this, 10f);
+                    StartCoroutine(AttackToHit());
+                    StartCoroutine(Blink(editor.Unit_Hurt_Color, this, Time.time + 1f));
+                    if (current_health <= 0)// pretty sure there's more code needed here but i'll ask christophe later
+                    {
+                        editor.Units_To_Delete.Add(unitCell);
+                        dead = true;
+                    }
+
+                }
+
+
                 StartCoroutine(targetable[selectedTarget].unitOnTile.Hit());
                 StartCoroutine(attacked_unit.Blink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f));
             }
@@ -498,6 +543,45 @@ public class StartUnit : MonoBehaviour
         {
             
             yield return new WaitForSeconds(0.3f);
+
+            if (attacked_unit.gameObject.GetComponent<FortressHero>() != null) // handling of if attacking fortress hero
+            {
+                Debug.Log("Hurt by fortress hero's armor in retaliation");
+                if (FloatingTextPrefab)
+                {
+                    GameObject damagetext = Instantiate(FloatingTextPrefab, transform.position, Quaternion.identity, transform);
+                    damagetext.GetComponent<TextMesh>().text = 10.ToString();
+                    damagetext.GetComponent<TextMesh>().color = Color.yellow;
+                    damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * (10f / 75f));
+                    if (Mathf.Sign(damagetext.transform.parent.localScale.x) == -1 && Mathf.Sign(damagetext.transform.localScale.x) == 1)
+                    {
+                        damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
+                            damagetext.transform.localScale.z);
+
+                        //damagetext.GetComponent<TextMesh>().color = Color.green;
+                        //Debug.Log("BackWards Text");
+                    }
+                    else
+                    {
+                        if (Mathf.Sign(damagetext.transform.parent.localScale.x) == 1 && Mathf.Sign(damagetext.transform.localScale.x) == -1)
+                        {
+                            damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
+                                damagetext.transform.localScale.z);
+                        }
+                    }
+                }
+
+                TakeDamage(this, 10f);
+                StartCoroutine(AttackToHit());
+                StartCoroutine(Blink(editor.Unit_Hurt_Color, this, Time.time + 1f));
+                if (current_health <= 0) // pretty sure there's more code needed here but i'll ask christophe later
+                {
+                    editor.Units_To_Delete.Add(unitCell_is_attacking);
+                    dead = true;
+                }
+
+            }
+
             StartCoroutine(attacked_unit.Hit());
             StartCoroutine(attacked_unit.Blink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f));
         }
@@ -649,6 +733,14 @@ public class StartUnit : MonoBehaviour
         StartCoroutine(Hit());
     }
 
+
+    public IEnumerator AttackToHit() // specifically for fortress hero armor damage
+    {
+        anim.SetBool("Attacking", false);
+        anim.SetBool("Hurt", true);
+        yield return new WaitForSeconds(0.4f);
+        anim.SetBool("Hurt", false);
+    }
     public IEnumerator Hit()
     {
         anim.SetBool("Hurt", true);

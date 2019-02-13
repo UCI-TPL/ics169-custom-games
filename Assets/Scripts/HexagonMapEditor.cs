@@ -1170,6 +1170,7 @@ public class HexagonMapEditor : MonoBehaviour
     public void Assign_BUI_Var(BattleUI _UI)
     {
         _UI.obj_name.text = SelectedUnit.unit_name;
+        _UI.obj_stats.text = SelectedUnit.current_health.ToString()+ "/" + SelectedUnit.health.ToString();
         _UI.unit_icon.GetComponent<Image>().sprite = SelectedUnit.Icon;
         _UI.health_Bar.GetComponent<Image>().fillAmount = SelectedUnit.current_health / SelectedUnit.health;
         Show_Current_Buffs(_UI);
@@ -1322,7 +1323,7 @@ public class HexagonMapEditor : MonoBehaviour
     {
         HexagonCoord newCoord = new HexagonCoord(x, z);
         cursor.Assign_Position(hexGrid.Get_Cell_Index(newCoord).gameObject.transform.position, newCoord);
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(2f);
 
     }
 
