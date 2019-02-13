@@ -55,7 +55,7 @@ public class AcidRain : EnvironmentalHazard {
     }
 
 
-    public override IEnumerator Effect(Grid hexGrid, int x, int z, int size)
+    public override IEnumerator Effect(HexagonMapEditor editor, Grid hexGrid, int x, int z, int size)
     {
         List<HexagonCell> frontier = new List<HexagonCell>(); // list of nodes that the hazard has effect over
         HexagonCell curr = hexGrid.Get_Cell_Index(new HexagonCoord(x, z));
@@ -73,13 +73,13 @@ public class AcidRain : EnvironmentalHazard {
         {
             if (frontier[j].occupied)
             {
-                frontier[j].unitOnTile.current_health -= 25;
+                frontier[j].unitOnTile.current_health -= 25; // this should be changeed when we are trying to implement the fortress hero's defense
 
                 StartUnit attacked_unit = frontier[j].unitOnTile;
                 GameObject damagetext = Instantiate(attacked_unit.FloatingTextPrefab, attacked_unit.transform.position, Quaternion.identity, attacked_unit.transform);
                 damagetext.GetComponent<TextMesh>().color = Color.yellow;
                 damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * ((float)10 / 75f));
-                damagetext.GetComponent<TextMesh>().text = 10.ToString();
+                damagetext.GetComponent<TextMesh>().text = 25.ToString();
 
                 if (Mathf.Sign(damagetext.transform.parent.localScale.x) == -1 && Mathf.Sign(damagetext.transform.localScale.x) == 1)
                 {
@@ -96,6 +96,16 @@ public class AcidRain : EnvironmentalHazard {
                         damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
                             damagetext.transform.localScale.z);
                     }
+                }
+
+                attacked_unit.PlayHit();
+                attacked_unit.PlayBlink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f);
+
+                if (attacked_unit.current_health <= 0)
+                {
+
+                    attacked_unit.dead = true;
+                    editor.Units_To_Delete.Add(frontier[j]);
                 }
             }
         }
