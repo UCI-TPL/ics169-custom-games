@@ -479,9 +479,9 @@ public class KidnapperHero : HeroUnit {
                     if (FloatingTextPrefab)
                     {
                         GameObject damagetext = Instantiate(FloatingTextPrefab, transform.position, Quaternion.identity, transform);
-                        damagetext.GetComponent<TextMesh>().text = 10.ToString();
+                        damagetext.GetComponent<TextMesh>().text = 20.ToString();
                         damagetext.GetComponent<TextMesh>().color = Color.yellow;
-                        damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * (10f / 75f));
+                        damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * (20f / 75f));
                         if (Mathf.Sign(damagetext.transform.parent.localScale.x) == -1 && Mathf.Sign(damagetext.transform.localScale.x) == 1)
                         {
                             damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
@@ -500,7 +500,7 @@ public class KidnapperHero : HeroUnit {
                         }
                     }
 
-                    TakeDamage(this, 10f);
+                    TakeDamage(this, 20f);
                     StartCoroutine(AttackToHit());
                     StartCoroutine(Blink(editor.Unit_Hurt_Color, this, Time.time + 1f));
                     if (current_health <= 0) // pretty sure there's more code needed here but i'll ask christophe later
