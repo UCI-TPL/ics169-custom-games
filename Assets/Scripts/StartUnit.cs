@@ -329,6 +329,46 @@ public class StartUnit : MonoBehaviour
                 
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 yield return new WaitForSeconds(0.3f);
+
+
+
+                if(attacked_unit.gameObject.GetComponent<FortressHero>() != null) // handling of if attacking fortress hero
+                {
+                    Debug.Log("Hurt by fortress hero's armor");
+                    if (FloatingTextPrefab)
+                    {
+                        GameObject damagetext = Instantiate(FloatingTextPrefab, transform.position, Quaternion.identity, transform);
+                        damagetext.GetComponent<TextMesh>().text = 10.ToString();
+                        damagetext.GetComponent<TextMesh>().color = Color.yellow;
+                        damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * (10f / 75f));
+                        if (Mathf.Sign(damagetext.transform.parent.localScale.x) == -1 && Mathf.Sign(damagetext.transform.localScale.x) == 1)
+                        {
+                            damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
+                                damagetext.transform.localScale.z);
+
+                        }
+                        else
+                        {
+                            if (Mathf.Sign(damagetext.transform.parent.localScale.x) == 1 && Mathf.Sign(damagetext.transform.localScale.x) == -1)
+                            {
+                                damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
+                                    damagetext.transform.localScale.z);
+                            }
+                        }
+                    }
+                    
+                    TakeDamage(this, 10f);
+                    StartCoroutine(AttackToHit());
+                    StartCoroutine(Blink(editor.Unit_Hurt_Color, this, Time.time + 1f));
+                    if (current_health <= 0)// pretty sure there's more code needed here but i'll ask christophe later
+                    {
+                        editor.Units_To_Delete.Add(unitCell);
+                        dead = true;
+                    }
+
+                }
+
+
                 StartCoroutine(targetable[selectedTarget].unitOnTile.Hit());
                 StartCoroutine(attacked_unit.Blink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f));
             }
@@ -496,6 +536,45 @@ public class StartUnit : MonoBehaviour
         {
             
             yield return new WaitForSeconds(0.3f);
+
+            if (attacked_unit.gameObject.GetComponent<FortressHero>() != null) // handling of if attacking fortress hero
+            {
+                Debug.Log("Hurt by fortress hero's armor in retaliation");
+                if (FloatingTextPrefab)
+                {
+                    GameObject damagetext = Instantiate(FloatingTextPrefab, transform.position, Quaternion.identity, transform);
+                    damagetext.GetComponent<TextMesh>().text = 10.ToString();
+                    damagetext.GetComponent<TextMesh>().color = Color.yellow;
+                    damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * (10f / 75f));
+                    if (Mathf.Sign(damagetext.transform.parent.localScale.x) == -1 && Mathf.Sign(damagetext.transform.localScale.x) == 1)
+                    {
+                        damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
+                            damagetext.transform.localScale.z);
+
+                        //damagetext.GetComponent<TextMesh>().color = Color.green;
+                        //Debug.Log("BackWards Text");
+                    }
+                    else
+                    {
+                        if (Mathf.Sign(damagetext.transform.parent.localScale.x) == 1 && Mathf.Sign(damagetext.transform.localScale.x) == -1)
+                        {
+                            damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
+                                damagetext.transform.localScale.z);
+                        }
+                    }
+                }
+
+                TakeDamage(this, 10f);
+                StartCoroutine(AttackToHit());
+                StartCoroutine(Blink(editor.Unit_Hurt_Color, this, Time.time + 1f));
+                if (current_health <= 0) // pretty sure there's more code needed here but i'll ask christophe later
+                {
+                    editor.Units_To_Delete.Add(unitCell_is_attacking);
+                    dead = true;
+                }
+
+            }
+
             StartCoroutine(attacked_unit.Hit());
             StartCoroutine(attacked_unit.Blink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f));
         }
@@ -647,6 +726,14 @@ public class StartUnit : MonoBehaviour
         StartCoroutine(Hit());
     }
 
+
+    public IEnumerator AttackToHit() // specifically for fortress hero armor damage
+    {
+        anim.SetBool("Attacking", false);
+        anim.SetBool("Hurt", true);
+        yield return new WaitForSeconds(0.4f);
+        anim.SetBool("Hurt", false);
+    }
     public IEnumerator Hit()
     {
         anim.SetBool("Hurt", true);

@@ -14,7 +14,7 @@ public class KidnapperHero : HeroUnit {
     {
 
         DecrementCounter();
-        if (specialAttackCounter == 0) // ready to kidnap
+        if (specialAttackCounter <= 0) // ready to kidnap
         {
             yield return new WaitForSeconds(0.3f);
             StartCoroutine(Kidnap(hexGrid, unitCell));
@@ -60,7 +60,7 @@ public class KidnapperHero : HeroUnit {
 
             float crit_chance = Random.value;
             float miss_chance = Random.value;
-            float damage = current_attack - targetable[selectedTarget].unitOnTile.defense;
+            float damage = (current_attack * 1.5f) - targetable[selectedTarget].unitOnTile.defense;
             Debug.Log("Damage: " + damage);
             int dmg_txt = (int)damage;
             bool crit_happened = false;
@@ -254,15 +254,17 @@ public class KidnapperHero : HeroUnit {
                 StartCoroutine(attacked_unit.Hit());
                 StartCoroutine(attacked_unit.Blink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f));
             }
+            specialAttackCounter = 5;
+            temp_attacked_cell = null;
+            temp_attacked_unit = null;
         }
         else
         {
+            specialAttackCounter = 0;
             currently_attacking = false;
         }
 
-        specialAttackCounter = 5;
-        temp_attacked_cell = null;
-        temp_attacked_unit = null;
+        
         
     }
 
@@ -297,21 +299,7 @@ public class KidnapperHero : HeroUnit {
             int selectedTarget = ChosenEnemy(targetable);
             //int rand_index = Random.Range(0, targetable.Count);
 
-            //int totalWeight = 0;
-            //for(int i = 0; i < targetable.Count; i++)
-            //{
-            //    totalWeight += targetable[i].unitOnTile.weight;
-            //}
-            //int rand_val = Random.Range(1, totalWeight+1);
-            //for(int j = 0; j < targetable.Count; j++)
-            //{
-            //    if(rand_val - targetable[j].unitOnTile.weight <= 0)
-            //    {
-            //        selectedTarget = j;
-            //        break;
-            //    }
-            //    rand_val -= targetable[j].unitOnTile.weight;
-            //}
+
 
 
 
@@ -322,16 +310,7 @@ public class KidnapperHero : HeroUnit {
             int dmg_txt = (int)damage;
             bool crit_happened = false;
 
-            //if (miss_chance <= miss)
-            //    damage = 0;
-            //if (crit_chance <= crit && miss_chance > miss)
-            //{
-            //    damage = current_attack * crit_multiplier;
-            //    dmg_txt = (int)damage;
-            //}
-            //Debug.Log(targetable);
-            //Debug.Log("Attacker  Unit: " + unit_name);
-            //Debug.Log("Targetted Unit: " + targetable[selectedTarget].unitOnTile.unit_name);
+
             editor.printState();
             if (targetable[selectedTarget].unitOnTile.FloatingTextPrefab)
             {
@@ -472,6 +451,8 @@ public class KidnapperHero : HeroUnit {
 
                 yield return new WaitForSeconds(0.3f);
 
+                
+
                 StartCoroutine(targetable[selectedTarget].unitOnTile.Hit());
                 StartCoroutine(attacked_unit.Blink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f));
 
@@ -491,6 +472,44 @@ public class KidnapperHero : HeroUnit {
 
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 yield return new WaitForSeconds(0.3f);
+
+                if (attacked_unit.gameObject.GetComponent<FortressHero>() != null) // handling of if attacking fortress hero
+                {
+                    Debug.Log("Hurt by fortress hero's armor");
+                    if (FloatingTextPrefab)
+                    {
+                        GameObject damagetext = Instantiate(FloatingTextPrefab, transform.position, Quaternion.identity, transform);
+                        damagetext.GetComponent<TextMesh>().text = 10.ToString();
+                        damagetext.GetComponent<TextMesh>().color = Color.yellow;
+                        damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * (10f / 75f));
+                        if (Mathf.Sign(damagetext.transform.parent.localScale.x) == -1 && Mathf.Sign(damagetext.transform.localScale.x) == 1)
+                        {
+                            damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
+                                damagetext.transform.localScale.z);
+
+                            //damagetext.GetComponent<TextMesh>().color = Color.green;
+                            //Debug.Log("BackWards Text");
+                        }
+                        else
+                        {
+                            if (Mathf.Sign(damagetext.transform.parent.localScale.x) == 1 && Mathf.Sign(damagetext.transform.localScale.x) == -1)
+                            {
+                                damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
+                                    damagetext.transform.localScale.z);
+                            }
+                        }
+                    }
+
+                    TakeDamage(this, 10f);
+                    StartCoroutine(AttackToHit());
+                    StartCoroutine(Blink(editor.Unit_Hurt_Color, this, Time.time + 1f));
+                    if (current_health <= 0) // pretty sure there's more code needed here but i'll ask christophe later
+                    {
+                        editor.Units_To_Delete.Add(unitCell);
+                        dead = true;
+                    }
+
+                }
                 StartCoroutine(targetable[selectedTarget].unitOnTile.Hit());
                 StartCoroutine(attacked_unit.Blink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f));
             }

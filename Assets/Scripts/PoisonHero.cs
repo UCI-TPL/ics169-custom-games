@@ -22,7 +22,7 @@ public class PoisonHero : HeroUnit {
         base.TakeDamage(attacked_unit, damage); // the normal function from StartUnit
 
         DecrementCounter();
-        if (specialAttackCounter == 0)
+        if (specialAttackCounter <= 0)
         {
             
             ShootPoisonGas(editor.hexGrid.GetCell(attacked_unit.transform.position));
