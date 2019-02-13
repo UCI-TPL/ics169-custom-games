@@ -61,11 +61,15 @@ public class FortressHero : HeroUnit {
     {
         Debug.Log(unit.unit_name + " was buffed with +15 defense");
         unit.defense += 15;
+        unit.fortress_def_buff = true;
+        //activate buff ui element here
     }
 
     public override void Debuf(StartUnit unit)
     {
         Debug.Log(unit.unit_name + " lost its buff of +15 defense");
         unit.defense -= 15;
+        unit.fortress_def_buff = false;
+        //deactivate buff ui element here
     }
 }
