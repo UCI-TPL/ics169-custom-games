@@ -853,7 +853,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &286148422
 GameObject:
@@ -2599,6 +2599,10 @@ MonoBehaviour:
   weight: 0
   defense: 0
   Icon: {fileID: 0}
+  attackBuff: {fileID: 0}
+  healthBuff: {fileID: 0}
+  mobilityBuff: {fileID: 0}
+  critBuff: {fileID: 0}
   cost: 0
   description: 
   slowing_counter: 0
@@ -2606,6 +2610,7 @@ MonoBehaviour:
   current_health: 0
   current_attack: 0
   FloatingTextPrefab: {fileID: 0}
+  FloatingBuffPrefab: {fileID: 0}
   dead: 0
   health_bar: {fileID: 0}
   anim: {fileID: 0}
@@ -2918,6 +2923,10 @@ MonoBehaviour:
   weight: 0
   defense: 0
   Icon: {fileID: 0}
+  attackBuff: {fileID: 0}
+  healthBuff: {fileID: 0}
+  mobilityBuff: {fileID: 0}
+  critBuff: {fileID: 0}
   cost: 0
   description: 
   slowing_counter: 0
@@ -2925,6 +2934,7 @@ MonoBehaviour:
   current_health: 0
   current_attack: 0
   FloatingTextPrefab: {fileID: 0}
+  FloatingBuffPrefab: {fileID: 0}
   dead: 0
   health_bar: {fileID: 0}
   anim: {fileID: 0}
@@ -3535,7 +3545,7 @@ RectTransform:
   - {fileID: 83740694}
   - {fileID: 326102137}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3739,6 +3749,10 @@ MonoBehaviour:
   weight: 0
   defense: 0
   Icon: {fileID: 0}
+  attackBuff: {fileID: 0}
+  healthBuff: {fileID: 0}
+  mobilityBuff: {fileID: 0}
+  critBuff: {fileID: 0}
   cost: 0
   description: 
   slowing_counter: 0
@@ -3746,6 +3760,7 @@ MonoBehaviour:
   current_health: 0
   current_attack: 0
   FloatingTextPrefab: {fileID: 0}
+  FloatingBuffPrefab: {fileID: 0}
   dead: 0
   health_bar: {fileID: 0}
   anim: {fileID: 0}
@@ -4131,7 +4146,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1229470015
 GameObject:
@@ -4268,7 +4283,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1347881810
 GameObject:
@@ -4713,6 +4728,10 @@ MonoBehaviour:
   weight: 0
   defense: 0
   Icon: {fileID: 0}
+  attackBuff: {fileID: 0}
+  healthBuff: {fileID: 0}
+  mobilityBuff: {fileID: 0}
+  critBuff: {fileID: 0}
   cost: 0
   description: 
   slowing_counter: 0
@@ -4720,6 +4739,7 @@ MonoBehaviour:
   current_health: 0
   current_attack: 0
   FloatingTextPrefab: {fileID: 0}
+  FloatingBuffPrefab: {fileID: 0}
   dead: 0
   health_bar: {fileID: 0}
   anim: {fileID: 0}
@@ -4895,7 +4915,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1594389464
 GameObject:
@@ -5307,6 +5327,10 @@ MonoBehaviour:
   weight: 0
   defense: 0
   Icon: {fileID: 0}
+  attackBuff: {fileID: 0}
+  healthBuff: {fileID: 0}
+  mobilityBuff: {fileID: 0}
+  critBuff: {fileID: 0}
   cost: 0
   description: 
   slowing_counter: 0
@@ -5314,6 +5338,7 @@ MonoBehaviour:
   current_health: 0
   current_attack: 0
   FloatingTextPrefab: {fileID: 0}
+  FloatingBuffPrefab: {fileID: 0}
   dead: 0
   health_bar: {fileID: 0}
   anim: {fileID: 0}
@@ -5677,7 +5702,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -5995,6 +6020,10 @@ MonoBehaviour:
   weight: 0
   defense: 0
   Icon: {fileID: 0}
+  attackBuff: {fileID: 0}
+  healthBuff: {fileID: 0}
+  mobilityBuff: {fileID: 0}
+  critBuff: {fileID: 0}
   cost: 0
   description: 
   slowing_counter: 0
@@ -6002,6 +6031,7 @@ MonoBehaviour:
   current_health: 0
   current_attack: 0
   FloatingTextPrefab: {fileID: 0}
+  FloatingBuffPrefab: {fileID: 0}
   dead: 0
   health_bar: {fileID: 0}
   anim: {fileID: 0}
