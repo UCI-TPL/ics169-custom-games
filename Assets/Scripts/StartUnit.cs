@@ -49,6 +49,7 @@ public class StartUnit : MonoBehaviour
     public bool attack_buff;
     public bool health_buff;
     public bool move_buff;
+    public bool fortress_def_buff;
 
     private float dmg_txt_char_size;
 
@@ -81,6 +82,7 @@ public class StartUnit : MonoBehaviour
         attack_buff = false;
         health_buff = false;
         move_buff = false;
+        fortress_def_buff = false;
     }
 
     // Update is called once per frame

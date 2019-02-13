@@ -2839,9 +2839,12 @@ MonoBehaviour:
   hazardsExecuting: 0
   hazardsFinished: 0
   hazardCount: 0
+  statusExecuting: 0
+  statusFinished: 0
+  statusCount: 0
   allow_cursor_control: 0
   Units_To_Delete: []
-  max_sprites_per_unit: 4
+  max_sprites_per_unit: 10
   currentState: 0
 --- !u!114 &330579868
 MonoBehaviour:
@@ -6771,7 +6774,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -982681181
-  m_SortingLayer: -2
+  m_SortingLayer: -1
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: de64c35b70fc16a44870f718a6978a35, type: 3}
   m_Color: {r: 0.56071806, g: 0.9339623, b: 0.22467959, a: 1}
@@ -11323,7 +11326,7 @@ MonoBehaviour:
   ten: 0
   twenty: 1
   thirty: 0
-  sprites_per_tile: 5
+  sprites_per_tile: 10
   buffPrefab: {fileID: 1342985280844644, guid: 070e55a67c8189b4683d36d20a5454da, type: 2}
   cellPrefabs:
   - {fileID: 114090098638288174, guid: 9d4ee7f126fd0534f8d63d538fcd7dad, type: 2}
@@ -11333,6 +11336,18 @@ MonoBehaviour:
   touchedColor: {r: 0, g: 0.8492365, b: 1, a: 1}
   attackColor: {r: 0.49803922, g: 0, b: 0, a: 1}
   cells: []
+  Clutter_List:
+  - {fileID: 1783895098542178, guid: 34f515d3ead8b114bbc080cd6343fc4e, type: 2}
+  - {fileID: 1681292908334268, guid: 099ae7d16a613834193de26026a7dec5, type: 2}
+  - {fileID: 1810142065570828, guid: 8c06a1394752dd84ca7bc5a720a36a23, type: 2}
+  - {fileID: 1613610422739782, guid: 5a66590d4fccf8143ac5ada61dd3e57f, type: 2}
+  - {fileID: 1054879916378136, guid: d5b79beb5ae837d46988aa5e3466bb39, type: 2}
+  - {fileID: 1235633610022936, guid: 7c4d601737fd5b64bb31b33d181adb1b, type: 2}
+  - {fileID: 1725427264892260, guid: f5b024770d578ef43a2a31b718d7bb46, type: 2}
+  - {fileID: 1663075981270392, guid: 6983d42dc27294a45be9d2db26a43553, type: 2}
+  - {fileID: 1960158535181102, guid: 45e8eee32d1f9b345b41eee184518f17, type: 2}
+  - {fileID: 1042203546669670, guid: 09bf44b783d2a3e4c9aec26ccabc8bb6, type: 2}
+  - {fileID: 1941645791453122, guid: 14e000cb1d0bfb144beb1f0794e24fe2, type: 2}
 --- !u!4 &1152803765
 Transform:
   m_ObjectHideFlags: 0
@@ -11426,6 +11441,9 @@ MonoBehaviour:
   hazardsExecuting: 0
   hazardsFinished: 0
   hazardCount: 0
+  statusExecuting: 0
+  statusFinished: 0
+  statusCount: 0
   allow_cursor_control: 0
   Units_To_Delete: []
   max_sprites_per_unit: 0
