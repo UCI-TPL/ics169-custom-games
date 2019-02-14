@@ -32,6 +32,9 @@ public class DraftUI : MonoBehaviour {
     public Image PoisonHero;
     public Image PoisonHeroBack;
     public Text PoisonHeroNum;
+    public Image WraithHero;
+    public Image WraithHeroBack;
+    public Text WraithHeroNum;
     public Image Ranger;
     public Image RangerBack;
     public Text RangerNum;
@@ -73,6 +76,10 @@ public class DraftUI : MonoBehaviour {
             //FortressHeroNum.text = "1";
             if (temp.unit_type == "Fortress")
             {
+                if(WraithHeroBack.enabled)
+                {
+                    WraithHeroBack.enabled = false;
+                }
                 if(PoisonHeroBack.enabled)
                 {
                     PoisonHeroBack.enabled = false;
@@ -81,11 +88,27 @@ public class DraftUI : MonoBehaviour {
             }
             if(temp.unit_type == "Plague")
             {
-                if(FortressHeroBack.enabled)
+                if (WraithHeroBack.enabled)
+                {
+                    WraithHeroBack.enabled = false;
+                }
+                if (FortressHeroBack.enabled)
                 {
                     FortressHeroBack.enabled = false;
                 }
                 PoisonHeroBack.enabled = true;
+            }
+            if(temp.unit_type == "Wraith")
+            {
+                if (FortressHeroBack.enabled)
+                {
+                    FortressHeroBack.enabled = false;
+                }
+                if (PoisonHeroBack.enabled)
+                {
+                    PoisonHeroBack.enabled = false;
+                }
+                WraithHeroBack.enabled = true;
             }
         }
 
