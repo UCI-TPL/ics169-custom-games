@@ -58,6 +58,8 @@ public class Grid : MonoBehaviour {
     Canvas gridCanvas;
     HexagonMesh hexMesh;
 
+    public List<GameObject> Clutter_List;
+
 	// Use this for initialization
 	void Awake () {
         gridCanvas = GetComponentInChildren<Canvas>();
@@ -68,6 +70,39 @@ public class Grid : MonoBehaviour {
     private void Start() // runs after awake()
     {
         //hexMesh.Triangulate(cells);
+    }
+
+    void Add_Clutter(HexagonCell cell)
+    {
+
+        if(cell.gameObject.tag == "Water" || cell.gameObject.tag == "Wall" || cell.gameObject.tag == "SlowingTile")
+        {
+            //don't do
+        }
+        else
+        {
+            int rand_clutter_amnt = Random.Range(0, 2);
+
+            for (int i = 0; i < rand_clutter_amnt; i++)
+            {
+                int rand_clutter = Random.Range(0, Clutter_List.Count);
+                GameObject clutter_object = Instantiate<GameObject>(Clutter_List[rand_clutter]);
+                clutter_object.transform.SetParent(cell.transform);
+                clutter_object.transform.localPosition = new Vector3(0, 0, 0);
+                if (clutter_object.GetComponent<Clutter_Obj>().background)
+                {
+                    float pos_x_rand = Random.Range(-0.13f, 0.13f);
+                    float pos_y_rand = Random.Range(0.08f, 0.1f);
+                    clutter_object.transform.localPosition = new Vector3(pos_x_rand, pos_y_rand, 0);
+                }
+                else
+                {
+                    float pos_x_rand = Random.Range(-0.13f, 0.13f);
+                    float pos_y_rand = Random.Range(-0.08f, -0.1f);
+                    clutter_object.transform.localPosition = new Vector3(pos_x_rand, pos_y_rand, 0);
+                }
+            }
+        }
     }
 
     void CreateCell(int a, int b, int c) // should only be called once when initializing the map 
@@ -83,7 +118,6 @@ public class Grid : MonoBehaviour {
         cell.coords = HexagonCoord.FromOffsetCoordinates(a, b);
         cell.spriteRenderer.color = defaultColor;
 
-        Order_Cell(cell, sprites_per_tile);
 
         if(a > 0)
         {
@@ -370,7 +404,7 @@ public class Grid : MonoBehaviour {
                 {
                     //puts each unit in a section of the sorting layer according to the tile they are on.
                     Unit_Meshes[k].sortingOrder = Unit_Meshes[k].GetComponent<Mesh_Layer>()._ordered_layer
-                        + ((cells[powercells_[i]].coords.X_coord + cells[powercells_[i]].coords.Y_coord) * 4);
+                        + ((cells[powercells_[i]].coords.X_coord + cells[powercells_[i]].coords.Y_coord) * sprites_per_tile);
                     //Debug.Log("Color_Changed");
                 }
                 cells[powercells_[i]].unitOnTile = startUnit;
@@ -406,6 +440,12 @@ public class Grid : MonoBehaviour {
               //  cells_[water_[i]].gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
             }
         }
+
+        for(int i = 0; i < cells_.Length; i++)
+        {
+            Add_Clutter(cells_[i]);
+            Order_Cell(cells_[i], sprites_per_tile);
+        }
         return cells_;
     }
 
@@ -433,9 +473,9 @@ public class Grid : MonoBehaviour {
     //used for putting sprites in the right order, so that everything appears as it should (further away tiles appear behind those closer up)
     public void Order_Cell(HexagonCell _cell, int num_sprites_per_cell) 
     {
-        int _current_sorting_order = _cell.gameObject.GetComponent<SpriteRenderer>().sortingOrder;
-        _cell.gameObject.GetComponent<SpriteRenderer>().sortingOrder = _current_sorting_order +
-            ((_cell.coords.X_coord + _cell.coords.Y_coord) * num_sprites_per_cell);
+        //int _current_sorting_order = _cell.gameObject.GetComponent<SpriteRenderer>().sortingOrder;
+        //_cell.gameObject.GetComponent<SpriteRenderer>().sortingOrder = _current_sorting_order +
+        //    ((_cell.coords.X_coord + _cell.coords.Y_coord) * num_sprites_per_cell);
 
         int count = 0;
         SpriteRenderer[] sprites = _cell.gameObject.GetComponentsInChildren<SpriteRenderer>(true);

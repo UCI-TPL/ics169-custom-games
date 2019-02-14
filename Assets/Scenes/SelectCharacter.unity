@@ -800,6 +800,9 @@ MonoBehaviour:
   PoisonHero: {fileID: 83611295}
   PoisonHeroBack: {fileID: 1594389466}
   PoisonHeroNum: {fileID: 874600153}
+  WraithHero: {fileID: 1999187545}
+  WraithHeroBack: {fileID: 2086728542}
+  WraithHeroNum: {fileID: 2111785158}
   Ranger: {fileID: 994692834}
   RangerBack: {fileID: 564992227}
   RangerNum: {fileID: 1486784256}
@@ -853,7 +856,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &286148422
 GameObject:
@@ -1802,7 +1805,7 @@ GameObject:
   - component: {fileID: 539856409}
   - component: {fileID: 539856408}
   m_Layer: 5
-  m_Name: New
+  m_Name: Wraith
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2600,6 +2603,10 @@ MonoBehaviour:
   weight: 0
   defense: 0
   Icon: {fileID: 0}
+  attackBuff: {fileID: 0}
+  healthBuff: {fileID: 0}
+  mobilityBuff: {fileID: 0}
+  critBuff: {fileID: 0}
   cost: 0
   description: 
   slowing_counter: 0
@@ -2607,6 +2614,7 @@ MonoBehaviour:
   current_health: 0
   current_attack: 0
   FloatingTextPrefab: {fileID: 0}
+  FloatingBuffPrefab: {fileID: 0}
   dead: 0
   health_bar: {fileID: 0}
   anim: {fileID: 0}
@@ -2624,6 +2632,7 @@ MonoBehaviour:
   attack_buff: 0
   health_buff: 0
   move_buff: 0
+  fortress_def_buff: 0
   attackSound: {fileID: 0}
   hitSound: {fileID: 0}
   moveSound: {fileID: 0}
@@ -2920,6 +2929,10 @@ MonoBehaviour:
   weight: 0
   defense: 0
   Icon: {fileID: 0}
+  attackBuff: {fileID: 0}
+  healthBuff: {fileID: 0}
+  mobilityBuff: {fileID: 0}
+  critBuff: {fileID: 0}
   cost: 0
   description: 
   slowing_counter: 0
@@ -2927,6 +2940,7 @@ MonoBehaviour:
   current_health: 0
   current_attack: 0
   FloatingTextPrefab: {fileID: 0}
+  FloatingBuffPrefab: {fileID: 0}
   dead: 0
   health_bar: {fileID: 0}
   anim: {fileID: 0}
@@ -2944,6 +2958,7 @@ MonoBehaviour:
   attack_buff: 0
   health_buff: 0
   move_buff: 0
+  fortress_def_buff: 0
   attackSound: {fileID: 0}
   hitSound: {fileID: 0}
   moveSound: {fileID: 0}
@@ -3680,7 +3695,7 @@ RectTransform:
   - {fileID: 83740694}
   - {fileID: 326102137}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3885,6 +3900,10 @@ MonoBehaviour:
   weight: 0
   defense: 0
   Icon: {fileID: 0}
+  attackBuff: {fileID: 0}
+  healthBuff: {fileID: 0}
+  mobilityBuff: {fileID: 0}
+  critBuff: {fileID: 0}
   cost: 0
   description: 
   slowing_counter: 0
@@ -3892,6 +3911,7 @@ MonoBehaviour:
   current_health: 0
   current_attack: 0
   FloatingTextPrefab: {fileID: 0}
+  FloatingBuffPrefab: {fileID: 0}
   dead: 0
   health_bar: {fileID: 0}
   anim: {fileID: 0}
@@ -3909,6 +3929,7 @@ MonoBehaviour:
   attack_buff: 0
   health_buff: 0
   move_buff: 0
+  fortress_def_buff: 0
   attackSound: {fileID: 0}
   hitSound: {fileID: 0}
   moveSound: {fileID: 0}
@@ -4277,7 +4298,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1229470015
 GameObject:
@@ -4414,7 +4435,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1347881810
 GameObject:
@@ -4860,6 +4881,10 @@ MonoBehaviour:
   weight: 0
   defense: 0
   Icon: {fileID: 0}
+  attackBuff: {fileID: 0}
+  healthBuff: {fileID: 0}
+  mobilityBuff: {fileID: 0}
+  critBuff: {fileID: 0}
   cost: 0
   description: 
   slowing_counter: 0
@@ -4867,6 +4892,7 @@ MonoBehaviour:
   current_health: 0
   current_attack: 0
   FloatingTextPrefab: {fileID: 0}
+  FloatingBuffPrefab: {fileID: 0}
   dead: 0
   health_bar: {fileID: 0}
   anim: {fileID: 0}
@@ -4884,6 +4910,7 @@ MonoBehaviour:
   attack_buff: 0
   health_buff: 0
   move_buff: 0
+  fortress_def_buff: 0
   attackSound: {fileID: 0}
   hitSound: {fileID: 0}
   moveSound: {fileID: 0}
@@ -5043,7 +5070,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1594389464
 GameObject:
@@ -5456,6 +5483,10 @@ MonoBehaviour:
   weight: 0
   defense: 0
   Icon: {fileID: 0}
+  attackBuff: {fileID: 0}
+  healthBuff: {fileID: 0}
+  mobilityBuff: {fileID: 0}
+  critBuff: {fileID: 0}
   cost: 0
   description: 
   slowing_counter: 0
@@ -5463,6 +5494,7 @@ MonoBehaviour:
   current_health: 0
   current_attack: 0
   FloatingTextPrefab: {fileID: 0}
+  FloatingBuffPrefab: {fileID: 0}
   dead: 0
   health_bar: {fileID: 0}
   anim: {fileID: 0}
@@ -5480,6 +5512,7 @@ MonoBehaviour:
   attack_buff: 0
   health_buff: 0
   move_buff: 0
+  fortress_def_buff: 0
   attackSound: {fileID: 0}
   hitSound: {fileID: 0}
   moveSound: {fileID: 0}
@@ -5826,7 +5859,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -6145,6 +6178,10 @@ MonoBehaviour:
   weight: 0
   defense: 0
   Icon: {fileID: 0}
+  attackBuff: {fileID: 0}
+  healthBuff: {fileID: 0}
+  mobilityBuff: {fileID: 0}
+  critBuff: {fileID: 0}
   cost: 0
   description: 
   slowing_counter: 0
@@ -6152,6 +6189,7 @@ MonoBehaviour:
   current_health: 0
   current_attack: 0
   FloatingTextPrefab: {fileID: 0}
+  FloatingBuffPrefab: {fileID: 0}
   dead: 0
   health_bar: {fileID: 0}
   anim: {fileID: 0}
@@ -6169,6 +6207,7 @@ MonoBehaviour:
   attack_buff: 0
   health_buff: 0
   move_buff: 0
+  fortress_def_buff: 0
   attackSound: {fileID: 0}
   hitSound: {fileID: 0}
   moveSound: {fileID: 0}
@@ -6298,14 +6337,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 6e785a2532b5646f69afe472b2716330, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7f39d7dfd2f4f464c990c4f759a3a3f4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6540,7 +6579,7 @@ GameObject:
   - component: {fileID: 2086728543}
   - component: {fileID: 2086728542}
   m_Layer: 5
-  m_Name: New_Highlight (1)
+  m_Name: Wraith_Highlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6755,7 +6794,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2111785157
 RectTransform:
   m_ObjectHideFlags: 0

@@ -1851,6 +1851,10 @@ MonoBehaviour:
   weight: 0
   defense: 0
   Icon: {fileID: 21300000, guid: 2086ccd06548046d48f57be397fe8b93, type: 3}
+  attackBuff: {fileID: 21300000, guid: add407bb7e7c24f499601835ad18636f, type: 3}
+  healthBuff: {fileID: 21300000, guid: 2ab49030cad33fc48befa72d3ac76ae0, type: 3}
+  mobilityBuff: {fileID: 21300000, guid: c7e79b7c7e6fea04f97a6a4ccd066d7e, type: 3}
+  critBuff: {fileID: 21300000, guid: be45326a311d0d74fbc2898af42bece1, type: 3}
   cost: 0
   description: 
   slowing_counter: 0
@@ -1858,6 +1862,8 @@ MonoBehaviour:
   current_health: 0
   current_attack: 0
   FloatingTextPrefab: {fileID: 1120425126322546, guid: 093bcb706ed94e3428f7bd3526dbc7e6,
+    type: 2}
+  FloatingBuffPrefab: {fileID: 1120425126322546, guid: 2dfd751b869468a40873bfd82ae689a6,
     type: 2}
   dead: 0
   health_bar: {fileID: 1408230907666542}
@@ -1876,6 +1882,7 @@ MonoBehaviour:
   attack_buff: 0
   health_buff: 0
   move_buff: 0
+  fortress_def_buff: 0
   attackSound: {fileID: 82127910165656600}
   hitSound: {fileID: 82040118678400620}
   moveSound: {fileID: 82030728135162588}
@@ -2084,6 +2091,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c48462514a13e9b4da9d907ba73183b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  obj_stats: {fileID: 0}
   obj_name: {fileID: 114799658120085744}
   stats_atk: {fileID: 114655910557754226}
   stats_range: {fileID: 114087208199285288}
@@ -2375,7 +2383,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -839455769
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 4a96eb7fdd79d744e888b3bec674324c, type: 3}
   m_Color: {r: 0.99607843, g: 1, b: 0, a: 1}
@@ -2421,7 +2429,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -982681181
-  m_SortingLayer: -2
+  m_SortingLayer: -1
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: de64c35b70fc16a44870f718a6978a35, type: 3}
   m_Color: {r: 1, g: 0.6273585, b: 0.75814354, a: 1}
