@@ -1881,6 +1881,7 @@ MonoBehaviour:
   attack_buff: 0
   health_buff: 0
   move_buff: 0
+  fortress_def_buff: 0
   attackSound: {fileID: 82127910165656600}
   hitSound: {fileID: 82040118678400620}
   moveSound: {fileID: 82030728135162588}
@@ -2381,7 +2382,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -839455769
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 4a96eb7fdd79d744e888b3bec674324c, type: 3}
   m_Color: {r: 0.99607843, g: 1, b: 0, a: 1}
@@ -2427,7 +2428,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -982681181
-  m_SortingLayer: -2
+  m_SortingLayer: -1
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: de64c35b70fc16a44870f718a6978a35, type: 3}
   m_Color: {r: 1, g: 0.6273585, b: 0.75814354, a: 1}
