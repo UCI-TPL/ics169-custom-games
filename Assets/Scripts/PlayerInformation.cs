@@ -353,7 +353,7 @@ public class PlayerInformation : MonoBehaviour
             }
         }
 
-        if ( ((Player1Chosen.Count == 2 && Player2Chosen.Count == 1) || (Player1Chosen.Count == 2 && one_player)) && one_time)
+        if ( ((Player1Chosen.Count == 5 && Player2Chosen.Count == 5) || (Player1Chosen.Count == 5 && one_player)) && one_time)
         {
             LoadGame(3);
             one_time = false;
