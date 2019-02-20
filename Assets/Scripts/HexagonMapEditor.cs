@@ -16,6 +16,10 @@ public class HexagonMapEditor : MonoBehaviour
     public GameObject UI_P1_Hov;
     public GameObject UI_P2_Hov;
     public GameObject UI_Turn;
+    public GameObject P1_Cooldown;
+    public GameObject P2_Cooldown;
+    private Text P1_Cooldown_Text;
+    private Text P2_Cooldown_Text;
     public BattleUI BattleUI_P1;
     public BattleUI BattleUI_P2;
     public BattleUI BattleUI_Turn;
@@ -149,6 +153,9 @@ public class HexagonMapEditor : MonoBehaviour
         BattleUI_Turn = UI_Turn.GetComponent<BattleUI>();
 
         Dynamic_Controls_list = Dynamic_Controls_list_obj.GetComponent<UI_List_Manager>();
+
+        P1_Cooldown_Text = P1_Cooldown.GetComponentInChildren<Text>();
+        P2_Cooldown_Text = P2_Cooldown.GetComponentInChildren<Text>();
 
         if (initializing) // stop loop if already doing it
         {
@@ -735,6 +742,7 @@ public class HexagonMapEditor : MonoBehaviour
     {
         if(allow_cursor_control == true)
         {
+            //BUG: Possible bug occuring here where you can't hit a or b on occassion;S
             if (!EventSystem.current.IsPointerOverGameObject())
             {
                 if (Input.GetButtonDown(joystick + "A Button"))
@@ -868,7 +876,30 @@ public class HexagonMapEditor : MonoBehaviour
             Assign_BUI_Var(BattleUI_P1);
             BattleUI_P1.Show();
             BattleUI_P2.Hide();
-
+            if (SelectedUnit.GetComponent<HeroUnit>() != null)
+            {
+                if(SelectedUnit.GetComponent<HeroUnit>().myType == HeroUnit.BuffType.BasicAttack)
+                {
+                    P1_Cooldown.SetActive(true);
+                    if (SelectedUnit.GetComponent<PoisonHero>() != null)
+                    {
+                        P1_Cooldown_Text.text = SelectedUnit.GetComponent<PoisonHero>().specialAttackCounter.ToString();
+                    }
+                    if (SelectedUnit.GetComponent<KidnapperHero>() != null)
+                    {
+                        P1_Cooldown_Text.text = SelectedUnit.GetComponent<KidnapperHero>().specialAttackCounter.ToString();
+                    }
+                }
+                else
+                {
+                    P1_Cooldown.SetActive(false);
+                }
+            }
+            else
+            {
+                P1_Cooldown.SetActive(false);
+            }
+            
         }
 
         if (SelectedUnit.CompareTag("Player 2"))
@@ -878,7 +909,29 @@ public class HexagonMapEditor : MonoBehaviour
             Assign_BUI_Var(BattleUI_P2);
             BattleUI_P2.Show();
             BattleUI_P1.Hide();
-
+            if (SelectedUnit.GetComponent<HeroUnit>() != null)
+            {
+                if (SelectedUnit.GetComponent<HeroUnit>().myType == HeroUnit.BuffType.BasicAttack)
+                {
+                    P2_Cooldown.SetActive(true);
+                    if(SelectedUnit.GetComponent<PoisonHero>() != null)
+                    {
+                        P2_Cooldown_Text.text = SelectedUnit.GetComponent<PoisonHero>().specialAttackCounter.ToString();
+                    }
+                    if(SelectedUnit.GetComponent<KidnapperHero>() != null)
+                    {
+                        P2_Cooldown_Text.text = SelectedUnit.GetComponent<KidnapperHero>().specialAttackCounter.ToString();
+                    }
+                }
+                else
+                {
+                    P2_Cooldown.SetActive(false);
+                }
+            }
+            else
+            {
+                P2_Cooldown.SetActive(false);
+            }
         }
         //hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
         //UI.obj_name.text =  "UNIT:"+ SelectedUnit.name.ToString();

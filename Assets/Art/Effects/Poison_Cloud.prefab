@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4993559745196740}
   - component: {fileID: 212808078919018714}
+  - component: {fileID: 95974010380481818}
   m_Layer: 0
   m_Name: Caution_Weather_Incoming_Triangle
   m_TagString: Untagged
@@ -71,6 +72,24 @@ Transform:
   m_Father: {fileID: 4498016549724754}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &95974010380481818
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1575880469415980}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5f2db7f6f05886c4f873cf704b608788, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!198 &198957060695103632
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -4639,7 +4658,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -972206547
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_RenderMode: 0
   m_SortMode: 0
