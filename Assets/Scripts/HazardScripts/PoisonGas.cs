@@ -5,7 +5,7 @@ using UnityEngine;
 public class PoisonGas : EnvironmentalHazard {
     public int damageDealt = 30; // amount of damage dealt by this effect
 
-    public HazardInfo CreateHazardAt(HexagonCell cell, Grid hexGrid)
+    public override HazardInfo CreateHazardAt(HexagonCell cell, Grid hexGrid)
     {
         // code to spawn the particle system or whatever to show the effect
 
