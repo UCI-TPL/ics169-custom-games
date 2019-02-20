@@ -53,6 +53,18 @@ public class EnvironmentalHazard : MonoBehaviour {
 
     }
 
+    public virtual HazardInfo CreateHazardAt(HexagonCell cell, Grid hexGrid)
+    {
+        // code to spawn the particle system or whatever to show the effect
+
+        //Debug.Log("shooting poison gas on map");
+        HexagonCoord coord = cell.coords;
+        int size = Random.Range(0, 3);
+
+        return new HazardInfo(this, coord.x, coord.Y_coord, coord.z, timeOnBoard, size);
+
+    }
+
     public virtual IEnumerator Effect(HexagonMapEditor editor, Grid hexGrid, int x, int z, int size) // does the effect of the hazard on the tiles that are in its size
     {
         List<HexagonCell> frontier = new List<HexagonCell>(); // list of nodes that the hazard has effect over

@@ -5,13 +5,14 @@ using UnityEngine;
 public class AcidRain : EnvironmentalHazard {
     AudioSource rainSound;
     public AudioSource lightningSound;
+    public int damage = 25;
 
     public override HazardInfo CreateHazard(Grid hexGrid)
     {
         int randRange = Random.Range(0, hexGrid.cells.Length);
         HexagonCoord rand = hexGrid.cells[randRange].coords;
 
-        int size = Random.Range(3, 5); // 0 = 1, 1 = 3, 2 = 5
+        int size = Random.Range(2,5); // 0 = 1, 1 = 3, 2 = 5
         Debug.Log("hazard at (" + rand.x + "," + rand.z + ") with size: " + size);
         List<HexagonCell> frontier = new List<HexagonCell>();
         HexagonCell curr = hexGrid.Get_Cell_Index(new HexagonCoord(rand.x, rand.z));
@@ -73,13 +74,13 @@ public class AcidRain : EnvironmentalHazard {
         {
             if (frontier[j].occupied)
             {
-                frontier[j].unitOnTile.current_health -= 25; // this should be changeed when we are trying to implement the fortress hero's defense
+                frontier[j].unitOnTile.current_health -= damage; // this should be changeed when we are trying to implement the fortress hero's defense
 
                 StartUnit attacked_unit = frontier[j].unitOnTile;
                 GameObject damagetext = Instantiate(attacked_unit.FloatingTextPrefab, attacked_unit.transform.position, Quaternion.identity, attacked_unit.transform);
                 damagetext.GetComponent<TextMesh>().color = Color.yellow;
                 damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * ((float)10 / 75f));
-                damagetext.GetComponent<TextMesh>().text = 25.ToString();
+                damagetext.GetComponent<TextMesh>().text = damage.ToString();
 
                 if (Mathf.Sign(damagetext.transform.parent.localScale.x) == -1 && Mathf.Sign(damagetext.transform.localScale.x) == 1)
                 {

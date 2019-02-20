@@ -1,54 +1,57 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class PoisonHero : HeroUnit {
-    public PoisonGas poisonGas;
-    public int specialAttackCounter = 5; // counter to keep track of when to fire off his load
+public class WeatherHero : HeroUnit
+{
+    public int specialAttackCounter = 0; // counter to keep track of when to fire off his load
+    public List<EnvironmentalHazard> possibleHazards = new List<EnvironmentalHazard>();
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    // Use this for initialization
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    public void WeatherVane(HexagonCell cell) // spawn the environmental hazard "PoisonGas"
+    {
+
+        Debug.Log("weather vane dropped from hero");
+        int rand = Random.Range(0, possibleHazards.Count);
+
+        if (gameObject.tag == "Player 1")
+            editor.hazardsOnGrid.Add(possibleHazards[rand].CreateHazardAt(cell, editor.hexGrid));
+        else if (gameObject.tag == "Player 2")
+            editor.hazardsOnGrid.Add(possibleHazards[rand].CreateHazardAt(cell, editor.hexGrid));
+
+
+        specialAttackCounter = 3;
+    }
 
     public override IEnumerator BasicAttack(Grid hexGrid, HexagonCell unitCell)
     {
-
         DecrementCounter();
         if (specialAttackCounter <= 0) // ready to kidnap
         {
             yield return new WaitForSeconds(0.3f);
-            StartCoroutine(PoisonGasAttack(hexGrid, unitCell));
+            StartCoroutine(WeatherBasicAttack(hexGrid, unitCell));
         }
         else
         {
             yield return new WaitForSeconds(0.3f);
             StartCoroutine(NormalBasicAttack(hexGrid, unitCell));
         }
-
     }
 
-
-    public void ShootPoisonGas(HexagonCell cell) // spawn the environmental hazard "PoisonGas"
+    public IEnumerator WeatherBasicAttack(Grid hexGrid, HexagonCell unitCell)
     {
 
-        Debug.Log("shooting poison  from hero");
-        if(gameObject.tag == "Player 1")
-            editor.P1StatusOnGrid.Add(poisonGas.CreateHazardAt(cell, editor.hexGrid));
-        else if(gameObject.tag == "Player 2")
-            editor.P2StatusOnGrid.Add(poisonGas.CreateHazardAt(cell, editor.hexGrid));
-
-
-        specialAttackCounter = 3;
-    }
-    public IEnumerator PoisonGasAttack(Grid hexGrid, HexagonCell unitCell)
-    {
         end_attack_without_retaliate = true;
         attacked_unit_has_died = false;
 
@@ -177,7 +180,7 @@ public class PoisonHero : HeroUnit {
 
             if (specialAttackCounter <= 0)
             {
-                ShootPoisonGas(editor.hexGrid.GetCell(attacked_unit.transform.position));
+                WeatherVane(editor.hexGrid.GetCell(attacked_unit.transform.position));
             }
 
 
@@ -560,6 +563,6 @@ public class PoisonHero : HeroUnit {
 
     public void DecrementCounter() // decrease the counter in a nicer way? don't know why i wrote this function honestly
     {
-            specialAttackCounter -= 1;
+        specialAttackCounter -= 1;
     }
 }

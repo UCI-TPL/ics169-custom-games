@@ -28,7 +28,7 @@ public class PlayerInformation : MonoBehaviour
     public List<StartUnit> P1PoolUnits = new List<StartUnit>(); // random  pool of units
     public List<StartUnit> P2PoolUnits = new List<StartUnit>();
     public List<StartUnit> RemovedP1Units = new List<StartUnit>(); // list of units that will get put back in after because they cant be chosen by that player
-    public List<StartUnit> RemovedP2Units = new List<StartUnit>(); // **** doesnt work for two players make it work for two players later!!!!!!!!!!!
+    public List<StartUnit> RemovedP2Units = new List<StartUnit>(); 
     public bool removed = false;
     private float p1ScrollTime;
     private float p2ScrollTime;
