@@ -40,7 +40,11 @@ public class HexagonMapEditor : MonoBehaviour
     public Team_Portrait_UI P1_Team_portrait_UI;
     public Team_Portrait_UI P2_Team_portrait_UI;
     public Color32 Unit_Hurt_Color;
-    
+    public GameObject WinCanvas;
+    public Text winText;
+    public GameObject FirstObject;
+
+
 
 
     private List<StartUnit> Player1Chosen = new List<StartUnit>();
@@ -621,14 +625,22 @@ public class HexagonMapEditor : MonoBehaviour
                 break;
             case (TurnStates.P1_WIN):
                 Debug.Log("PLAYER 1 WINS");
+                allow_cursor_control = false;
+                winText.text = "Player 1 Wins";
+                winText.color = Color.blue;
                 currentState = TurnStates.END;
                 break;
             case (TurnStates.P2_WIN):
                 Debug.Log("PLAYER 2 WINS");
+                allow_cursor_control = false;
+                winText.text = "Player 2 Wins";
+                winText.color = Color.red;
                 currentState = TurnStates.END;
                 break;
             case (TurnStates.END):
-                SceneManager.LoadScene("VictoryScene");
+                WinCanvas.SetActive(true);
+                GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(FirstObject);
+                //SceneManager.LoadScene("VictoryScene");
                 break;
         }
     }
@@ -1223,7 +1235,7 @@ public class HexagonMapEditor : MonoBehaviour
     public void Assign_BUI_Var(BattleUI _UI)
     {
         _UI.obj_name.text = SelectedUnit.unit_name;
-        _UI.obj_stats.text = SelectedUnit.current_health.ToString()+ "/" + SelectedUnit.health.ToString();
+        _UI.obj_stats.text = ((int)Mathf.CeilToInt(SelectedUnit.current_health)).ToString()+ "/" + SelectedUnit.health.ToString();
         _UI.unit_icon.GetComponent<Image>().sprite = SelectedUnit.Icon;
         _UI.health_Bar.GetComponent<Image>().fillAmount = SelectedUnit.current_health / SelectedUnit.health;
         Show_Current_Buffs(_UI);
