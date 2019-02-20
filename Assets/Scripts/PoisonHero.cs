@@ -20,7 +20,7 @@ public class PoisonHero : HeroUnit {
     public override IEnumerator BasicAttack(Grid hexGrid, HexagonCell unitCell)
     {
 
-        DecrementCounter();
+        
         if (specialAttackCounter <= 0) // ready to kidnap
         {
             yield return new WaitForSeconds(0.3f);
@@ -31,18 +31,8 @@ public class PoisonHero : HeroUnit {
             yield return new WaitForSeconds(0.3f);
             StartCoroutine(NormalBasicAttack(hexGrid, unitCell));
         }
-
+        DecrementCounter();
     }
-
-    //public override void TakeDamage(StartUnit attacked_unit, float damage) // will occur when the hero retaliates and attacks (2 per turn)
-    //{
-    //    base.TakeDamage(attacked_unit, damage); // the normal function from StartUnit
-
-    //    if (specialAttackCounter <= 0)
-    //    {
-    //        ShootPoisonGas(editor.hexGrid.GetCell(attacked_unit.transform.position));
-    //    }
-    //}
 
 
     public void ShootPoisonGas(HexagonCell cell) // spawn the environmental hazard "PoisonGas"
