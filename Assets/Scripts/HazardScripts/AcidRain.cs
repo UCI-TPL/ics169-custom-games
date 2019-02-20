@@ -34,6 +34,33 @@ public class AcidRain : EnvironmentalHazard {
         return new HazardInfo(this, rand.x, rand.Y_coord, rand.z, timeOnBoard, size);
     }
 
+    public override HazardInfo CreateHazardAt(HexagonCell cell, Grid hexGrid)
+    {
+        HexagonCoord coord = cell.coords;
+ 
+        int size = Random.Range(2, 5); // 0 = 1, 1 = 3, 2 = 5
+        List<HexagonCell> frontier = new List<HexagonCell>();
+        //HexagonCell curr = hexGrid.Get_Cell_Index(new HexagonCoord(rand.x, rand.z));
+        for (int i = 0; i < hexGrid.cells.Length; i++)
+        {
+
+            int distance = cell.coords.FindDistanceTo(hexGrid.cells[i].coords);
+            if (distance <= size)
+            {
+                frontier.Add(hexGrid.cells[i]);
+            }
+        }
+
+        for (int j = 0; j < frontier.Count; j++)
+        {
+            frontier[j].Create_Rain();
+        }
+        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().lightningSound.Play();
+        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().rainSound.Play();
+
+        return new HazardInfo(this, coord.x, coord.Y_coord, coord.z, timeOnBoard, size);
+    }
+
     public override void RemoveHazard(Grid hexGrid, int x, int z, int size)
     {
         List<HexagonCell> frontier = new List<HexagonCell>();
