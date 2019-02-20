@@ -303,7 +303,7 @@ public class StartUnit : MonoBehaviour
                         current_health = health;
                         health_buff = true;
                     }
-
+                    gameObject.GetComponentInChildren<Buff_UI_Manager>().update_current_buffs(this);
                 }
                 end_attack_without_retaliate = true;
                 attacked_unit_has_died = true;
