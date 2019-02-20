@@ -36,7 +36,7 @@ public class WeatherHero : HeroUnit
 
     public override IEnumerator BasicAttack(Grid hexGrid, HexagonCell unitCell)
     {
-        DecrementCounter();
+        
         if (specialAttackCounter <= 0) // ready to kidnap
         {
             yield return new WaitForSeconds(0.3f);
@@ -47,6 +47,7 @@ public class WeatherHero : HeroUnit
             yield return new WaitForSeconds(0.3f);
             StartCoroutine(NormalBasicAttack(hexGrid, unitCell));
         }
+        DecrementCounter();
     }
 
     public IEnumerator WeatherBasicAttack(Grid hexGrid, HexagonCell unitCell)

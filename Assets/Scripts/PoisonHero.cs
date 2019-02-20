@@ -20,7 +20,7 @@ public class PoisonHero : HeroUnit {
     public override IEnumerator BasicAttack(Grid hexGrid, HexagonCell unitCell)
     {
 
-        DecrementCounter();
+        
         if (specialAttackCounter <= 0) // ready to kidnap
         {
             yield return new WaitForSeconds(0.3f);
@@ -31,7 +31,7 @@ public class PoisonHero : HeroUnit {
             yield return new WaitForSeconds(0.3f);
             StartCoroutine(NormalBasicAttack(hexGrid, unitCell));
         }
-
+        DecrementCounter();
     }
 
 
