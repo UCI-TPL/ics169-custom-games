@@ -9,7 +9,11 @@ public class KidnapperHero : HeroUnit {
     StartUnit temp_attacked_unit;
     HexagonCell temp_attacked_cell;
 
-
+    private void Update()
+    {
+        if (specialAttackCounter == 0)
+            attackRange = specialRange;
+    }
     public override IEnumerator BasicAttack(Grid hexGrid, HexagonCell unitCell)
     {
 
@@ -258,7 +262,8 @@ public class KidnapperHero : HeroUnit {
                 StartCoroutine(attacked_unit.Hit());
                 StartCoroutine(attacked_unit.Blink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f));
             }
-            specialAttackCounter = 5;
+            specialAttackCounter = 3;
+            attackRange = 1;
             temp_attacked_cell = null;
             temp_attacked_unit = null;
         }
