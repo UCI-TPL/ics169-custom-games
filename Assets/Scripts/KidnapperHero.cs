@@ -100,6 +100,8 @@ public class KidnapperHero : HeroUnit {
                     temp_attacked_cell = neighbor;
                     targetable[selectedTarget].occupied = false;
                     targetable[selectedTarget].unitOnTile = null;
+                    //correctly sort kidnapped unit's meshes
+                    editor.re_sort_unit_position(temp_attacked_unit, temp_attacked_cell);
                     break;
                 }
             }

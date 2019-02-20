@@ -679,7 +679,7 @@ public class StartUnit : MonoBehaviour
                 Debug.Log("----------------------------------------- Unit Dead ---------------------------------------");
                 editor.cursor.Assign_Position(retaliator.gameObject.transform.position, retaliator.coords);
                 Camera.main.gameObject.GetComponent<CameraBounder>().Lerp_Change_Zoom(140f);
-                Camera.main.gameObject.GetComponent<CameraBounder>().Shake_Camera(20f, 0.8f);
+                //Camera.main.gameObject.GetComponent<CameraBounder>().Shake_Camera(20f, 20f);
                 yield return new WaitForSeconds(1f);
                 Camera.main.gameObject.GetComponent<CameraBounder>().Lerp_Reset_Zoom();
                 currently_attacking = false;

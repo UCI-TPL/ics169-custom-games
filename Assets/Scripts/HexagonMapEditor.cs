@@ -189,6 +189,7 @@ public class HexagonMapEditor : MonoBehaviour
         //StartCoroutine(InitializingTeams());
         P1_Team_portrait_UI.Initialize_Portraits(P1Team);
         P2_Team_portrait_UI.Initialize_Portraits(P2Team);
+        
     }
 
     // Update is called once per frame
@@ -385,6 +386,20 @@ public class HexagonMapEditor : MonoBehaviour
                     }
                     P2_Team_portrait_UI.Update_Portraits();
                     P1_Team_portrait_UI.Update_Portraits();
+                    foreach (StartUnit _unit in P1Team)
+                    {
+                        if (_unit != null)
+                        {
+                            Assign_Stats_Var(_unit.gameObject.GetComponentInChildren<BattleUI>(), _unit);
+                        }
+                    }
+                    foreach (StartUnit _unit in P2Team)
+                    {
+                        if (_unit != null)
+                        {
+                            Assign_Stats_Var(_unit.gameObject.GetComponentInChildren<BattleUI>(), _unit);
+                        }
+                    }
                 }
                 break;
 
@@ -547,6 +562,20 @@ public class HexagonMapEditor : MonoBehaviour
                     }
                     P1_Team_portrait_UI.Update_Portraits();
                     P2_Team_portrait_UI.Update_Portraits();
+                    foreach (StartUnit _unit in P1Team)
+                    {
+                        if (_unit != null)
+                        {
+                            Assign_Stats_Var(_unit.gameObject.GetComponentInChildren<BattleUI>(), _unit);
+                        }
+                    }
+                    foreach (StartUnit _unit in P2Team)
+                    {
+                        if (_unit != null)
+                        {
+                            Assign_Stats_Var(_unit.gameObject.GetComponentInChildren<BattleUI>(), _unit);
+                        }
+                    }
                 }
                 break;
 
@@ -608,9 +637,9 @@ public class HexagonMapEditor : MonoBehaviour
                 }
                 break;
             case (TurnStates.CHECK):
-                if (P1Team[0].GetComponent<HeroUnit>() == null)
+                if (P1Team[0].GetComponent<HeroUnit>() == null || P1Team.Count == 0)
                     currentState = TurnStates.P2_WIN;
-                else if (P2Team[0].GetComponent<HeroUnit>() == null)
+                else if (P2Team[0].GetComponent<HeroUnit>() == null || P2Team.Count == 0)
 
                     currentState = TurnStates.P1_WIN;
                 else if(wasP1Turn)
