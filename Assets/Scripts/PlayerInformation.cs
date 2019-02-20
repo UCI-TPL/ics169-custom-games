@@ -55,6 +55,8 @@ public class PlayerInformation : MonoBehaviour
 
     public GameObject ranger;
 
+    public bool reset;
+    public bool reRandom;
     /********************************************************************************/
     //sound stuff
     public AudioSource move_sound, pick_sound;
@@ -91,7 +93,7 @@ public class PlayerInformation : MonoBehaviour
         //display = FindObjectOfType<Text>();
         DontDestroyOnLoad(this.gameObject);
         current_scene = SceneManager.GetActiveScene();
-
+        reRandom = false;
         loadingScreen.SetActive(false);
     }
 
@@ -113,9 +115,26 @@ public class PlayerInformation : MonoBehaviour
                 ControllerMapping();
             }
         }
+        if (reset)
+        {
+            if (RemovedP1Units.Count != 0)
+            {
+                AddUnitsBack("P1");
+            }
+            if (RemovedP2Units.Count != 0)
+            {
+                AddUnitsBack("P2");
+            }
+            Player1Chosen.Clear();
+            Player2Chosen.Clear();
+            P1PoolUnits.Clear();
+            P2PoolUnits.Clear();
+            one_time = true;
+            reset = false;
+        }
         if (current_scene.name == "SelectCharacter")
         {
-            switch(currentState)
+            switch (currentState)
             {
                 case (DraftStates.Initialize):
                     if (!doSelect)
@@ -131,6 +150,11 @@ public class PlayerInformation : MonoBehaviour
                     break;
 
                 case (DraftStates.P1_Pick_1):
+                    if (reRandom)
+                    {
+                        RandomPool();
+                        reRandom = false;
+                    }
                     if (Player1Chosen.Count == 1)
                     {
                         draftUI.P1Pick1();
@@ -329,10 +353,11 @@ public class PlayerInformation : MonoBehaviour
             }
         }
 
-        if ( ((Player1Chosen.Count == 5 && Player2Chosen.Count == 5) || (Player1Chosen.Count == 5 && one_player)) && one_time)
+        if ( ((Player1Chosen.Count == 2 && Player2Chosen.Count == 1) || (Player1Chosen.Count == 2 && one_player)) && one_time)
         {
             LoadGame(3);
             one_time = false;
+            reRandom = true;
         }
     }
 
@@ -401,6 +426,7 @@ public class PlayerInformation : MonoBehaviour
                 if (!P1PoolUnits.Contains(AllP1Units[i]))
                 {
                     AllP1Units.Remove(AllP1Units[i]);
+                    //RemovedP1Units.Add(AllP1Units[i]);
                     if (p1ScrollValue == AllP1Units.Count)
                         p1ScrollValue = 0;
                 }
@@ -414,6 +440,7 @@ public class PlayerInformation : MonoBehaviour
                 if (!P2PoolUnits.Contains(AllP2Units[i]))
                 {
                     AllP2Units.Remove(AllP2Units[i]);
+                    //RemovedP2Units.Add(AllP2Units[i]);
                     if (p1ScrollValue == AllP2Units.Count)
                         p1ScrollValue = 0;
                 }
@@ -559,16 +586,23 @@ public class PlayerInformation : MonoBehaviour
         {
             for (int i = 0; i < RemovedP1Units.Count; i++)
             {
-                if (RemovedP1Units[i].unit_type == "Ranger")
-                {
+                ////--------------   Adding Heroes   -------------//
+
+                //if (RemovedP1Units[i].unit_type == "Fortress")
+                //    Hero1Units.Insert(0, RemovedP1Units[i]);
+                //else if (RemovedP1Units[1].unit_type == "Poison")
+                //    Hero1Units.Insert(1, RemovedP1Units[i]);
+                //else if (RemovedP1Units[i].unit_type == "Wraith")
+                //    Hero1Units.Insert(2, RemovedP1Units[i]);
+
+                //--------------   Adding Units   --------------//
+                if (RemovedP1Units[i].unit_type == "Ranger" && !AllP1Units.Contains(RemovedP1Units[i]))
                     AllP1Units.Insert(0, RemovedP1Units[i]);
-                    Debug.Log("inserted ranger");
-                }
-                else if (RemovedP1Units[i].unit_type == "Warrior")
+                else if (RemovedP1Units[i].unit_type == "Warrior" && !AllP1Units.Contains(RemovedP1Units[i]))
                     AllP1Units.Insert(1, RemovedP1Units[i]);
-                else if (RemovedP1Units[i].unit_type == "Tank")
+                else if (RemovedP1Units[i].unit_type == "Tank" && !AllP1Units.Contains(RemovedP1Units[i]))
                     AllP1Units.Insert(2, RemovedP1Units[i]);
-                else if (RemovedP1Units[i].unit_type == "Healer")
+                else if (RemovedP1Units[i].unit_type == "Healer" && !AllP1Units.Contains(RemovedP1Units[i]))
                     AllP1Units.Insert(3, RemovedP1Units[i]);
                 //RemovedP1Units.Remove(RemovedP1Units[i]);
             }
@@ -578,13 +612,24 @@ public class PlayerInformation : MonoBehaviour
         {
             for (int j = 0; j < RemovedP2Units.Count; j++)
             {
-                if (RemovedP2Units[j].unit_type == "Ranger")
+                //-------------   Adding Heroes   -------------//
+
+                //if (RemovedP2Units[j].unit_type == "Fortress")
+                //    Hero2Units.Insert(0, RemovedP2Units[j]);
+                //else if (RemovedP2Units[j].unit_type == "Poison")
+                //    Hero2Units.Insert(1, RemovedP2Units[j]);
+                //else if (RemovedP2Units[j].unit_type == "Wraith")
+                //    Hero2Units.Insert(2, RemovedP2Units[j]);
+
+                //-------------   Adding Units    -------------//
+
+                if (RemovedP2Units[j].unit_type == "Ranger" && !AllP2Units.Contains(RemovedP1Units[j]))
                     AllP2Units.Insert(0, RemovedP1Units[j]);
-                else if (RemovedP2Units[j].unit_type == "Warrior")
+                else if (RemovedP2Units[j].unit_type == "Warrior" && !AllP1Units.Contains(RemovedP1Units[j]))
                     AllP2Units.Insert(1, RemovedP1Units[j]);
-                else if (RemovedP2Units[j].unit_type == "Tank")
+                else if (RemovedP2Units[j].unit_type == "Tank" && !AllP2Units.Contains(RemovedP1Units[j]))
                     AllP2Units.Insert(2, RemovedP1Units[j]);
-                else if (RemovedP2Units[j].unit_type == "Healer")
+                else if (RemovedP2Units[j].unit_type == "Healer" && !AllP2Units.Contains(RemovedP1Units[j]))
                     AllP2Units.Insert(3, RemovedP1Units[j]);
                 //RemovedP2Units.Remove(RemovedP2Units[j]);
             }
@@ -604,19 +649,21 @@ public class PlayerInformation : MonoBehaviour
                 p1PickTime = Time.time + 1f;
                 if(hero)
                 {
-
-                   Player1Chosen.Add(Hero1Units[p1ScrollValue]);
-
+                    Player1Chosen.Add(Hero1Units[p1ScrollValue]);
+                    RemovedP1Units.Add(Hero1Units[p1ScrollValue]);
                 }
                 else
                 {
-
-                   Player1Chosen.Add(AllP1Units[p1ScrollValue]);
+                    Player1Chosen.Add(AllP1Units[p1ScrollValue]);
 
                 }
                 if (pool && !hero)
                 {
                     P1PoolUnits.Remove(AllP1Units[p1ScrollValue]);
+                    if (!RemovedP1Units.Contains(AllP1Units[p1ScrollValue]))
+                    {
+                        RemovedP1Units.Add(AllP1Units[p1ScrollValue]);
+                    }
                     CheckUnits("P1");
                 }
 
@@ -633,8 +680,8 @@ public class PlayerInformation : MonoBehaviour
                 p2PickTime = Time.time + 1f;
                 if (hero)
                 {
-
-                   Player2Chosen.Add(Hero2Units[p1ScrollValue]);
+                    Player2Chosen.Add(Hero2Units[p1ScrollValue]);
+                    RemovedP2Units.Add(Hero2Units[p1ScrollValue]);
 
                 }
                 else
@@ -646,6 +693,10 @@ public class PlayerInformation : MonoBehaviour
                 if (pool && !hero)
                 {
                     P2PoolUnits.Remove(AllP2Units[p1ScrollValue]);
+                    if (!RemovedP2Units.Contains(AllP2Units[p1ScrollValue]))
+                    {
+                        RemovedP2Units.Add(AllP2Units[p1ScrollValue]);
+                    }
                     CheckUnits("P2");
                 }
 
