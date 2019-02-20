@@ -1708,6 +1708,10 @@ MonoBehaviour:
   weight: 0
   defense: 0
   Icon: {fileID: 21300000, guid: 058137bcb777c407a95a9b4809cdc35b, type: 3}
+  attackBuff: {fileID: 0}
+  healthBuff: {fileID: 0}
+  mobilityBuff: {fileID: 0}
+  critBuff: {fileID: 0}
   cost: 0
   description: When its' units stand adjacent to it they get a defensive buff
   slowing_counter: 0
@@ -1716,6 +1720,7 @@ MonoBehaviour:
   current_attack: 0
   FloatingTextPrefab: {fileID: 1120425126322546, guid: 093bcb706ed94e3428f7bd3526dbc7e6,
     type: 2}
+  FloatingBuffPrefab: {fileID: 0}
   dead: 0
   health_bar: {fileID: 1586622878863446}
   anim: {fileID: 0}
@@ -1733,6 +1738,7 @@ MonoBehaviour:
   attack_buff: 0
   health_buff: 0
   move_buff: 0
+  fortress_def_buff: 0
   attackSound: {fileID: 82685675231388274}
   hitSound: {fileID: 82416303717422682}
   moveSound: {fileID: 82131459176917324}
@@ -1864,6 +1870,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c48462514a13e9b4da9d907ba73183b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  obj_stats: {fileID: 0}
   obj_name: {fileID: 114942871783758384}
   stats_atk: {fileID: 114379226266197046}
   stats_range: {fileID: 114875643567041318}
@@ -2487,7 +2494,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -839455769
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 4a96eb7fdd79d744e888b3bec674324c, type: 3}
   m_Color: {r: 0.99607843, g: 1, b: 0, a: 1}
@@ -2533,7 +2540,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -982681181
-  m_SortingLayer: -2
+  m_SortingLayer: -1
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: de64c35b70fc16a44870f718a6978a35, type: 3}
   m_Color: {r: 0, g: 0.98039216, b: 1, a: 1}
