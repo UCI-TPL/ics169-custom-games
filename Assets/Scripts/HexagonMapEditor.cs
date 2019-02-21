@@ -637,9 +637,9 @@ public class HexagonMapEditor : MonoBehaviour
                 }
                 break;
             case (TurnStates.CHECK):
-                if (P1Team[0].GetComponent<HeroUnit>() == null || P1Team.Count == 0)
+                if (P1Team.Count == 0 || P1Team[0].GetComponent<HeroUnit>() == null)
                     currentState = TurnStates.P2_WIN;
-                else if (P2Team[0].GetComponent<HeroUnit>() == null || P2Team.Count == 0)
+                else if (P2Team.Count == 0 || P2Team[0].GetComponent<HeroUnit>() == null)
 
                     currentState = TurnStates.P1_WIN;
                 else if(wasP1Turn)
