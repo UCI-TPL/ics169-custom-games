@@ -300,9 +300,17 @@ public class StartUnit : MonoBehaviour
                         Debug.Log(name + " got a health buff");
                         buffItem.GetComponent<SpriteRenderer>().sprite = healthBuff;
                         health += 100;
-                        current_health = health;
+                        current_health += 100;
+
                         health_buff = true;
                     }
+                    float healthpercent = current_health / health;//    120/180 = .667
+
+                    float attack_deduction = 1 - healthpercent;//   1 - .667 = .333
+                    float reduction = attack_deduction / 2;
+                    float new_attack = attack * reduction;//   72 * .333 = 23.76
+                    current_attack = attack + new_attack;// 72 - 23.76 = 48
+
                     gameObject.GetComponentInChildren<Buff_UI_Manager>().update_current_buffs(this);
                 }
                 end_attack_without_retaliate = true;
@@ -679,7 +687,7 @@ public class StartUnit : MonoBehaviour
                 Debug.Log("----------------------------------------- Unit Dead ---------------------------------------");
                 editor.cursor.Assign_Position(retaliator.gameObject.transform.position, retaliator.coords);
                 Camera.main.gameObject.GetComponent<CameraBounder>().Lerp_Change_Zoom(140f);
-                Camera.main.gameObject.GetComponent<CameraBounder>().Shake_Camera(20f, 0.8f);
+                //Camera.main.gameObject.GetComponent<CameraBounder>().Shake_Camera(20f, 20f);
                 yield return new WaitForSeconds(1f);
                 Camera.main.gameObject.GetComponent<CameraBounder>().Lerp_Reset_Zoom();
                 currently_attacking = false;

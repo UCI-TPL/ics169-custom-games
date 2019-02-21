@@ -104,6 +104,8 @@ public class KidnapperHero : HeroUnit {
                     temp_attacked_cell = neighbor;
                     targetable[selectedTarget].occupied = false;
                     targetable[selectedTarget].unitOnTile = null;
+                    //correctly sort kidnapped unit's meshes
+                    editor.re_sort_unit_position(temp_attacked_unit, temp_attacked_cell);
                     break;
                 }
             }
@@ -223,9 +225,17 @@ public class KidnapperHero : HeroUnit {
                     {
                         Debug.Log(name + " got a health buff");
                         health += 100;
-                        current_health = health;
+                        current_health += 100;
+
                         health_buff = true;
                     }
+
+                    float healthpercent = current_health / health;//    120/180 = .667
+
+                    float attack_deduction = 1 - healthpercent;//   1 - .667 = .333
+                    float reduction = attack_deduction / 2;
+                    float new_attack = attacked_unit.attack * reduction;//   72 * .333 = 23.76
+                    current_attack = attack + new_attack;// 72 - 23.76 = 48
 
                 }
                 end_attack_without_retaliate = true;

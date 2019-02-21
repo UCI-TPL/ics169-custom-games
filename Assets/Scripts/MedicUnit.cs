@@ -123,6 +123,15 @@ public class MedicUnit : StartUnit {
 
             }
             targetable[rand_index].unitOnTile.current_health += damage;
+            if (targetable[rand_index].unitOnTile.current_health > targetable[rand_index].unitOnTile.health)
+                targetable[rand_index].unitOnTile.current_health = targetable[rand_index].unitOnTile.health;
+            float healthpercent = targetable[rand_index].unitOnTile.current_health / targetable[rand_index].unitOnTile.health;//    120/180 = .667
+            Debug.Log(healthpercent);
+            float attack_deduction = 1 - healthpercent;//   1 - .667 = .333
+            float reduction = attack_deduction / 2;
+            float new_attack = targetable[rand_index].unitOnTile.attack * reduction;//   72 * .333 = 23.76
+            targetable[rand_index].unitOnTile.current_attack = targetable[rand_index].unitOnTile.attack + new_attack;// 72 - 23.76 = 48
+
             attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
 
             //if (targetable[rand_index].unitOnTile.current_attack > 10)
