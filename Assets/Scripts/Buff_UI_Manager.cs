@@ -16,6 +16,13 @@ public class Buff_UI_Manager : MonoBehaviour {
         // 1. Get the data to be displayed
         //should start empty
         ListItems = new ArrayList();
+        IconImages = new Sprite[] {
+            Resources.Load<Sprite>("Fortress_Buff_Icon"),
+            Resources.Load<Sprite>("Attack_Buff_Icon_ReScaled"),
+            Resources.Load<Sprite>("Health_Buff_Icon_ReScaled"),
+            Resources.Load<Sprite>("Crit_Buff_Icon_ReScaled"),
+            Resources.Load<Sprite>("Move_Buff_Icon_ReScaled")
+        };
     }
 
     private void Update()
