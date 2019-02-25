@@ -34,6 +34,7 @@ public class FortressHero : HeroUnit {
                 {
 
                     HexagonCell neighbor = myCell.GetNeighbor(d);
+                    //There is some kind of BUG happening here when a unit dies next to a fortess hero
                     if (neighbor.unitOnTile == editor.P2Team[i]) // if the unit is next to the hero
                     {
                         Buff(editor.P2Team[i]);
@@ -50,8 +51,12 @@ public class FortressHero : HeroUnit {
 
         for (int i = 0; i < wasBuffed.Count; i++) // for every unit that was buffed
         {
-            Debuf(wasBuffed[i]); //debuf them
+            if (wasBuffed[i] != null)
+            {
+                Debuf(wasBuffed[i]); //debuf them
+            }
             defense -= 5;
+
         }
         wasBuffed.Clear(); //clear the list
 
@@ -63,6 +68,7 @@ public class FortressHero : HeroUnit {
         unit.defense += 15;
         unit.fortress_def_buff = true;
         //activate buff ui element here
+        unit.gameObject.GetComponentInChildren<Buff_UI_Manager>().update_current_buffs(unit);
     }
 
     public override void Debuf(StartUnit unit)
@@ -71,5 +77,6 @@ public class FortressHero : HeroUnit {
         unit.defense -= 15;
         unit.fortress_def_buff = false;
         //deactivate buff ui element here
+        unit.gameObject.GetComponentInChildren<Buff_UI_Manager>().update_current_buffs(unit);
     }
 }

@@ -35,6 +35,9 @@ public class DraftUI : MonoBehaviour {
     public Image WraithHero;
     public Image WraithHeroBack;
     public Text WraithHeroNum;
+    public Image TempestHero;
+    public Image TempestHeroBack;
+    public Text TempestHeroNum;
     public Image Ranger;
     public Image RangerBack;
     public Text RangerNum;
@@ -84,6 +87,10 @@ public class DraftUI : MonoBehaviour {
                 {
                     PoisonHeroBack.enabled = false;
                 }
+                if (TempestHeroBack.enabled)
+                {
+                    TempestHeroBack.enabled = false;
+                }
                 FortressHeroBack.enabled = true;
             }
             if(temp.unit_type == "Plague")
@@ -95,6 +102,10 @@ public class DraftUI : MonoBehaviour {
                 if (FortressHeroBack.enabled)
                 {
                     FortressHeroBack.enabled = false;
+                }
+                if (TempestHeroBack.enabled)
+                {
+                    TempestHeroBack.enabled = false;
                 }
                 PoisonHeroBack.enabled = true;
             }
@@ -108,7 +119,27 @@ public class DraftUI : MonoBehaviour {
                 {
                     PoisonHeroBack.enabled = false;
                 }
+                if(TempestHeroBack.enabled)
+                {
+                    TempestHeroBack.enabled = false;
+                }
                 WraithHeroBack.enabled = true;
+            }
+            if(temp.unit_type == "Tempest")
+            {
+                if (FortressHeroBack.enabled)
+                {
+                    FortressHeroBack.enabled = false;
+                }
+                if (PoisonHeroBack.enabled)
+                {
+                    PoisonHeroBack.enabled = false;
+                }
+                if (WraithHeroBack.enabled)
+                {
+                    WraithHeroBack.enabled = false;
+                }
+                TempestHeroBack.enabled = true;
             }
         }
 
@@ -118,6 +149,10 @@ public class DraftUI : MonoBehaviour {
             PoisonHero.color = Color.grey;
             FortressHeroBack.enabled = false;
             FortressHero.color = Color.grey;
+            WraithHeroBack.enabled = false;
+            WraithHero.color = Color.grey;
+            TempestHeroBack.enabled = false;
+            TempestHero.color = Color.grey;
             Tank.color = Color.white;
             Healer.color = Color.white;
             Warrior.color = Color.white;

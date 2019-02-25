@@ -16,6 +16,10 @@ public class HexagonMapEditor : MonoBehaviour
     public GameObject UI_P1_Hov;
     public GameObject UI_P2_Hov;
     public GameObject UI_Turn;
+    public GameObject P1_Cooldown;
+    public GameObject P2_Cooldown;
+    private Text P1_Cooldown_Text;
+    private Text P2_Cooldown_Text;
     public BattleUI BattleUI_P1;
     public BattleUI BattleUI_P2;
     public BattleUI BattleUI_Turn;
@@ -36,7 +40,11 @@ public class HexagonMapEditor : MonoBehaviour
     public Team_Portrait_UI P1_Team_portrait_UI;
     public Team_Portrait_UI P2_Team_portrait_UI;
     public Color32 Unit_Hurt_Color;
-    
+    public GameObject WinCanvas;
+    public Text winText;
+    public GameObject FirstObject;
+
+
 
 
     private List<StartUnit> Player1Chosen = new List<StartUnit>();
@@ -146,6 +154,9 @@ public class HexagonMapEditor : MonoBehaviour
 
         Dynamic_Controls_list = Dynamic_Controls_list_obj.GetComponent<UI_List_Manager>();
 
+        P1_Cooldown_Text = P1_Cooldown.GetComponentInChildren<Text>();
+        P2_Cooldown_Text = P2_Cooldown.GetComponentInChildren<Text>();
+
         if (initializing) // stop loop if already doing it
         {
             //initializing = false;
@@ -178,6 +189,7 @@ public class HexagonMapEditor : MonoBehaviour
         //StartCoroutine(InitializingTeams());
         P1_Team_portrait_UI.Initialize_Portraits(P1Team);
         P2_Team_portrait_UI.Initialize_Portraits(P2Team);
+        
     }
 
     // Update is called once per frame
@@ -374,6 +386,20 @@ public class HexagonMapEditor : MonoBehaviour
                     }
                     P2_Team_portrait_UI.Update_Portraits();
                     P1_Team_portrait_UI.Update_Portraits();
+                    foreach (StartUnit _unit in P1Team)
+                    {
+                        if (_unit != null)
+                        {
+                            Assign_Stats_Var(_unit.gameObject.GetComponentInChildren<BattleUI>(), _unit);
+                        }
+                    }
+                    foreach (StartUnit _unit in P2Team)
+                    {
+                        if (_unit != null)
+                        {
+                            Assign_Stats_Var(_unit.gameObject.GetComponentInChildren<BattleUI>(), _unit);
+                        }
+                    }
                 }
                 break;
 
@@ -536,6 +562,20 @@ public class HexagonMapEditor : MonoBehaviour
                     }
                     P1_Team_portrait_UI.Update_Portraits();
                     P2_Team_portrait_UI.Update_Portraits();
+                    foreach (StartUnit _unit in P1Team)
+                    {
+                        if (_unit != null)
+                        {
+                            Assign_Stats_Var(_unit.gameObject.GetComponentInChildren<BattleUI>(), _unit);
+                        }
+                    }
+                    foreach (StartUnit _unit in P2Team)
+                    {
+                        if (_unit != null)
+                        {
+                            Assign_Stats_Var(_unit.gameObject.GetComponentInChildren<BattleUI>(), _unit);
+                        }
+                    }
                 }
                 break;
 
@@ -597,9 +637,9 @@ public class HexagonMapEditor : MonoBehaviour
                 }
                 break;
             case (TurnStates.CHECK):
-                if (P1Team[0].GetComponent<HeroUnit>() == null)
+                if (P1Team[0].GetComponent<HeroUnit>() == null || P1Team.Count == 0)
                     currentState = TurnStates.P2_WIN;
-                else if (P2Team[0].GetComponent<HeroUnit>() == null)
+                else if (P2Team[0].GetComponent<HeroUnit>() == null || P2Team.Count == 0)
 
                     currentState = TurnStates.P1_WIN;
                 else if(wasP1Turn)
@@ -614,14 +654,22 @@ public class HexagonMapEditor : MonoBehaviour
                 break;
             case (TurnStates.P1_WIN):
                 Debug.Log("PLAYER 1 WINS");
+                allow_cursor_control = false;
+                winText.text = "Player 1 Wins";
+                winText.color = Color.blue;
                 currentState = TurnStates.END;
                 break;
             case (TurnStates.P2_WIN):
                 Debug.Log("PLAYER 2 WINS");
+                allow_cursor_control = false;
+                winText.text = "Player 2 Wins";
+                winText.color = Color.red;
                 currentState = TurnStates.END;
                 break;
             case (TurnStates.END):
-                SceneManager.LoadScene("VictoryScene");
+                WinCanvas.SetActive(true);
+                GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(FirstObject);
+                //SceneManager.LoadScene("VictoryScene");
                 break;
         }
     }
@@ -723,6 +771,7 @@ public class HexagonMapEditor : MonoBehaviour
     {
         if(allow_cursor_control == true)
         {
+            //BUG: Possible bug occuring here where you can't hit a or b on occassion;S
             if (!EventSystem.current.IsPointerOverGameObject())
             {
                 if (Input.GetButtonDown(joystick + "A Button"))
@@ -856,7 +905,30 @@ public class HexagonMapEditor : MonoBehaviour
             Assign_BUI_Var(BattleUI_P1);
             BattleUI_P1.Show();
             BattleUI_P2.Hide();
-
+            if (SelectedUnit.GetComponent<HeroUnit>() != null)
+            {
+                if(SelectedUnit.GetComponent<HeroUnit>().myType == HeroUnit.BuffType.BasicAttack)
+                {
+                    P1_Cooldown.SetActive(true);
+                    if (SelectedUnit.GetComponent<PoisonHero>() != null)
+                    {
+                        P1_Cooldown_Text.text = SelectedUnit.GetComponent<PoisonHero>().specialAttackCounter.ToString();
+                    }
+                    if (SelectedUnit.GetComponent<KidnapperHero>() != null)
+                    {
+                        P1_Cooldown_Text.text = SelectedUnit.GetComponent<KidnapperHero>().specialAttackCounter.ToString();
+                    }
+                }
+                else
+                {
+                    P1_Cooldown.SetActive(false);
+                }
+            }
+            else
+            {
+                P1_Cooldown.SetActive(false);
+            }
+            
         }
 
         if (SelectedUnit.CompareTag("Player 2"))
@@ -866,7 +938,29 @@ public class HexagonMapEditor : MonoBehaviour
             Assign_BUI_Var(BattleUI_P2);
             BattleUI_P2.Show();
             BattleUI_P1.Hide();
-
+            if (SelectedUnit.GetComponent<HeroUnit>() != null)
+            {
+                if (SelectedUnit.GetComponent<HeroUnit>().myType == HeroUnit.BuffType.BasicAttack)
+                {
+                    P2_Cooldown.SetActive(true);
+                    if(SelectedUnit.GetComponent<PoisonHero>() != null)
+                    {
+                        P2_Cooldown_Text.text = SelectedUnit.GetComponent<PoisonHero>().specialAttackCounter.ToString();
+                    }
+                    if(SelectedUnit.GetComponent<KidnapperHero>() != null)
+                    {
+                        P2_Cooldown_Text.text = SelectedUnit.GetComponent<KidnapperHero>().specialAttackCounter.ToString();
+                    }
+                }
+                else
+                {
+                    P2_Cooldown.SetActive(false);
+                }
+            }
+            else
+            {
+                P2_Cooldown.SetActive(false);
+            }
         }
         //hexGrid.ShowPath(unitCell, SelectedUnit.mobility, SelectedUnit.attackRange, hexGrid.touchedColor, hexGrid.attackColor);
         //UI.obj_name.text =  "UNIT:"+ SelectedUnit.name.ToString();
@@ -1170,7 +1264,7 @@ public class HexagonMapEditor : MonoBehaviour
     public void Assign_BUI_Var(BattleUI _UI)
     {
         _UI.obj_name.text = SelectedUnit.unit_name;
-        _UI.obj_stats.text = SelectedUnit.current_health.ToString()+ "/" + SelectedUnit.health.ToString();
+        _UI.obj_stats.text = ((int)Mathf.CeilToInt(SelectedUnit.current_health)).ToString()+ "/" + SelectedUnit.health.ToString();
         _UI.unit_icon.GetComponent<Image>().sprite = SelectedUnit.Icon;
         _UI.health_Bar.GetComponent<Image>().fillAmount = SelectedUnit.current_health / SelectedUnit.health;
         Show_Current_Buffs(_UI);
