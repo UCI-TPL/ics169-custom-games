@@ -53,8 +53,8 @@ public class StartUnit : MonoBehaviour
 
     private float dmg_txt_char_size;
 
-
-
+    public GameObject Unit_Getting_Attacked;
+    public GameObject Hit_Effect;
     //Attack, Hit, and Move sounds
     public AudioSource attackSound, hitSound, moveSound;
     public GameObject selection_arrow;
@@ -189,9 +189,15 @@ public class StartUnit : MonoBehaviour
                 dmg_txt = (int)damage;
             }
 
+            
+
             StartUnit attacked_unit = targetable[selectedTarget].unitOnTile;
             HexagonCell attacked_cell = targetable[selectedTarget];
             HexagonCoord current = unitCell.coords;
+
+            //Below Is for Effects Triggered On Other Units That Get Attacked
+            Unit_Getting_Attacked = attacked_unit.gameObject;
+            //Above is for effects triggered on other units that get attacked
 
             if (attacked_cell.gameObject.transform.position.x > transform.position.x) //unit is to the right
             {
@@ -396,6 +402,8 @@ public class StartUnit : MonoBehaviour
 
     public virtual IEnumerator Retaliate(Grid hexGrid, HexagonCell unitCell_to_attack, HexagonCell unitCell_is_attacking) // return bool yes if dead false if no
     {
+        //for effects that trigger on a unit getting attacked
+        Unit_Getting_Attacked = unitCell_to_attack.unitOnTile.gameObject;
         //Debug.Log("Called_Retaliate");
         attacked_unit_has_died = false;
         string attacker = unitCell_is_attacking.unitOnTile.unit_name;
@@ -814,6 +822,10 @@ public class StartUnit : MonoBehaviour
         float new_attack = attacked_unit.attack * reduction;//   72 * .333 = 23.76
         attacked_unit.current_attack = attacked_unit.attack - new_attack;// 72 - 23.76 = 48
 
+        if(attacked_unit.current_health <= (attacked_unit.health * 0.4f))
+        {
+
+        }
 
         //float attack_deduction = attacked_unit.current_attack * (current_attack - attacked_unit.current_health / attacked_unit.health);
         //if (attack_deduction > attacked_unit.basedmg)
@@ -922,4 +934,26 @@ public class StartUnit : MonoBehaviour
         }
     }
 
+
+    public void trigger_visual_effect()
+    {
+        Spawn_Flash flash_spawn = GetComponentInChildren<Spawn_Flash>();
+        flash_spawn.Show_Flash();
+    }
+
+    public void trigger_effect_on_unit()
+    {
+        HexagonCell _cell = editor.hexGrid.GetCell(Unit_Getting_Attacked.transform.position);
+        Spawn_Flash flash_spawn = GetComponentInChildren<Spawn_Flash>();
+        GameObject flash_hit_obj = flash_spawn.Show_Flash_Hit(Unit_Getting_Attacked);
+        re_sort_object_position(_cell, flash_hit_obj.GetComponent<SpriteRenderer>());
+    }
+
+    public void re_sort_object_position(HexagonCell _target_location, SpriteRenderer sprite_rend)
+    {
+        
+        sprite_rend.sortingOrder = sprite_rend.GetComponent<Mesh_Layer>()._ordered_layer
+            + ((_target_location.coords.X_coord + _target_location.coords.Y_coord) * editor.max_sprites_per_unit);
+        
+    }
 }
