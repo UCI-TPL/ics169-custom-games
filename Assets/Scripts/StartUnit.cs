@@ -822,9 +822,9 @@ public class StartUnit : MonoBehaviour
         float new_attack = attacked_unit.attack * reduction;//   72 * .333 = 23.76
         attacked_unit.current_attack = attacked_unit.attack - new_attack;// 72 - 23.76 = 48
 
-        if(attacked_unit.current_health <= (attacked_unit.health * 0.4f))
+        if (attacked_unit.current_health <= (attacked_unit.health * 0.4f))
         {
-
+            attacked_unit.gameObject.GetComponent<Animator>().SetBool("Injured",true);
         }
 
         //float attack_deduction = attacked_unit.current_attack * (current_attack - attacked_unit.current_health / attacked_unit.health);

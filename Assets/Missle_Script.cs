@@ -22,6 +22,7 @@ public class Missle_Script : MonoBehaviour {
         if(collision.gameObject == contact_plane)
         {
             GameObject exp_obj = Instantiate(explosion_prefab, transform.position, Quaternion.identity);
+
             Destroy(this.gameObject);
         }
         
