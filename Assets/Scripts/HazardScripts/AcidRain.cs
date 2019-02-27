@@ -38,7 +38,7 @@ public class AcidRain : EnvironmentalHazard {
     {
         HexagonCoord coord = cell.coords;
  
-        int size = Random.Range(2, 5); // 0 = 1, 1 = 3, 2 = 5
+        int size = Random.Range(2, 3); // 0 = 1, 1 = 3, 2 = 5
         List<HexagonCell> frontier = new List<HexagonCell>();
         //HexagonCell curr = hexGrid.Get_Cell_Index(new HexagonCoord(rand.x, rand.z));
         for (int i = 0; i < hexGrid.cells.Length; i++)
@@ -55,13 +55,14 @@ public class AcidRain : EnvironmentalHazard {
         {
             frontier[j].Create_Rain();
         }
+        cell.Create_Weather_Vane();
         GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().lightningSound.Play();
         GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().rainSound.Play();
 
-        return new HazardInfo(this, coord.x, coord.Y_coord, coord.z, timeOnBoard, size);
+        return new HazardInfo(this, coord.x, coord.Y_coord, coord.z, timeOnBoard, size, true);
     }
 
-    public override void RemoveHazard(Grid hexGrid, int x, int z, int size)
+    public override void RemoveHazard(Grid hexGrid, int x, int z, int size, bool weatherVane) // weatherVane is true when placed by tempest hero
     {
         List<HexagonCell> frontier = new List<HexagonCell>();
         HexagonCell curr = hexGrid.Get_Cell_Index(new HexagonCoord(x, z));
@@ -78,6 +79,8 @@ public class AcidRain : EnvironmentalHazard {
         {
             Destroy(frontier[j].HazardObject);
         }
+        if (weatherVane)
+            Destroy(curr.Weather_Vane_Obj);
         GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().birdSound.Play();
         GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().rainSound.Stop();
     }
@@ -101,13 +104,13 @@ public class AcidRain : EnvironmentalHazard {
         {
             if (frontier[j].occupied)
             {
-                frontier[j].unitOnTile.current_health -= damage; // this should be changeed when we are trying to implement the fortress hero's defense
+                frontier[j].unitOnTile.current_health -= damage - frontier[j].unitOnTile.defense; // this should be changeed when we are trying to implement the fortress hero's defense
 
                 StartUnit attacked_unit = frontier[j].unitOnTile;
                 GameObject damagetext = Instantiate(attacked_unit.FloatingTextPrefab, attacked_unit.transform.position, Quaternion.identity, attacked_unit.transform);
                 damagetext.GetComponent<TextMesh>().color = Color.yellow;
                 damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * ((float)10 / 75f));
-                damagetext.GetComponent<TextMesh>().text = damage.ToString();
+                damagetext.GetComponent<TextMesh>().text = (damage - frontier[j].unitOnTile.defense).ToString();
 
                 if (Mathf.Sign(damagetext.transform.parent.localScale.x) == -1 && Mathf.Sign(damagetext.transform.localScale.x) == 1)
                 {

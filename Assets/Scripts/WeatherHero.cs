@@ -31,7 +31,7 @@ public class WeatherHero : HeroUnit
             editor.hazardsOnGrid.Add(possibleHazards[rand].CreateHazardAt(cell, editor.hexGrid));
 
 
-        specialAttackCounter = 3;
+        specialAttackCounter = 4;
     }
 
     public override IEnumerator BasicAttack(Grid hexGrid, HexagonCell unitCell)
@@ -260,8 +260,8 @@ public class WeatherHero : HeroUnit
 
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 yield return new WaitForSeconds(0.3f);
-
-                if (attacked_unit.gameObject.GetComponent<FortressHero>() != null) // handling of if attacking fortress hero
+                //SHOULD THORNMAIL BE ACTIVATED ON SPECIAL ATTACKS?
+                if (attacked_unit.gameObject.GetComponent<FortressHero>() != null && damage != 0) // handling of if attacking fortress hero 
                 {
                     Debug.Log("Hurt by fortress hero's armor");
                     if (FloatingTextPrefab)
@@ -514,7 +514,7 @@ public class WeatherHero : HeroUnit
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 yield return new WaitForSeconds(0.3f);
 
-                if (attacked_unit.gameObject.GetComponent<FortressHero>() != null) // handling of if attacking fortress hero
+                if (attacked_unit.gameObject.GetComponent<FortressHero>() != null && damage != 0) // handling of if attacking fortress hero
                 {
                     Debug.Log("Hurt by fortress hero's armor");
                     if (FloatingTextPrefab)

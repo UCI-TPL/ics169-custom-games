@@ -236,7 +236,7 @@ public class HexagonMapEditor : MonoBehaviour
                             if (hazardsOnGrid[i].timeLeft <= 0)
                             {
                                 EnvironmentalHazard.HazardInfo h = hazardsOnGrid[i];
-                                h.type.RemoveHazard(hexGrid, h.x, h.z, h.size);
+                                h.type.RemoveHazard(hexGrid, h.x, h.z, h.size, h.placedWeatherVane);
                                 hazardsOnGrid.Remove(hazardsOnGrid[i]);
                             }
                         }
@@ -419,7 +419,7 @@ public class HexagonMapEditor : MonoBehaviour
                             if (P1StatusOnGrid[i].timeLeft <= 0)
                             {
                                 EnvironmentalHazard.HazardInfo h = P1StatusOnGrid[i];
-                                h.type.RemoveHazard(hexGrid, h.x, h.z, h.size);
+                                h.type.RemoveHazard(hexGrid, h.x, h.z, h.size, h.placedWeatherVane);
                                 P1StatusOnGrid.Remove(P1StatusOnGrid[i]);
                             }
                         }
@@ -595,7 +595,7 @@ public class HexagonMapEditor : MonoBehaviour
                             if (P2StatusOnGrid[i].timeLeft <= 0)
                             {
                                 EnvironmentalHazard.HazardInfo h = P2StatusOnGrid[i];
-                                h.type.RemoveHazard(hexGrid, h.x, h.z, h.size);
+                                h.type.RemoveHazard(hexGrid, h.x, h.z, h.size, h.placedWeatherVane);
                                 P2StatusOnGrid.Remove(P2StatusOnGrid[i]);
                             }
                         }
@@ -918,6 +918,10 @@ public class HexagonMapEditor : MonoBehaviour
                     {
                         P1_Cooldown_Text.text = SelectedUnit.GetComponent<KidnapperHero>().specialAttackCounter.ToString();
                     }
+                    if (SelectedUnit.GetComponent<WeatherHero>() != null)
+                    {
+                        P1_Cooldown_Text.text = SelectedUnit.GetComponent<WeatherHero>().specialAttackCounter.ToString();
+                    }
                 }
                 else
                 {
@@ -950,6 +954,10 @@ public class HexagonMapEditor : MonoBehaviour
                     if(SelectedUnit.GetComponent<KidnapperHero>() != null)
                     {
                         P2_Cooldown_Text.text = SelectedUnit.GetComponent<KidnapperHero>().specialAttackCounter.ToString();
+                    }
+                    if (SelectedUnit.GetComponent<WeatherHero>() != null)
+                    {
+                        P2_Cooldown_Text.text = SelectedUnit.GetComponent<WeatherHero>().specialAttackCounter.ToString();
                     }
                 }
                 else

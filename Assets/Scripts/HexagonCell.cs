@@ -39,6 +39,8 @@ public class HexagonCell : MonoBehaviour {
 
     public GameObject Poison_Cloud_Obj;
 
+    public GameObject Weather_Vane_Obj;
+
     public int Distance
     {
         get
@@ -163,6 +165,27 @@ public class HexagonCell : MonoBehaviour {
         Poison_Obj.transform.position = this.gameObject.transform.position;
         Poison_Cloud_Obj = Poison_Obj;
         sort_tile_effect_object(Poison_Obj);
+    }
+
+    public void Create_Weather_Vane()
+    {
+        GameObject Weather_Vane = Instantiate(Resources.Load("Temp_Weather_Vane", typeof(GameObject))) as GameObject;
+        Vector3 myPos = this.gameObject.transform.position;
+        Vector3 beginPos = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y + 60f, this.gameObject.transform.position.z);
+        StartCoroutine(SendDown(Weather_Vane, beginPos, myPos, 1f));
+        Weather_Vane_Obj = Weather_Vane;
+        sort_tile_effect_object(Weather_Vane_Obj);
+    }
+
+    IEnumerator SendDown(GameObject target, Vector3 beginning, Vector3 ending, float timeAmount)
+    {
+        float startTime = Time.time;
+        while(Time.time < startTime + timeAmount)
+        {
+            target.transform.position = Vector3.Lerp(beginning, ending, (Time.time - startTime) / timeAmount);
+            yield return null;
+        }
+        target.transform.position = ending;
     }
 
     public void sort_tile_effect_object(GameObject to_be_sorted)

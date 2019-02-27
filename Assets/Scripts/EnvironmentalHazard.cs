@@ -11,8 +11,9 @@ public class EnvironmentalHazard : MonoBehaviour {
         public int z;
         public int timeLeft;
         public int size;
+        public bool placedWeatherVane;
 
-        public HazardInfo(EnvironmentalHazard _type, int _x,int _y, int _z, int _timeLeft, int _size)
+        public HazardInfo(EnvironmentalHazard _type, int _x, int _y, int _z, int _timeLeft, int _size, bool _weatherVane = false)
         {
             type = _type;
             x = _x;
@@ -20,6 +21,7 @@ public class EnvironmentalHazard : MonoBehaviour {
             z = _z;
             timeLeft = _timeLeft;
             size = _size;
+            placedWeatherVane = _weatherVane;
         }
 
     };
@@ -28,6 +30,7 @@ public class EnvironmentalHazard : MonoBehaviour {
     public int timeOnBoard;
     public float anim_time = 2f;
     public SoundManager soundManager;
+    
 
 	// Use this for initialization
 	void Start () {
@@ -48,7 +51,7 @@ public class EnvironmentalHazard : MonoBehaviour {
         return new HazardInfo(this, rand.x, rand.Y_coord, rand.z, timeOnBoard, size);
     }
 
-    public virtual void RemoveHazard(Grid hexGrid, int x, int z, int size)
+    public virtual void RemoveHazard(Grid hexGrid, int x, int z, int size, bool weatherVane)
     {
 
     }
