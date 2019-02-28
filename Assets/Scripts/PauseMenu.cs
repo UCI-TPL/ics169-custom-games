@@ -12,7 +12,7 @@ public class PauseMenu : MonoBehaviour {
     public GameObject controls_menu;
     public GameObject FirstObject;
     public GameObject QuitButton;
-
+    public GameObject Manager;
     public GameObject LoadingScreen;
     public Slider slider;
     // Use this for initialization
@@ -25,6 +25,8 @@ public class PauseMenu : MonoBehaviour {
     {
         LoadingScreen.SetActive(false);
         controls_menu.SetActive(false);
+        Manager = GameObject.Find("GameManager");
+
     }
 
     // Update is called once per frame
@@ -88,6 +90,8 @@ public class PauseMenu : MonoBehaviour {
     public void QuitGame(int sceneIndex)
     {
         StartCoroutine(Send2MainMenu(sceneIndex));
+        Manager.GetComponent<PlayerInformation>().reset = true;
+        Manager.GetComponent<PlayerInformation>().currentState = PlayerInformation.DraftStates.P1_Pick_1;
     }
 
     IEnumerator Send2MainMenu(int sceneIndex)
