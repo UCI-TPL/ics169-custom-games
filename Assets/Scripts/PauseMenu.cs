@@ -12,13 +12,14 @@ public class PauseMenu : MonoBehaviour {
     public GameObject controls_menu;
     public GameObject FirstObject;
     public GameObject QuitButton;
-
+    public PlayerInformation Manager;
     public GameObject LoadingScreen;
     public Slider slider;
     // Use this for initialization
     void Awake () {
         LoadingScreen = GameObject.Find("LoadingScreen");
         slider = LoadingScreen.gameObject.GetComponentInChildren<Slider>();
+
     }
 
     private void Start()
@@ -88,6 +89,9 @@ public class PauseMenu : MonoBehaviour {
     public void QuitGame(int sceneIndex)
     {
         StartCoroutine(Send2MainMenu(sceneIndex));
+        Manager.reset = true;
+        Manager.currentState = PlayerInformation.DraftStates.P1_Pick_1;
+        Time.timeScale = 1;
     }
 
     IEnumerator Send2MainMenu(int sceneIndex)

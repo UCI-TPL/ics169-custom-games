@@ -1033,6 +1033,7 @@ MonoBehaviour:
   controls_menu: {fileID: 1071817351}
   FirstObject: {fileID: 583158292}
   QuitButton: {fileID: 1597399671}
+  Manager: {fileID: 0}
   LoadingScreen: {fileID: 354146957}
   slider: {fileID: 1573398661}
 --- !u!1 &97556644
@@ -3024,6 +3025,7 @@ MonoBehaviour:
   WinCanvas: {fileID: 749799392}
   winText: {fileID: 114404063}
   FirstObject: {fileID: 2139000854}
+  Quit: {fileID: 1597399671}
   Player2Chosen:
   - {fileID: 114969397969523808, guid: a4e85b2bfaf0147d89d412a238a3241c, type: 2}
   - {fileID: 114209810090755946, guid: a71ccb7037d188542b5afd2f9d617055, type: 2}
@@ -3171,6 +3173,7 @@ MonoBehaviour:
   controls_menu: {fileID: 1071817351}
   FirstObject: {fileID: 536818806}
   QuitButton: {fileID: 1597399671}
+  Manager: {fileID: 0}
   LoadingScreen: {fileID: 0}
   slider: {fileID: 0}
 --- !u!82 &330579873
@@ -6113,6 +6116,7 @@ MonoBehaviour:
   controls_menu: {fileID: 1071817351}
   FirstObject: {fileID: 536818806}
   QuitButton: {fileID: 1597399671}
+  Manager: {fileID: 0}
   LoadingScreen: {fileID: 354146957}
   slider: {fileID: 1573398661}
 --- !u!114 &536818810
@@ -10314,10 +10318,10 @@ RectTransform:
   m_Father: {fileID: 749799396}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5735625, y: 0.42711115}
-  m_AnchorMax: {x: 0.6554375, y: 0.455}
-  m_AnchoredPosition: {x: 1, y: 0.7799988}
-  m_SizeDelta: {x: 2, y: -1}
+  m_AnchorMin: {x: 0.45985427, y: 0.4317778}
+  m_AnchorMax: {x: 0.5448334, y: 0.455}
+  m_AnchoredPosition: {x: -2.5, y: -1.7200012}
+  m_SizeDelta: {x: -3, y: 4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &995642909
 MonoBehaviour:
@@ -12032,6 +12036,7 @@ MonoBehaviour:
   WinCanvas: {fileID: 0}
   winText: {fileID: 0}
   FirstObject: {fileID: 0}
+  Quit: {fileID: 0}
   Player2Chosen: []
   P1start: 68000000690000006a0000007c0000007d0000007e0000009100000092000000
   P2start: e9000000ea000000fc000000fd000000fe000000100100001101000012010000
@@ -16012,6 +16017,7 @@ MonoBehaviour:
   controls_menu: {fileID: 1071817351}
   FirstObject: {fileID: 583158292}
   QuitButton: {fileID: 1597399671}
+  Manager: {fileID: 0}
   LoadingScreen: {fileID: 0}
   slider: {fileID: 1573398661}
 --- !u!114 &1597399675
@@ -16059,7 +16065,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -19776,10 +19782,10 @@ RectTransform:
   m_Father: {fileID: 749799396}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.34456253, y: 0.42711115}
-  m_AnchorMax: {x: 0.42600003, y: 0.455}
-  m_AnchoredPosition: {x: 1, y: 0.5}
-  m_SizeDelta: {x: 4, y: -1}
+  m_AnchorMin: {x: 0.45985427, y: 0.51014817}
+  m_AnchorMax: {x: 0.5448334, y: 0.5333333}
+  m_AnchoredPosition: {x: -3, y: -2.5}
+  m_SizeDelta: {x: -2, y: 4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2139000856
 MonoBehaviour:
