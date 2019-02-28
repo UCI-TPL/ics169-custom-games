@@ -89,6 +89,7 @@ public class HexagonMapEditor : MonoBehaviour
     /***********************ENVIRONMENTAL VARIABLES*****************************/
     public EnvironmentalHazard[] hazardList; // list of all the types of hazards possible
     //create a list of current hazards on the board (figure out what to put in the list (time left on board, type of hazard, size)
+    [SerializeField]
     public List<EnvironmentalHazard.HazardInfo> hazardsOnGrid = new List<EnvironmentalHazard.HazardInfo>();
     bool environmentExecuting = false;
     public bool incoming = false;
@@ -237,7 +238,9 @@ public class HexagonMapEditor : MonoBehaviour
                             if (hazardsOnGrid[i].timeLeft <= 0)
                             {
                                 EnvironmentalHazard.HazardInfo h = hazardsOnGrid[i];
-                                h.type.RemoveHazard(hexGrid, h.x, h.z, h.size);
+                                //Debug.Log("hazard x:" + h.x + " y:" + h.y + " z:" + h.z);
+                                //Debug.Log("going into remove hazard: "  + h.placedWeatherVane);
+                                h.type.RemoveHazard(hexGrid, h.x, h.z, h.size, h.placedWeatherVane);
                                 hazardsOnGrid.Remove(hazardsOnGrid[i]);
                             }
                         }
@@ -252,10 +255,11 @@ public class HexagonMapEditor : MonoBehaviour
                     {
                         EnvironmentalHazard.HazardInfo h = hazardsOnGrid[hazardCount];
 
-                        hazardsOnGrid[hazardCount] = new EnvironmentalHazard.HazardInfo(h.type, h.x, h.y, h.z, h.timeLeft-1, h.size);
+                        hazardsOnGrid[hazardCount] = new EnvironmentalHazard.HazardInfo(h.type, h.x, h.y, h.z, h.timeLeft-1, h.size, h.placedWeatherVane);
                         //Debug.Log("hazard time left: " + h.timeLeft--.ToString());
                         //Debug.Log("x: " + h.x + " z: " + h.z);
-                        StartCoroutine(Snap_To_Hazard(h.x, h.z));
+                        //Debug.Log("placed weather vane:" + h.placedWeatherVane);
+                        StartCoroutine(Snap_To_Hazard(h.x, h.z, h.type.anim_time));
                         StartCoroutine(HandleHazards(hazardCount));
                         
                     }
@@ -420,7 +424,7 @@ public class HexagonMapEditor : MonoBehaviour
                             if (P1StatusOnGrid[i].timeLeft <= 0)
                             {
                                 EnvironmentalHazard.HazardInfo h = P1StatusOnGrid[i];
-                                h.type.RemoveHazard(hexGrid, h.x, h.z, h.size);
+                                h.type.RemoveHazard(hexGrid, h.x, h.z, h.size, h.placedWeatherVane);
                                 P1StatusOnGrid.Remove(P1StatusOnGrid[i]);
                             }
                         }
@@ -440,7 +444,7 @@ public class HexagonMapEditor : MonoBehaviour
                         P1StatusOnGrid[statusCount] = new EnvironmentalHazard.HazardInfo(h.type, h.x, h.y, h.z, h.timeLeft - 1, h.size);
                         //Debug.Log("hazard time left: " + h.timeLeft--.ToString());
                         //Debug.Log("x: " + h.x + " z: " + h.z);
-                        StartCoroutine(Snap_To_Hazard(h.x, h.z));
+                        StartCoroutine(Snap_To_Hazard(h.x, h.z, h.type.anim_time));
                         StartCoroutine(HandleStatus(statusCount,1));
 
                     }
@@ -596,7 +600,7 @@ public class HexagonMapEditor : MonoBehaviour
                             if (P2StatusOnGrid[i].timeLeft <= 0)
                             {
                                 EnvironmentalHazard.HazardInfo h = P2StatusOnGrid[i];
-                                h.type.RemoveHazard(hexGrid, h.x, h.z, h.size);
+                                h.type.RemoveHazard(hexGrid, h.x, h.z, h.size, h.placedWeatherVane);
                                 P2StatusOnGrid.Remove(P2StatusOnGrid[i]);
                             }
                         }
@@ -616,7 +620,7 @@ public class HexagonMapEditor : MonoBehaviour
                         P2StatusOnGrid[statusCount] = new EnvironmentalHazard.HazardInfo(h.type, h.x, h.y, h.z, h.timeLeft - 1, h.size);
                         //Debug.Log("hazard time left: " + h.timeLeft--.ToString());
                         //Debug.Log("x: " + h.x + " z: " + h.z);
-                        StartCoroutine(Snap_To_Hazard(h.x, h.z));
+                        StartCoroutine(Snap_To_Hazard(h.x, h.z, h.type.anim_time));
                         StartCoroutine(HandleStatus(statusCount, 1));
 
                     }
@@ -641,6 +645,7 @@ public class HexagonMapEditor : MonoBehaviour
                 if (P1Team.Count == 0 || P1Team[0].GetComponent<HeroUnit>() == null)
                     currentState = TurnStates.P2_WIN;
                 else if (P2Team.Count == 0 || P2Team[0].GetComponent<HeroUnit>() == null)
+
                     currentState = TurnStates.P1_WIN;
                 else if(wasP1Turn)
                 {
@@ -697,28 +702,37 @@ public class HexagonMapEditor : MonoBehaviour
         //Debug.Log(Application.dataPath);
         //string path_adjectives = Application.dataPath + "/adjectives.txt";
         //Debug.Log(path_adjectives);
-        TextAsset names_proper_ass = Resources.Load<TextAsset>("proper");
-        string[] names_proper = names_proper_ass.text.Split(new char[] { '\n' });
+
+        //TextAsset names_proper_ass = Resources.Load<TextAsset>("proper");
+        //string[] names_proper = names_proper_ass.text.Split(new char[] { '\n' });
+
         //string[] names_proper = System.IO.File.ReadAllLines(path_proper);
         //string[] names_adj = System.IO.File.ReadAllLines(path_adjectives);
-        TextAsset names_adj_ass = Resources.Load<TextAsset>("adjectives");
-        string[] names_adj = names_adj_ass.text.Split(new char[] { '\n' });
+
+        //TextAsset names_adj_ass = Resources.Load<TextAsset>("adjectives");
+        //string[] names_adj = names_adj_ass.text.Split(new char[] { '\n' });
+
+        Get_Alliterated_Name name_generator = new Get_Alliterated_Name();
+
         //Random rand_gen = new Random();
         initializing = false;
         //if (player == 1)
         //{
           for (int i = 0; i < team.Count; i++)
           {
-            int rand_index_p = Random.Range(0, names_proper.Length - 1);
-            int rand_index_a = Random.Range(0, names_adj.Length - 1);
-            string rand_proper = names_proper[rand_index_p];
-            string rand_adj = names_adj[rand_index_a];
+            //int rand_index_p = Random.Range(0, names_proper.Length - 1);
+            //int rand_index_a = Random.Range(0, names_adj.Length - 1);
+            //string rand_proper = names_proper[rand_index_p];
+            //string rand_adj = names_adj[rand_index_a];
+
             //string rand_proper = "Steve";
             //string rand_adj = "Big";
+            
+
             if(player == 1)
-                CreateUnit(P1start[i], team[i], rand_proper, rand_adj);
+                CreateUnit(P1start[i], team[i], name_generator.Get_Name());
             if (player == 2)
-                CreateUnit(P2start[i], team[i], rand_proper, rand_adj);
+                CreateUnit(P2start[i], team[i], name_generator.Get_Name());
 
           }
         //}
@@ -918,6 +932,10 @@ public class HexagonMapEditor : MonoBehaviour
                     {
                         P1_Cooldown_Text.text = SelectedUnit.GetComponent<KidnapperHero>().specialAttackCounter.ToString();
                     }
+                    if (SelectedUnit.GetComponent<WeatherHero>() != null)
+                    {
+                        P1_Cooldown_Text.text = SelectedUnit.GetComponent<WeatherHero>().specialAttackCounter.ToString();
+                    }
                 }
                 else
                 {
@@ -950,6 +968,10 @@ public class HexagonMapEditor : MonoBehaviour
                     if(SelectedUnit.GetComponent<KidnapperHero>() != null)
                     {
                         P2_Cooldown_Text.text = SelectedUnit.GetComponent<KidnapperHero>().specialAttackCounter.ToString();
+                    }
+                    if (SelectedUnit.GetComponent<WeatherHero>() != null)
+                    {
+                        P2_Cooldown_Text.text = SelectedUnit.GetComponent<WeatherHero>().specialAttackCounter.ToString();
                     }
                 }
                 else
@@ -1017,7 +1039,7 @@ public class HexagonMapEditor : MonoBehaviour
         else return null;
     }
 
-    void CreateUnit(int index, StartUnit unit, string proper, string adjective)
+    void CreateUnit(int index, StartUnit unit, string name)
     {   
         //if(unit == null)
         //{
@@ -1029,7 +1051,7 @@ public class HexagonMapEditor : MonoBehaviour
         SelectedUnit.transform.position = hexGrid.cells[index].transform.position;
         unitCell.occupied = true;
         unitCell.unitOnTile = SelectedUnit;
-        SelectedUnit.unit_name = "" + adjective + " " + proper;
+        SelectedUnit.unit_name = name;
         SelectedUnit.Unit_Stats_Panel.GetComponent<BattleUI>().Hide();
         Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
         for (int i = 0; i < Unit_Meshes.Length; i++)
@@ -1413,11 +1435,11 @@ public class HexagonMapEditor : MonoBehaviour
         }
     }
 
-    public IEnumerator Snap_To_Hazard(int x, int z)
+    public IEnumerator Snap_To_Hazard(int x, int z, float anim_time)
     {
         HexagonCoord newCoord = new HexagonCoord(x, z);
         cursor.Assign_Position(hexGrid.Get_Cell_Index(newCoord).gameObject.transform.position, newCoord);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(anim_time);
 
     }
 

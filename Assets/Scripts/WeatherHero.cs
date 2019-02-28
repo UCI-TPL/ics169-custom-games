@@ -19,19 +19,23 @@ public class WeatherHero : HeroUnit
 
     }
 
-    public void WeatherVane(HexagonCell cell) // spawn the environmental hazard "PoisonGas"
+    public void WeatherVane(HexagonCell cell) // spawn the environmental hazard "WeatherVane"
     {
 
         Debug.Log("weather vane dropped from hero");
         int rand = Random.Range(0, possibleHazards.Count);
 
         if (gameObject.tag == "Player 1")
-            editor.hazardsOnGrid.Add(possibleHazards[rand].CreateHazardAt(cell, editor.hexGrid));
+        {
+            EnvironmentalHazard.HazardInfo ph = possibleHazards[rand].CreateHazardAt(cell, editor.hexGrid);
+            Debug.Log( "creating weather vane object with boolean:" + ph.placedWeatherVane);
+            editor.hazardsOnGrid.Add(ph);
+        }
         else if (gameObject.tag == "Player 2")
             editor.hazardsOnGrid.Add(possibleHazards[rand].CreateHazardAt(cell, editor.hexGrid));
 
 
-        specialAttackCounter = 3;
+        specialAttackCounter = 4;
     }
 
     public override IEnumerator BasicAttack(Grid hexGrid, HexagonCell unitCell)
@@ -260,8 +264,8 @@ public class WeatherHero : HeroUnit
 
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 yield return new WaitForSeconds(0.3f);
-
-                if (attacked_unit.gameObject.GetComponent<FortressHero>() != null) // handling of if attacking fortress hero
+                //SHOULD THORNMAIL BE ACTIVATED ON SPECIAL ATTACKS?
+                if (attacked_unit.gameObject.GetComponent<FortressHero>() != null && damage != 0) // handling of if attacking fortress hero 
                 {
                     Debug.Log("Hurt by fortress hero's armor");
                     if (FloatingTextPrefab)
@@ -514,7 +518,7 @@ public class WeatherHero : HeroUnit
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 yield return new WaitForSeconds(0.3f);
 
-                if (attacked_unit.gameObject.GetComponent<FortressHero>() != null) // handling of if attacking fortress hero
+                if (attacked_unit.gameObject.GetComponent<FortressHero>() != null && damage != 0) // handling of if attacking fortress hero
                 {
                     Debug.Log("Hurt by fortress hero's armor");
                     if (FloatingTextPrefab)
@@ -564,6 +568,7 @@ public class WeatherHero : HeroUnit
 
     public void DecrementCounter() // decrease the counter in a nicer way? don't know why i wrote this function honestly
     {
-        specialAttackCounter -= 1;
+        if (specialAttackCounter > 0)
+            specialAttackCounter -= 1;
     }
 }
