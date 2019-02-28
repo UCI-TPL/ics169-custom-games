@@ -2692,7 +2692,21 @@ AnimationClip:
   m_GenerateMotionCurves: 0
   m_Events:
   - time: 0.6333333
+    functionName: trigger_visual_effect
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.65
     functionName: Play_Attack_Sound_On_Event
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.7
+    functionName: trigger_effect_on_unit
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

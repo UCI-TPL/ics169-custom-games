@@ -701,28 +701,37 @@ public class HexagonMapEditor : MonoBehaviour
         //Debug.Log(Application.dataPath);
         //string path_adjectives = Application.dataPath + "/adjectives.txt";
         //Debug.Log(path_adjectives);
-        TextAsset names_proper_ass = Resources.Load<TextAsset>("proper");
-        string[] names_proper = names_proper_ass.text.Split(new char[] { '\n' });
+
+        //TextAsset names_proper_ass = Resources.Load<TextAsset>("proper");
+        //string[] names_proper = names_proper_ass.text.Split(new char[] { '\n' });
+
         //string[] names_proper = System.IO.File.ReadAllLines(path_proper);
         //string[] names_adj = System.IO.File.ReadAllLines(path_adjectives);
-        TextAsset names_adj_ass = Resources.Load<TextAsset>("adjectives");
-        string[] names_adj = names_adj_ass.text.Split(new char[] { '\n' });
+
+        //TextAsset names_adj_ass = Resources.Load<TextAsset>("adjectives");
+        //string[] names_adj = names_adj_ass.text.Split(new char[] { '\n' });
+
+        Get_Alliterated_Name name_generator = new Get_Alliterated_Name();
+
         //Random rand_gen = new Random();
         initializing = false;
         //if (player == 1)
         //{
           for (int i = 0; i < team.Count; i++)
           {
-            int rand_index_p = Random.Range(0, names_proper.Length - 1);
-            int rand_index_a = Random.Range(0, names_adj.Length - 1);
-            string rand_proper = names_proper[rand_index_p];
-            string rand_adj = names_adj[rand_index_a];
+            //int rand_index_p = Random.Range(0, names_proper.Length - 1);
+            //int rand_index_a = Random.Range(0, names_adj.Length - 1);
+            //string rand_proper = names_proper[rand_index_p];
+            //string rand_adj = names_adj[rand_index_a];
+
             //string rand_proper = "Steve";
             //string rand_adj = "Big";
+            
+
             if(player == 1)
-                CreateUnit(P1start[i], team[i], rand_proper, rand_adj);
+                CreateUnit(P1start[i], team[i], name_generator.Get_Name());
             if (player == 2)
-                CreateUnit(P2start[i], team[i], rand_proper, rand_adj);
+                CreateUnit(P2start[i], team[i], name_generator.Get_Name());
 
           }
         //}
@@ -1029,7 +1038,7 @@ public class HexagonMapEditor : MonoBehaviour
         else return null;
     }
 
-    void CreateUnit(int index, StartUnit unit, string proper, string adjective)
+    void CreateUnit(int index, StartUnit unit, string name)
     {   
         //if(unit == null)
         //{
@@ -1041,7 +1050,7 @@ public class HexagonMapEditor : MonoBehaviour
         SelectedUnit.transform.position = hexGrid.cells[index].transform.position;
         unitCell.occupied = true;
         unitCell.unitOnTile = SelectedUnit;
-        SelectedUnit.unit_name = "" + adjective + " " + proper;
+        SelectedUnit.unit_name = name;
         SelectedUnit.Unit_Stats_Panel.GetComponent<BattleUI>().Hide();
         Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
         for (int i = 0; i < Unit_Meshes.Length; i++)
