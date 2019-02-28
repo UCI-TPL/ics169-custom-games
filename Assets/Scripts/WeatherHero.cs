@@ -19,14 +19,18 @@ public class WeatherHero : HeroUnit
 
     }
 
-    public void WeatherVane(HexagonCell cell) // spawn the environmental hazard "PoisonGas"
+    public void WeatherVane(HexagonCell cell) // spawn the environmental hazard "WeatherVane"
     {
 
         Debug.Log("weather vane dropped from hero");
         int rand = Random.Range(0, possibleHazards.Count);
 
         if (gameObject.tag == "Player 1")
-            editor.hazardsOnGrid.Add(possibleHazards[rand].CreateHazardAt(cell, editor.hexGrid));
+        {
+            EnvironmentalHazard.HazardInfo ph = possibleHazards[rand].CreateHazardAt(cell, editor.hexGrid);
+            Debug.Log( "creating weather vane object with boolean:" + ph.placedWeatherVane);
+            editor.hazardsOnGrid.Add(ph);
+        }
         else if (gameObject.tag == "Player 2")
             editor.hazardsOnGrid.Add(possibleHazards[rand].CreateHazardAt(cell, editor.hexGrid));
 
@@ -564,6 +568,7 @@ public class WeatherHero : HeroUnit
 
     public void DecrementCounter() // decrease the counter in a nicer way? don't know why i wrote this function honestly
     {
-        specialAttackCounter -= 1;
+        if (specialAttackCounter > 0)
+            specialAttackCounter -= 1;
     }
 }

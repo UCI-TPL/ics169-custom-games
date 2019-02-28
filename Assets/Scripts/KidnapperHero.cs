@@ -579,6 +579,7 @@ public class KidnapperHero : HeroUnit {
 
     public void DecrementCounter() // decrease the counter in a nicer way? don't know why i wrote this function honestly
     {
-        specialAttackCounter -= 1;
+        if (specialAttackCounter > 0)
+            specialAttackCounter -= 1;
     }
 }

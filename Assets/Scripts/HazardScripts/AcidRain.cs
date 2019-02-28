@@ -56,6 +56,7 @@ public class AcidRain : EnvironmentalHazard {
             frontier[j].Create_Rain();
         }
         cell.Create_Weather_Vane();
+        
         GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().lightningSound.Play();
         GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().rainSound.Play();
 
@@ -79,8 +80,12 @@ public class AcidRain : EnvironmentalHazard {
         {
             Destroy(frontier[j].HazardObject);
         }
+        Debug.Log("weather vane: " + weatherVane);
         if (weatherVane)
+        {
+            Debug.Log("destroying weather vane");
             Destroy(curr.Weather_Vane_Obj);
+        }
         GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().birdSound.Play();
         GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().rainSound.Stop();
     }
