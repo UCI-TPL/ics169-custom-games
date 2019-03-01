@@ -2,100 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AcidRain : EnvironmentalHazard {
-    public AudioSource rainSound;
-    public AudioSource lightningSound;
-    public int damage = 25;
+public class Missile : EnvironmentalHazard {
+    public AudioSource launchSound;
+    public AudioSource explosionSound;
+    public int damage = 40;
 
     public override HazardInfo CreateHazard(Grid hexGrid)
     {
         int randRange = Random.Range(0, hexGrid.cells.Length);
         HexagonCoord rand = hexGrid.cells[randRange].coords;
 
-        int size = Random.Range(2,5); // 0 = 1, 1 = 3, 2 = 5
+        int size = Random.Range(2, 4); // 0 = 1, 1 = 3, 2 = 5
         Debug.Log("hazard at (" + rand.x + "," + rand.z + ") with size: " + size);
-        List<HexagonCell> frontier = new List<HexagonCell>();
-        HexagonCell curr = hexGrid.Get_Cell_Index(new HexagonCoord(rand.x, rand.z));
-        for (int i = 0; i < hexGrid.cells.Length; i++)
-        {
-
-            int distance = curr.coords.FindDistanceTo(hexGrid.cells[i].coords);
-            if (distance <= size)
-            {
-                frontier.Add(hexGrid.cells[i]);
-            }
-        }
-        for (int j = 0; j < frontier.Count; j++)
-        {
-            frontier[j].Create_Rain();
-        }
-        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().lightningSound.Play();
-        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().rainSound.Play();
-        return new HazardInfo(this, rand.x, rand.Y_coord, rand.z, timeOnBoard, size);
-    }
-
-    public override HazardInfo CreateHazardAt(HexagonCell cell, Grid hexGrid)
-    {
-        HexagonCoord coord = cell.coords;
- 
-        int size = Random.Range(2, 3); // 0 = 1, 1 = 3, 2 = 5
-        List<HexagonCell> frontier = new List<HexagonCell>();
-        //HexagonCell curr = hexGrid.Get_Cell_Index(new HexagonCoord(rand.x, rand.z));
-        for (int i = 0; i < hexGrid.cells.Length; i++)
-        {
-
-            int distance = cell.coords.FindDistanceTo(hexGrid.cells[i].coords);
-            if (distance <= size)
-            {
-                frontier.Add(hexGrid.cells[i]);
-            }
-        }
-
-        for (int j = 0; j < frontier.Count; j++)
-        {
-            frontier[j].Create_Rain();
-        }
-        cell.Create_Weather_Vane();
         
-        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().lightningSound.Play();
-        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().rainSound.Play();
-
-        return new HazardInfo(this, coord.x, coord.Y_coord, coord.z, timeOnBoard, size, true);
+        return new HazardInfo(this, rand.x, rand.Y_coord, rand.z, timeOnBoard, size);
     }
 
     public override void RemoveHazard(Grid hexGrid, int x, int z, int size, bool weatherVane) // weatherVane is true when placed by tempest hero
     {
-        List<HexagonCell> frontier = new List<HexagonCell>();
         HexagonCell curr = hexGrid.Get_Cell_Index(new HexagonCoord(x, z));
-        for (int i = 0; i < hexGrid.cells.Length; i++)
-        {
 
-            int distance = curr.coords.FindDistanceTo(hexGrid.cells[i].coords);
-            if (distance <= size)
-            {
-                frontier.Add(hexGrid.cells[i]);
-            }
-        }
-        for (int j = 0; j < frontier.Count; j++)
-        {
-            Destroy(frontier[j].RainObject);
-        } 
+        Destroy(curr.Missile_Obj);
+
         if (weatherVane) // if placed by a tempest hero
         {
             Destroy(curr.Weather_Vane_Obj);
         }
-        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().birdSound.Play();
-        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().rainSound.Stop();
     }
-
 
     public override IEnumerator Effect(HexagonMapEditor editor, Grid hexGrid, int x, int z, int size)
     {
-        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().lightningSound.Play();
         List<HexagonCell> frontier = new List<HexagonCell>(); // list of nodes that the hazard has effect over
         HexagonCell curr = hexGrid.Get_Cell_Index(new HexagonCoord(x, z));
         Debug.Log(type_name + " hazard epicenter at: " + curr.coords.x + "," + curr.coords.Y_coord + "," + curr.coords.z);
-        yield return new WaitForSeconds(anim_time/2);
+        curr.CreateMissile();
+        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().lightningSound.Play(); // play launch sound instead
+        yield return new WaitForSeconds(anim_time-1);
+        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().lightningSound.Play(); // play explosion sound instead
         for (int i = 0; i < hexGrid.cells.Length; i++)
         {
 
@@ -145,7 +88,17 @@ public class AcidRain : EnvironmentalHazard {
                 }
             }
         }
-        yield return new WaitForSeconds(anim_time / 2);
+        yield return new WaitForSeconds(1f);
         Debug.Log("effect finishing");
     }
+
+    // Use this for initialization
+    void Start () {
+		
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		
+	}
 }

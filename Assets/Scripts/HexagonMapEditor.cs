@@ -95,6 +95,9 @@ public class HexagonMapEditor : MonoBehaviour
     public bool incoming = false;
     public int incoming_in = int.MaxValue; // the counter for how long until the hazard comes to the map
     int whichHazard; // keep track of which hazard, int gives you the index in hazardList
+    //****************************
+    // MIGHT BE IMPORTANT TO CREATE VARIABLES TO HOLD WHERE THE HAZARD IS COMING SO WE CAN PLACE THE CAUTION SIGNS
+    //***************************
     public bool hazardsExecuting = false;
     public bool hazardsFinished = false;
     public int hazardCount = 0;
@@ -220,10 +223,10 @@ public class HexagonMapEditor : MonoBehaviour
                         int chance = Random.Range(0, 1); // 1/10  chance to create hazard
                         if (chance == 0)
                         {
-                            int hazard = Random.Range(0, 1); // 3 hazards right now *** Random.Range(inclusive, exclusive)
+                            int hazard = Random.Range(0, 2); // 3 hazards right now *** Random.Range(inclusive, exclusive)
                             incoming = true;
-                            incoming_in = hazardList[hazard].timeToCome;
-                            whichHazard = hazard;
+                            incoming_in = hazardList[hazard].timeToCome; // how long before it lands on the board
+                            whichHazard = hazard; // decides type of hazard that is coming
                         }
                     }
                 }
@@ -649,6 +652,7 @@ public class HexagonMapEditor : MonoBehaviour
                 else if(wasP1Turn)
                 {
                     wasP1Turn = false;
+                    Snap_To_First_Unit();
                     currentState = TurnStates.P2_MOVE;
                 }
                 else

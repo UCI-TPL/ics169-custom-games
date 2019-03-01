@@ -164,6 +164,36 @@ public class MedicUnit : StartUnit {
 
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 yield return new WaitForSeconds(0.3f);
+                //if (FloatingTextPrefab)
+                //{
+                //    GameObject damagetext = Instantiate(FloatingTextPrefab, transform.position, Quaternion.identity, transform);
+                //    damagetext.GetComponent<TextMesh>().text = 20.ToString();
+                //    damagetext.GetComponent<TextMesh>().color = Color.yellow;
+                //    damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * (20f / 75f));
+                //    if (Mathf.Sign(damagetext.transform.parent.localScale.x) == -1 && Mathf.Sign(damagetext.transform.localScale.x) == 1)
+                //    {
+                //        damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
+                //            damagetext.transform.localScale.z);
+
+                //    }
+                //    else
+                //    {
+                //        if (Mathf.Sign(damagetext.transform.parent.localScale.x) == 1 && Mathf.Sign(damagetext.transform.localScale.x) == -1)
+                //        {
+                //            damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
+                //                damagetext.transform.localScale.z);
+                //        }
+                //    }
+                //}
+
+                //TakeDamage(this, 20f);
+                //StartCoroutine(AttackToHit());
+                //StartCoroutine(Blink(editor.Unit_Hurt_Color, this, Time.time + 1f));
+                //if (current_health <= 0)// pretty sure there's more code needed here but i'll ask christophe later
+                //{
+                //    editor.Units_To_Delete.Add(unitCell);
+                //    dead = true;
+                //}
                 StartCoroutine(targetable[rand_index].unitOnTile.Hit());
                 StartCoroutine(attacked_unit.Blink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f));
             }

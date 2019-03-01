@@ -9,49 +9,53 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1538069131320716}
+  m_RootGameObject: {fileID: 1777615017366756}
   m_IsPrefabAsset: 1
---- !u!1 &1538069131320716
+--- !u!1 &1777615017366756
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4408998596797190}
-  - component: {fileID: 114307976132037704}
+  - component: {fileID: 4495675145495862}
+  - component: {fileID: 114028548603663194}
   m_Layer: 0
-  m_Name: Missiles
+  m_Name: Missile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4408998596797190
+--- !u!4 &4495675145495862
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1538069131320716}
+  m_GameObject: {fileID: 1777615017366756}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.3868282, y: 2.1107466, z: 158.74782}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114307976132037704
+--- !u!114 &114028548603663194
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1538069131320716}
+  m_GameObject: {fileID: 1777615017366756}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaf14e724bb80794da60c0bd08721af0, type: 3}
+  m_Script: {fileID: 11500000, guid: e6fd72c20681c7c45abaf8fa09e0bc7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type_name: Missiles
-  timeToCome: 2
+  type_name: Missile
+  timeToCome: 1
   timeOnBoard: 0
-  anim_time: 2
+  anim_time: 5
+  soundManager: {fileID: 0}
+  launchSound: {fileID: 0}
+  explosionSound: {fileID: 0}
+  damage: 40
