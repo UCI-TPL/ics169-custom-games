@@ -7,15 +7,15 @@ public class AcidRain : EnvironmentalHazard {
     public AudioSource lightningSound;
     public int damage = 25;
 
-    public override HazardInfo CreateHazard(Grid hexGrid)
+    public override HazardInfo CreateHazard(int size, HexagonCoord coord, Grid hexGrid)
     {
-        int randRange = Random.Range(0, hexGrid.cells.Length);
-        HexagonCoord rand = hexGrid.cells[randRange].coords;
+        //int randRange = Random.Range(0, hexGrid.cells.Length);
+        //HexagonCoord rand = hexGrid.cells[randRange].coords;
 
-        int size = Random.Range(2,5); // 0 = 1, 1 = 3, 2 = 5
-        Debug.Log("hazard at (" + rand.x + "," + rand.z + ") with size: " + size);
+        //int size = Random.Range(2,5); // 0 = 1, 1 = 3, 2 = 5
+        Debug.Log("hazard at (" + coord.x + "," + coord.z + ") with size: " + size);
         List<HexagonCell> frontier = new List<HexagonCell>();
-        HexagonCell curr = hexGrid.Get_Cell_Index(new HexagonCoord(rand.x, rand.z));
+        HexagonCell curr = hexGrid.Get_Cell_Index(new HexagonCoord(coord.x, coord.z));
         for (int i = 0; i < hexGrid.cells.Length; i++)
         {
 
@@ -31,7 +31,7 @@ public class AcidRain : EnvironmentalHazard {
         }
         GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().lightningSound.Play();
         GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().rainSound.Play();
-        return new HazardInfo(this, rand.x, rand.Y_coord, rand.z, timeOnBoard, size);
+        return new HazardInfo(this, coord.x, coord.Y_coord, coord.z, timeOnBoard, size);
     }
 
     public override HazardInfo CreateHazardAt(HexagonCell cell, Grid hexGrid)

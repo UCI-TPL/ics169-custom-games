@@ -7,15 +7,15 @@ public class Missile : EnvironmentalHazard {
     public AudioSource explosionSound;
     public int damage = 40;
 
-    public override HazardInfo CreateHazard(Grid hexGrid)
+    public override HazardInfo CreateHazard(int size, HexagonCoord coord, Grid hexGrid)
     {
-        int randRange = Random.Range(0, hexGrid.cells.Length);
-        HexagonCoord rand = hexGrid.cells[randRange].coords;
+        //int randRange = Random.Range(0, hexGrid.cells.Length);
+        //HexagonCoord rand = hexGrid.cells[randRange].coords;
 
-        int size = Random.Range(2, 4); // 0 = 1, 1 = 3, 2 = 5
-        Debug.Log("hazard at (" + rand.x + "," + rand.z + ") with size: " + size);
+        //int size = Random.Range(2, 4); // 0 = 1, 1 = 3, 2 = 5
+        Debug.Log("hazard at (" + coord.x + "," + coord.z + ") with size: " + size);
         
-        return new HazardInfo(this, rand.x, rand.Y_coord, rand.z, timeOnBoard, size);
+        return new HazardInfo(this, coord.x, coord.Y_coord, coord.z, timeOnBoard, size);
     }
 
     public override void RemoveHazard(Grid hexGrid, int x, int z, int size, bool weatherVane) // weatherVane is true when placed by tempest hero

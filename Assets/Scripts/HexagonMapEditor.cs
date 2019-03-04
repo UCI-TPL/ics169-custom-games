@@ -95,9 +95,8 @@ public class HexagonMapEditor : MonoBehaviour
     public bool incoming = false;
     public int incoming_in = int.MaxValue; // the counter for how long until the hazard comes to the map
     int whichHazard; // keep track of which hazard, int gives you the index in hazardList
-    //****************************
-    // MIGHT BE IMPORTANT TO CREATE VARIABLES TO HOLD WHERE THE HAZARD IS COMING SO WE CAN PLACE THE CAUTION SIGNS
-    //***************************
+    HexagonCoord hazardSpot; // where the hazard incoming will be
+    int size; // how big the hazard is
     public bool hazardsExecuting = false;
     public bool hazardsFinished = false;
     public int hazardCount = 0;
@@ -211,11 +210,14 @@ public class HexagonMapEditor : MonoBehaviour
                     if (incoming) //a environmental hazard is coming already
                     {
                         incoming_in -= 1;
+                        // HERE IS WHERRE WE CHANGE THE EFFECT FOR THE HAZARD EFFECT COUNTER ON THE MAP
                         if (incoming_in == 0) // time to create hazard
                         {
-                            hazardsOnGrid.Add(hazardList[whichHazard].CreateHazard(hexGrid));
+                            // REMOVE THE COUNTER EFFECT
+                            hazardsOnGrid.Add(hazardList[whichHazard].CreateHazard(size, hazardSpot, hexGrid));
                             incoming_in = int.MaxValue;
                             incoming = false;
+                            
                         }
                     }
                     else // no environmental hazard coming
@@ -227,6 +229,10 @@ public class HexagonMapEditor : MonoBehaviour
                             incoming = true;
                             incoming_in = hazardList[hazard].timeToCome; // how long before it lands on the board
                             whichHazard = hazard; // decides type of hazard that is coming
+                            int randRange = Random.Range(0, hexGrid.cells.Length);
+                            size = Random.Range(0, 3);
+                            hazardSpot = hexGrid.cells[randRange].coords;
+                            // PROBABLY CREATE THE IMAGE ON THE TILE HERE YOU CAN USE "SIZE", "HAZARDSPOT" AND "INCOMINGIN" TO CREATE THE EFFECT
                         }
                     }
                 }
