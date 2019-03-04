@@ -1972,6 +1972,7 @@ MonoBehaviour:
   Moving_Lines_List: []
   Attacking_Lines_List: []
   Getting_Hit_Lines_List: []
+  Injured: 0
 --- !u!114 &114497897307692152
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3132,7 +3133,7 @@ RectTransform:
   m_GameObject: {fileID: 1834068994615278}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_Children:
   - {fileID: 224980048718144688}
   m_Father: {fileID: 4805949615970448}
@@ -3140,7 +3141,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 2.4625, y: -0.5825}
+  m_AnchoredPosition: {x: 0, y: 4.4}
   m_SizeDelta: {x: 12, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224751911201620796
@@ -3224,7 +3225,7 @@ RectTransform:
   m_GameObject: {fileID: 1545522304347990}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children:
   - {fileID: 224529442710059900}
   m_Father: {fileID: 4805949615970448}
@@ -3232,6 +3233,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: -2.77}
+  m_AnchoredPosition: {x: 0, y: -3.7}
   m_SizeDelta: {x: 33.49, y: 18}
   m_Pivot: {x: 0.5, y: 0.5}

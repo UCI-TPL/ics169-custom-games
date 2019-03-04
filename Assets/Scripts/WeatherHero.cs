@@ -6,6 +6,7 @@ public class WeatherHero : HeroUnit
 {
     public int specialAttackCounter = 0; // counter to keep track of when to fire off his load
     public List<EnvironmentalHazard> possibleHazards = new List<EnvironmentalHazard>();
+    public GameObject Weather_Effect_Object;
 
     // Use this for initialization
     void Start()
@@ -112,6 +113,8 @@ public class WeatherHero : HeroUnit
             }
 
             StartUnit attacked_unit = targetable[selectedTarget].unitOnTile;
+            Weather_Effect_Object.GetComponent<WeatherMan_Effects>().move_target_to(attacked_unit.gameObject);
+            //Weather_Effect_Object.GetComponent<ParticleSystem>().Play();
             HexagonCell attacked_cell = targetable[selectedTarget];
             HexagonCoord current = unitCell.coords;
 
@@ -565,5 +568,10 @@ public class WeatherHero : HeroUnit
     public void DecrementCounter() // decrease the counter in a nicer way? don't know why i wrote this function honestly
     {
         specialAttackCounter -= 1;
+    }
+
+    public void Play_Effect_From_Start()
+    {
+        Weather_Effect_Object.GetComponent<WeatherMan_Effects>().play_effect();
     }
 }
