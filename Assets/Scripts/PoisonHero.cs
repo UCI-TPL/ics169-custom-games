@@ -517,7 +517,7 @@ public class PoisonHero : HeroUnit {
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 yield return new WaitForSeconds(0.3f);
 
-                if (attacked_unit.gameObject.GetComponent<FortressHero>() != null) // handling of if attacking fortress hero
+                if (attacked_unit.gameObject.GetComponent<FortressHero>() != null && damage != 0) // handling of if attacking fortress hero
                 {
                     Debug.Log("Hurt by fortress hero's armor");
                     if (FloatingTextPrefab)
@@ -567,6 +567,7 @@ public class PoisonHero : HeroUnit {
 
     public void DecrementCounter() // decrease the counter in a nicer way? don't know why i wrote this function honestly
     {
+        if(specialAttackCounter > 0)
             specialAttackCounter -= 1;
     }
 }

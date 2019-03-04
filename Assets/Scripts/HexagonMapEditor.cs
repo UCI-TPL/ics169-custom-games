@@ -89,6 +89,7 @@ public class HexagonMapEditor : MonoBehaviour
     /***********************ENVIRONMENTAL VARIABLES*****************************/
     public EnvironmentalHazard[] hazardList; // list of all the types of hazards possible
     //create a list of current hazards on the board (figure out what to put in the list (time left on board, type of hazard, size)
+    [SerializeField]
     public List<EnvironmentalHazard.HazardInfo> hazardsOnGrid = new List<EnvironmentalHazard.HazardInfo>();
     bool environmentExecuting = false;
     public bool incoming = false;
@@ -236,7 +237,9 @@ public class HexagonMapEditor : MonoBehaviour
                             if (hazardsOnGrid[i].timeLeft <= 0)
                             {
                                 EnvironmentalHazard.HazardInfo h = hazardsOnGrid[i];
-                                h.type.RemoveHazard(hexGrid, h.x, h.z, h.size);
+                                //Debug.Log("hazard x:" + h.x + " y:" + h.y + " z:" + h.z);
+                                //Debug.Log("going into remove hazard: "  + h.placedWeatherVane);
+                                h.type.RemoveHazard(hexGrid, h.x, h.z, h.size, h.placedWeatherVane);
                                 hazardsOnGrid.Remove(hazardsOnGrid[i]);
                             }
                         }
@@ -251,10 +254,11 @@ public class HexagonMapEditor : MonoBehaviour
                     {
                         EnvironmentalHazard.HazardInfo h = hazardsOnGrid[hazardCount];
 
-                        hazardsOnGrid[hazardCount] = new EnvironmentalHazard.HazardInfo(h.type, h.x, h.y, h.z, h.timeLeft-1, h.size);
+                        hazardsOnGrid[hazardCount] = new EnvironmentalHazard.HazardInfo(h.type, h.x, h.y, h.z, h.timeLeft-1, h.size, h.placedWeatherVane);
                         //Debug.Log("hazard time left: " + h.timeLeft--.ToString());
                         //Debug.Log("x: " + h.x + " z: " + h.z);
-                        StartCoroutine(Snap_To_Hazard(h.x, h.z));
+                        //Debug.Log("placed weather vane:" + h.placedWeatherVane);
+                        StartCoroutine(Snap_To_Hazard(h.x, h.z, h.type.anim_time));
                         StartCoroutine(HandleHazards(hazardCount));
                         
                     }
@@ -419,7 +423,7 @@ public class HexagonMapEditor : MonoBehaviour
                             if (P1StatusOnGrid[i].timeLeft <= 0)
                             {
                                 EnvironmentalHazard.HazardInfo h = P1StatusOnGrid[i];
-                                h.type.RemoveHazard(hexGrid, h.x, h.z, h.size);
+                                h.type.RemoveHazard(hexGrid, h.x, h.z, h.size, h.placedWeatherVane);
                                 P1StatusOnGrid.Remove(P1StatusOnGrid[i]);
                             }
                         }
@@ -439,7 +443,7 @@ public class HexagonMapEditor : MonoBehaviour
                         P1StatusOnGrid[statusCount] = new EnvironmentalHazard.HazardInfo(h.type, h.x, h.y, h.z, h.timeLeft - 1, h.size);
                         //Debug.Log("hazard time left: " + h.timeLeft--.ToString());
                         //Debug.Log("x: " + h.x + " z: " + h.z);
-                        StartCoroutine(Snap_To_Hazard(h.x, h.z));
+                        StartCoroutine(Snap_To_Hazard(h.x, h.z, h.type.anim_time));
                         StartCoroutine(HandleStatus(statusCount,1));
 
                     }
@@ -595,7 +599,7 @@ public class HexagonMapEditor : MonoBehaviour
                             if (P2StatusOnGrid[i].timeLeft <= 0)
                             {
                                 EnvironmentalHazard.HazardInfo h = P2StatusOnGrid[i];
-                                h.type.RemoveHazard(hexGrid, h.x, h.z, h.size);
+                                h.type.RemoveHazard(hexGrid, h.x, h.z, h.size, h.placedWeatherVane);
                                 P2StatusOnGrid.Remove(P2StatusOnGrid[i]);
                             }
                         }
@@ -615,7 +619,7 @@ public class HexagonMapEditor : MonoBehaviour
                         P2StatusOnGrid[statusCount] = new EnvironmentalHazard.HazardInfo(h.type, h.x, h.y, h.z, h.timeLeft - 1, h.size);
                         //Debug.Log("hazard time left: " + h.timeLeft--.ToString());
                         //Debug.Log("x: " + h.x + " z: " + h.z);
-                        StartCoroutine(Snap_To_Hazard(h.x, h.z));
+                        StartCoroutine(Snap_To_Hazard(h.x, h.z, h.type.anim_time));
                         StartCoroutine(HandleStatus(statusCount, 1));
 
                     }
@@ -927,6 +931,10 @@ public class HexagonMapEditor : MonoBehaviour
                     {
                         P1_Cooldown_Text.text = SelectedUnit.GetComponent<KidnapperHero>().specialAttackCounter.ToString();
                     }
+                    if (SelectedUnit.GetComponent<WeatherHero>() != null)
+                    {
+                        P1_Cooldown_Text.text = SelectedUnit.GetComponent<WeatherHero>().specialAttackCounter.ToString();
+                    }
                 }
                 else
                 {
@@ -959,6 +967,10 @@ public class HexagonMapEditor : MonoBehaviour
                     if(SelectedUnit.GetComponent<KidnapperHero>() != null)
                     {
                         P2_Cooldown_Text.text = SelectedUnit.GetComponent<KidnapperHero>().specialAttackCounter.ToString();
+                    }
+                    if (SelectedUnit.GetComponent<WeatherHero>() != null)
+                    {
+                        P2_Cooldown_Text.text = SelectedUnit.GetComponent<WeatherHero>().specialAttackCounter.ToString();
                     }
                 }
                 else
@@ -1422,11 +1434,11 @@ public class HexagonMapEditor : MonoBehaviour
         }
     }
 
-    public IEnumerator Snap_To_Hazard(int x, int z)
+    public IEnumerator Snap_To_Hazard(int x, int z, float anim_time)
     {
         HexagonCoord newCoord = new HexagonCoord(x, z);
         cursor.Assign_Position(hexGrid.Get_Cell_Index(newCoord).gameObject.transform.position, newCoord);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(anim_time);
 
     }
 

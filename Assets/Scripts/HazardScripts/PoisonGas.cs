@@ -39,7 +39,7 @@ public class PoisonGas : EnvironmentalHazard {
 
     }
 
-    public override void RemoveHazard(Grid hexGrid, int x, int z, int size)
+    public override void RemoveHazard(Grid hexGrid, int x, int z, int size, bool weatherVane)
     {
         //Debug.Log("removing poison gas from map");
         List<HexagonCell> frontier = new List<HexagonCell>();
