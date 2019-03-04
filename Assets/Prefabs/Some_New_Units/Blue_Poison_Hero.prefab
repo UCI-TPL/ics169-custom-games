@@ -3028,6 +3028,8 @@ MonoBehaviour:
   health_buff: 0
   move_buff: 0
   fortress_def_buff: 0
+  Unit_Getting_Attacked: {fileID: 0}
+  Hit_Effect: {fileID: 0}
   attackSound: {fileID: 82538136781696144}
   hitSound: {fileID: 82270477606029662}
   moveSound: {fileID: 82572875042567256}
@@ -3035,6 +3037,7 @@ MonoBehaviour:
   Moving_Lines_List: []
   Attacking_Lines_List: []
   Getting_Hit_Lines_List: []
+  Injured: 0
   myType: 2
   poisonGas: {fileID: 114959469959674676, guid: d31fc1f2ac967d340b1a2990e1769a18,
     type: 2}
@@ -3700,7 +3703,7 @@ RectTransform:
   m_GameObject: {fileID: 1939206137874094}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children:
   - {fileID: 224679823758146718}
   m_Father: {fileID: 4160472521595568}
@@ -3708,7 +3711,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: -2.77}
+  m_AnchoredPosition: {x: 0, y: -3.7}
   m_SizeDelta: {x: 33.49, y: 18}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224625558995039750
@@ -3799,7 +3802,7 @@ RectTransform:
   m_GameObject: {fileID: 1633919483987494}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_Children:
   - {fileID: 224045783960669254}
   m_Father: {fileID: 4160472521595568}
@@ -3807,7 +3810,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 2.4625, y: -0.5825}
+  m_AnchoredPosition: {x: 0, y: 4.4}
   m_SizeDelta: {x: 12, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224911931811583908
