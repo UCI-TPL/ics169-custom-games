@@ -1395,10 +1395,14 @@ public class HexagonMapEditor : MonoBehaviour
     {
         _UI.obj_name.text = _unit.unit_name;
         _UI.obj_type.text = _unit.unit_type;
-        _UI.stats_atk.text = "ATK: " + (int)_unit.current_attack;
-        _UI.stats_mov.text = "MOV: " + _unit.current_mobility;
+        //_UI.stats_atk.text = "ATK: " + (int)_unit.current_attack;
+        //_UI.stats_mov.text = "MOV: " + _unit.current_mobility;
+        //_UI.stats_crit.text = "CRIT: " + (int)_unit.crit + "%";
+        //_UI.stats_range.text = "RNG: " + _unit.attackRange;
+        _UI.stats_atk.text = "HP: " + Mathf.CeilToInt(_unit.current_health) + "/" + Mathf.CeilToInt(_unit.health);
+        _UI.stats_mov.text = "RANG: " + _unit.attackRange;
         _UI.stats_crit.text = "CRIT: " + (int)_unit.crit + "%";
-        _UI.stats_range.text = "RNG: " + _unit.attackRange;
+        _UI.stats_range.text = "ATK: " + (int)_unit.current_attack;
     }
 
     public void Assign_BUI_Var(BattleUI _UI, StartUnit _unit)
