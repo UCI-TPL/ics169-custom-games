@@ -133,7 +133,7 @@ public class AcidRain : EnvironmentalHazard {
                             damagetext.transform.localScale.z);
                     }
                 }
-
+                attacked_unit.TakeDamage(attacked_unit, (damage - frontier[j].unitOnTile.defense));
                 attacked_unit.PlayHit();
                 attacked_unit.PlayBlink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f);
 

@@ -68,6 +68,8 @@ public class StartUnit : MonoBehaviour
 
     public bool Injured = false;
 
+    public float extraWaitTime = 0;
+
 
     // Use this for initialization
     public void Start()
@@ -679,6 +681,7 @@ public class StartUnit : MonoBehaviour
         
         anim.SetBool("Attacking", false);
         yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(extraWaitTime);
         currently_attacking = false;
     }
 

@@ -106,7 +106,7 @@ public class PoisonGas : EnvironmentalHazard {
                             damagetext.transform.localScale.z);
                     }
                 }
-
+                attacked_unit.TakeDamage(attacked_unit, damageDealt);
                 attacked_unit.PlayHit();
                 attacked_unit.PlayBlink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f);
 
