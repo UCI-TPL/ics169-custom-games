@@ -197,10 +197,14 @@ MonoBehaviour:
   selected_tile: {fileID: 1707374322347144}
   Acid_Rain_Effect: {fileID: 1994796850200202, guid: 0944a4a61d222f8488364b730402d807,
     type: 2}
+  Missile_Effect: {fileID: 1287660045281062, guid: 43a27e9ca24ebbe4d8e65a1487bce55d,
+    type: 2}
   Poison_Cloud_Effect: {fileID: 1995713900789560, guid: cf98ac366e142c940a9251219c618678,
     type: 2}
-  HazardObject: {fileID: 0}
+  RainObject: {fileID: 0}
+  Missile_Obj: {fileID: 0}
   Poison_Cloud_Obj: {fileID: 0}
+  Weather_Vane_Obj: {fileID: 0}
 --- !u!114 &114118011021735380
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -300,7 +304,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -982681181
-  m_SortingLayer: -2
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 84e732b9821fafa47983a24739cbd9e4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.50980395}
@@ -346,7 +350,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -839455769
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 25e6d62bb7e8ef74d8cbd74ebecc19ee, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.88235295}
@@ -438,7 +442,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -839455769
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 01c75aad041d64dcd8947bf2b3d8326d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

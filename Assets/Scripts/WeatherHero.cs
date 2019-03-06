@@ -6,6 +6,7 @@ public class WeatherHero : HeroUnit
 {
     public int specialAttackCounter = 0; // counter to keep track of when to fire off his load
     public List<EnvironmentalHazard> possibleHazards = new List<EnvironmentalHazard>();
+    public GameObject Weather_Effect_Object;
 
     // Use this for initialization
     void Start()
@@ -29,6 +30,9 @@ public class WeatherHero : HeroUnit
         {
             EnvironmentalHazard.HazardInfo ph = possibleHazards[rand].CreateHazardAt(cell, editor.hexGrid);
             Debug.Log( "creating weather vane object with boolean:" + ph.placedWeatherVane);
+            StartCoroutine(ph.type.Effect(editor, editor.hexGrid, ph.x, ph.z, ph.size));
+            extraWaitTime = ph.type.anim_time;
+            ph.timeLeft -= 1;
             editor.hazardsOnGrid.Add(ph);
         }
         else if (gameObject.tag == "Player 2")
@@ -45,6 +49,8 @@ public class WeatherHero : HeroUnit
         {
             yield return new WaitForSeconds(0.3f);
             StartCoroutine(WeatherBasicAttack(hexGrid, unitCell));
+            
+            
         }
         else
         {
@@ -116,6 +122,8 @@ public class WeatherHero : HeroUnit
             }
 
             StartUnit attacked_unit = targetable[selectedTarget].unitOnTile;
+            Weather_Effect_Object.GetComponent<WeatherMan_Effects>().move_target_to(attacked_unit.gameObject);
+            //Weather_Effect_Object.GetComponent<ParticleSystem>().Play();
             HexagonCell attacked_cell = targetable[selectedTarget];
             HexagonCoord current = unitCell.coords;
 
@@ -194,11 +202,13 @@ public class WeatherHero : HeroUnit
             {
                 if (targetable[selectedTarget].unitOnTile.tag == "TeamBuff") // was a buffmonster
                 {
+                    GameObject buffItem = Instantiate(FloatingBuffPrefab, transform.position, Quaternion.identity, transform);
                     int randBuff = Random.Range(0, 4);
                     //give correct buff accordingly
                     Debug.Log("acquiring buff");
                     if (randBuff == 0) // movement buff
                     {
+                        buffItem.GetComponent<SpriteRenderer>().sprite = mobilityBuff;
                         Debug.Log(name + " got a movement buff");
                         current_mobility += 1;
                         move_buff = true;
@@ -207,6 +217,7 @@ public class WeatherHero : HeroUnit
                     }
                     else if (randBuff == 1) // crit buff
                     {
+                        buffItem.GetComponent<SpriteRenderer>().sprite = critBuff;
                         Debug.Log(name + " got a crit buff");
                         crit += 0.20f;
                         crit_buff = true;
@@ -216,6 +227,7 @@ public class WeatherHero : HeroUnit
                     else if (randBuff == 2) // attack buff
                     {
                         Debug.Log(name + " got an attack buff");
+                        buffItem.GetComponent<SpriteRenderer>().sprite = attackBuff;
                         attack += 25;
                         current_attack += 25;
                         attack_buff = true;
@@ -225,21 +237,32 @@ public class WeatherHero : HeroUnit
                     else // health buff
                     {
                         Debug.Log(name + " got a health buff");
+                        buffItem.GetComponent<SpriteRenderer>().sprite = healthBuff;
                         health += 100;
-                        current_health = health;
+                        current_health += 100;
+
                         health_buff = true;
                     }
+
+                    if (current_health > (health * 0.4f))
+                    {
+                        this.anim.SetBool("Injured", false);
+                        this.Injured = false;
+                    }
+
+                    gameObject.GetComponentInChildren<Buff_UI_Manager>().update_current_buffs(this);
 
                 }
                 end_attack_without_retaliate = true;
                 attacked_unit_has_died = true;
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
+                
                 //int index = targetable[rand_index].coords.X_coord + targetable[rand_index].coords.Z_coord * hexGrid.width + targetable[rand_index].coords.Z_coord / 2;
                 //editor.RemoveUnitInfo(targetable[rand_index], index);
 
                 editor.Units_To_Delete.Add(attacked_cell);
                 attacked_unit.dead = true;
-
+                
 
                 yield return new WaitForSeconds(0.3f);
 
@@ -304,6 +327,7 @@ public class WeatherHero : HeroUnit
                 }
                 StartCoroutine(targetable[selectedTarget].unitOnTile.Hit());
                 StartCoroutine(attacked_unit.Blink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f));
+                extraWaitTime = 0f;
             }
         }
         else
@@ -447,11 +471,13 @@ public class WeatherHero : HeroUnit
             {
                 if (targetable[selectedTarget].unitOnTile.tag == "TeamBuff") // was a buffmonster
                 {
+                    GameObject buffItem = Instantiate(FloatingBuffPrefab, transform.position, Quaternion.identity, transform);
                     int randBuff = Random.Range(0, 4);
                     //give correct buff accordingly
                     Debug.Log("acquiring buff");
                     if (randBuff == 0) // movement buff
                     {
+                        buffItem.GetComponent<SpriteRenderer>().sprite = mobilityBuff;
                         Debug.Log(name + " got a movement buff");
                         current_mobility += 1;
                         move_buff = true;
@@ -460,6 +486,7 @@ public class WeatherHero : HeroUnit
                     }
                     else if (randBuff == 1) // crit buff
                     {
+                        buffItem.GetComponent<SpriteRenderer>().sprite = critBuff;
                         Debug.Log(name + " got a crit buff");
                         crit += 0.20f;
                         crit_buff = true;
@@ -469,6 +496,7 @@ public class WeatherHero : HeroUnit
                     else if (randBuff == 2) // attack buff
                     {
                         Debug.Log(name + " got an attack buff");
+                        buffItem.GetComponent<SpriteRenderer>().sprite = attackBuff;
                         attack += 25;
                         current_attack += 25;
                         attack_buff = true;
@@ -478,10 +506,20 @@ public class WeatherHero : HeroUnit
                     else // health buff
                     {
                         Debug.Log(name + " got a health buff");
+                        buffItem.GetComponent<SpriteRenderer>().sprite = healthBuff;
                         health += 100;
-                        current_health = health;
+                        current_health += 100;
+
                         health_buff = true;
                     }
+
+                    if (current_health > (health * 0.4f))
+                    {
+                        this.anim.SetBool("Injured", false);
+                        this.Injured = false;
+                    }
+
+                    gameObject.GetComponentInChildren<Buff_UI_Manager>().update_current_buffs(this);
 
                 }
                 end_attack_without_retaliate = true;
@@ -570,5 +608,10 @@ public class WeatherHero : HeroUnit
     {
         if (specialAttackCounter > 0)
             specialAttackCounter -= 1;
+    }
+
+    public void Play_Effect_From_Start()
+    {
+        Weather_Effect_Object.GetComponent<WeatherMan_Effects>().play_effect();
     }
 }

@@ -42,13 +42,13 @@ public class EnvironmentalHazard : MonoBehaviour {
 		
 	}
 
-    public virtual HazardInfo CreateHazard(Grid hexGrid)
+    public virtual HazardInfo CreateHazard(int size, HexagonCoord coord, Grid hexGrid)
     {
-        HexagonCoord rand = hexGrid.cells[Random.Range(0, hexGrid.cells.Length)].coords;
+        //HexagonCoord rand = hexGrid.cells[Random.Range(0, hexGrid.cells.Length)].coords;
 
-        int size = Random.Range(0, 3); // 0 = 1, 1 = 3, 2 = 5
-        Debug.Log("hazard at (" + rand.x + "," + rand.z + ") with size: " + size);
-        return new HazardInfo(this, rand.x, rand.Y_coord, rand.z, timeOnBoard, size);
+        //int size = Random.Range(0, 3); // 0 = 1, 1 = 3, 2 = 5
+        Debug.Log("hazard at (" + coord.x + "," + coord.z + ") with size: " + size);
+        return new HazardInfo(this, coord.x, coord.Y_coord, coord.z, timeOnBoard, size);
     }
 
     public virtual void RemoveHazard(Grid hexGrid, int x, int z, int size, bool weatherVane)

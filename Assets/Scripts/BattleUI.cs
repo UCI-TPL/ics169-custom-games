@@ -26,6 +26,7 @@ public class BattleUI : MonoBehaviour
     public GameObject health_buff;
     public GameObject critical_buff;
     public GameObject mobility_buff;
+    public GameObject Buff_UI;
 
     private Renderer[] cur_renderers;
 
@@ -45,6 +46,8 @@ public class BattleUI : MonoBehaviour
     public void Hide()
     {
         //Debug.Log("Attempt_To_Hide");
+        //GameObject Buff_UI = this.gameObject.transform.parent.gameObject.GetComponentInChildren<Buff_UI_Manager>().gameObject.transform.parent.gameObject;
+        //Buff_UI.GetComponent<Canvas>();
         this.gameObject.SetActive(false);
         //SetRendererEnabled(false);
     }
@@ -52,6 +55,8 @@ public class BattleUI : MonoBehaviour
     public void Show()
     {
         //Debug.Log("Attempt_To_Show");
+        //GameObject Buff_UI = this.gameObject.transform.parent.gameObject.GetComponentInChildren<Buff_UI_Manager>().gameObject.transform.parent.gameObject;
+        //Buff_UI.SetActive(true);
         this.gameObject.SetActive(true);
         //SetRendererEnabled(true);
     }

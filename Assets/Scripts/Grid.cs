@@ -489,7 +489,7 @@ public class Grid : MonoBehaviour {
         List<HexagonCell> frontier = new List<HexagonCell>();
         fromCell.Distance = 0;
         frontier.Add(fromCell);
-        while (frontier.Count > 0)
+        while (frontier.Count > 0) 
         {
             HexagonCell current = frontier[0];
             frontier.RemoveAt(0);
@@ -511,9 +511,13 @@ public class Grid : MonoBehaviour {
                 {
                     continue;
                 }
-                if(!neighbor.traversable)
+                if(!neighbor.traversable) // if its not traversable end here
                 {
                     continue;
+                }
+                if (neighbor.unitOnTile != null && neighbor.occupied && neighbor.unitOnTile.tag != fromCell.unitOnTile.tag) // if there is an enemy unit on that tile
+                {
+                        continue;
                 }
                 int distance = current.Distance;
                 /*if(water)
@@ -521,12 +525,12 @@ public class Grid : MonoBehaviour {
                  *else if(grass)
                  * distance += 2
                  */
-                if (current.tag == "Water")
+                if (current.tag == "Water") // for water tiles increase by 2
                     distance += 2;
-                else 
+                else  // for any other tile increase by 1 (default)
                     distance += 1;
      
-                if (neighbor.Distance == int.MaxValue)
+                if (neighbor.Distance == int.MaxValue) // if not traversed yet
                 {
                     neighbor.Distance = distance;
                     neighbor.PathFrom = current;

@@ -64,6 +64,11 @@ public class StartUnit : MonoBehaviour
     public AudioSource[] Attacking_Lines_List = new AudioSource[0];
     [SerializeField]
     public AudioSource[] Getting_Hit_Lines_List = new AudioSource[0];
+    Color health_color;
+
+    public bool Injured = false;
+
+    public float extraWaitTime = 0;
 
 
     // Use this for initialization
@@ -83,6 +88,7 @@ public class StartUnit : MonoBehaviour
         health_buff = false;
         move_buff = false;
         fortress_def_buff = false;
+        health_color = health_bar.GetComponent<Image>().color;
     }
 
     // Update is called once per frame
@@ -309,6 +315,11 @@ public class StartUnit : MonoBehaviour
                         current_health += 100;
 
                         health_buff = true;
+                    }
+                    if(current_health > (health * 0.4f))
+                    {
+                        this.anim.SetBool("Injured", false);
+                        this.Injured = false;
                     }
                     float healthpercent = current_health / health;//    120/180 = .667
 
@@ -670,6 +681,7 @@ public class StartUnit : MonoBehaviour
         
         anim.SetBool("Attacking", false);
         yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(extraWaitTime);
         currently_attacking = false;
     }
 
@@ -825,6 +837,8 @@ public class StartUnit : MonoBehaviour
         if (attacked_unit.current_health <= (attacked_unit.health * 0.4f))
         {
             attacked_unit.gameObject.GetComponent<Animator>().SetBool("Injured",true);
+            attacked_unit.Injured = true;
+            StartCoroutine(attacked_unit.Injured_Blinking());
         }
 
         //float attack_deduction = attacked_unit.current_attack * (current_attack - attacked_unit.current_health / attacked_unit.health);
@@ -954,6 +968,16 @@ public class StartUnit : MonoBehaviour
         
         sprite_rend.sortingOrder = sprite_rend.GetComponent<Mesh_Layer>()._ordered_layer
             + ((_target_location.coords.X_coord + _target_location.coords.Y_coord) * editor.max_sprites_per_unit);
+        
+    }
+
+    public IEnumerator Injured_Blinking()
+    {
+        while (Injured)
+        {
+            health_bar.GetComponent<Image>().color = Color.Lerp(health_color, Color.white, Mathf.PingPong(Time.time, 0.5f));
+            yield return null;
+        }
         
     }
 }

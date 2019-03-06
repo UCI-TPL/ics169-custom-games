@@ -95,6 +95,8 @@ public class HexagonMapEditor : MonoBehaviour
     public bool incoming = false;
     public int incoming_in = int.MaxValue; // the counter for how long until the hazard comes to the map
     int whichHazard; // keep track of which hazard, int gives you the index in hazardList
+    HexagonCoord hazardSpot; // where the hazard incoming will be
+    int size; // how big the hazard is
     public bool hazardsExecuting = false;
     public bool hazardsFinished = false;
     public int hazardCount = 0;
@@ -211,11 +213,38 @@ public class HexagonMapEditor : MonoBehaviour
                     if (incoming) //a environmental hazard is coming already
                     {
                         incoming_in -= 1;
+
+                        List<HexagonCell> tilesToEffect = new List<HexagonCell>();
+                        HexagonCell curr = hexGrid.Get_Cell_Index(new HexagonCoord(hazardSpot.x, hazardSpot.z));
+                        for (int i = 0; i < hexGrid.cells.Length; i++)
+                        {
+                            int distance = curr.coords.FindDistanceTo(hexGrid.cells[i].coords);
+                            if (distance <= size)
+                            {
+                                tilesToEffect.Add(hexGrid.cells[i]);
+                            }
+                        }
+                        for (int j = 0; j < tilesToEffect.Count; j++)
+                        {
+                            // HERE IS WHERE WE CHANGE THE EFFECT FOR THE HAZARD EFFECT COUNTER ON THE MAP
+                            // ex) tilesToEffect[j].stopWatch[incoming_in].enabled = true;
+                            //     tilesToEffect[j].stopWatch[incoming_in+1].enabled = false;
+                        }
+
+
                         if (incoming_in == 0) // time to create hazard
                         {
-                            hazardsOnGrid.Add(hazardList[whichHazard].CreateHazard(hexGrid));
+                            // REMOVE THE COUNTER EFFECT
+                            for (int j = 0; j < tilesToEffect.Count; j++)
+                            {
+                                // HERE IS WHERE WE CHANGE THE EFFECT FOR THE HAZARD EFFECT COUNTER ON THE MAP
+                                // ex) tilesToEffect[j].stopWatch[incoming_in].enabled = false;
+                            }
+
+                            hazardsOnGrid.Add(hazardList[whichHazard].CreateHazard(size, hazardSpot, hexGrid));
                             incoming_in = int.MaxValue;
                             incoming = false;
+                            
                         }
                     }
                     else // no environmental hazard coming
@@ -223,10 +252,29 @@ public class HexagonMapEditor : MonoBehaviour
                         int chance = Random.Range(0, 1); // 1/10  chance to create hazard
                         if (chance == 0)
                         {
-                            int hazard = Random.Range(0, 1); // 3 hazards right now *** Random.Range(inclusive, exclusive)
+                            int hazard = Random.Range(0, 2); // 2 hazards right now *** Random.Range(inclusive, exclusive)
                             incoming = true;
-                            incoming_in = hazardList[hazard].timeToCome;
-                            whichHazard = hazard;
+                            incoming_in = hazardList[hazard].timeToCome; // how long before it lands on the board
+                            whichHazard = hazard; // decides type of hazard that is coming
+                            int randRange = Random.Range(0, hexGrid.cells.Length);
+                            size = Random.Range(1, 3);
+
+                            hazardSpot = hexGrid.cells[randRange].coords;
+                            List<HexagonCell> tilesToEffect = new List<HexagonCell>();
+                            HexagonCell curr = hexGrid.Get_Cell_Index(new HexagonCoord(hazardSpot.x, hazardSpot.z));
+                            for (int i = 0; i < hexGrid.cells.Length; i++)
+                            {
+                                int distance = curr.coords.FindDistanceTo(hexGrid.cells[i].coords);
+                                if (distance <= size)
+                                {
+                                    tilesToEffect.Add(hexGrid.cells[i]);
+                                }
+                            }
+                            for (int j = 0; j < tilesToEffect.Count; j++)
+                            {
+                                // USE tilesToEffect LIST TO EDIT 
+                                // ex) tilesToEffect[j].stopWatch[incoming_in].enabled = true;
+                            }
                         }
                     }
                 }
@@ -652,6 +700,7 @@ public class HexagonMapEditor : MonoBehaviour
                 else if(wasP1Turn)
                 {
                     wasP1Turn = false;
+                    Snap_To_First_Unit();
                     currentState = TurnStates.P2_MOVE;
                 }
                 else
@@ -787,9 +836,19 @@ public class HexagonMapEditor : MonoBehaviour
     {
         if(allow_cursor_control == true)
         {
+
+            //int index = hexGrid.Get_Index(cursor.coords);
+
+            //if (unitCell != hexGrid.cells[index])
+            //{
+            //    Stack<HexagonCell> path = hexGrid.FindPath(unitCell, hexGrid.cells[index]);
+            //    Debug.Log(path.Count);
+            //}
             //BUG: Possible bug occuring here where you can't hit a or b on occassion;S
-            if (!EventSystem.current.IsPointerOverGameObject())
-            {
+
+
+            //if (!EventSystem.current.IsPointerOverGameObject())
+            //{
                 if (Input.GetButtonDown(joystick + "A Button"))
                 {
                     HandleInput();
@@ -802,21 +861,8 @@ public class HexagonMapEditor : MonoBehaviour
                     DeselectUnit();
                     Dynamic_Controls_list.update_current_controls();
                 }
-            }
+           //}
 
-            //if (Input.GetButtonDown(joystick + "X Button"))
-            //{
-            //    if (MoveableUnits.Contains(SelectedUnit))
-            //    {
-            //        MoveableUnits.Remove(SelectedUnit);
-            //        Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
-            //        for (int i = 0; i < Unit_Meshes.Length; i++)
-            //        {
-            //            Unit_Meshes[i].color = Greyed_Unit_Color;
-            //            //Debug.Log("Color_Changed");
-            //        }
-            //    }
-            //}
 
             if (Input.GetButtonDown(joystick + "R Bumper"))
             {
@@ -873,7 +919,7 @@ public class HexagonMapEditor : MonoBehaviour
         else if (!currentCell.occupied && isUnitSelected && !attacking) // a unit is already selected
         {
             //prompt user to see if they actually want to move
-            
+            Debug.Log("we're using show path here");
             StartCoroutine(MoveUnit(hexGrid.GetCell(SelectedUnit.transform.position), currentCell));//move that selected unit
             //Play Movement Selected Sound
             select_sound.Play();
@@ -1352,10 +1398,14 @@ public class HexagonMapEditor : MonoBehaviour
     {
         _UI.obj_name.text = _unit.unit_name;
         _UI.obj_type.text = _unit.unit_type;
-        _UI.stats_atk.text = "ATK: " + (int)_unit.current_attack;
-        _UI.stats_mov.text = "MOV: " + _unit.current_mobility;
+        //_UI.stats_atk.text = "ATK: " + (int)_unit.current_attack;
+        //_UI.stats_mov.text = "MOV: " + _unit.current_mobility;
+        //_UI.stats_crit.text = "CRIT: " + (int)_unit.crit + "%";
+        //_UI.stats_range.text = "RNG: " + _unit.attackRange;
+        _UI.stats_atk.text = "HP: " + Mathf.CeilToInt(_unit.current_health) + "/" + Mathf.CeilToInt(_unit.health);
+        _UI.stats_mov.text = "RANG: " + _unit.attackRange;
         _UI.stats_crit.text = "CRIT: " + (int)_unit.crit + "%";
-        _UI.stats_range.text = "RNG: " + _unit.attackRange;
+        _UI.stats_range.text = "ATK: " + (int)_unit.current_attack;
     }
 
     public void Assign_BUI_Var(BattleUI _UI, StartUnit _unit)

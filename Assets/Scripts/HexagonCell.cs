@@ -33,9 +33,13 @@ public class HexagonCell : MonoBehaviour {
 
     public GameObject Acid_Rain_Effect;
 
+    public GameObject Missile_Effect;
+
     public GameObject Poison_Cloud_Effect;
 
-    public GameObject HazardObject;
+    public GameObject RainObject;
+
+    public GameObject Missile_Obj;
 
     public GameObject Poison_Cloud_Obj;
 
@@ -154,14 +158,23 @@ public class HexagonCell : MonoBehaviour {
     {
         GameObject Cells_Rain = Instantiate(Acid_Rain_Effect);
         Cells_Rain.transform.position = this.gameObject.transform.position;
-        HazardObject = Cells_Rain;
+        RainObject = Cells_Rain;
         //do some math to make effect render on the correct layer depth
-        sort_tile_effect_object(Cells_Rain);
+        sort_tile_effect_object(RainObject);
+    }
+
+    public void CreateMissile()
+    {
+        GameObject m = Instantiate(Missile_Effect);
+        m.transform.position = gameObject.transform.position;
+        Missile_Obj = m;
+        sort_tile_effect_object(Missile_Obj);
     }
 
     public void Create_Poison_Cloud()
     {
         GameObject Poison_Obj = Instantiate(Poison_Cloud_Effect);
+        Poison_Obj.transform.localScale = new Vector3(2f, 2f, 2f);
         Poison_Obj.transform.position = this.gameObject.transform.position;
         Poison_Cloud_Obj = Poison_Obj;
         sort_tile_effect_object(Poison_Obj);
