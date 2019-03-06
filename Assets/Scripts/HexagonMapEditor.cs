@@ -43,7 +43,7 @@ public class HexagonMapEditor : MonoBehaviour
     public GameObject WinCanvas;
     public Text winText;
     public GameObject FirstObject;
-    public GameObject Quit;
+    public GameObject Resume,Controls,Quit;
 
 
 
@@ -190,6 +190,8 @@ public class HexagonMapEditor : MonoBehaviour
         //StartCoroutine(InitializingTeams());
         P1_Team_portrait_UI.Initialize_Portraits(P1Team);
         P2_Team_portrait_UI.Initialize_Portraits(P2Team);
+        Resume.GetComponent<PauseMenu>().Manager = PlayerInfo;
+        Controls.GetComponent<PauseMenu>().Manager = PlayerInfo;
         Quit.GetComponent<PauseMenu>().Manager = PlayerInfo;
         
     }
