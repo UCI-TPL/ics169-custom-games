@@ -29,9 +29,9 @@ public class WeatherHero : HeroUnit
         if (gameObject.tag == "Player 1")
         {
             EnvironmentalHazard.HazardInfo ph = possibleHazards[rand].CreateHazardAt(cell, editor.hexGrid);
+            extraWaitTime = ph.type.anim_time;
             Debug.Log( "creating weather vane object with boolean:" + ph.placedWeatherVane);
             StartCoroutine(ph.type.Effect(editor, editor.hexGrid, ph.x, ph.z, ph.size));
-            extraWaitTime = ph.type.anim_time;
             ph.timeLeft -= 1;
             editor.hazardsOnGrid.Add(ph);
         }
@@ -255,6 +255,7 @@ public class WeatherHero : HeroUnit
                 }
                 end_attack_without_retaliate = true;
                 attacked_unit_has_died = true;
+                
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 
                 //int index = targetable[rand_index].coords.X_coord + targetable[rand_index].coords.Z_coord * hexGrid.width + targetable[rand_index].coords.Z_coord / 2;
@@ -284,7 +285,7 @@ public class WeatherHero : HeroUnit
                 {
                     end_attack_without_retaliate = true;
                 }
-
+                Debug.Log(extraWaitTime + " going into attack anim");
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 yield return new WaitForSeconds(0.3f);
                 //SHOULD THORNMAIL BE ACTIVATED ON SPECIAL ATTACKS?
@@ -327,7 +328,6 @@ public class WeatherHero : HeroUnit
                 }
                 StartCoroutine(targetable[selectedTarget].unitOnTile.Hit());
                 StartCoroutine(attacked_unit.Blink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f));
-                extraWaitTime = 0f;
             }
         }
         else
