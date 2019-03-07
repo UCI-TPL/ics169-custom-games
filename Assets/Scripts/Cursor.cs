@@ -17,6 +17,8 @@ public class Cursor : MonoBehaviour
     public AudioSource Move_Sound;
     public GameObject UI_List_Manager_Obj;
     private UI_List_Manager UI_List_Manager;
+    //public GameObject Range_Tile;
+
     // Use this for initialization
     void Start()
     {
