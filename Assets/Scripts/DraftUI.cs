@@ -16,15 +16,13 @@ public class DraftUI : MonoBehaviour {
     public Image P1Choice3; //done
     public Image P1Choice4; //done
     public Image P1Choice5; //done
-    public Image P1Choice6;
-    public Image P1Choice7;
+
     public Image P2Choice1; //done
     public Image P2Choice2; //done
     public Image P2Choice3; //done
     public Image P2Choice4; //done
     public Image P2Choice5; //done
-    public Image P2Choice6;
-    public Image P2Choice7;
+
 
     public Image FortressHero;
     public Image FortressHeroBack;

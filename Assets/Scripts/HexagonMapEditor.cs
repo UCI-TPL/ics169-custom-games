@@ -229,7 +229,7 @@ public class HexagonMapEditor : MonoBehaviour
                         }
 
 
-                        if (incoming_in == 0) // time to create hazard
+                        if (incoming_in <= 0) // time to create hazard
                         {
                             // REMOVE THE COUNTER EFFECT
                             for (int j = 0; j < tilesToEffect.Count; j++)
