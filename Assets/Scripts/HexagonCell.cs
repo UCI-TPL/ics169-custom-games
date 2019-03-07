@@ -45,6 +45,14 @@ public class HexagonCell : MonoBehaviour {
 
     public GameObject Weather_Vane_Obj;
 
+    public GameObject Stop_Watch_Tile;
+
+    public GameObject Range_Tile;
+
+    public List<Sprite> Stop_Watch_Sprites;
+
+    public GameObject timer_text_canvas;
+
     public int Distance
     {
         get
@@ -206,17 +214,20 @@ public class HexagonCell : MonoBehaviour {
         //takes all children of object that have a sorting layer and sorts them based on the position of the current tile
         ParticleSystemRenderer[] PS_list_to_sort = to_be_sorted.GetComponentsInChildren<ParticleSystemRenderer>();
         SpriteRenderer[] SR_list_to_sort = to_be_sorted.GetComponentsInChildren<SpriteRenderer>();
+        
         //The scaling number is created in hexagonmap editor
 
         foreach (ParticleSystemRenderer PS_obj in PS_list_to_sort)
         {
-            PS_obj.sortingOrder = PS_obj.sortingOrder + ((coords.X_coord + coords.Y_coord) * 4);
+            PS_obj.sortingOrder = PS_obj.sortingOrder + ((coords.X_coord + coords.Y_coord) * Static_Variable_Container.max_sprite_sort);
         }
 
         foreach (SpriteRenderer SR_obj in SR_list_to_sort)
         {
-            SR_obj.sortingOrder = SR_obj.sortingOrder + ((coords.X_coord + coords.Y_coord) * 4);
+            SR_obj.sortingOrder = SR_obj.sortingOrder + ((coords.X_coord + coords.Y_coord) * Static_Variable_Container.max_sprite_sort);
         }
+
+        
 
         Debug.Log("------------------------ Looped Through");
 
@@ -224,5 +235,14 @@ public class HexagonCell : MonoBehaviour {
         int scale_by_plane_size = 10;
         to_be_sorted.transform.position = new Vector3(to_be_sorted.transform.position.x, to_be_sorted.transform.position.y,
             (to_be_sorted.transform.position.z + ((coords.X_coord + coords.Y_coord) * scale_by_plane_size) + 200) );
+    }
+
+    public void Switch_Watch_Sprite(int x)
+    {
+        if(x < Stop_Watch_Sprites.Count)
+        {
+            Stop_Watch_Tile.GetComponent<SpriteRenderer>().sprite = Stop_Watch_Sprites[x];
+        }
+        
     }
 }

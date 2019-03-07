@@ -487,6 +487,13 @@ public class Grid : MonoBehaviour {
             count += 1;
             //Debug.Log("" + count + ": " + num_sprites_per_cell + " " + sprite_renderer.sortingOrder);
         }
+
+        Canvas[] canvases = _cell.gameObject.GetComponentsInChildren<Canvas>(true);
+        foreach(Canvas canvas_rend in canvases)
+        {
+            canvas_rend.sortingOrder = canvas_rend.sortingOrder
+                + ((_cell.coords.X_coord + _cell.coords.Y_coord) * Static_Variable_Container.max_sprite_sort);
+        }
     }
 
     Stack<HexagonCell> Search (HexagonCell fromCell, HexagonCell toCell) // searrch creates a stack of the shortest path given a to and from tile.  this is used for movement animations
