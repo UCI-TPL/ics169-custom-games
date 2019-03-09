@@ -11,6 +11,7 @@ public class HeroUnit : StartUnit {
         BasicAttack
     }
     public BuffType myType;
+    public AudioSource specialAttackSound;
 
     public virtual void Awake()
     {

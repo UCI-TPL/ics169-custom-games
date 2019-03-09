@@ -82,7 +82,7 @@ public class PoisonGas : EnvironmentalHazard {
         {
             if (frontier[j].occupied && frontier[j].unitOnTile.gameObject.tag != gameObject.tag)
             {
-                frontier[j].unitOnTile.current_health -= damageDealt;
+                //frontier[j].unitOnTile.current_health -= damageDealt;
 
                 StartUnit attacked_unit = frontier[j].unitOnTile;
                 GameObject damagetext = Instantiate(attacked_unit.FloatingTextPrefab, attacked_unit.transform.position, Quaternion.identity, attacked_unit.transform);
@@ -106,7 +106,7 @@ public class PoisonGas : EnvironmentalHazard {
                             damagetext.transform.localScale.z);
                     }
                 }
-                attacked_unit.TakeDamage(attacked_unit, damageDealt);
+                attacked_unit.TakeDamage(attacked_unit, damageDealt); // true damage so no need to incorporate 
                 attacked_unit.PlayHit();
                 attacked_unit.PlayBlink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f);
 

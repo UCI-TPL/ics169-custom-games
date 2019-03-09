@@ -479,9 +479,9 @@ GameObject:
   - component: {fileID: 82572875042567256}
   - component: {fileID: 82538136781696144}
   - component: {fileID: 82270477606029662}
-  - component: {fileID: 114336033215185384}
   - component: {fileID: 82658805114820324}
   - component: {fileID: 82926100192898436}
+  - component: {fileID: 114336033215185384}
   - component: {fileID: 82577124431583784}
   - component: {fileID: 82862008180043372}
   - component: {fileID: 82667408136170092}
@@ -1571,7 +1571,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 68227813222334da2a5c767c3067cbf0, type: 3}
+  m_audioClip: {fileID: 8300000, guid: dab90bd61196849ba8c9d123d00dbaf2, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -2418,9 +2418,10 @@ MonoBehaviour:
   Hit_Effect: {fileID: 0}
   attackSound: {fileID: 82538136781696144}
   hitSound: {fileID: 82270477606029662}
-  moveSound: {fileID: 82572875042567256}
+  moveSound: {fileID: 82658805114820324}
   selection_arrow: {fileID: 1290110207191924}
-  Moving_Lines_List: []
+  Moving_Lines_List:
+  - {fileID: 82572875042567256}
   Attacking_Lines_List: []
   Getting_Hit_Lines_List: []
   Injured: 0

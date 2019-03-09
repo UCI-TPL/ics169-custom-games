@@ -35,15 +35,16 @@ public class PoisonHero : HeroUnit {
     }
 
 
-    public void ShootPoisonGas(HexagonCell cell) // spawn the environmental hazard "PoisonGas"
+    public IEnumerator ShootPoisonGas(HexagonCell cell) // spawn the environmental hazard "PoisonGas"
     {
-
         Debug.Log("shooting poison  from hero");
-        if(gameObject.tag == "Player 1")
+        yield return new WaitForSeconds(0.4f);
+        specialAttackSound.Play();
+        yield return new WaitForSeconds(0.1f);
+        if (gameObject.tag == "Player 1")
             editor.P1StatusOnGrid.Add(poisonGas.CreateHazardAt(cell, editor.hexGrid));
-        else if(gameObject.tag == "Player 2")
+        else if (gameObject.tag == "Player 2")
             editor.P2StatusOnGrid.Add(poisonGas.CreateHazardAt(cell, editor.hexGrid));
-
 
         specialAttackCounter = 3;
     }
@@ -177,7 +178,7 @@ public class PoisonHero : HeroUnit {
 
             if (specialAttackCounter <= 0)
             {
-                ShootPoisonGas(editor.hexGrid.GetCell(attacked_unit.transform.position));
+                StartCoroutine(ShootPoisonGas(editor.hexGrid.GetCell(attacked_unit.transform.position)));
             }
 
 

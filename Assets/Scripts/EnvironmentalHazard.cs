@@ -12,8 +12,10 @@ public class EnvironmentalHazard : MonoBehaviour {
         public int timeLeft;
         public int size;
         public bool placedWeatherVane;
+        public bool p1;
+        public bool turn1;
 
-        public HazardInfo(EnvironmentalHazard _type, int _x, int _y, int _z, int _timeLeft, int _size, bool _weatherVane = false)
+        public HazardInfo(EnvironmentalHazard _type, int _x, int _y, int _z, int _timeLeft, int _size, bool _weatherVane = false, bool _p1 = false, bool _turn1 = false)
         {
             type = _type;
             x = _x;
@@ -22,6 +24,8 @@ public class EnvironmentalHazard : MonoBehaviour {
             timeLeft = _timeLeft;
             size = _size;
             placedWeatherVane = _weatherVane;
+            p1 = _p1;
+            turn1 = _turn1;
         }
 
     };

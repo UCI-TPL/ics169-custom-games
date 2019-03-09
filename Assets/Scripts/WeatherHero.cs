@@ -25,14 +25,15 @@ public class WeatherHero : HeroUnit
 
         Debug.Log("weather vane dropped from hero");
         int rand = Random.Range(0, possibleHazards.Count);
-
+        specialAttackSound.Play();
         if (gameObject.tag == "Player 1")
         {
             EnvironmentalHazard.HazardInfo ph = possibleHazards[rand].CreateHazardAt(cell, editor.hexGrid);
             extraWaitTime = ph.type.anim_time;
             Debug.Log( "creating weather vane object with boolean:" + ph.placedWeatherVane);
             StartCoroutine(ph.type.Effect(editor, editor.hexGrid, ph.x, ph.z, ph.size));
-            ph.timeLeft -= 1;
+
+            ph = new EnvironmentalHazard.HazardInfo(ph.type, ph.x, ph.y, ph.z, ph.timeLeft - 1, ph.size, ph.placedWeatherVane, true, true);
             editor.hazardsOnGrid.Add(ph);
         }
         else if (gameObject.tag == "Player 2")
