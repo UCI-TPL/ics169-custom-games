@@ -228,6 +228,7 @@ public class StartUnit : MonoBehaviour
                 if (damage == 0)
                 {
                     damagetext.GetComponent<TextMesh>().text = "MISS";
+                    GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().missSounds);
                     damagetext.GetComponent<TextMesh>().color = Color.white;
                     damagetext.GetComponent<TextMesh>().characterSize = 0.06f;
                 }
@@ -487,6 +488,7 @@ public class StartUnit : MonoBehaviour
             if (damage == 0)
             {
                 damagetext.GetComponent<TextMesh>().text = "MISS";
+                GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().missSounds);
                 damagetext.GetComponent<TextMesh>().color = Color.white;
                 damagetext.GetComponent<TextMesh>().characterSize = 0.06f;
             }

@@ -58,8 +58,7 @@ public class PoisonGas : EnvironmentalHazard {
         {
             Destroy(frontier[j].Poison_Cloud_Obj);
         }
-        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().birdSound.Play();
-        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().rainSound.Stop();
+        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().fizzlefinishSound.Play();
 
     }
 
@@ -118,7 +117,9 @@ public class PoisonGas : EnvironmentalHazard {
                 }
             }
         }
+        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().fizzleSound.Play();
         yield return new WaitForSeconds(anim_time);
+        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().fizzleSound.Stop();
         Debug.Log("effect finishing");
     }
 }

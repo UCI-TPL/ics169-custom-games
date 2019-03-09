@@ -1115,7 +1115,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 68cddd1d13c2d4351aa0169c3ff4ab78, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 8093ed26404f08e4593ded595548cb9d, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1210,7 +1210,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 3eb0835f582ad4a798d39458af1a37ea, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 9ba74a6e1d36f44be9224aa396a3ff7e, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.6
   m_Pitch: 1
@@ -3071,6 +3071,7 @@ MonoBehaviour:
   Injured: 0
   extraWaitTime: 0
   myType: 2
+  specialAttackSound: {fileID: 82479439613918162}
   poisonGas: {fileID: 114959469959674676, guid: d31fc1f2ac967d340b1a2990e1769a18,
     type: 2}
   specialAttackCounter: 0
