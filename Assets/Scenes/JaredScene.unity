@@ -2876,10 +2876,12 @@ MonoBehaviour:
     rgba: 4285164234
   WinCanvas: {fileID: 749799392}
   winText: {fileID: 114404063}
-  FirstObject: {fileID: 2139000854}
+  PlayAgain: {fileID: 2139000854}
   Resume: {fileID: 536818806}
   Controls: {fileID: 95970324}
   Quit: {fileID: 1597399671}
+  P1won: 0
+  P2won: 0
   Player2Chosen:
   - {fileID: 114969397969523808, guid: a4e85b2bfaf0147d89d412a238a3241c, type: 2}
   - {fileID: 114209810090755946, guid: a71ccb7037d188542b5afd2f9d617055, type: 2}
@@ -3684,6 +3686,7 @@ MonoBehaviour:
   health_buff: {fileID: 0}
   critical_buff: {fileID: 0}
   mobility_buff: {fileID: 0}
+  Buff_UI: {fileID: 0}
 --- !u!114 &392520811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4180,6 +4183,7 @@ MonoBehaviour:
   health_buff: {fileID: 0}
   critical_buff: {fileID: 0}
   mobility_buff: {fileID: 0}
+  Buff_UI: {fileID: 0}
 --- !u!114 &420672100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7861,6 +7865,7 @@ GameObject:
   - component: {fileID: 749799395}
   - component: {fileID: 749799394}
   - component: {fileID: 749799393}
+  - component: {fileID: 749799397}
   m_Layer: 5
   m_Name: WinUI
   m_TagString: Untagged
@@ -7947,6 +7952,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &749799397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 749799392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e64362d0e4fece046aac62a70c62d8f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingScreen: {fileID: 354146957}
+  loadingSlider: {fileID: 1573398661}
+  Manager: {fileID: 0}
+  Editor: {fileID: 0}
+  PlayAgain: {fileID: 2139000854}
 --- !u!1 &768086078
 GameObject:
   m_ObjectHideFlags: 0
@@ -8358,6 +8379,7 @@ MonoBehaviour:
   health_buff: {fileID: 0}
   critical_buff: {fileID: 0}
   mobility_buff: {fileID: 0}
+  Buff_UI: {fileID: 0}
 --- !u!1 &804126007
 GameObject:
   m_ObjectHideFlags: 0
@@ -10035,6 +10057,7 @@ MonoBehaviour:
   health_buff: {fileID: 1118439995}
   critical_buff: {fileID: 745855954}
   mobility_buff: {fileID: 1997466704}
+  Buff_UI: {fileID: 0}
 --- !u!114 &981108533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10305,10 +10328,10 @@ RectTransform:
   m_Father: {fileID: 749799396}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.45985427, y: 0.4317778}
-  m_AnchorMax: {x: 0.5448334, y: 0.455}
-  m_AnchoredPosition: {x: -2.5, y: -1.7200012}
-  m_SizeDelta: {x: -3, y: 4}
+  m_AnchorMin: {x: 0.4616459, y: 0.43074074}
+  m_AnchorMax: {x: 0.5448334, y: 0.46300003}
+  m_AnchoredPosition: {x: 0, y: -2}
+  m_SizeDelta: {x: 2, y: -6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &995642909
 MonoBehaviour:
@@ -10410,6 +10433,8 @@ MonoBehaviour:
   loadingScreen: {fileID: 0}
   loadingSlider: {fileID: 0}
   Manager: {fileID: 0}
+  Editor: {fileID: 0}
+  PlayAgain: {fileID: 0}
 --- !u!1 &998788055
 GameObject:
   m_ObjectHideFlags: 0
@@ -12023,10 +12048,12 @@ MonoBehaviour:
     rgba: 0
   WinCanvas: {fileID: 0}
   winText: {fileID: 0}
-  FirstObject: {fileID: 0}
+  PlayAgain: {fileID: 0}
   Resume: {fileID: 0}
   Controls: {fileID: 0}
   Quit: {fileID: 0}
+  P1won: 0
+  P2won: 0
   Player2Chosen: []
   P1start: 68000000690000006a0000007c0000007d0000007e0000009100000092000000
   P2start: e9000000ea000000fc000000fd000000fe000000100100001101000012010000
@@ -13855,6 +13882,7 @@ MonoBehaviour:
   health_buff: {fileID: 0}
   critical_buff: {fileID: 0}
   mobility_buff: {fileID: 0}
+  Buff_UI: {fileID: 0}
 --- !u!114 &1362457289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16174,6 +16202,7 @@ MonoBehaviour:
   health_buff: {fileID: 1524076843}
   critical_buff: {fileID: 460812155}
   mobility_buff: {fileID: 2122360307}
+  Buff_UI: {fileID: 0}
 --- !u!114 &1618936566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17516,6 +17545,7 @@ MonoBehaviour:
   health_buff: {fileID: 0}
   critical_buff: {fileID: 0}
   mobility_buff: {fileID: 0}
+  Buff_UI: {fileID: 0}
 --- !u!114 &1838319152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19699,10 +19729,10 @@ RectTransform:
   m_Father: {fileID: 749799396}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.45985427, y: 0.51014817}
+  m_AnchorMin: {x: 0.4616459, y: 0.51014817}
   m_AnchorMax: {x: 0.5448334, y: 0.5333333}
-  m_AnchoredPosition: {x: -3, y: -2.5}
-  m_SizeDelta: {x: -2, y: 4}
+  m_AnchoredPosition: {x: -2, y: -2.5}
+  m_SizeDelta: {x: 2, y: 4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2139000856
 MonoBehaviour:
@@ -19804,6 +19834,8 @@ MonoBehaviour:
   loadingScreen: {fileID: 354146957}
   loadingSlider: {fileID: 1573398661}
   Manager: {fileID: 0}
+  Editor: {fileID: 0}
+  PlayAgain: {fileID: 0}
 --- !u!1 &2142389867
 GameObject:
   m_ObjectHideFlags: 0

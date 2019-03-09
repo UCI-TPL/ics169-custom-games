@@ -2547,6 +2547,7 @@ MonoBehaviour:
   - {fileID: 82284683880410806}
   Getting_Hit_Lines_List: []
   Injured: 0
+  extraWaitTime: 0
 --- !u!114 &114785416480002204
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2706,6 +2707,7 @@ MonoBehaviour:
   health_buff: {fileID: 0}
   critical_buff: {fileID: 0}
   mobility_buff: {fileID: 0}
+  Buff_UI: {fileID: 0}
 --- !u!114 &114939568093495310
 MonoBehaviour:
   m_ObjectHideFlags: 1

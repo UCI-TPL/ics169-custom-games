@@ -2031,6 +2031,7 @@ MonoBehaviour:
   health_buff: {fileID: 0}
   critical_buff: {fileID: 0}
   mobility_buff: {fileID: 0}
+  Buff_UI: {fileID: 0}
 --- !u!114 &114659451954687842
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2490,6 +2491,7 @@ MonoBehaviour:
   Attacking_Lines_List: []
   Getting_Hit_Lines_List: []
   Injured: 0
+  extraWaitTime: 0
   myType: 1
   wasBuffed: []
 --- !u!114 &114982546665357088

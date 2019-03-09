@@ -2926,6 +2926,7 @@ MonoBehaviour:
   - {fileID: 82791772686662712}
   Getting_Hit_Lines_List: []
   Injured: 0
+  extraWaitTime: 0
 --- !u!114 &114857651469145756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2964,7 +2965,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ec17ceaa560940e9bf0dbeafc3a1971, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SpriteMesh: {fileID: 11400000, guid: 1e62d73b2dffd4017938c929562617ce, type: 2}
+  m_SpriteMesh: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
