@@ -115,6 +115,7 @@ public class HexagonMapEditor : MonoBehaviour
 
     public int max_sprites_per_unit;
 
+    public List<Sprite> stopwatch_images;
 
     public enum TurnStates
     {
@@ -232,6 +233,8 @@ public class HexagonMapEditor : MonoBehaviour
                             // HERE IS WHERE WE CHANGE THE EFFECT FOR THE HAZARD EFFECT COUNTER ON THE MAP
                             // ex) tilesToEffect[j].stopWatch[incoming_in].enabled = true;
                             //     tilesToEffect[j].stopWatch[incoming_in+1].enabled = false;
+                            tilesToEffect[j].Stop_Watch_Tile.SetActive(true);
+                            tilesToEffect[j].timer_text_canvas.GetComponent<Text>().text = incoming_in.ToString();
                         }
 
 
@@ -242,6 +245,7 @@ public class HexagonMapEditor : MonoBehaviour
                             {
                                 // HERE IS WHERE WE CHANGE THE EFFECT FOR THE HAZARD EFFECT COUNTER ON THE MAP
                                 // ex) tilesToEffect[j].stopWatch[incoming_in].enabled = false;
+                                tilesToEffect[j].Stop_Watch_Tile.SetActive(false);
                             }
 
                             hazardsOnGrid.Add(hazardList[whichHazard].CreateHazard(size, hazardSpot, hexGrid));
@@ -277,6 +281,9 @@ public class HexagonMapEditor : MonoBehaviour
                             {
                                 // USE tilesToEffect LIST TO EDIT 
                                 // ex) tilesToEffect[j].stopWatch[incoming_in].enabled = true;
+                                tilesToEffect[j].Stop_Watch_Tile.SetActive(true);
+                                tilesToEffect[j].timer_text_canvas.GetComponent<Text>().text = incoming_in.ToString();
+
                             }
                         }
                     }
@@ -1259,6 +1266,12 @@ public class HexagonMapEditor : MonoBehaviour
         {
             if (hexGrid.cells[i].gameObject.tag != "Wall")
             {
+                //hexGrid.cells[i].Range_Tile.SetActive(false);
+                //if(cursor.coords.FindDistanceTo(hexGrid.cells[i].coords) <= range)
+                //{
+                //    hexGrid.cells[i].Range_Tile.SetActive(true);
+                //}
+
 
                 if (currentState == TurnStates.P1_MOVE && SelectedUnit.gameObject.CompareTag("Player 1"))
                 {

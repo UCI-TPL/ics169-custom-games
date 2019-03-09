@@ -27,8 +27,10 @@ public class BattleUI : MonoBehaviour
     public GameObject critical_buff;
     public GameObject mobility_buff;
     public GameObject Buff_UI;
+    private Vector3 original_scale;
 
     private Renderer[] cur_renderers;
+    private bool first = true;
 
     // Use this for initialization
     void Awake()
@@ -47,7 +49,18 @@ public class BattleUI : MonoBehaviour
     {
         //Debug.Log("Attempt_To_Hide");
         //GameObject Buff_UI = this.gameObject.transform.parent.gameObject.GetComponentInChildren<Buff_UI_Manager>().gameObject.transform.parent.gameObject;
-        //Buff_UI.GetComponent<Canvas>();
+        if(Buff_UI != null)
+        {
+            if (first)
+            {
+                original_scale = Buff_UI.transform.localScale;
+                first = false;
+            }
+            
+            Buff_UI.transform.localScale = new Vector3(0, 0, 0);
+            //Buff_UI.SetActive(false);
+        }
+        
         this.gameObject.SetActive(false);
         //SetRendererEnabled(false);
     }
@@ -56,7 +69,12 @@ public class BattleUI : MonoBehaviour
     {
         //Debug.Log("Attempt_To_Show");
         //GameObject Buff_UI = this.gameObject.transform.parent.gameObject.GetComponentInChildren<Buff_UI_Manager>().gameObject.transform.parent.gameObject;
-        //Buff_UI.SetActive(true);
+        if(Buff_UI != null)
+        {
+            Buff_UI.transform.localScale = original_scale;
+            //Buff_UI.SetActive(true);
+        }
+        
         this.gameObject.SetActive(true);
         //SetRendererEnabled(true);
     }
