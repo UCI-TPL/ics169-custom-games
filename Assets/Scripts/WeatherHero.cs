@@ -252,6 +252,13 @@ public class WeatherHero : HeroUnit
 
                     gameObject.GetComponentInChildren<Buff_UI_Manager>().update_current_buffs(this);
 
+                    float healthpercent = current_health / health;//    120/180 = .667
+
+                    float attack_deduction = 1 - healthpercent;//   1 - .667 = .333
+                    float reduction = attack_deduction / 2;
+                    float new_attack = attacked_unit.attack * reduction;//   72 * .333 = 23.76
+                    current_attack = attack + new_attack;// 72 - 23.76 = 48
+
                 }
                 end_attack_without_retaliate = true;
                 attacked_unit_has_died = true;

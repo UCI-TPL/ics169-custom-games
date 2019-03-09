@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class Win_Buttons : MonoBehaviour {
     public GameObject loadingScreen;
     public Slider loadingSlider;
-    public GameObject Manager;
+    public GameObject Manager, Editor;
+    public GameObject PlayAgain;
 
     private void Start()
     {
         Manager = GameObject.Find("GameManager");
+        Editor = GameObject.Find("Editor");
+        GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(PlayAgain);
     }
 
     public void QuitGame()
@@ -24,6 +28,9 @@ public class Win_Buttons : MonoBehaviour {
         StartCoroutine(UsingLoadingBar(sceneIndex));
         Manager.GetComponent<PlayerInformation>().reset = true;
         Manager.GetComponent<PlayerInformation>().currentState = PlayerInformation.DraftStates.P1_Pick_1;
+        Editor.GetComponent<HexagonMapEditor>().P1won = false;
+        Editor.GetComponent<HexagonMapEditor>().P2won = false;
+
     }
 
     IEnumerator UsingLoadingBar(int sceneIndex)
