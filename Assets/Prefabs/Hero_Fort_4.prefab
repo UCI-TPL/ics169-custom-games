@@ -1491,6 +1491,9 @@ MonoBehaviour:
   Moving_Lines_List: []
   Attacking_Lines_List: []
   Getting_Hit_Lines_List: []
+  Injured: 0
+  extraWaitTime: 0
+  Shield_Bubble: {fileID: 0}
   myType: 0
 --- !u!114 &114109407385744618
 MonoBehaviour:
@@ -1890,6 +1893,7 @@ MonoBehaviour:
   health_buff: {fileID: 0}
   critical_buff: {fileID: 0}
   mobility_buff: {fileID: 0}
+  Buff_UI: {fileID: 0}
 --- !u!114 &114558372572485292
 MonoBehaviour:
   m_ObjectHideFlags: 1
