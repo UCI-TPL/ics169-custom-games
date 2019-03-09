@@ -67,6 +67,7 @@ public class FortressHero : HeroUnit {
         Debug.Log(unit.unit_name + " was buffed with +15 defense");
         unit.defense += 15;
         unit.fortress_def_buff = true;
+        unit.Shield_Bubble.SetActive(true);
         //activate buff ui element here
         unit.gameObject.GetComponentInChildren<Buff_UI_Manager>().update_current_buffs(unit);
     }
@@ -76,6 +77,7 @@ public class FortressHero : HeroUnit {
         Debug.Log(unit.unit_name + " lost its buff of +15 defense");
         unit.defense -= 15;
         unit.fortress_def_buff = false;
+        unit.Shield_Bubble.SetActive(false);
         //deactivate buff ui element here
         unit.gameObject.GetComponentInChildren<Buff_UI_Manager>().update_current_buffs(unit);
     }

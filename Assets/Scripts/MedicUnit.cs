@@ -123,6 +123,7 @@ public class MedicUnit : StartUnit {
 
             }
             targetable[rand_index].unitOnTile.current_health += damage;
+            this.GetComponent<StartUnit>().current_health -= 40;
             if(targetable[rand_index].unitOnTile.current_health > (targetable[rand_index].unitOnTile.health * 0.4f))
             {
                 targetable[rand_index].unitOnTile.anim.SetBool("Injured", false);

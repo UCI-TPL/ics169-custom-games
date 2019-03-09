@@ -123,8 +123,10 @@ public class WeatherHero : HeroUnit
             }
 
             StartUnit attacked_unit = targetable[selectedTarget].unitOnTile;
-            Weather_Effect_Object.GetComponent<WeatherMan_Effects>().move_target_to(attacked_unit.gameObject);
-            //Weather_Effect_Object.GetComponent<ParticleSystem>().Play();
+            //Weather_Effect_Object.gameObject.SetActive(true);
+            //Weather_Effect_Object.GetComponent<WeatherMan_Effects>().move_target_to(attacked_unit.gameObject);
+            //Weather_Effect_Object.GetComponent<WeatherMan_Effects>().play_effect();
+            //Debug.Log("----- Weather Effect Called");
             HexagonCell attacked_cell = targetable[selectedTarget];
             HexagonCoord current = unitCell.coords;
 
@@ -252,6 +254,13 @@ public class WeatherHero : HeroUnit
                     }
 
                     gameObject.GetComponentInChildren<Buff_UI_Manager>().update_current_buffs(this);
+
+                    float healthpercent = current_health / health;//    120/180 = .667
+
+                    float attack_deduction = 1 - healthpercent;//   1 - .667 = .333
+                    float reduction = attack_deduction / 2;
+                    float new_attack = attacked_unit.attack * reduction;//   72 * .333 = 23.76
+                    current_attack = attack + new_attack;// 72 - 23.76 = 48
 
                 }
                 end_attack_without_retaliate = true;
@@ -399,6 +408,10 @@ public class WeatherHero : HeroUnit
             }
 
             StartUnit attacked_unit = targetable[selectedTarget].unitOnTile;
+            //Weather_Effect_Object.gameObject.SetActive(true);
+            //Weather_Effect_Object.GetComponent<WeatherMan_Effects>().move_target_to(attacked_unit.gameObject);
+            //Weather_Effect_Object.GetComponent<WeatherMan_Effects>().play_effect();
+            //Debug.Log("----- Weather Effect Called");
             HexagonCell attacked_cell = targetable[selectedTarget];
             HexagonCoord current = unitCell.coords;
 

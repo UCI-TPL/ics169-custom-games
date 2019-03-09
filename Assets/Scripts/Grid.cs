@@ -10,7 +10,7 @@ public class Grid : MonoBehaviour {
     // variables
     public int width = 10;
     public int height = 10;
-    public Sprite Wall, AttackBuff, Healthbuff, MobilityBuff, CritBuff, AttackRangebuff, SlowingTile, Water, PoweredDown;
+    public Sprite Wall, AttackBuff, Healthbuff, MobilityBuff, CritBuff, AttackRangebuff, SlowingTile, Water, PoweredDown, Sky;
     public bool ten, twenty, thirty;
     public int sprites_per_tile;
     public GameObject buffPrefab;
@@ -25,6 +25,10 @@ public class Grid : MonoBehaviour {
                                              263, 275, 284, 295, 309, 310, 318, 323,
                                              324, 330, 335, 342, 347, 352, 357, 363,
                                              375, 376, 381};
+    List<int> sky_list = new List<int> { 377, 378, 379, 380, 381, 382, 383, 396, 397, 398, -1 };
+    List<int> sky_list2 = new List<int>() { 0, 1, 2, 3, 16, 17, 18, 19, 20, 21, 22, 37, 38, 39, 40, 41, 42,
+        58, 59, 60, 61, 78, 79, 80, 81, 99, 100, 119, 280, 299, 300, 319, 320, 321, 338, 339, 340,
+        341, 358, 359, 360, 361, 362, 377, 378, 379, 380, 381, 382, 383, 396, 397, 398, 399 };
 
     List<int> water2 = new List<int> {          128,129,130,131,
                                             147, 148, 149, 150, 151,
@@ -33,12 +37,12 @@ public class Grid : MonoBehaviour {
                                         207, 208, /*209, 210,*/ 211, 212,
                                           227, 228, 229, 230, 231,
                                               248,249,250,251,
-                                       162,183,195,217                       };
+                                               162,183,195,217                       };
 
     List<int> powerlist1 = new List<int>() { 18, 81 };
     List<int> powerlist2 = new List<int>() { 182, 189, 196};
 
-    List<int> hazards2 = new List<int> { 37, 58, 77, 78, 127,107,108,109,110,111, 132, 146,
+    List<int> hazards2 = new List<int> { 37, 77, 78, 127,107,108,109,110,111, 132, 146,
                                          152, 166, 173, 185,
                                          193, 206, 213, 226, 232,
                                          247, 252,267,268,269,270,271, 321, 322, 341,362};
@@ -274,36 +278,10 @@ public class Grid : MonoBehaviour {
                     CreateCell(a, b, c++);
                 }
             }
-            result = ChangeHexInfo(cells, wall_list1, powerlist1, hazards, water);
+            result = ChangeHexInfo(cells, wall_list1, powerlist1, hazards,sky_list, water);
             
 
         }
-
-
-        //if (twenty)
-        //{
-        //    height = 20;
-        //width = 20;
-        //int randmap = Random.Range(0, 2);
-        //if (randmap == 0)
-        //{
-        //height = 10;
-        //width = 10;
-
-        //cells = new HexagonCell[height * width]; // create an array of correct length
-
-        //for (int b = 0, c = 0; b < height; b++) // fill the array with actual hexagon cells
-        //{
-
-        //    for (int a = 0; a < width; a++)
-        //    {
-        //        CreateCell(a, b, c++);
-        //    }
-        //}
-        //result = ChangeHexInfo(cells, wall_list2, powerlist2, hazards2, water2);
-        //}
-        //result = ChangeHexInfo(cells, wall_list1, powerlist1, hazards, water);
-        //}
 
         if(twenty)
         {
@@ -319,7 +297,7 @@ public class Grid : MonoBehaviour {
                     CreateCell(a, b, c++);
                 }
             }
-            result = ChangeHexInfo(cells, wall_list2, powerlist2, hazards2, water2);
+            result = ChangeHexInfo(cells, wall_list2, powerlist2, hazards2, sky_list2, water2);
             
         }
 
@@ -344,7 +322,7 @@ public class Grid : MonoBehaviour {
         return result;
     }
 
-    public HexagonCell[] ChangeHexInfo(HexagonCell[] cells_, List<int> hexlist_, List<int> powercells_, List<int> hazards_, List<int> water_)
+    public HexagonCell[] ChangeHexInfo(HexagonCell[] cells_, List<int> hexlist_, List<int> powercells_, List<int> hazards_, List<int> sky, List<int> water_)
     {
         if (hexlist_.Count != 0)
         {
@@ -415,20 +393,32 @@ public class Grid : MonoBehaviour {
 
         if (hazards_.Count != 0)
         {
-        for (int i = 0; i < hazards_.Count; i++)
-            {
+            for (int i = 0; i < hazards_.Count; i++)
+                {
                   
-                cells_[hazards_[i]].gameObject.tag = "SlowingTile";
-                cells_[hazards_[i]].gameObject.AddComponent<TeamPowerupTiles>();
-                cells_[hazards_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = SlowingTile;
-                //cells_[hazards_[i]].gameObject.GetComponent<TeamPowerupTiles>().discovered = true;
-                cells_[hazards_[i]].gameObject.GetComponent<TeamPowerupTiles>().grassDebuff = true;
-               // cells_[hazards_[i]].gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+                    cells_[hazards_[i]].gameObject.tag = "SlowingTile";
+                    cells_[hazards_[i]].gameObject.AddComponent<TeamPowerupTiles>();
+                    cells_[hazards_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = SlowingTile;
+                    //cells_[hazards_[i]].gameObject.GetComponent<TeamPowerupTiles>().discovered = true;
+                    cells_[hazards_[i]].gameObject.GetComponent<TeamPowerupTiles>().grassDebuff = true;
+                   // cells_[hazards_[i]].gameObject.GetComponent<SpriteRenderer>().color = Color.green;
                
+                }
+        }
+
+        if(sky.Count != 0)
+        {
+            for (int i = 0; i < sky.Count; i++)
+            {
+                cells_[sky[i]].gameObject.tag = "Wall";
+                cells_[sky[i]].traversable = false;
+                cells_[sky[i]].gameObject.GetComponent<PolygonCollider2D>().enabled = false;
+                cells_[sky[i]].gameObject.GetComponent<SpriteRenderer>().sprite = Sky;
             }
         }
 
-        if(water_.Count != 0)
+
+        if (water_.Count != 0)
         {
             for( int i = 0; i < water_.Count; i++)
             {

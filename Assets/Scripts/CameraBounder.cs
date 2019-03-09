@@ -98,5 +98,7 @@ public class CameraBounder : MonoBehaviour {
         desiredPos = transform.position + delta;
         current_cam_pos = desiredPos;
         transform.position = Vector3.Lerp(transform.position,desiredPos,lerp_speed);
+
+        //Add clamp to sides of map here (will be dependent on map size I guess)
     }
 }
