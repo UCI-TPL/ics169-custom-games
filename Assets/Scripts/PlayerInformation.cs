@@ -106,7 +106,7 @@ public class PlayerInformation : MonoBehaviour
 
             if (ctrsSet.Contains(1) && (ctrsSet.Contains(2) || one_player)) // both players ready
                 //SceneManager.LoadScene(2);
-                LoadGame(2);
+                LoadGame(1);
             //else if (ctrsSet.Contains(1) && one_player)
             //    //SceneManager.LoadScene(2);
             //    LoadGame(2);

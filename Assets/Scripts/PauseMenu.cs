@@ -11,14 +11,15 @@ public class PauseMenu : MonoBehaviour {
     public GameObject cursor;
     public GameObject controls_menu;
     public GameObject FirstObject;
-    public GameObject QuitButton;
-
+    public GameObject ResumeButton, ControlsButton, QuitButton;
+    public PlayerInformation Manager;
     public GameObject LoadingScreen;
     public Slider slider;
     // Use this for initialization
     void Awake () {
         LoadingScreen = GameObject.Find("LoadingScreen");
         slider = LoadingScreen.gameObject.GetComponentInChildren<Slider>();
+
     }
 
     private void Start()
@@ -36,6 +37,8 @@ public class PauseMenu : MonoBehaviour {
                 pause_menu.gameObject.SetActive(true);
                 editor.gameObject.SetActive(false); //turns off editor so that players cant select units while the pause menu is open
                 cursor.gameObject.SetActive(false);// turns off cursor so that it stays in the position before the pause
+                ResumeButton.gameObject.GetComponent<PauseMenu>().LoadingScreen = editor.gameObject.GetComponent<PauseMenu>().LoadingScreen;
+                ControlsButton.gameObject.GetComponent<PauseMenu>().LoadingScreen = editor.gameObject.GetComponent<PauseMenu>().LoadingScreen;
                 QuitButton.gameObject.GetComponent<PauseMenu>().LoadingScreen = editor.gameObject.GetComponent<PauseMenu>().LoadingScreen;
                 GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(FirstObject);
                 Time.timeScale = 0;
@@ -88,6 +91,9 @@ public class PauseMenu : MonoBehaviour {
     public void QuitGame(int sceneIndex)
     {
         StartCoroutine(Send2MainMenu(sceneIndex));
+        Manager.reset = true;
+        Manager.currentState = PlayerInformation.DraftStates.P1_Pick_1;
+        Time.timeScale = 1;
     }
 
     IEnumerator Send2MainMenu(int sceneIndex)

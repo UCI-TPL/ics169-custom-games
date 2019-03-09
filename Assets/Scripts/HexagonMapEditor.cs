@@ -42,8 +42,9 @@ public class HexagonMapEditor : MonoBehaviour
     public Color32 Unit_Hurt_Color;
     public GameObject WinCanvas;
     public Text winText;
-    public GameObject FirstObject;
-
+    public GameObject PlayAgain;
+    public GameObject Resume,Controls,Quit;
+    public bool P1won, P2won;
 
 
 
@@ -135,6 +136,8 @@ public class HexagonMapEditor : MonoBehaviour
     private void Awake()
     {
         PlayerInfo = FindObjectOfType<PlayerInformation>();
+        P1won = false;
+        P2won = false;
     }
     // Use this for initialization
     void Start()
@@ -193,6 +196,9 @@ public class HexagonMapEditor : MonoBehaviour
         //StartCoroutine(InitializingTeams());
         P1_Team_portrait_UI.Initialize_Portraits(P1Team);
         P2_Team_portrait_UI.Initialize_Portraits(P2Team);
+        Resume.GetComponent<PauseMenu>().Manager = PlayerInfo;
+        Controls.GetComponent<PauseMenu>().Manager = PlayerInfo;
+        Quit.GetComponent<PauseMenu>().Manager = PlayerInfo;
         
     }
 
@@ -717,6 +723,7 @@ public class HexagonMapEditor : MonoBehaviour
                 allow_cursor_control = false;
                 winText.text = "Player 1 Wins";
                 winText.color = Color.blue;
+                P1won = true;
                 currentState = TurnStates.END;
                 break;
             case (TurnStates.P2_WIN):
@@ -724,14 +731,23 @@ public class HexagonMapEditor : MonoBehaviour
                 allow_cursor_control = false;
                 winText.text = "Player 2 Wins";
                 winText.color = Color.red;
+                P2won = true;
                 currentState = TurnStates.END;
                 break;
             case (TurnStates.END):
                 WinCanvas.SetActive(true);
-                GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(FirstObject);
+                this.gameObject.SetActive(false);
+                cursor.enabled = false;
+                //GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(PlayAgain);
                 //SceneManager.LoadScene("VictoryScene");
                 break;
         }
+        //if (P1won || P2won)
+        //{
+        //    cursor.enabled = false;
+        //    WinCanvas.SetActive(true);
+        //    GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(PlayAgain);
+        //}
     }
 
     public void FindTeam(string team_name) // places teams in the correct list for later use
