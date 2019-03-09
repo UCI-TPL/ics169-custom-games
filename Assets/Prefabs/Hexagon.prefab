@@ -72,6 +72,7 @@ GameObject:
   - component: {fileID: 4570338307660108}
   - component: {fileID: 212829610630137292}
   - component: {fileID: 114109693165134074}
+  - component: {fileID: 95480162060677866}
   m_Layer: 0
   m_Name: Stop_Watch_Tile
   m_TagString: Untagged
@@ -249,6 +250,24 @@ PolygonCollider2D:
       - {x: 0.00000004371139, y: -0.5}
       - {x: 0.43301272, y: -0.24999996}
       - {x: 0.43301272, y: 0.24999996}
+--- !u!95 &95480162060677866
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1678851546205794}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c03e65541d743c94997121768687db57, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114081869630084238
 MonoBehaviour:
   m_ObjectHideFlags: 1

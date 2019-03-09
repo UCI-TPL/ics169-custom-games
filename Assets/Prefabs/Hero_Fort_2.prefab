@@ -448,6 +448,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4179925263854858}
   - component: {fileID: 212547178431162190}
+  - component: {fileID: 114242190722095812}
   m_Layer: 0
   m_Name: Hammer_Effect
   m_TagString: Untagged
@@ -1623,6 +1624,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Type
+--- !u!114 &114242190722095812
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1527446797483448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b56cf06341c044ba26472bd11dd362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ordered_layer: 3
 --- !u!114 &114247759533820536
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2522,6 +2535,7 @@ MonoBehaviour:
   Getting_Hit_Lines_List: []
   Injured: 0
   extraWaitTime: 0
+  Shield_Bubble: {fileID: 0}
   myType: 1
   wasBuffed: []
 --- !u!114 &114982546665357088
@@ -2811,7 +2825,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: eb398e6386f65af4d94ac4b8aca69490, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

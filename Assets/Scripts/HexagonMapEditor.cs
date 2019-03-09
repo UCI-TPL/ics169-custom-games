@@ -1113,7 +1113,7 @@ public class HexagonMapEditor : MonoBehaviour
                 + ((hexGrid.cells[index].coords.X_coord + hexGrid.cells[index].coords.Y_coord) * max_sprites_per_unit);
             //Debug.Log("Color_Changed");
         }
-        SpriteRenderer[] sprites = this.gameObject.GetComponentsInChildren<SpriteRenderer>();
+        SpriteRenderer[] sprites = this.gameObject.GetComponentsInChildren<SpriteRenderer>(true);
         foreach(SpriteRenderer sprite_rend in sprites)
         {
             sprite_rend.sortingOrder = sprite_rend.GetComponent<Mesh_Layer>()._ordered_layer
@@ -1436,7 +1436,7 @@ public class HexagonMapEditor : MonoBehaviour
                 + ((_target_location.coords.X_coord + _target_location.coords.Y_coord) * max_sprites_per_unit);
             //Debug.Log("Color_Changed");
         }
-        SpriteRenderer[] sprites = _unit.gameObject.GetComponentsInChildren<SpriteRenderer>();
+        SpriteRenderer[] sprites = _unit.gameObject.GetComponentsInChildren<SpriteRenderer>(true);
         foreach (SpriteRenderer sprite_rend in sprites)
         {
             sprite_rend.sortingOrder = sprite_rend.GetComponent<Mesh_Layer>()._ordered_layer

@@ -122,8 +122,10 @@ public class WeatherHero : HeroUnit
             }
 
             StartUnit attacked_unit = targetable[selectedTarget].unitOnTile;
-            Weather_Effect_Object.GetComponent<WeatherMan_Effects>().move_target_to(attacked_unit.gameObject);
-            //Weather_Effect_Object.GetComponent<ParticleSystem>().Play();
+            //Weather_Effect_Object.gameObject.SetActive(true);
+            //Weather_Effect_Object.GetComponent<WeatherMan_Effects>().move_target_to(attacked_unit.gameObject);
+            //Weather_Effect_Object.GetComponent<WeatherMan_Effects>().play_effect();
+            //Debug.Log("----- Weather Effect Called");
             HexagonCell attacked_cell = targetable[selectedTarget];
             HexagonCoord current = unitCell.coords;
 
@@ -398,6 +400,10 @@ public class WeatherHero : HeroUnit
             }
 
             StartUnit attacked_unit = targetable[selectedTarget].unitOnTile;
+            //Weather_Effect_Object.gameObject.SetActive(true);
+            //Weather_Effect_Object.GetComponent<WeatherMan_Effects>().move_target_to(attacked_unit.gameObject);
+            //Weather_Effect_Object.GetComponent<WeatherMan_Effects>().play_effect();
+            //Debug.Log("----- Weather Effect Called");
             HexagonCell attacked_cell = targetable[selectedTarget];
             HexagonCoord current = unitCell.coords;
 

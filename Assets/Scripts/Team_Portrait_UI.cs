@@ -44,12 +44,13 @@ public class Team_Portrait_UI : MonoBehaviour {
     public void Initialize_Portraits(List<StartUnit> Unit_List)
     {
         cur_num_units = Unit_List.Count;
-
+        int k = cur_num_units - 1;
         for(int i = 0; i < Unit_List.Count; i++)
         {
-            unit_portraits[i].Change_portrait(Unit_List[i].Icon);
+            unit_portraits[i].Change_portrait(Unit_List[k].Icon);
             unit_portraits[i].In_Use = true;
-            Unit_Port_Map.Add(unit_portraits[i], Unit_List[i]);
+            Unit_Port_Map.Add(unit_portraits[i], Unit_List[k]);
+            k--;
         }
 
         Hide_Unused();

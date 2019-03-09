@@ -70,6 +70,7 @@ public class StartUnit : MonoBehaviour
 
     public float extraWaitTime = 0;
 
+    public GameObject Shield_Bubble;
 
     // Use this for initialization
     public void Start()

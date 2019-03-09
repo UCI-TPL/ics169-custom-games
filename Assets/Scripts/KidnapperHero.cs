@@ -92,23 +92,24 @@ public class KidnapperHero : HeroUnit {
 
             
 
-            for (HexagonDirection d = HexagonDirection.NE; d <= HexagonDirection.NW; d++)
-            {
-                HexagonCell neighbor = unitCell.GetNeighbor(d);
-                if (!neighbor.occupied && neighbor.tag != "Wall" && targetable[selectedTarget].unitOnTile.GetComponent<HeroUnit>() == null) // if a neighbor to the hero is not occupied or wall unit not hero
-                {
-                    targetable[selectedTarget].unitOnTile.transform.position = neighbor.transform.position; // move the bitch
-                    neighbor.occupied = true;
-                    neighbor.unitOnTile = targetable[selectedTarget].unitOnTile;
-                    temp_attacked_unit = neighbor.unitOnTile;
-                    temp_attacked_cell = neighbor;
-                    targetable[selectedTarget].occupied = false;
-                    targetable[selectedTarget].unitOnTile = null;
-                    //correctly sort kidnapped unit's meshes
-                    editor.re_sort_unit_position(temp_attacked_unit, temp_attacked_cell);
-                    break;
-                }
-            }
+            //for (HexagonDirection d = HexagonDirection.NE; d <= HexagonDirection.NW; d++)
+            //{
+            //    HexagonCell neighbor = unitCell.GetNeighbor(d);
+            //    if (!neighbor.occupied && neighbor.tag != "Wall" && targetable[selectedTarget].unitOnTile.GetComponent<HeroUnit>() == null) // if a neighbor to the hero is not occupied or wall unit not hero
+            //    {
+            //        targetable[selectedTarget].unitOnTile.transform.position = neighbor.transform.position; // move the bitch
+            //        neighbor.occupied = true;
+            //        neighbor.unitOnTile = targetable[selectedTarget].unitOnTile;
+            //        temp_attacked_unit = neighbor.unitOnTile;
+            //        temp_attacked_cell = neighbor;
+            //        targetable[selectedTarget].occupied = false;
+            //        targetable[selectedTarget].unitOnTile = null;
+            //        //correctly sort kidnapped unit's meshes
+            //        editor.re_sort_unit_position(temp_attacked_unit, temp_attacked_cell);
+            //        break;
+            //    }
+            //}
+
             StartUnit attacked_unit;
             HexagonCell attacked_cell;
             if (temp_attacked_unit != null)
@@ -139,6 +140,71 @@ public class KidnapperHero : HeroUnit {
                     direction = false;
                 }
             }
+
+            //-------------------------- Testing Kidnapp Stuff ----------------------
+
+            StartCoroutine(move_to_kidnap(attacked_unit.gameObject,attacked_unit,attacked_cell, targetable[selectedTarget]));
+            if(targetable[selectedTarget].unitOnTile.GetComponent<HeroUnit>() == null)
+            {
+                yield return new WaitForSeconds(1.40f); //---- for sync with kidnap to
+            }
+            else
+            {
+                yield return new WaitForSeconds(2.10f); //---- for sync with kidnap to
+            }
+            
+
+
+            for (HexagonDirection d = HexagonDirection.NE; d <= HexagonDirection.NW; d++)
+            {
+                HexagonCell neighbor = unitCell.GetNeighbor(d);
+                if (!neighbor.occupied && neighbor.tag != "Wall" && targetable[selectedTarget].unitOnTile.GetComponent<HeroUnit>() == null) // if a neighbor to the hero is not occupied or wall unit not hero
+                {
+                    targetable[selectedTarget].unitOnTile.transform.position = neighbor.transform.position; // move the bitch
+                    neighbor.occupied = true;
+                    neighbor.unitOnTile = targetable[selectedTarget].unitOnTile;
+                    temp_attacked_unit = neighbor.unitOnTile;
+                    temp_attacked_cell = neighbor;
+                    targetable[selectedTarget].occupied = false;
+                    targetable[selectedTarget].unitOnTile = null;
+                    //correctly sort kidnapped unit's meshes
+                    editor.re_sort_unit_position(temp_attacked_unit, temp_attacked_cell);
+                    break;
+                }
+            }
+
+            yield return new WaitForSeconds(0.26f); //---- for sync with kidnap to
+
+
+            if (temp_attacked_unit != null)
+            {
+                attacked_unit = temp_attacked_unit;
+                attacked_cell = temp_attacked_cell;
+            }
+            else
+            {
+                attacked_unit = targetable[selectedTarget].unitOnTile;
+                attacked_cell = targetable[selectedTarget];
+            }
+
+            if (attacked_cell.gameObject.transform.position.x > transform.position.x) //unit is to the right
+            {
+                if (!direction) //facing left, so needs to face right
+                {
+                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                    direction = true;
+                }
+            }
+            else //unit is to the left
+            {
+                if (direction)
+                {
+                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                    direction = false;
+                }
+            }
+
+            //-------------------------- Testing Kidnapp Stuff ---------------------- ^^^^
 
             if (attacked_unit.FloatingTextPrefab)
             {
@@ -608,5 +674,118 @@ public class KidnapperHero : HeroUnit {
     {
         if (specialAttackCounter > 0)
             specialAttackCounter -= 1;
+    }
+
+    public IEnumerator move_to_kidnap(GameObject Attacked_Unit, StartUnit attacked_unit, HexagonCell attacked_cell, HexagonCell cell_in_q)
+    {
+        if(cell_in_q.unitOnTile.GetComponent<HeroUnit>() == null)
+        {
+            this.anim.SetBool("Flash_Stepping", true);
+            yield return new WaitForSeconds(0.37f);
+            Vector3 Origin_Pos = this.gameObject.transform.position;
+            Vector3 Attacked_Pos = Attacked_Unit.transform.position;
+            if (direction)
+            {
+                //facing right
+                this.gameObject.transform.position = new Vector3(Attacked_Pos.x - 10, Attacked_Pos.y, Attacked_Pos.z);
+            }
+            else
+            {
+                //facing left
+                this.gameObject.transform.position = new Vector3(Attacked_Pos.x + 10, Attacked_Pos.y, Attacked_Pos.z);
+            }
+            yield return new WaitForSeconds(1.03f);
+            this.gameObject.transform.position = Origin_Pos;
+
+
+            //---------------------- face unit as comes back
+            if (temp_attacked_unit != null)
+            {
+                attacked_unit = temp_attacked_unit;
+                attacked_cell = temp_attacked_cell;
+            }
+            else
+            {
+                attacked_unit = cell_in_q.unitOnTile;
+                attacked_cell = cell_in_q;
+            }
+
+            if (attacked_cell.gameObject.transform.position.x > transform.position.x) //unit is to the right
+            {
+                if (!direction) //facing left, so needs to face right
+                {
+                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                    direction = true;
+                }
+            }
+            else //unit is to the left
+            {
+                if (direction)
+                {
+                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                    direction = false;
+                }
+            }
+            //--------------- face unit as comes back
+
+
+            yield return new WaitForSeconds(0.26f);
+            this.anim.SetBool("Flash_Stepping", false);
+        }
+        else
+        {
+            this.anim.SetBool("Flash_Stepping_Hero", true);
+            yield return new WaitForSeconds(0.37f);
+            Vector3 Origin_Pos = this.gameObject.transform.position;
+            Vector3 Attacked_Pos = Attacked_Unit.transform.position;
+            if (direction)
+            {
+                //facing right
+                this.gameObject.transform.position = new Vector3(Attacked_Pos.x - 13, Attacked_Pos.y, Attacked_Pos.z);
+            }
+            else
+            {
+                //facing left
+                this.gameObject.transform.position = new Vector3(Attacked_Pos.x + 13, Attacked_Pos.y, Attacked_Pos.z);
+            }
+            yield return new WaitForSeconds(1.73f);
+            this.gameObject.transform.position = Origin_Pos;
+
+
+            //---------------------- face unit as comes back
+            if (temp_attacked_unit != null)
+            {
+                attacked_unit = temp_attacked_unit;
+                attacked_cell = temp_attacked_cell;
+            }
+            else
+            {
+                attacked_unit = cell_in_q.unitOnTile;
+                attacked_cell = cell_in_q;
+            }
+
+            if (attacked_cell.gameObject.transform.position.x > transform.position.x) //unit is to the right
+            {
+                if (!direction) //facing left, so needs to face right
+                {
+                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                    direction = true;
+                }
+            }
+            else //unit is to the left
+            {
+                if (direction)
+                {
+                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                    direction = false;
+                }
+            }
+            //--------------- face unit as comes back
+
+
+            yield return new WaitForSeconds(0.26f);
+            this.anim.SetBool("Flash_Stepping_Hero", false);
+        }
+        
     }
 }
