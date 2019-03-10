@@ -40,7 +40,7 @@ public class WeatherHero : HeroUnit
             editor.hazardsOnGrid.Add(possibleHazards[rand].CreateHazardAt(cell, editor.hexGrid));
 
 
-        specialAttackCounter = 4;
+        specialAttackCounter = 3;
     }
 
     public override IEnumerator BasicAttack(Grid hexGrid, HexagonCell unitCell)

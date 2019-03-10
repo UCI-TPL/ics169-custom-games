@@ -17,7 +17,7 @@ public class FortressHero : HeroUnit {
                 {
 
                     HexagonCell neighbor = myCell.GetNeighbor(d);
-                    if (neighbor.unitOnTile == editor.P1Team[i]) // if the unit is next to the hero
+                    if (neighbor != null && neighbor.unitOnTile == editor.P1Team[i]) // if the unit is next to the hero
                     {
                         Buff(editor.P1Team[i]);
                         wasBuffed.Add(editor.P1Team[i]);
@@ -35,7 +35,7 @@ public class FortressHero : HeroUnit {
 
                     HexagonCell neighbor = myCell.GetNeighbor(d);
                     //There is some kind of BUG happening here when a unit dies next to a fortess hero
-                    if (neighbor.unitOnTile == editor.P2Team[i]) // if the unit is next to the hero
+                    if (neighbor != null && neighbor.unitOnTile == editor.P2Team[i]) // if the unit is next to the hero
                     {
                         Buff(editor.P2Team[i]);
                         wasBuffed.Add(editor.P2Team[i]);
@@ -64,7 +64,7 @@ public class FortressHero : HeroUnit {
 
     public override void Buff(StartUnit unit)
     {
-        Debug.Log(unit.unit_name + " was buffed with +15 defense");
+        //Debug.Log(unit.unit_name + " was buffed with +15 defense");
         unit.defense += 15;
         unit.fortress_def_buff = true;
         unit.Shield_Bubble.SetActive(true);
@@ -74,7 +74,7 @@ public class FortressHero : HeroUnit {
 
     public override void Debuf(StartUnit unit)
     {
-        Debug.Log(unit.unit_name + " lost its buff of +15 defense");
+        //Debug.Log(unit.unit_name + " lost its buff of +15 defense");
         unit.defense -= 15;
         unit.fortress_def_buff = false;
         unit.Shield_Bubble.SetActive(false);
