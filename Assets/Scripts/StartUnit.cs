@@ -189,6 +189,7 @@ public class StartUnit : MonoBehaviour
                 {
                     if (crit_chance <= crit && miss_chance > miss)
                     {
+                        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().critSounds);
                         damage = current_attack * crit_multiplier;
                         crit_happened = true;
                     }
@@ -447,6 +448,7 @@ public class StartUnit : MonoBehaviour
         {
             damage = current_attack * crit_multiplier;
             dmg_txt = (int)damage;
+            GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().critSounds);
             crit_happened = true;
         }
 
