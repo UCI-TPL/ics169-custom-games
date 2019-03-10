@@ -1099,7 +1099,7 @@ RectTransform:
   - {fileID: 1040943106}
   - {fileID: 1347881811}
   m_Father: {fileID: 1084078742}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.04979167, y: 0.034}
   m_AnchorMax: {x: 0.934, y: 0.08044445}
@@ -1807,6 +1807,9 @@ GameObject:
   - component: {fileID: 539856407}
   - component: {fileID: 539856409}
   - component: {fileID: 539856408}
+  - component: {fileID: 539856412}
+  - component: {fileID: 539856411}
+  - component: {fileID: 539856410}
   m_Layer: 5
   m_Name: Wraith
   m_TagString: Untagged
@@ -1868,6 +1871,100 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 539856406}
   m_CullTransparentMesh: 0
+--- !u!114 &539856410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 539856406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ea4c1bf23178ca499e6da48ce00bb32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  attack: 0
+  range: 0
+  movement: 0
+  description: 
+--- !u!114 &539856411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 539856406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dc05e1b7170c954cb238105e23bfe33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &539856412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 539856406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ac37cb15116681498736a09e39043bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit_type: 
+  unit_name: 
+  unit_ID: 11
+  mobility: 0
+  current_mobility: 0
+  attackRange: 0
+  health: 0
+  attack: 0
+  basedmg: 0
+  crit: 0
+  miss: 0
+  crit_multiplier: 0
+  weight: 0
+  defense: 0
+  Icon: {fileID: 0}
+  attackBuff: {fileID: 0}
+  healthBuff: {fileID: 0}
+  mobilityBuff: {fileID: 0}
+  critBuff: {fileID: 0}
+  cost: 0
+  description: 
+  slowing_counter: 0
+  direction: 1
+  current_health: 0
+  current_attack: 0
+  FloatingTextPrefab: {fileID: 0}
+  FloatingBuffPrefab: {fileID: 0}
+  dead: 0
+  health_bar: {fileID: 0}
+  anim: {fileID: 0}
+  editor: {fileID: 0}
+  Unit_Stats_Panel: {fileID: 0}
+  currently_attacking: 0
+  attack_blink_color:
+    serializedVersion: 2
+    rgba: 0
+  removed: 0
+  slowed: 0
+  end_attack_without_retaliate: 0
+  attacked_unit_has_died: 0
+  crit_buff: 0
+  attack_buff: 0
+  health_buff: 0
+  move_buff: 0
+  fortress_def_buff: 0
+  Unit_Getting_Attacked: {fileID: 0}
+  Hit_Effect: {fileID: 0}
+  attackSound: {fileID: 0}
+  hitSound: {fileID: 0}
+  moveSound: {fileID: 0}
+  selection_arrow: {fileID: 0}
+  Moving_Lines_List: []
+  Attacking_Lines_List: []
+  Getting_Hit_Lines_List: []
+  Injured: 0
+  extraWaitTime: 0
 --- !u!1 &564992224
 GameObject:
   m_ObjectHideFlags: 0
@@ -2354,6 +2451,75 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 690302832}
   m_CullTransparentMesh: 0
+--- !u!1 &722183859
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 722183860}
+  - component: {fileID: 722183862}
+  - component: {fileID: 722183861}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &722183860
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 722183859}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1084078742}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -7.8306, y: 34.3}
+  m_SizeDelta: {x: 854.14, y: 416.5}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &722183861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 722183859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &722183862
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 722183859}
+  m_CullTransparentMesh: 0
 --- !u!1 &767911115
 GameObject:
   m_ObjectHideFlags: 0
@@ -2644,6 +2810,8 @@ MonoBehaviour:
   Moving_Lines_List: []
   Attacking_Lines_List: []
   Getting_Hit_Lines_List: []
+  Injured: 0
+  extraWaitTime: 0
 --- !u!114 &787266099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2971,6 +3139,8 @@ MonoBehaviour:
   Moving_Lines_List: []
   Attacking_Lines_List: []
   Getting_Hit_Lines_List: []
+  Injured: 0
+  extraWaitTime: 0
 --- !u!1 &874600151
 GameObject:
   m_ObjectHideFlags: 0
@@ -3408,6 +3578,9 @@ GameObject:
   - component: {fileID: 1056777674}
   - component: {fileID: 1056777676}
   - component: {fileID: 1056777675}
+  - component: {fileID: 1056777679}
+  - component: {fileID: 1056777678}
+  - component: {fileID: 1056777677}
   m_Layer: 5
   m_Name: Tempest
   m_TagString: Untagged
@@ -3469,6 +3642,100 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1056777673}
   m_CullTransparentMesh: 0
+--- !u!114 &1056777677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1056777673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ea4c1bf23178ca499e6da48ce00bb32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  attack: 0
+  range: 0
+  movement: 0
+  description: 
+--- !u!114 &1056777678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1056777673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dc05e1b7170c954cb238105e23bfe33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1056777679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1056777673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ac37cb15116681498736a09e39043bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit_type: 
+  unit_name: 
+  unit_ID: 14
+  mobility: 0
+  current_mobility: 0
+  attackRange: 0
+  health: 0
+  attack: 0
+  basedmg: 0
+  crit: 0
+  miss: 0
+  crit_multiplier: 0
+  weight: 0
+  defense: 0
+  Icon: {fileID: 0}
+  attackBuff: {fileID: 0}
+  healthBuff: {fileID: 0}
+  mobilityBuff: {fileID: 0}
+  critBuff: {fileID: 0}
+  cost: 0
+  description: 
+  slowing_counter: 0
+  direction: 1
+  current_health: 0
+  current_attack: 0
+  FloatingTextPrefab: {fileID: 0}
+  FloatingBuffPrefab: {fileID: 0}
+  dead: 0
+  health_bar: {fileID: 0}
+  anim: {fileID: 0}
+  editor: {fileID: 0}
+  Unit_Stats_Panel: {fileID: 0}
+  currently_attacking: 0
+  attack_blink_color:
+    serializedVersion: 2
+    rgba: 0
+  removed: 0
+  slowed: 0
+  end_attack_without_retaliate: 0
+  attacked_unit_has_died: 0
+  crit_buff: 0
+  attack_buff: 0
+  health_buff: 0
+  move_buff: 0
+  fortress_def_buff: 0
+  Unit_Getting_Attacked: {fileID: 0}
+  Hit_Effect: {fileID: 0}
+  attackSound: {fileID: 0}
+  hitSound: {fileID: 0}
+  moveSound: {fileID: 0}
+  selection_arrow: {fileID: 0}
+  Moving_Lines_List: []
+  Attacking_Lines_List: []
+  Getting_Hit_Lines_List: []
+  Injured: 0
+  extraWaitTime: 0
 --- !u!1 &1084078738
 GameObject:
   m_ObjectHideFlags: 0
@@ -3480,6 +3747,7 @@ GameObject:
   - component: {fileID: 1084078741}
   - component: {fileID: 1084078740}
   - component: {fileID: 1084078739}
+  - component: {fileID: 1084078743}
   m_Layer: 5
   m_Name: LoadingScreen
   m_TagString: Untagged
@@ -3555,6 +3823,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 83740694}
+  - {fileID: 722183860}
+  - {fileID: 1827381290}
   - {fileID: 326102137}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -3564,6 +3834,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1084078743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1084078738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 668171f9928e68d408fd0ad362c8f288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  background: {fileID: 722183859}
+  tip: {fileID: 1827381289}
+  backgroundImg:
+  - {fileID: 21300000, guid: 97583b9471e2bee41a8010bab14762fa, type: 3}
+  - {fileID: 21300000, guid: b845bdf9ae17afe49ba98f65378988fd, type: 3}
+  - {fileID: 21300000, guid: c9f179366c2b8fc48b7f4068b6cdfc8d, type: 3}
+  - {fileID: 21300000, guid: 899ad59da4b1d784892c1e8346c4b83f, type: 3}
+  TipText:
+  - 'Tip: Positioning is key, maneuver your units to get an edge on your opponent.'
+  - 'Tip: Dont leave your warlord unguarded.'
+  - 'Tip: Defeat neutral mobs to gain a buff. Beware they fight back'
+  - 'Tip: Some tiles slow your units. Watch your step.'
+  allowed: 0
 --- !u!1 &1092366069
 GameObject:
   m_ObjectHideFlags: 0
@@ -3800,6 +4094,8 @@ MonoBehaviour:
   Moving_Lines_List: []
   Attacking_Lines_List: []
   Getting_Hit_Lines_List: []
+  Injured: 0
+  extraWaitTime: 0
 --- !u!1 &1120654241
 GameObject:
   m_ObjectHideFlags: 0
@@ -4782,6 +5078,8 @@ MonoBehaviour:
   Moving_Lines_List: []
   Attacking_Lines_List: []
   Getting_Hit_Lines_List: []
+  Injured: 0
+  extraWaitTime: 0
 --- !u!1 &1545535865
 GameObject:
   m_ObjectHideFlags: 0
@@ -5220,6 +5518,81 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: xX
+--- !u!1 &1827381289
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1827381290}
+  - component: {fileID: 1827381292}
+  - component: {fileID: 1827381291}
+  m_Layer: 5
+  m_Name: Tip
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1827381290
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1827381289}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1084078742}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -7.8303, y: -203.3}
+  m_SizeDelta: {x: 854.1, y: 36.5}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1827381291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1827381289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 25
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: 
+--- !u!222 &1827381292
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1827381289}
+  m_CullTransparentMesh: 0
 --- !u!1 &1829966258
 GameObject:
   m_ObjectHideFlags: 0
@@ -5386,6 +5759,8 @@ MonoBehaviour:
   Moving_Lines_List: []
   Attacking_Lines_List: []
   Getting_Hit_Lines_List: []
+  Injured: 0
+  extraWaitTime: 0
 --- !u!1 &1839266971
 GameObject:
   m_ObjectHideFlags: 0
@@ -6082,6 +6457,8 @@ MonoBehaviour:
   Moving_Lines_List: []
   Attacking_Lines_List: []
   Getting_Hit_Lines_List: []
+  Injured: 0
+  extraWaitTime: 0
 --- !u!1 &1992957333
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,13 +19,13 @@ public class MainMenuAnim : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (resetAllowed)
-        {
-            resetAllowed = false;
-            Reset(num);
-            //play = true;
+        //if (resetAllowed)
+        //{
+        //    resetAllowed = false;
+        //    StartCoroutine(Reset(num));
+        //    //play = true;
 
-        }
+        //}
         if (play)
         {
             play = false;
@@ -55,6 +55,7 @@ public class MainMenuAnim : MonoBehaviour {
         right_units[index + 1].GetComponentInChildren<StartUnit>().anim.SetBool("Moving", true);
         right_units[index + 1].GetComponent<Animator>().SetBool("Start", true);//reset
         yield return new WaitForSeconds(1f);
+        right_units[index + 1].GetComponent<Animator>().SetBool("Start", false);
         right_units[index + 1].GetComponentInChildren<StartUnit>().anim.SetBool("Moving", false);
         right_units[index + 1].GetComponentInChildren<StartUnit>().anim.SetBool("Attacking", true);
         yield return new WaitForSeconds(1f);
@@ -66,9 +67,11 @@ public class MainMenuAnim : MonoBehaviour {
 
         yield return new WaitForSeconds(1f);
 
+        left_units[index].GetComponent<Animator>().SetBool("Start", false);
         left_units[index + 1].GetComponentInChildren<StartUnit>().anim.SetBool("Moving", true);
         left_units[index + 1].GetComponent<Animator>().SetBool("Start", true);//reset
         yield return new WaitForSeconds(1f);
+        left_units[index + 1].GetComponent<Animator>().SetBool("Start", false);
         left_units[index + 1].GetComponentInChildren<StartUnit>().anim.SetBool("Moving", false);
         left_units[index + 1].GetComponentInChildren<StartUnit>().anim.SetBool("Attacking", true);
         yield return new WaitForSeconds(1);
@@ -80,6 +83,8 @@ public class MainMenuAnim : MonoBehaviour {
         right_units[index + 1].GetComponent<Animator>().SetBool("goBack", true);//reset
         right_units[index].GetComponent<Animator>().SetBool("Activate", true);//reset
         yield return new WaitForSeconds(1f);
+        right_units[index + 1].GetComponent<Animator>().SetBool("goBack", false);
+        right_units[index].GetComponent<Animator>().SetBool("Activate", false);
         right_units[index].GetComponentInChildren<StartUnit>().anim.SetBool("Attacking", true);
         yield return new WaitForSeconds(1f);
         right_units[index].GetComponentInChildren<StartUnit>().anim.SetBool("Attacking", false);
@@ -88,27 +93,31 @@ public class MainMenuAnim : MonoBehaviour {
         left_units[index + 1].GetComponentInChildren<StartUnit>().anim.SetBool("Hurt", false);
         left_units[index + 1].GetComponent<Animator>().SetBool("goBack", true);//reset
         yield return new WaitForSeconds(1f);
+        left_units[index + 1].GetComponent<Animator>().SetBool("goBack", false);
         left_units[index].GetComponent<Animator>().SetBool("MoveForward", true);//reset
         yield return new WaitForSeconds(1f);
-        resetAllowed = true;
+        left_units[index].GetComponent<Animator>().SetBool("MoveForward", false);
+        //resetAllowed = true;
+        play = true;
 
     }
 
-    public void Reset(int index)
+    IEnumerator Reset(int index)
     {
-        //left_units[index].GetComponent<Animator>().SetBool("MoveForward", false);//reset
-        left_units[index + 1].GetComponent<Animator>().SetBool("goBack", false);//reset
-        right_units[index].GetComponent<Animator>().SetBool("Activate", false);//reset
-        right_units[index + 1].GetComponent<Animator>().SetBool("goBack", false);//reset
-        left_units[index + 1].GetComponent<Animator>().SetBool("Start", false);//reset
-        left_units[index].GetComponent<Animator>().SetBool("Start", false);//reset
-        right_units[index + 1].GetComponent<Animator>().SetBool("Start", false);//reset
-        right_units[index].GetComponent<Animator>().SetBool("Start", false);//reset
-
         left_units[index].GetComponent<Animator>().SetBool("Reset", true);//reset
         left_units[index + 1].GetComponent<Animator>().SetBool("Reset", true);//reset
         right_units[index].GetComponent<Animator>().SetBool("Reset", true);//reset
         right_units[index + 1].GetComponent<Animator>().SetBool("Reset", true);//reset
+        yield return new WaitForSeconds(1f);
+        left_units[index].GetComponent<Animator>().SetBool("MoveForward", false);//reset
+        left_units[index].GetComponent<Animator>().SetBool("Start", false);//reset
+        left_units[index + 1].GetComponent<Animator>().SetBool("goBack", false);//reset
+        left_units[index + 1].GetComponent<Animator>().SetBool("Start", false);//reset
+        right_units[index].GetComponent<Animator>().SetBool("Activate", false);//reset
+        right_units[index].GetComponent<Animator>().SetBool("Start", false);//reset
+        right_units[index + 1].GetComponent<Animator>().SetBool("goBack", false);//reset
+        right_units[index + 1].GetComponent<Animator>().SetBool("Start", false);//reset
+
 
         play = true;
     }
