@@ -36,9 +36,9 @@ public class Missile : EnvironmentalHazard {
         HexagonCell curr = hexGrid.Get_Cell_Index(new HexagonCoord(x, z));
         Debug.Log(type_name + " hazard epicenter at: " + curr.coords.x + "," + curr.coords.Y_coord + "," + curr.coords.z);
         curr.CreateMissile();
-        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().lightningSound.Play(); // play launch sound instead
+        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().launchSound.Play(); // play launch sound instead
         yield return new WaitForSeconds(anim_time-1);
-        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().lightningSound.Play(); // play explosion sound instead
+        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().explosionSound.Play(); // play explosion sound instead
         for (int i = 0; i < hexGrid.cells.Length; i++)
         {
 
@@ -52,7 +52,7 @@ public class Missile : EnvironmentalHazard {
         {
             if (frontier[j].occupied)
             {
-                frontier[j].unitOnTile.current_health -= damage - frontier[j].unitOnTile.defense; // this should be changeed when we are trying to implement the fortress hero's defense
+                //frontier[j].unitOnTile.current_health -= damage - frontier[j].unitOnTile.defense; // this should be changeed when we are trying to implement the fortress hero's defense
 
                 StartUnit attacked_unit = frontier[j].unitOnTile;
                 GameObject damagetext = Instantiate(attacked_unit.FloatingTextPrefab, attacked_unit.transform.position, Quaternion.identity, attacked_unit.transform);

@@ -109,7 +109,7 @@ public class AcidRain : EnvironmentalHazard {
         {
             if (frontier[j].occupied)
             {
-                frontier[j].unitOnTile.current_health -= damage - frontier[j].unitOnTile.defense; // this should be changeed when we are trying to implement the fortress hero's defense
+                //frontier[j].unitOnTile.current_health -= damage - frontier[j].unitOnTile.defense; // this should be changeed when we are trying to implement the fortress hero's defense
 
                 StartUnit attacked_unit = frontier[j].unitOnTile;
                 GameObject damagetext = Instantiate(attacked_unit.FloatingTextPrefab, attacked_unit.transform.position, Quaternion.identity, attacked_unit.transform);
@@ -133,6 +133,7 @@ public class AcidRain : EnvironmentalHazard {
                             damagetext.transform.localScale.z);
                     }
                 }
+                Debug.Log("AcidRain damage: " + damage);
                 attacked_unit.TakeDamage(attacked_unit, (damage - frontier[j].unitOnTile.defense));
                 attacked_unit.PlayHit();
                 attacked_unit.PlayBlink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f);

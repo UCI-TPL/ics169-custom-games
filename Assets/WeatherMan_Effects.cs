@@ -22,6 +22,8 @@ public class WeatherMan_Effects : MonoBehaviour {
     public void move_target_to(GameObject _target)
     {
         _target_object.transform.position = _target.transform.position;
+        Debug.Log("-----------  Position Moved");
+        Debug.Log(_target.transform.position);
     }
 
     public void play_effect()

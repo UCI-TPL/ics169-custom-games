@@ -91,7 +91,7 @@ public class Confirm_Window : MonoBehaviour {
 
     public void Confirm()
     {
-        Debug.Log("--------------------- Confirmation Pressed");
+        //Debug.Log("--------------------- Confirmation Pressed");
         Editor.move_string = "yes";
         Editor.move_confirmed = true;
         Hide_Conf_Win();

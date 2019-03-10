@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PoisonHero : HeroUnit {
     public PoisonGas poisonGas;
-    public int specialAttackCounter = 5; // counter to keep track of when to fire off his load
+    public int specialAttackCounter = 0; // counter to keep track of when to fire off his load
 
 	// Use this for initialization
 	void Start () {
@@ -35,15 +35,17 @@ public class PoisonHero : HeroUnit {
     }
 
 
-    public void ShootPoisonGas(HexagonCell cell) // spawn the environmental hazard "PoisonGas"
+    public IEnumerator ShootPoisonGas(HexagonCell cell) // spawn the environmental hazard "PoisonGas"
     {
-
         Debug.Log("shooting poison  from hero");
-        if(gameObject.tag == "Player 1")
+        yield return new WaitForSeconds(0.4f);
+        specialAttackSound.Play();
+        yield return new WaitForSeconds(0.1f);
+        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().fizzleSound.Play();
+        if (gameObject.tag == "Player 1")
             editor.P1StatusOnGrid.Add(poisonGas.CreateHazardAt(cell, editor.hexGrid));
-        else if(gameObject.tag == "Player 2")
+        else if (gameObject.tag == "Player 2")
             editor.P2StatusOnGrid.Add(poisonGas.CreateHazardAt(cell, editor.hexGrid));
-
 
         specialAttackCounter = 3;
     }
@@ -134,6 +136,7 @@ public class PoisonHero : HeroUnit {
                 if (damage == 0)
                 {
                     damagetext.GetComponent<TextMesh>().text = "MISS";
+                    GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().missSounds);
                     damagetext.GetComponent<TextMesh>().color = Color.white;
                     damagetext.GetComponent<TextMesh>().characterSize = 0.06f;
                 }
@@ -177,7 +180,7 @@ public class PoisonHero : HeroUnit {
 
             if (specialAttackCounter <= 0)
             {
-                ShootPoisonGas(editor.hexGrid.GetCell(attacked_unit.transform.position));
+                StartCoroutine(ShootPoisonGas(editor.hexGrid.GetCell(attacked_unit.transform.position)));
             }
 
 
@@ -412,6 +415,7 @@ public class PoisonHero : HeroUnit {
                 if (damage == 0)
                 {
                     damagetext.GetComponent<TextMesh>().text = "MISS";
+                    GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().missSounds);
                     damagetext.GetComponent<TextMesh>().color = Color.white;
                     damagetext.GetComponent<TextMesh>().characterSize = 0.06f;
                 }

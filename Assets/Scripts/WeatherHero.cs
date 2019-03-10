@@ -25,14 +25,15 @@ public class WeatherHero : HeroUnit
 
         Debug.Log("weather vane dropped from hero");
         int rand = Random.Range(0, possibleHazards.Count);
-
+        specialAttackSound.Play();
         if (gameObject.tag == "Player 1")
         {
             EnvironmentalHazard.HazardInfo ph = possibleHazards[rand].CreateHazardAt(cell, editor.hexGrid);
+            extraWaitTime = ph.type.anim_time;
             Debug.Log( "creating weather vane object with boolean:" + ph.placedWeatherVane);
             StartCoroutine(ph.type.Effect(editor, editor.hexGrid, ph.x, ph.z, ph.size));
-            extraWaitTime = ph.type.anim_time;
-            ph.timeLeft -= 1;
+
+            ph = new EnvironmentalHazard.HazardInfo(ph.type, ph.x, ph.y, ph.z, ph.timeLeft - 1, ph.size, ph.placedWeatherVane, true, true);
             editor.hazardsOnGrid.Add(ph);
         }
         else if (gameObject.tag == "Player 2")
@@ -122,8 +123,10 @@ public class WeatherHero : HeroUnit
             }
 
             StartUnit attacked_unit = targetable[selectedTarget].unitOnTile;
-            Weather_Effect_Object.GetComponent<WeatherMan_Effects>().move_target_to(attacked_unit.gameObject);
-            //Weather_Effect_Object.GetComponent<ParticleSystem>().Play();
+            //Weather_Effect_Object.gameObject.SetActive(true);
+            //Weather_Effect_Object.GetComponent<WeatherMan_Effects>().move_target_to(attacked_unit.gameObject);
+            //Weather_Effect_Object.GetComponent<WeatherMan_Effects>().play_effect();
+            //Debug.Log("----- Weather Effect Called");
             HexagonCell attacked_cell = targetable[selectedTarget];
             HexagonCoord current = unitCell.coords;
 
@@ -144,52 +147,52 @@ public class WeatherHero : HeroUnit
                 }
             }
 
-            if (attacked_unit.FloatingTextPrefab)
-            {
-                GameObject damagetext = Instantiate(attacked_unit.FloatingTextPrefab, attacked_unit.transform.position, Quaternion.identity, attacked_unit.transform);
-                if (damage == 0)
-                {
-                    damagetext.GetComponent<TextMesh>().text = "MISS";
-                    damagetext.GetComponent<TextMesh>().color = Color.white;
-                    damagetext.GetComponent<TextMesh>().characterSize = 0.06f;
-                }
+            //if (attacked_unit.FloatingTextPrefab)
+            //{
+            //    GameObject damagetext = Instantiate(attacked_unit.FloatingTextPrefab, attacked_unit.transform.position, Quaternion.identity, attacked_unit.transform);
+            //    if (damage == 0)
+            //    {
+            //        damagetext.GetComponent<TextMesh>().text = "MISS";
+            //        damagetext.GetComponent<TextMesh>().color = Color.white;
+            //        damagetext.GetComponent<TextMesh>().characterSize = 0.06f;
+            //    }
 
 
-                if (damage != 0)
-                {
-                    damagetext.GetComponent<TextMesh>().text = dmg_txt.ToString();
-                    if (crit_happened)
-                    {
-                        damagetext.GetComponent<TextMesh>().color = Color.red;
-                        damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * ((float)dmg_txt / 75f));
-                    }
-                    else
-                    {
-                        damagetext.GetComponent<TextMesh>().color = Color.yellow;
-                        damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * ((float)dmg_txt / 75f));
-                    }
-                }
+            //    if (damage != 0)
+            //    {
+            //        damagetext.GetComponent<TextMesh>().text = dmg_txt.ToString();
+            //        if (crit_happened)
+            //        {
+            //            damagetext.GetComponent<TextMesh>().color = Color.red;
+            //            damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * ((float)dmg_txt / 75f));
+            //        }
+            //        else
+            //        {
+            //            damagetext.GetComponent<TextMesh>().color = Color.yellow;
+            //            damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * ((float)dmg_txt / 75f));
+            //        }
+            //    }
 
-                if (Mathf.Sign(damagetext.transform.parent.localScale.x) == -1 && Mathf.Sign(damagetext.transform.localScale.x) == 1)
-                {
-                    damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
-                        damagetext.transform.localScale.z);
+            //    if (Mathf.Sign(damagetext.transform.parent.localScale.x) == -1 && Mathf.Sign(damagetext.transform.localScale.x) == 1)
+            //    {
+            //        damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
+            //            damagetext.transform.localScale.z);
 
-                    //damagetext.GetComponent<TextMesh>().color = Color.green;
-                    //Debug.Log("BackWards Text");
-                }
-                else
-                {
-                    if (Mathf.Sign(damagetext.transform.parent.localScale.x) == 1 && Mathf.Sign(damagetext.transform.localScale.x) == -1)
-                    {
-                        damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
-                            damagetext.transform.localScale.z);
-                    }
-                }
+            //        //damagetext.GetComponent<TextMesh>().color = Color.green;
+            //        //Debug.Log("BackWards Text");
+            //    }
+            //    else
+            //    {
+            //        if (Mathf.Sign(damagetext.transform.parent.localScale.x) == 1 && Mathf.Sign(damagetext.transform.localScale.x) == -1)
+            //        {
+            //            damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
+            //                damagetext.transform.localScale.z);
+            //        }
+            //    }
 
-            }
+            //}
             Debug.Log(name + " attacked " + attacked_unit.unit_name + " for " + damage);
-            TakeDamage(attacked_unit, damage);
+            //TakeDamage(attacked_unit, damage);
 
             if (specialAttackCounter <= 0)
             {
@@ -262,6 +265,7 @@ public class WeatherHero : HeroUnit
                 }
                 end_attack_without_retaliate = true;
                 attacked_unit_has_died = true;
+                
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 
                 //int index = targetable[rand_index].coords.X_coord + targetable[rand_index].coords.Z_coord * hexGrid.width + targetable[rand_index].coords.Z_coord / 2;
@@ -291,7 +295,7 @@ public class WeatherHero : HeroUnit
                 {
                     end_attack_without_retaliate = true;
                 }
-
+                Debug.Log(extraWaitTime + " going into attack anim");
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 yield return new WaitForSeconds(0.3f);
                 //SHOULD THORNMAIL BE ACTIVATED ON SPECIAL ATTACKS?
@@ -334,7 +338,6 @@ public class WeatherHero : HeroUnit
                 }
                 StartCoroutine(targetable[selectedTarget].unitOnTile.Hit());
                 StartCoroutine(attacked_unit.Blink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f));
-                extraWaitTime = 0f;
             }
         }
         else
@@ -405,6 +408,10 @@ public class WeatherHero : HeroUnit
             }
 
             StartUnit attacked_unit = targetable[selectedTarget].unitOnTile;
+            //Weather_Effect_Object.gameObject.SetActive(true);
+            //Weather_Effect_Object.GetComponent<WeatherMan_Effects>().move_target_to(attacked_unit.gameObject);
+            //Weather_Effect_Object.GetComponent<WeatherMan_Effects>().play_effect();
+            //Debug.Log("----- Weather Effect Called");
             HexagonCell attacked_cell = targetable[selectedTarget];
             HexagonCoord current = unitCell.coords;
 
@@ -431,6 +438,7 @@ public class WeatherHero : HeroUnit
                 if (damage == 0)
                 {
                     damagetext.GetComponent<TextMesh>().text = "MISS";
+                    GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().missSounds);
                     damagetext.GetComponent<TextMesh>().color = Color.white;
                     damagetext.GetComponent<TextMesh>().characterSize = 0.06f;
                 }

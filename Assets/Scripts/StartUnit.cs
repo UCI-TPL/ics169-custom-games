@@ -70,6 +70,7 @@ public class StartUnit : MonoBehaviour
 
     public float extraWaitTime = 0;
 
+    public GameObject Shield_Bubble;
 
     // Use this for initialization
     public void Start()
@@ -228,6 +229,7 @@ public class StartUnit : MonoBehaviour
                 if (damage == 0)
                 {
                     damagetext.GetComponent<TextMesh>().text = "MISS";
+                    GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().missSounds);
                     damagetext.GetComponent<TextMesh>().color = Color.white;
                     damagetext.GetComponent<TextMesh>().characterSize = 0.06f;
                 }
@@ -491,6 +493,7 @@ public class StartUnit : MonoBehaviour
             if (damage == 0)
             {
                 damagetext.GetComponent<TextMesh>().text = "MISS";
+                GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().missSounds);
                 damagetext.GetComponent<TextMesh>().color = Color.white;
                 damagetext.GetComponent<TextMesh>().characterSize = 0.06f;
             }
@@ -685,7 +688,9 @@ public class StartUnit : MonoBehaviour
         
         anim.SetBool("Attacking", false);
         yield return new WaitForSeconds(1f);
-        yield return new WaitForSeconds(extraWaitTime);
+        if(extraWaitTime > 0)
+            yield return new WaitForSeconds(extraWaitTime); // if theres more wait time
+        Debug.Log("exiting attack anim");
         currently_attacking = false;
     }
 
@@ -702,7 +707,13 @@ public class StartUnit : MonoBehaviour
         //attackSound.Play();
         //Camera.main.gameObject.GetComponent<CameraBounder>().Shake_Camera(2f, 20f);
         yield return new WaitForSeconds(0.8f);
+        
         anim.SetBool("Attacking", false);
+        Debug.Log("here");
+        Debug.Log(extraWaitTime);
+        yield return new WaitForSeconds(extraWaitTime); // if theres more wait time
+        extraWaitTime = 0f;
+        Debug.Log("exiting attack anim");
         //yield return new WaitForSeconds(0.5f);
         if (end_attack_without_retaliate)
         {
@@ -982,6 +993,8 @@ public class StartUnit : MonoBehaviour
             health_bar.GetComponent<Image>().color = Color.Lerp(health_color, Color.white, Mathf.PingPong(Time.time, 0.5f));
             yield return null;
         }
+
+        health_bar.GetComponent<Image>().color = health_color;
         
     }
 }

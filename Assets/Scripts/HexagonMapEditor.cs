@@ -238,7 +238,7 @@ public class HexagonMapEditor : MonoBehaviour
                         }
 
 
-                        if (incoming_in == 0) // time to create hazard
+                        if (incoming_in <= 0) // time to create hazard
                         {
                             // REMOVE THE COUNTER EFFECT
                             for (int j = 0; j < tilesToEffect.Count; j++)
@@ -295,6 +295,7 @@ public class HexagonMapEditor : MonoBehaviour
                     {
                         for(int i = 0; i < hazardsOnGrid.Count; i++)
                         {
+                            
                             if (hazardsOnGrid[i].timeLeft <= 0)
                             {
                                 EnvironmentalHazard.HazardInfo h = hazardsOnGrid[i];
@@ -314,14 +315,22 @@ public class HexagonMapEditor : MonoBehaviour
                     if (hazardCount < hazardsOnGrid.Count) //for every hazard
                     {
                         EnvironmentalHazard.HazardInfo h = hazardsOnGrid[hazardCount];
-
+                        print("type: " + h.type + "timeLeft: " + h.timeLeft + "p1: " + h.p1 + "turn1: " + h.turn1);
                         hazardsOnGrid[hazardCount] = new EnvironmentalHazard.HazardInfo(h.type, h.x, h.y, h.z, h.timeLeft-1, h.size, h.placedWeatherVane);
                         //Debug.Log("hazard time left: " + h.timeLeft--.ToString());
                         //Debug.Log("x: " + h.x + " z: " + h.z);
                         //Debug.Log("placed weather vane:" + h.placedWeatherVane);
-                        StartCoroutine(Snap_To_Hazard(h.x, h.z, h.type.anim_time));
-                        StartCoroutine(HandleHazards(hazardCount));
-                        
+                        if (!(h.p1 && h.turn1))
+                        {
+                            StartCoroutine(Snap_To_Hazard(h.x, h.z, h.type.anim_time));
+                            StartCoroutine(HandleHazards(hazardCount));
+                        }
+                        else
+                        {
+                            hazardsExecuting = false;
+                            hazardCount++;
+                            h.timeLeft -= 1;
+                        }
                     }
                 }
                 if (hazardsFinished) // when hazarrds are done
@@ -1129,7 +1138,7 @@ public class HexagonMapEditor : MonoBehaviour
                 + ((hexGrid.cells[index].coords.X_coord + hexGrid.cells[index].coords.Y_coord) * max_sprites_per_unit);
             //Debug.Log("Color_Changed");
         }
-        SpriteRenderer[] sprites = this.gameObject.GetComponentsInChildren<SpriteRenderer>();
+        SpriteRenderer[] sprites = this.gameObject.GetComponentsInChildren<SpriteRenderer>(true);
         foreach(SpriteRenderer sprite_rend in sprites)
         {
             sprite_rend.sortingOrder = sprite_rend.GetComponent<Mesh_Layer>()._ordered_layer
@@ -1452,7 +1461,7 @@ public class HexagonMapEditor : MonoBehaviour
                 + ((_target_location.coords.X_coord + _target_location.coords.Y_coord) * max_sprites_per_unit);
             //Debug.Log("Color_Changed");
         }
-        SpriteRenderer[] sprites = _unit.gameObject.GetComponentsInChildren<SpriteRenderer>();
+        SpriteRenderer[] sprites = _unit.gameObject.GetComponentsInChildren<SpriteRenderer>(true);
         foreach (SpriteRenderer sprite_rend in sprites)
         {
             sprite_rend.sortingOrder = sprite_rend.GetComponent<Mesh_Layer>()._ordered_layer

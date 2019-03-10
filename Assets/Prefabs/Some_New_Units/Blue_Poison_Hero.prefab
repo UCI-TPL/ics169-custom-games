@@ -219,6 +219,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4046409151072108}
   - component: {fileID: 212359949730408240}
+  - component: {fileID: 114634773576416520}
   m_Layer: 0
   m_Name: Poison_Muzzle_Flash
   m_TagString: Untagged
@@ -1115,7 +1116,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 68cddd1d13c2d4351aa0169c3ff4ab78, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 8093ed26404f08e4593ded595548cb9d, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1210,7 +1211,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 3eb0835f582ad4a798d39458af1a37ea, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 9ba74a6e1d36f44be9224aa396a3ff7e, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.6
   m_Pitch: 1
@@ -2640,6 +2641,18 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 10
+--- !u!114 &114634773576416520
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1214498447687310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b56cf06341c044ba26472bd11dd362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ordered_layer: 3
 --- !u!114 &114644548675711054
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3070,7 +3083,9 @@ MonoBehaviour:
   Getting_Hit_Lines_List: []
   Injured: 0
   extraWaitTime: 0
+  Shield_Bubble: {fileID: 0}
   myType: 2
+  specialAttackSound: {fileID: 82479439613918162}
   poisonGas: {fileID: 114959469959674676, guid: d31fc1f2ac967d340b1a2990e1769a18,
     type: 2}
   specialAttackCounter: 0
@@ -3399,7 +3414,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: be8f05a0fc15cba45afa383c112e94c2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

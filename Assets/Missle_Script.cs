@@ -5,6 +5,7 @@ using UnityEngine;
 public class Missle_Script : MonoBehaviour {
     public GameObject explosion_prefab;
     public GameObject contact_plane;
+    
 
 	// Use this for initialization
 	void Start () {
@@ -13,7 +14,7 @@ public class Missle_Script : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+ 
 	}
 
     private void OnCollisionEnter(Collision collision)
