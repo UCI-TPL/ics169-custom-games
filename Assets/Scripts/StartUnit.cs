@@ -331,6 +331,10 @@ public class StartUnit : MonoBehaviour
                     float reduction = attack_deduction / 2;
                     float new_attack = attack * reduction;//   72 * .333 = 23.76
                     current_attack = attack + new_attack;// 72 - 23.76 = 48
+                    if(current_attack >= attack)
+                    {
+                        current_attack = attack;
+                    }
 
                     gameObject.GetComponentInChildren<Buff_UI_Manager>().update_current_buffs(this);
                 }
