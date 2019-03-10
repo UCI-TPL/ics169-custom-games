@@ -102,6 +102,7 @@ public class PoisonHero : HeroUnit {
                 {
                     if (crit_chance <= crit && miss_chance > miss)
                     {
+                        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().critSounds);
                         damage = current_attack * crit_multiplier;
                         crit_happened = true;
                     }
@@ -381,6 +382,7 @@ public class PoisonHero : HeroUnit {
                 {
                     if (crit_chance <= crit && miss_chance > miss)
                     {
+                        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().critSounds);
                         damage = current_attack * crit_multiplier;
                         crit_happened = true;
                     }
