@@ -92,7 +92,7 @@ public class WeatherHero : HeroUnit
             yield return new WaitForSeconds(0.3f);
             int selectedTarget = ChosenEnemy(targetable);
             //int rand_index = Random.Range(0, targetable.Count);
-
+            
 
 
 
@@ -123,6 +123,7 @@ public class WeatherHero : HeroUnit
             }
 
             StartUnit attacked_unit = targetable[selectedTarget].unitOnTile;
+            Unit_Getting_Attacked = targetable[selectedTarget].unitOnTile.gameObject;
             //Weather_Effect_Object.gameObject.SetActive(true);
             //Weather_Effect_Object.GetComponent<WeatherMan_Effects>().move_target_to(attacked_unit.gameObject);
             //Weather_Effect_Object.GetComponent<WeatherMan_Effects>().play_effect();

@@ -464,14 +464,14 @@ public class HexagonMapEditor : MonoBehaviour
                     {
                         if (_unit != null)
                         {
-                            Assign_Stats_Var(_unit.gameObject.GetComponentInChildren<BattleUI>(), _unit);
+                            Assign_Stats_Var(_unit.gameObject.GetComponentInChildren<BattleUI>(true), _unit);
                         }
                     }
                     foreach (StartUnit _unit in P2Team)
                     {
                         if (_unit != null)
                         {
-                            Assign_Stats_Var(_unit.gameObject.GetComponentInChildren<BattleUI>(), _unit);
+                            Assign_Stats_Var(_unit.gameObject.GetComponentInChildren<BattleUI>(true), _unit);
                         }
                     }
                 }
@@ -640,14 +640,14 @@ public class HexagonMapEditor : MonoBehaviour
                     {
                         if (_unit != null)
                         {
-                            Assign_Stats_Var(_unit.gameObject.GetComponentInChildren<BattleUI>(), _unit);
+                            Assign_Stats_Var(_unit.gameObject.GetComponentInChildren<BattleUI>(true), _unit);
                         }
                     }
                     foreach (StartUnit _unit in P2Team)
                     {
                         if (_unit != null)
                         {
-                            Assign_Stats_Var(_unit.gameObject.GetComponentInChildren<BattleUI>(), _unit);
+                            Assign_Stats_Var(_unit.gameObject.GetComponentInChildren<BattleUI>(true), _unit);
                         }
                     }
                 }

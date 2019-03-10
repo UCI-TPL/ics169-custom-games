@@ -35,8 +35,17 @@ public class Spawn_Flash : MonoBehaviour {
     {
         GameObject Muzzle_Flash_Hit = Instantiate(MuzzFlash_Hit) as GameObject;
         Muzzle_Flash_Hit.transform.SetParent(Unit_Getting_Attacked.transform);
-        Muzzle_Flash_Hit.transform.localPosition = new Vector3(0, 0, 0);
-        Muzzle_Flash_Hit.transform.localScale = new Vector3(0.5f, 0.5f, 0);
+        if(Muzzle_Flash_Hit.tag == "Lightening_Effect")
+        {
+            Muzzle_Flash_Hit.transform.localPosition = new Vector3(0, 5.4f, 0);
+            Muzzle_Flash_Hit.transform.localScale = new Vector3(0.6f, 0.6f, 0);
+        }
+        else
+        {
+            Muzzle_Flash_Hit.transform.localPosition = new Vector3(0, 0, 0);
+            Muzzle_Flash_Hit.transform.localScale = new Vector3(0.5f, 0.5f, 0);
+        }
+
         float rand_rotate = Random.Range(0f, 360f);
         StartCoroutine(Delete_Flash(Muzzle_Flash_Hit));
         return Muzzle_Flash_Hit;

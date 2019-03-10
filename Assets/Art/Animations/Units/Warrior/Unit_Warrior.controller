@@ -516,31 +516,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &1102126135177504814
-AnimatorState:
-  serializedVersion: 5
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: Fort_Hurt
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: e6f3906759bad4fddb7d11234b1f9b4c, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!1102 &1102182196746822740
 AnimatorState:
   serializedVersion: 5
@@ -1081,26 +1056,23 @@ AnimatorStateMachine:
     m_State: {fileID: 1102644582899401286}
     m_Position: {x: 996, y: 0, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 1102126135177504814}
-    m_Position: {x: 828, y: 84, z: 0}
-  - serializedVersion: 1
     m_State: {fileID: 1102291891475372074}
     m_Position: {x: 864, y: 144, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102194155602782556}
-    m_Position: {x: 695.8128, y: 363.56647, z: 0}
+    m_Position: {x: 792, y: 348, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102895390874075116}
-    m_Position: {x: 707.8128, y: 375.56647, z: 0}
+    m_Position: {x: 600, y: 360, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102267323972535844}
-    m_Position: {x: 719.8128, y: 387.56647, z: 0}
+    m_Position: {x: 864, y: 348, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102194968027895166}
-    m_Position: {x: 731.8128, y: 399.56647, z: 0}
+    m_Position: {x: 624, y: 396, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102098146459900908}
-    m_Position: {x: 743.8128, y: 411.56647, z: 0}
+    m_Position: {x: 828, y: 372, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102304887034596996}
     m_Position: {x: 755.8128, y: 423.56647, z: 0}
