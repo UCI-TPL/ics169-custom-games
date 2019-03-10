@@ -40,7 +40,7 @@ public class WeatherHero : HeroUnit
             editor.hazardsOnGrid.Add(possibleHazards[rand].CreateHazardAt(cell, editor.hexGrid));
 
 
-        specialAttackCounter = 4;
+        specialAttackCounter = 3;
     }
 
     public override IEnumerator BasicAttack(Grid hexGrid, HexagonCell unitCell)
@@ -115,6 +115,7 @@ public class WeatherHero : HeroUnit
                 {
                     if (crit_chance <= crit && miss_chance > miss)
                     {
+                        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().critSounds);
                         damage = current_attack * crit_multiplier;
                         crit_happened = true;
                     }
@@ -204,6 +205,8 @@ public class WeatherHero : HeroUnit
             //Debug.Log("he dead");
             if (targetable[selectedTarget].unitOnTile.current_health <= 0)
             {
+                GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().killSounds);
+
                 if (targetable[selectedTarget].unitOnTile.tag == "TeamBuff") // was a buffmonster
                 {
                     GameObject buffItem = Instantiate(FloatingBuffPrefab, transform.position, Quaternion.identity, transform);
@@ -296,7 +299,7 @@ public class WeatherHero : HeroUnit
                 {
                     end_attack_without_retaliate = true;
                 }
-                Debug.Log(extraWaitTime + " going into attack anim");
+
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 yield return new WaitForSeconds(0.3f);
                 //SHOULD THORNMAIL BE ACTIVATED ON SPECIAL ATTACKS?
@@ -401,6 +404,7 @@ public class WeatherHero : HeroUnit
                 {
                     if (crit_chance <= crit && miss_chance > miss)
                     {
+                        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().critSounds);
                         damage = current_attack * crit_multiplier;
                         crit_happened = true;
                     }
@@ -485,6 +489,8 @@ public class WeatherHero : HeroUnit
             //Debug.Log("he dead");
             if (targetable[selectedTarget].unitOnTile.current_health <= 0)
             {
+                GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().killSounds);
+
                 if (targetable[selectedTarget].unitOnTile.tag == "TeamBuff") // was a buffmonster
                 {
                     GameObject buffItem = Instantiate(FloatingBuffPrefab, transform.position, Quaternion.identity, transform);

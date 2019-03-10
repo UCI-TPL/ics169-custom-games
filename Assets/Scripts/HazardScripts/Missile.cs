@@ -6,6 +6,7 @@ public class Missile : EnvironmentalHazard {
     public AudioSource launchSound;
     public AudioSource explosionSound;
     public int damage = 40;
+    public GameObject cautionEffect;
 
     public override HazardInfo CreateHazard(int size, HexagonCoord coord, Grid hexGrid)
     {
@@ -18,11 +19,25 @@ public class Missile : EnvironmentalHazard {
         return new HazardInfo(this, coord.x, coord.Y_coord, coord.z, timeOnBoard, size);
     }
 
+    public override HazardInfo CreateHazardAt(HexagonCell cell, Grid hexGrid)
+    {
+        HexagonCoord coord = cell.coords;
+        //int randRange = Random.Range(0, hexGrid.cells.Length);
+        //HexagonCoord rand = hexGrid.cells[randRange].coords;
+
+        int size = Random.Range(1, 3); // 0 = 1, 1 = 3, 2 = 5
+        Debug.Log("hazard at (" + coord.x + "," + coord.z + ") with size: " + size);
+        cell.Create_Weather_Vane();
+        return new HazardInfo(this, coord.x, coord.Y_coord, coord.z, timeOnBoard, size, true);
+    }
+
     public override void RemoveHazard(Grid hexGrid, int x, int z, int size, bool weatherVane) // weatherVane is true when placed by tempest hero
     {
         HexagonCell curr = hexGrid.Get_Cell_Index(new HexagonCoord(x, z));
+        List<HexagonCell> frontier = new List<HexagonCell>();
+        //Debug.Log("removing missile");
+        //Debug.Log("coords: " + curr.coords);
 
-        Destroy(curr.Missile_Obj);
 
         if (weatherVane) // if placed by a tempest hero
         {
@@ -37,8 +52,6 @@ public class Missile : EnvironmentalHazard {
         Debug.Log(type_name + " hazard epicenter at: " + curr.coords.x + "," + curr.coords.Y_coord + "," + curr.coords.z);
         curr.CreateMissile();
         GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().launchSound.Play(); // play launch sound instead
-        yield return new WaitForSeconds(anim_time-1);
-        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().explosionSound.Play(); // play explosion sound instead
         for (int i = 0; i < hexGrid.cells.Length; i++)
         {
 
@@ -46,10 +59,16 @@ public class Missile : EnvironmentalHazard {
             if (distance <= size)
             {
                 frontier.Add(hexGrid.cells[i]);
+                hexGrid.cells[i].Create_Caution_Sign();
             }
         }
+        yield return new WaitForSeconds(anim_time-1);
+        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().explosionSound.Play(); // play explosion sound instead
+        
         for (int j = 0; j < frontier.Count; j++)
         {
+            Destroy(frontier[j].Caution_Sign_Obj);
+
             if (frontier[j].occupied)
             {
                 //frontier[j].unitOnTile.current_health -= damage - frontier[j].unitOnTile.defense; // this should be changeed when we are trying to implement the fortress hero's defense
@@ -91,6 +110,7 @@ public class Missile : EnvironmentalHazard {
         }
         yield return new WaitForSeconds(1f);
         Debug.Log("effect finishing");
+        Destroy(curr.Missile_Obj);
     }
 
     // Use this for initialization

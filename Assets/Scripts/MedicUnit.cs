@@ -123,7 +123,10 @@ public class MedicUnit : StartUnit {
 
             }
             targetable[rand_index].unitOnTile.current_health += damage;
-            this.GetComponent<StartUnit>().current_health -= 40;
+            if(this.gameObject.GetComponent<StartUnit>().current_health - 40 >= 10)
+                TakeDamage(this, 40f);
+
+            //this.GetComponent<StartUnit>().current_health -= 40;
             if(targetable[rand_index].unitOnTile.current_health > (targetable[rand_index].unitOnTile.health * 0.4f))
             {
                 targetable[rand_index].unitOnTile.anim.SetBool("Injured", false);
@@ -139,8 +142,10 @@ public class MedicUnit : StartUnit {
             float new_attack = targetable[rand_index].unitOnTile.attack * reduction;//   72 * .333 = 23.76
             targetable[rand_index].unitOnTile.current_attack = targetable[rand_index].unitOnTile.attack + new_attack;// 72 - 23.76 = 48
 
-            attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
+            if (targetable[rand_index].unitOnTile.current_attack >= targetable[rand_index].unitOnTile.attack)
+                targetable[rand_index].unitOnTile.current_attack = targetable[rand_index].unitOnTile.attack;
 
+            attacked_unit.health_bar.GetComponent<Image>().fillAmount = attacked_unit.current_health / attacked_unit.health; // fix?
             //if (targetable[rand_index].unitOnTile.current_attack > 10)
             //{
             //    float percenthealth = targetable[rand_index].unitOnTile.current_health / targetable[rand_index].unitOnTile.health;
@@ -208,6 +213,12 @@ public class MedicUnit : StartUnit {
         else
         {
             currently_attacking = false;
+        }
+
+        if(this.gameObject.GetComponent<StartUnit>().current_health <= 0)
+        {
+            editor.Units_To_Delete.Add(unitCell);
+            this.dead = true;
         }
     }
 }

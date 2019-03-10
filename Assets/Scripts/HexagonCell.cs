@@ -37,6 +37,8 @@ public class HexagonCell : MonoBehaviour {
 
     public GameObject Poison_Cloud_Effect;
 
+    public GameObject Caution_Sign_Effect;
+
     public GameObject RainObject;
 
     public GameObject Missile_Obj;
@@ -44,6 +46,8 @@ public class HexagonCell : MonoBehaviour {
     public GameObject Poison_Cloud_Obj;
 
     public GameObject Weather_Vane_Obj;
+
+    public GameObject Caution_Sign_Obj;
 
     public GameObject Stop_Watch_Tile;
 
@@ -169,6 +173,15 @@ public class HexagonCell : MonoBehaviour {
         RainObject = Cells_Rain;
         //do some math to make effect render on the correct layer depth
         sort_tile_effect_object(RainObject);
+    }
+
+    public void Create_Caution_Sign()
+    {
+        GameObject Caution_Sign = Instantiate(Caution_Sign_Effect);
+        Caution_Sign.transform.position = this.gameObject.transform.position;
+        Caution_Sign_Obj = Caution_Sign;
+        //do some math to make effect render on the correct layer depth
+        sort_tile_effect_object(Caution_Sign_Obj);
     }
 
     public void CreateMissile()

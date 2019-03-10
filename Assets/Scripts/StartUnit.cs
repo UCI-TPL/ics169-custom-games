@@ -189,6 +189,7 @@ public class StartUnit : MonoBehaviour
                 {
                     if (crit_chance <= crit && miss_chance > miss)
                     {
+                        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().critSounds);
                         damage = current_attack * crit_multiplier;
                         crit_happened = true;
                     }
@@ -275,6 +276,7 @@ public class StartUnit : MonoBehaviour
             //Debug.Log("he dead");
             if (targetable[selectedTarget].unitOnTile.current_health <= 0)
             {
+                GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().killSounds);
                 if (targetable[selectedTarget].unitOnTile.tag == "TeamBuff") // was a buffmonster
                 {
                     GameObject buffItem = Instantiate(FloatingBuffPrefab, transform.position, Quaternion.identity, transform);
@@ -329,6 +331,10 @@ public class StartUnit : MonoBehaviour
                     float reduction = attack_deduction / 2;
                     float new_attack = attack * reduction;//   72 * .333 = 23.76
                     current_attack = attack + new_attack;// 72 - 23.76 = 48
+                    if(current_attack >= attack)
+                    {
+                        current_attack = attack;
+                    }
 
                     gameObject.GetComponentInChildren<Buff_UI_Manager>().update_current_buffs(this);
                 }
@@ -447,6 +453,7 @@ public class StartUnit : MonoBehaviour
         {
             damage = current_attack * crit_multiplier;
             dmg_txt = (int)damage;
+            GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().critSounds);
             crit_happened = true;
         }
 
@@ -553,7 +560,7 @@ public class StartUnit : MonoBehaviour
         //Debug.Log("he dead");
         if (attacked_unit.current_health <= 0)
         {
-
+            GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().killSounds);
             //int index = attacked_cell.coords.X_coord + attacked_cell.coords.Z_coord * hexGrid.width + attacked_cell.coords.Z_coord / 2;
             //editor.RemoveUnitInfo(attacked_cell, index);
             //Debug.Log("adding unit to delete list in relatiation");

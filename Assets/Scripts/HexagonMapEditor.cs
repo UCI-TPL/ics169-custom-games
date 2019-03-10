@@ -320,7 +320,12 @@ public class HexagonMapEditor : MonoBehaviour
                         //Debug.Log("hazard time left: " + h.timeLeft--.ToString());
                         //Debug.Log("x: " + h.x + " z: " + h.z);
                         //Debug.Log("placed weather vane:" + h.placedWeatherVane);
-                        if (!(h.p1 && h.turn1))
+                        if (h.timeLeft <= 0)
+                        {
+                            hazardsExecuting = false;
+                            hazardCount++;
+                        }
+                        else if (!(h.p1 && h.turn1))
                         {
                             StartCoroutine(Snap_To_Hazard(h.x, h.z, h.type.anim_time));
                             StartCoroutine(HandleHazards(hazardCount));
@@ -329,7 +334,6 @@ public class HexagonMapEditor : MonoBehaviour
                         {
                             hazardsExecuting = false;
                             hazardCount++;
-                            h.timeLeft -= 1;
                         }
                     }
                 }
@@ -948,7 +952,7 @@ public class HexagonMapEditor : MonoBehaviour
         else if (!currentCell.occupied && isUnitSelected && !attacking) // a unit is already selected
         {
             //prompt user to see if they actually want to move
-            Debug.Log("we're using show path here");
+            //Debug.Log("we're using show path here");
             StartCoroutine(MoveUnit(hexGrid.GetCell(SelectedUnit.transform.position), currentCell));//move that selected unit
             //Play Movement Selected Sound
             select_sound.Play();
@@ -1180,7 +1184,7 @@ public class HexagonMapEditor : MonoBehaviour
             }
             else if (move_string.Equals("no"))
             {
-                Debug.Log("---------- Thats A No On The Move Jimbo ----------");
+                //Debug.Log("---------- Thats A No On The Move Jimbo ----------");
             }
             allow_cursor_control = true;
             yield break;
@@ -1247,14 +1251,14 @@ public class HexagonMapEditor : MonoBehaviour
             }
             else if (move_string.Equals("no"))
             {
-                Debug.Log("---------- Thats A No On The Move Jimbo ----------");
+                //Debug.Log("---------- Thats A No On The Move Jimbo ----------");
             }
             
 
         }
         else
         {
-            Debug.LogError("CAN'T MOVE THATS TOO FAR FOR THE UNIT");
+            //Debug.LogError("CAN'T MOVE THATS TOO FAR FOR THE UNIT");
         }
         allow_cursor_control = true;
     }
