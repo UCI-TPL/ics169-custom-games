@@ -1439,7 +1439,7 @@ public class HexagonMapEditor : MonoBehaviour
         //_UI.stats_range.text = "RNG: " + _unit.attackRange;
         _UI.stats_atk.text = "HP: " + Mathf.CeilToInt(_unit.current_health) + "/" + Mathf.CeilToInt(_unit.health);
         _UI.stats_mov.text = "RANG: " + _unit.attackRange;
-        _UI.stats_crit.text = "CRIT: " + (int)_unit.crit + "%";
+        _UI.stats_crit.text = "CRIT: " + (int)(_unit.crit * 100) + "%";
         _UI.stats_range.text = "ATK: " + (int)_unit.current_attack;
     }
 
