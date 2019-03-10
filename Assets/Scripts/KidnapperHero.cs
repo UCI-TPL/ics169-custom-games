@@ -320,15 +320,7 @@ public class KidnapperHero : HeroUnit {
                 }
                 end_attack_without_retaliate = true;
                 attacked_unit_has_died = true;
-                if(targetable[selectedTarget].unitOnTile.GetComponent<HeroUnit>() == null)
-                {
-                    StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
-                }
-                else
-                {
-                    StartCoroutine(Flash_Attack(hexGrid, unitCell, attacked_cell));
-                }
-                
+                StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 //int index = targetable[rand_index].coords.X_coord + targetable[rand_index].coords.Z_coord * hexGrid.width + targetable[rand_index].coords.Z_coord / 2;
                 //editor.RemoveUnitInfo(targetable[rand_index], index);
 
@@ -355,53 +347,45 @@ public class KidnapperHero : HeroUnit {
                     end_attack_without_retaliate = true;
                 }
 
-                if (targetable[selectedTarget].unitOnTile.GetComponent<HeroUnit>() == null)
-                {
-                    StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
-                }
-                else
-                {
-                    StartCoroutine(Flash_Attack(hexGrid, unitCell, attacked_cell));
-                }
-
+                StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 yield return new WaitForSeconds(0.3f);
-                if (attacked_unit.gameObject.GetComponent<FortressHero>() != null && damage != 0) // handling of if attacking fortress hero 
-                {
-                    Debug.Log("Hurt by fortress hero's armor");
-                    if (FloatingTextPrefab)
-                    {
-                        GameObject damagetext = Instantiate(FloatingTextPrefab, transform.position, Quaternion.identity, transform);
-                        damagetext.GetComponent<TextMesh>().text = 20.ToString();
-                        damagetext.GetComponent<TextMesh>().color = Color.yellow;
-                        damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * (20f / 75f));
-                        if (Mathf.Sign(damagetext.transform.parent.localScale.x) == -1 && Mathf.Sign(damagetext.transform.localScale.x) == 1)
-                        {
-                            damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
-                                damagetext.transform.localScale.z);
+                //if (attacked_unit.gameObject.GetComponent<FortressHero>() != null && damage != 0) // handling of if attacking fortress hero 
+                //{
+                //    Debug.Log("Hurt by fortress hero's armor");
+                //    if (FloatingTextPrefab)
+                //    {
+                //        GameObject damagetext = Instantiate(FloatingTextPrefab, transform.position, Quaternion.identity, transform);
+                //        damagetext.GetComponent<TextMesh>().text = 20.ToString();
+                //        damagetext.GetComponent<TextMesh>().color = Color.yellow;
+                //        damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * (20f / 75f));
+                //        if (Mathf.Sign(damagetext.transform.parent.localScale.x) == -1 && Mathf.Sign(damagetext.transform.localScale.x) == 1)
+                //        {
+                //            damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
+                //                damagetext.transform.localScale.z);
 
-                            //damagetext.GetComponent<TextMesh>().color = Color.green;
-                            //Debug.Log("BackWards Text");
-                        }
-                        else
-                        {
-                            if (Mathf.Sign(damagetext.transform.parent.localScale.x) == 1 && Mathf.Sign(damagetext.transform.localScale.x) == -1)
-                            {
-                                damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
-                                    damagetext.transform.localScale.z);
-                            }
-                        }
-                    }
+                //            //damagetext.GetComponent<TextMesh>().color = Color.green;
+                //            //Debug.Log("BackWards Text");
+                //        }
+                //        else
+                //        {
+                //            if (Mathf.Sign(damagetext.transform.parent.localScale.x) == 1 && Mathf.Sign(damagetext.transform.localScale.x) == -1)
+                //            {
+                //                damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
+                //                    damagetext.transform.localScale.z);
+                //            }
+                //        }
+                //    }
 
-                    TakeDamage(this, 20f);
-                    StartCoroutine(AttackToHit());
-                    StartCoroutine(Blink(editor.Unit_Hurt_Color, this, Time.time + 1f));
-                    if (current_health <= 0) // pretty sure there's more code needed here but i'll ask christophe later
-                    {
-                        editor.Units_To_Delete.Add(unitCell);
-                        dead = true;
-                    }
+                //    TakeDamage(this, 20f);
+                //    StartCoroutine(AttackToHit());
+                //    StartCoroutine(Blink(editor.Unit_Hurt_Color, this, Time.time + 1f));
+                //    if (current_health <= 0) // pretty sure there's more code needed here but i'll ask christophe later
+                //    {
+                //        editor.Units_To_Delete.Add(unitCell);
+                //        dead = true;
+                //    }
 
-                }
+                //}
                 StartCoroutine(attacked_unit.Hit());
                 StartCoroutine(attacked_unit.Blink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f));
             }
@@ -692,54 +676,6 @@ public class KidnapperHero : HeroUnit {
     {
         if (specialAttackCounter > 0)
             specialAttackCounter -= 1;
-    }
-
-    public IEnumerator Flash_Attack(Grid hexGrid, HexagonCell target, HexagonCell retaliator)
-    {
-        if (Attacking_Lines_List.Length > 0)
-        {
-            int Chosen_Voice_Line_Index = Random.Range(0, Attacking_Lines_List.Length);
-            Attacking_Lines_List[Chosen_Voice_Line_Index].Play();
-        }
-        Camera.main.gameObject.GetComponent<CameraBounder>().Lerp_Change_Zoom(75f);
-        //anim.SetBool("Attacking", true);
-        yield return new WaitForSeconds(0.2f);
-        //attackSound.Play();
-        //Camera.main.gameObject.GetComponent<CameraBounder>().Shake_Camera(2f, 20f);
-        yield return new WaitForSeconds(0.8f);
-
-        //anim.SetBool("Attacking", false);
-        Debug.Log("here");
-        Debug.Log(extraWaitTime);
-        yield return new WaitForSeconds(extraWaitTime); // if theres more wait time
-        extraWaitTime = 0f;
-        Debug.Log("exiting attack anim");
-        //yield return new WaitForSeconds(0.5f);
-        if (end_attack_without_retaliate)
-        {
-            if (attacked_unit_has_died)
-            {
-                Debug.Log("----------------------------------------- Unit Dead ---------------------------------------");
-                editor.cursor.Assign_Position(retaliator.gameObject.transform.position, retaliator.coords);
-                Camera.main.gameObject.GetComponent<CameraBounder>().Lerp_Change_Zoom(140f);
-                //Camera.main.gameObject.GetComponent<CameraBounder>().Shake_Camera(20f, 20f);
-                yield return new WaitForSeconds(1f);
-                Camera.main.gameObject.GetComponent<CameraBounder>().Lerp_Reset_Zoom();
-                currently_attacking = false;
-            }
-            else
-            {
-                Camera.main.gameObject.GetComponent<CameraBounder>().Lerp_Reset_Zoom();
-                yield return new WaitForSeconds(0.1f);
-                currently_attacking = false;
-            }
-        }
-        else
-        {
-            //call retaliate I guess
-            //Debug.Log("Retaliated");
-            StartCoroutine(retaliator.unitOnTile.Retaliate(hexGrid, target, retaliator));
-        }
     }
 
     public IEnumerator move_to_kidnap(GameObject Attacked_Unit, StartUnit attacked_unit, HexagonCell attacked_cell, HexagonCell cell_in_q)
