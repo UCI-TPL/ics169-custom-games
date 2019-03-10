@@ -989,6 +989,8 @@ public class StartUnit : MonoBehaviour
             health_bar.GetComponent<Image>().color = Color.Lerp(health_color, Color.white, Mathf.PingPong(Time.time, 0.5f));
             yield return null;
         }
+
+        health_bar.GetComponent<Image>().color = health_color;
         
     }
 }
