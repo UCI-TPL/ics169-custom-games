@@ -204,6 +204,8 @@ public class WeatherHero : HeroUnit
             //Debug.Log("he dead");
             if (targetable[selectedTarget].unitOnTile.current_health <= 0)
             {
+                GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().killSounds);
+
                 if (targetable[selectedTarget].unitOnTile.tag == "TeamBuff") // was a buffmonster
                 {
                     GameObject buffItem = Instantiate(FloatingBuffPrefab, transform.position, Quaternion.identity, transform);
@@ -296,7 +298,7 @@ public class WeatherHero : HeroUnit
                 {
                     end_attack_without_retaliate = true;
                 }
-                Debug.Log(extraWaitTime + " going into attack anim");
+
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 yield return new WaitForSeconds(0.3f);
                 //SHOULD THORNMAIL BE ACTIVATED ON SPECIAL ATTACKS?
@@ -486,6 +488,8 @@ public class WeatherHero : HeroUnit
             //Debug.Log("he dead");
             if (targetable[selectedTarget].unitOnTile.current_health <= 0)
             {
+                GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().killSounds);
+
                 if (targetable[selectedTarget].unitOnTile.tag == "TeamBuff") // was a buffmonster
                 {
                     GameObject buffItem = Instantiate(FloatingBuffPrefab, transform.position, Quaternion.identity, transform);

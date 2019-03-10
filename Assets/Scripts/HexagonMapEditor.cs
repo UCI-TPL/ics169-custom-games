@@ -320,7 +320,12 @@ public class HexagonMapEditor : MonoBehaviour
                         //Debug.Log("hazard time left: " + h.timeLeft--.ToString());
                         //Debug.Log("x: " + h.x + " z: " + h.z);
                         //Debug.Log("placed weather vane:" + h.placedWeatherVane);
-                        if (!(h.p1 && h.turn1))
+                        if (h.timeLeft <= 0)
+                        {
+                            hazardsExecuting = false;
+                            hazardCount++;
+                        }
+                        else if (!(h.p1 && h.turn1))
                         {
                             StartCoroutine(Snap_To_Hazard(h.x, h.z, h.type.anim_time));
                             StartCoroutine(HandleHazards(hazardCount));

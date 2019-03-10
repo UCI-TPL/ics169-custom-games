@@ -276,6 +276,7 @@ public class StartUnit : MonoBehaviour
             //Debug.Log("he dead");
             if (targetable[selectedTarget].unitOnTile.current_health <= 0)
             {
+                GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().killSounds);
                 if (targetable[selectedTarget].unitOnTile.tag == "TeamBuff") // was a buffmonster
                 {
                     GameObject buffItem = Instantiate(FloatingBuffPrefab, transform.position, Quaternion.identity, transform);
@@ -555,7 +556,7 @@ public class StartUnit : MonoBehaviour
         //Debug.Log("he dead");
         if (attacked_unit.current_health <= 0)
         {
-
+            GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().killSounds);
             //int index = attacked_cell.coords.X_coord + attacked_cell.coords.Z_coord * hexGrid.width + attacked_cell.coords.Z_coord / 2;
             //editor.RemoveUnitInfo(attacked_cell, index);
             //Debug.Log("adding unit to delete list in relatiation");

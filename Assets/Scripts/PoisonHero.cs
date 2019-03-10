@@ -188,6 +188,8 @@ public class PoisonHero : HeroUnit {
             //Debug.Log("he dead");
             if (targetable[selectedTarget].unitOnTile.current_health <= 0)
             {
+                GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().killSounds);
+
                 if (targetable[selectedTarget].unitOnTile.tag == "TeamBuff") // was a buffmonster
                 {
                     GameObject buffItem = Instantiate(FloatingBuffPrefab, transform.position, Quaternion.identity, transform);
@@ -463,6 +465,8 @@ public class PoisonHero : HeroUnit {
             //Debug.Log("he dead");
             if (targetable[selectedTarget].unitOnTile.current_health <= 0)
             {
+                GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().killSounds);
+
                 if (targetable[selectedTarget].unitOnTile.tag == "TeamBuff") // was a buffmonster
                 {
                     GameObject buffItem = Instantiate(FloatingBuffPrefab, transform.position, Quaternion.identity, transform);

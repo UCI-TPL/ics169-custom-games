@@ -114,6 +114,72 @@ public class PoisonGas : EnvironmentalHazard {
 
                     attacked_unit.dead = true;
                     editor.Units_To_Delete.Add(frontier[j]);
+                    PoisonHero pHero;
+                    if(gameObject.tag == "Player 1")
+                    {
+                        pHero = editor.P1Team[0].GetComponent<PoisonHero>();
+                    }
+                    else
+                    {
+                        pHero = editor.P2Team[0].GetComponent<PoisonHero>();
+                    }
+                    if (attacked_unit.tag == "TeamBuff") // was a buffmonster
+                    {
+                        GameObject buffItem = Instantiate(pHero.FloatingBuffPrefab, pHero.transform.position, Quaternion.identity, pHero.transform);
+                        int randBuff = Random.Range(0, 4);
+                        //give correct buff accordingly
+                        Debug.Log("acquiring buff");
+                        if (randBuff == 0) // movement buff
+                        {
+                            buffItem.GetComponent<SpriteRenderer>().sprite = pHero.mobilityBuff;
+                            Debug.Log(name + " got a movement buff");
+                            pHero.current_mobility += 1;
+                            pHero.move_buff = true;
+                            if (pHero.current_health != pHero.health)
+                                pHero.current_health += 10;
+                        }
+                        else if (randBuff == 1) // crit buff
+                        {
+                            buffItem.GetComponent<SpriteRenderer>().sprite = pHero.critBuff;
+                            Debug.Log(name + " got a crit buff");
+                            pHero.crit += 0.20f;
+                            pHero.crit_buff = true;
+                            if (pHero.current_health != pHero.health)
+                                pHero.current_health += 10;
+                        }
+                        else if (randBuff == 2) // attack buff
+                        {
+                            Debug.Log(name + " got an attack buff");
+                            buffItem.GetComponent<SpriteRenderer>().sprite = pHero.attackBuff;
+                            pHero.attack += 25;
+                            pHero.current_attack += 25;
+                            pHero.attack_buff = true;
+                            if (pHero.current_health != pHero.health)
+                                pHero.current_health += 10;
+                        }
+                        else // health buff
+                        {
+                            Debug.Log(name + " got a health buff");
+                            buffItem.GetComponent<SpriteRenderer>().sprite = pHero.healthBuff;
+                            pHero.health += 100;
+                            pHero.current_health += 100;
+
+                            pHero.health_buff = true;
+                        }
+                        if (pHero.current_health > (pHero.health * 0.4f))
+                        {
+                            pHero.anim.SetBool("Injured", false);
+                            pHero.Injured = false;
+                        }
+                        float healthpercent = pHero.current_health / pHero.health;//    120/180 = .667
+
+                        float attack_deduction = 1 - healthpercent;//   1 - .667 = .333
+                        float reduction = attack_deduction / 2;
+                        float new_attack = pHero.attack * reduction;//   72 * .333 = 23.76
+                        pHero.current_attack = pHero.attack + new_attack;// 72 - 23.76 = 48
+
+                        gameObject.GetComponentInChildren<Buff_UI_Manager>().update_current_buffs(pHero);
+                    }
                 }
             }
         }
