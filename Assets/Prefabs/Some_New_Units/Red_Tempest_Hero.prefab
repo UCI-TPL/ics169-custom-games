@@ -990,7 +990,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 68227813222334da2a5c767c3067cbf0, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 5db93db80e4a5e4458e4a1a573548bfc, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1560,7 +1560,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f7ce4e5d3749c492e989e79be51e8b78, type: 3}
+  m_audioClip: {fileID: 8300000, guid: c9def78e9e367ee40954b43c6417d2d3, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1655,7 +1655,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 95681e37bad8442b9ae512c9cc9bc5b9, type: 3}
+  m_audioClip: {fileID: 8300000, guid: c090a93b21910944b8dc316649683aca, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -2743,14 +2743,15 @@ MonoBehaviour:
   hitSound: {fileID: 82098340632467032}
   moveSound: {fileID: 82457938062188014}
   selection_arrow: {fileID: 1386002402443952}
-  Moving_Lines_List: []
+  Moving_Lines_List:
+  - {fileID: 82019629787089468}
   Attacking_Lines_List: []
   Getting_Hit_Lines_List: []
   Injured: 0
   extraWaitTime: 0
   Shield_Bubble: {fileID: 0}
   myType: 2
-  specialAttackSound: {fileID: 0}
+  specialAttackSound: {fileID: 82847286396084940}
   specialAttackCounter: 0
   possibleHazards:
   - {fileID: 114567593438135374, guid: 6c8ad155576b2d4478a8d6464d2cde8f, type: 2}

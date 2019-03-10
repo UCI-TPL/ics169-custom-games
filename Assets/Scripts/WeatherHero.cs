@@ -40,7 +40,7 @@ public class WeatherHero : HeroUnit
             editor.hazardsOnGrid.Add(possibleHazards[rand].CreateHazardAt(cell, editor.hexGrid));
 
 
-        specialAttackCounter = 4;
+        specialAttackCounter = 3;
     }
 
     public override IEnumerator BasicAttack(Grid hexGrid, HexagonCell unitCell)
@@ -115,6 +115,7 @@ public class WeatherHero : HeroUnit
                 {
                     if (crit_chance <= crit && miss_chance > miss)
                     {
+                        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().critSounds);
                         damage = current_attack * crit_multiplier;
                         crit_happened = true;
                     }
@@ -400,6 +401,7 @@ public class WeatherHero : HeroUnit
                 {
                     if (crit_chance <= crit && miss_chance > miss)
                     {
+                        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().critSounds);
                         damage = current_attack * crit_multiplier;
                         crit_happened = true;
                     }
