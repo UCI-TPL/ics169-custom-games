@@ -25,11 +25,12 @@ public class Win_Buttons : MonoBehaviour {
 
     public void RestartGame(int sceneIndex)
     {
-        StartCoroutine(UsingLoadingBar(sceneIndex));
         Manager.GetComponent<PlayerInformation>().reset = true;
         Manager.GetComponent<PlayerInformation>().currentState = PlayerInformation.DraftStates.P1_Pick_1;
+        StartCoroutine(UsingLoadingBar(sceneIndex));
         Editor.GetComponent<HexagonMapEditor>().P1won = false;
         Editor.GetComponent<HexagonMapEditor>().P2won = false;
+
 
     }
 

@@ -999,12 +999,16 @@ MonoBehaviour:
   p1PickTime: 0
   p2PickTime: 0
   nextScene: 0
+  one_time: 0
+  loadOne: 0
   draftUI: {fileID: 0}
   loadingScreen: {fileID: 0}
   loadingSlider: {fileID: 0}
   ranger: {fileID: 0}
   reset: 0
   reRandom: 0
+  alpha1: {r: 0, g: 0, b: 0, a: 0}
+  alpha2: {r: 0, g: 0, b: 0, a: 0}
   move_sound: {fileID: 1666635609}
   pick_sound: {fileID: 1666635608}
   currentState: 0
