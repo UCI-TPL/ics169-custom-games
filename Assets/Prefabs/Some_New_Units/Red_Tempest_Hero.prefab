@@ -1346,7 +1346,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 89
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -2852,6 +2852,9 @@ MonoBehaviour:
   Injured: 0
   extraWaitTime: 0
   Shield_Bubble: {fileID: 0}
+  color_should_be:
+    serializedVersion: 2
+    rgba: 0
   myType: 2
   specialAttackSound: {fileID: 82019629787089468}
   specialAttackCounter: 0
