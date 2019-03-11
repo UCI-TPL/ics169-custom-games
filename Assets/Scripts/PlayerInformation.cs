@@ -125,10 +125,13 @@ public class PlayerInformation : MonoBehaviour
             {
                 AddUnitsBack("P1");
             }
+            Debug.Log("Removed P1Units");
             if (RemovedP2Units.Count != 0)
             {
                 AddUnitsBack("P2");
+                Debug.Log("P2 Removed");
             }
+            Debug.Log("Removed P2Units");
             Player1Chosen.Clear();
             Player2Chosen.Clear();
             P1PoolUnits.Clear();
@@ -136,6 +139,7 @@ public class PlayerInformation : MonoBehaviour
             one_time = true;
             loadOne = true;
             reset = false;
+            Debug.Log("REMOVED ALL");
         }
         if (current_scene.name == "SelectCharacter")
         {
@@ -604,7 +608,7 @@ public class PlayerInformation : MonoBehaviour
 
     
 
-    private void AddUnitsBack(string playerNum) // couuld be cause not adding back the units properly?
+    public void AddUnitsBack(string playerNum) // couuld be cause not adding back the units properly?
     {
         Debug.Log("added units back");
         if (playerNum == "P1")
@@ -648,14 +652,14 @@ public class PlayerInformation : MonoBehaviour
 
                 //-------------   Adding Units    -------------//
 
-                if (RemovedP2Units[j].unit_type == "Ranger" && !AllP2Units.Contains(RemovedP1Units[j]))
-                    AllP2Units.Insert(0, RemovedP1Units[j]);
-                else if (RemovedP2Units[j].unit_type == "Warrior" && !AllP1Units.Contains(RemovedP1Units[j]))
-                    AllP2Units.Insert(1, RemovedP1Units[j]);
-                else if (RemovedP2Units[j].unit_type == "Tank" && !AllP2Units.Contains(RemovedP1Units[j]))
-                    AllP2Units.Insert(2, RemovedP1Units[j]);
-                else if (RemovedP2Units[j].unit_type == "Healer" && !AllP2Units.Contains(RemovedP1Units[j]))
-                    AllP2Units.Insert(3, RemovedP1Units[j]);
+                if (RemovedP2Units[j].unit_type == "Ranger" && !AllP2Units.Contains(RemovedP2Units[j]))
+                    AllP2Units.Insert(0, RemovedP2Units[j]);
+                else if (RemovedP2Units[j].unit_type == "Warrior" && !AllP2Units.Contains(RemovedP2Units[j]))
+                    AllP2Units.Insert(1, RemovedP2Units[j]);
+                else if (RemovedP2Units[j].unit_type == "Tank" && !AllP2Units.Contains(RemovedP2Units[j]))
+                    AllP2Units.Insert(2, RemovedP2Units[j]);
+                else if (RemovedP2Units[j].unit_type == "Healer" && !AllP2Units.Contains(RemovedP2Units[j]))
+                    AllP2Units.Insert(3, RemovedP2Units[j]);
                 //RemovedP2Units.Remove(RemovedP2Units[j]);
             }
             RemovedP2Units.Clear();
