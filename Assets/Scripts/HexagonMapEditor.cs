@@ -383,6 +383,7 @@ public class HexagonMapEditor : MonoBehaviour
                     //Turn Units Back To Normal Color
                     for (int i = 0; i < MoveableUnits.Count; i++)
                     {
+                        MoveableUnits[i].color_should_be = Color.white;
                         Anima2D.SpriteMeshInstance[] Unit_Sprites = MoveableUnits[i].gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
                         for (int k = 0; k < Unit_Sprites.Length; k++)
                         {
@@ -558,6 +559,7 @@ public class HexagonMapEditor : MonoBehaviour
                     MoveableUnits = new List<StartUnit>(P1Team);
                     for (int i = 0; i < MoveableUnits.Count; i++)
                     {
+                        MoveableUnits[i].color_should_be = Color.white;
                         Anima2D.SpriteMeshInstance[] Unit_Sprites = MoveableUnits[i].gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
                         for (int k = 0; k < Unit_Sprites.Length; k++)
                         {
@@ -1169,10 +1171,12 @@ public class HexagonMapEditor : MonoBehaviour
             {
                 //basically just staying in the same spot
                 MoveableUnits.Remove(SelectedUnit);
+                SelectedUnit.color_should_be = Greyed_Unit_Color;
                 Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
                 for (int i = 0; i < Unit_Meshes.Length; i++)
                 {
                     Unit_Meshes[i].color = Greyed_Unit_Color;
+                    
                     //Debug.Log("Color_Changed");
                 }
                 DeselectUnit();
@@ -1236,10 +1240,12 @@ public class HexagonMapEditor : MonoBehaviour
                 }
 
                 MoveableUnits.Remove(SelectedUnit);
+                SelectedUnit.color_should_be = Greyed_Unit_Color;
                 Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
                 for (int i = 0; i < Unit_Meshes.Length; i++)
                 {
                     Unit_Meshes[i].color = Greyed_Unit_Color;
+                    
                     //Debug.Log("Color_Changed");
                 }
                 DeselectUnit();
