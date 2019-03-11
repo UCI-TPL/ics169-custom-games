@@ -1274,7 +1274,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f67fa39abf972436090bd744b36e63fd, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 8001ceebf5689431aa9411e9aae68573, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.6
   m_Pitch: 1
@@ -1559,7 +1559,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: aba2787567b32f14ab6f942f0fbec8b3, type: 3}
+  m_audioClip: {fileID: 8300000, guid: bbd0398c78c204adfaa8eae69568ffa3, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1654,7 +1654,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b57f5a031e83a471eaed8095920413f1, type: 3}
+  m_audioClip: {fileID: 8300000, guid: dab90bd61196849ba8c9d123d00dbaf2, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.6
   m_Pitch: 1
@@ -1749,7 +1749,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 58b5ec0d660849847993a1d5fb3ce2fd, type: 3}
+  m_audioClip: {fileID: 8300000, guid: d1e5bf497fd1b4224822f0aa27351e6d, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1844,7 +1844,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: dab90bd61196849ba8c9d123d00dbaf2, type: 3}
+  m_audioClip: {fileID: 8300000, guid: d1e5bf497fd1b4224822f0aa27351e6d, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -2642,13 +2642,13 @@ MonoBehaviour:
   Hit_Effect: {fileID: 0}
   attackSound: {fileID: 82105596089271836}
   hitSound: {fileID: 82360846988707684}
-  moveSound: {fileID: 82690820145804364}
+  moveSound: {fileID: 82490579078420208}
   selection_arrow: {fileID: 1554258054423126}
   Moving_Lines_List:
-  - {fileID: 82528394788757598}
-  - {fileID: 82194906289266400}
+  - {fileID: 82195049442743424}
   Attacking_Lines_List: []
-  Getting_Hit_Lines_List: []
+  Getting_Hit_Lines_List:
+  - {fileID: 82360846988707684}
   Injured: 0
   extraWaitTime: 0
   Shield_Bubble: {fileID: 0}

@@ -46,7 +46,7 @@ public class PlayerInformation : MonoBehaviour
 
     public bool nextScene = false;
     private bool doSelect = false;
-    private bool one_time;
+    public bool one_time, loadOne;
 
     public DraftUI draftUI;
 
@@ -57,6 +57,8 @@ public class PlayerInformation : MonoBehaviour
 
     public bool reset;
     public bool reRandom;
+
+    public Color alpha1, alpha2;
     /********************************************************************************/
     //sound stuff
     public AudioSource move_sound, pick_sound;
@@ -95,6 +97,9 @@ public class PlayerInformation : MonoBehaviour
         current_scene = SceneManager.GetActiveScene();
         reRandom = false;
         loadingScreen.SetActive(false);
+        loadOne = true;
+        alpha1 = draftUI.P1Side.color;
+        alpha2 = draftUI.P2side.color;
     }
 
     // Update is called once per frame
@@ -104,12 +109,11 @@ public class PlayerInformation : MonoBehaviour
         if (current_scene.name == "CMapping")
         {
 
-            if (ctrsSet.Contains(1) && (ctrsSet.Contains(2) || one_player)) // both players ready
-                //SceneManager.LoadScene(2);
+            if (ctrsSet.Contains(1) && (ctrsSet.Contains(2) || one_player) && loadOne)
+            {// both players ready
                 LoadGame(1);
-            //else if (ctrsSet.Contains(1) && one_player)
-            //    //SceneManager.LoadScene(2);
-            //    LoadGame(2);
+                loadOne = false;
+            }
             else
             {
                 ControllerMapping();
@@ -130,6 +134,7 @@ public class PlayerInformation : MonoBehaviour
             P1PoolUnits.Clear();
             P2PoolUnits.Clear();
             one_time = true;
+            loadOne = true;
             reset = false;
         }
         if (current_scene.name == "SelectCharacter")
@@ -150,6 +155,7 @@ public class PlayerInformation : MonoBehaviour
                     break;
 
                 case (DraftStates.P1_Pick_1):
+                    draftUI.P2side.GetComponent<Image>().color = new Color(draftUI.P2side.GetComponent<Image>().color.r, draftUI.P2side.GetComponent<Image>().color.g, draftUI.P2side.GetComponent<Image>().color.b, .5f);
                     if (reRandom)
                     {
                         RandomPool();
@@ -157,6 +163,8 @@ public class PlayerInformation : MonoBehaviour
                     }
                     if (Player1Chosen.Count == 1)
                     {
+                        draftUI.P1Side.GetComponent<Image>().color = new Color(draftUI.P1Side.GetComponent<Image>().color.r, draftUI.P1Side.GetComponent<Image>().color.g, draftUI.P1Side.GetComponent<Image>().color.b, 1f);
+                        //draftUI.P2side.GetComponent<Image>().color = new Color(draftUI.P2side.GetComponent<Image>().color.r, draftUI.P2side.GetComponent<Image>().color.g, draftUI.P2side.GetComponent<Image>().color.b, .5f);
                         draftUI.P1Pick1();
                         if (one_player)
                         {
@@ -165,6 +173,7 @@ public class PlayerInformation : MonoBehaviour
                         else
                         {
                             //draftUI.ChangePlayer();
+                            draftUI.P1Side.GetComponent<Image>().color = new Color(draftUI.P1Side.GetComponent<Image>().color.r, draftUI.P1Side.GetComponent<Image>().color.g, draftUI.P1Side.GetComponent<Image>().color.b, .5f);
                             currentState = DraftStates.P2_Pick_1;
                         }
                     }
@@ -179,7 +188,8 @@ public class PlayerInformation : MonoBehaviour
                 case (DraftStates.P2_Pick_1):
                     if(Player2Chosen.Count == 0)
                     {
-                        draftUI.P2Choice1.color = draftUI.baby_blue;
+                        draftUI.P2side.GetComponent<Image>().color = new Color(draftUI.P2side.GetComponent<Image>().color.r, draftUI.P2side.GetComponent<Image>().color.g, draftUI.P2side.GetComponent<Image>().color.b, 1f);
+                        draftUI.P2Choice1.color = draftUI.pink;
                         if (!draftUI.blinking)
                             StartCoroutine(draftUI.Blink(draftUI.P2Choice1));
                         ChooseCharacter("P2", true);
@@ -189,14 +199,16 @@ public class PlayerInformation : MonoBehaviour
                     }
                     if(Player2Chosen.Count == 1)
                     {
+                        draftUI.P2side.GetComponent<Image>().color = new Color(draftUI.P2side.GetComponent<Image>().color.r, draftUI.P2side.GetComponent<Image>().color.g, draftUI.P2side.GetComponent<Image>().color.b, 1f);
                         draftUI.P2Pick1();
-                        draftUI.P2Choice2.color = draftUI.baby_blue;
+                        draftUI.P2Choice2.color = draftUI.pink;
                         draftUI.ChoiceText.text = "Player 2 Select Your Unit";
                         if (!draftUI.blinking)
                             StartCoroutine(draftUI.Blink(draftUI.P2Choice2));
                     }
                     else if (Player2Chosen.Count == 2)
                     {
+                        draftUI.P2side.GetComponent<Image>().color = new Color(draftUI.P2side.GetComponent<Image>().color.r, draftUI.P2side.GetComponent<Image>().color.g, draftUI.P2side.GetComponent<Image>().color.b, .5f);
                         draftUI.P2Pick2();
                         currentState = DraftStates.P1_Pick_2;
                     }
@@ -214,12 +226,14 @@ public class PlayerInformation : MonoBehaviour
                     }
                     if(Player1Chosen.Count == 1)
                     {
+                        draftUI.P1Side.GetComponent<Image>().color = new Color(draftUI.P1Side.GetComponent<Image>().color.r, draftUI.P1Side.GetComponent<Image>().color.g, draftUI.P1Side.GetComponent<Image>().color.b, 1f);
                         draftUI.P1Choice2.color = draftUI.baby_blue;
                         if(!draftUI.blinking)
                             StartCoroutine(draftUI.Blink(draftUI.P1Choice2));
                     }
                     else if(Player1Chosen.Count == 2)
                     {
+                        draftUI.P1Side.GetComponent<Image>().color = new Color(draftUI.P1Side.GetComponent<Image>().color.r, draftUI.P1Side.GetComponent<Image>().color.g, draftUI.P1Side.GetComponent<Image>().color.b, 1f);
                         draftUI.P1Pick2();
                         draftUI.P1Choice3.color = draftUI.baby_blue;
                         if (!draftUI.blinking)
@@ -232,6 +246,7 @@ public class PlayerInformation : MonoBehaviour
                             currentState = DraftStates.P1_Pick_3;
                         else
                         {
+                            draftUI.P1Side.GetComponent<Image>().color = new Color(draftUI.P1Side.GetComponent<Image>().color.r, draftUI.P1Side.GetComponent<Image>().color.g, draftUI.P1Side.GetComponent<Image>().color.b, .5f);
                             currentState = DraftStates.P2_Pick_2;
                         }
                     }
@@ -250,20 +265,23 @@ public class PlayerInformation : MonoBehaviour
                     }
                      if (Player2Chosen.Count == 2)
                     {
+                        draftUI.P2side.GetComponent<Image>().color = new Color(draftUI.P2side.GetComponent<Image>().color.r, draftUI.P2side.GetComponent<Image>().color.g, draftUI.P2side.GetComponent<Image>().color.b, 1f);
                         draftUI.P2Pick2();
-                        draftUI.P2Choice3.color = draftUI.baby_blue;
+                        draftUI.P2Choice3.color = draftUI.pink;
                         if (!draftUI.blinking)
                             StartCoroutine(draftUI.Blink(draftUI.P2Choice3));
                     }
                     if (Player2Chosen.Count == 3)
                     {
+                        draftUI.P2side.GetComponent<Image>().color = new Color(draftUI.P2side.GetComponent<Image>().color.r, draftUI.P2side.GetComponent<Image>().color.g, draftUI.P2side.GetComponent<Image>().color.b, 1f);
                         draftUI.P2Pick3();
-                        draftUI.P2Choice4.color = draftUI.baby_blue;
+                        draftUI.P2Choice4.color = draftUI.pink;
                         if (!draftUI.blinking)
                             StartCoroutine(draftUI.Blink(draftUI.P2Choice4));
                     }
                     if (Player2Chosen.Count == 4)
                     {
+                        draftUI.P2side.GetComponent<Image>().color = new Color(draftUI.P2side.GetComponent<Image>().color.r, draftUI.P2side.GetComponent<Image>().color.g, draftUI.P2side.GetComponent<Image>().color.b, .5f);
                         draftUI.P2Pick4();
                         currentState = DraftStates.P1_Pick_3;
                     }
@@ -281,12 +299,14 @@ public class PlayerInformation : MonoBehaviour
                     //}
                     if(Player1Chosen.Count == 3)
                     {
+                        draftUI.P1Side.GetComponent<Image>().color = new Color(draftUI.P1Side.GetComponent<Image>().color.r, draftUI.P1Side.GetComponent<Image>().color.g, draftUI.P1Side.GetComponent<Image>().color.b, 1f);
                         draftUI.P1Choice4.color = draftUI.baby_blue;
                         if (!draftUI.blinking)
                             StartCoroutine(draftUI.Blink(draftUI.P1Choice4));
                     }
                     if(Player1Chosen.Count == 4)
                     {
+                        draftUI.P1Side.GetComponent<Image>().color = new Color(draftUI.P1Side.GetComponent<Image>().color.r, draftUI.P1Side.GetComponent<Image>().color.g, draftUI.P1Side.GetComponent<Image>().color.b, 1f);
                         draftUI.P1Pick4();
                         draftUI.P1Choice5.color = draftUI.baby_blue;
                         if (!draftUI.blinking)
@@ -299,6 +319,7 @@ public class PlayerInformation : MonoBehaviour
                            currentState = DraftStates.Check_Teams;// DraftStates.Enter_Battle;
                         else
                         {
+                            draftUI.P1Side.GetComponent<Image>().color = new Color(draftUI.P1Side.GetComponent<Image>().color.r, draftUI.P1Side.GetComponent<Image>().color.g, draftUI.P1Side.GetComponent<Image>().color.b, .5f);
                             currentState = DraftStates.P2_Pick_3;
                         }
                     }
@@ -316,14 +337,18 @@ public class PlayerInformation : MonoBehaviour
                     //}
                     if(Player2Chosen.Count == 3)
                     {
-                        draftUI.P2Choice4.color = draftUI.baby_blue;
+                        alpha2.a = 1f;
+                        draftUI.P2side.GetComponent<Image>().color = new Color(draftUI.P2side.GetComponent<Image>().color.r, draftUI.P2side.GetComponent<Image>().color.g, draftUI.P2side.GetComponent<Image>().color.b, 1f);
+                        draftUI.P2Choice4.color = draftUI.pink;
                         if (!draftUI.blinking)
                             StartCoroutine(draftUI.Blink(draftUI.P2Choice4));
                     }
                     if(Player2Chosen.Count == 4)
                     {
+                        alpha2.a = 1f;
+                        draftUI.P2side.GetComponent<Image>().color = new Color(draftUI.P2side.GetComponent<Image>().color.r, draftUI.P2side.GetComponent<Image>().color.g, draftUI.P2side.GetComponent<Image>().color.b, 1f);
                         draftUI.P2Pick4();
-                        draftUI.P2Choice5.color = draftUI.baby_blue;
+                        draftUI.P2Choice5.color = draftUI.pink;
                         if (!draftUI.blinking)
                             StartCoroutine(draftUI.Blink(draftUI.P2Choice5));
                     }

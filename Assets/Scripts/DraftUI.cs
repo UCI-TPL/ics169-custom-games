@@ -10,6 +10,7 @@ public class DraftUI : MonoBehaviour {
     public Text StatText; //done
     public Text DescriptionText;
     public Image Panel; //done
+    public Image P1Side, P2side;
     public Image UnitIcon; //done but could be better
     public Image P1Choice1; //done
     public Image P1Choice2; //done
@@ -50,6 +51,7 @@ public class DraftUI : MonoBehaviour {
     public Text HealerNum;
 
     public Color baby_blue = new Color(0.49f,0.74f,1f);
+    public Color pink = new Color(1f, .55f, .55f);
     public bool blinking = false;
 
     private void Awake()
