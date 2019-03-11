@@ -12,7 +12,7 @@ public class PauseMenu : MonoBehaviour {
     public GameObject controls_menu;
     public GameObject FirstObject;
     public GameObject ResumeButton, ControlsButton, QuitButton;
-    public PlayerInformation Manager;
+    public GameObject Manager;
     public GameObject LoadingScreen;
     public Slider slider;
     // Use this for initialization
@@ -90,10 +90,11 @@ public class PauseMenu : MonoBehaviour {
 
     public void QuitGame(int sceneIndex)
     {
-        StartCoroutine(Send2MainMenu(sceneIndex));
-        Manager.reset = true;
-        Manager.currentState = PlayerInformation.DraftStates.P1_Pick_1;
         Time.timeScale = 1;
+        StartCoroutine(Send2MainMenu(sceneIndex));
+        Manager.GetComponent<PlayerInformation>().reset = true;
+        Manager.GetComponent<PlayerInformation>().currentState = PlayerInformation.DraftStates.P1_Pick_1;
+        Debug.Log("HitPauseButton QUIT");
     }
 
     IEnumerator Send2MainMenu(int sceneIndex)

@@ -196,9 +196,9 @@ public class HexagonMapEditor : MonoBehaviour
         //StartCoroutine(InitializingTeams());
         P1_Team_portrait_UI.Initialize_Portraits(P1Team);
         P2_Team_portrait_UI.Initialize_Portraits(P2Team);
-        Resume.GetComponent<PauseMenu>().Manager = PlayerInfo;
-        Controls.GetComponent<PauseMenu>().Manager = PlayerInfo;
-        Quit.GetComponent<PauseMenu>().Manager = PlayerInfo;
+        Resume.GetComponent<PauseMenu>().Manager = GameObject.Find("GameManager");
+        Controls.GetComponent<PauseMenu>().Manager = GameObject.Find("GameManager");
+        Quit.GetComponent<PauseMenu>().Manager = GameObject.Find("GameManager");
         
     }
 
