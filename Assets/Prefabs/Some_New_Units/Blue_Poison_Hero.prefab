@@ -1021,7 +1021,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 10ddb3d20bb7847a1b1856a362cdae35, type: 3}
+  m_audioClip: {fileID: 8300000, guid: fceda93ab5f49c647b71bae65c65d142, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.6
   m_Pitch: 1
@@ -1401,7 +1401,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 95681e37bad8442b9ae512c9cc9bc5b9, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 553b6b59230d9224099a5828c2779b8a, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1496,7 +1496,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 68227813222334da2a5c767c3067cbf0, type: 3}
+  m_audioClip: {fileID: 8300000, guid: b093a3dac7369b64e8b798eaf56d6ab6, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1686,7 +1686,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: e9f83d3d4ee9a4dbfadbc360bb0aca88, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 8093ed26404f08e4593ded595548cb9d, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1781,7 +1781,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f7ce4e5d3749c492e989e79be51e8b78, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 592819a2da435fb4a801d2dba4ce4e03, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -3078,14 +3078,17 @@ MonoBehaviour:
   hitSound: {fileID: 82270477606029662}
   moveSound: {fileID: 82572875042567256}
   selection_arrow: {fileID: 1290110207191924}
-  Moving_Lines_List: []
-  Attacking_Lines_List: []
+  Moving_Lines_List:
+  - {fileID: 82926100192898436}
+  Attacking_Lines_List:
+  - {fileID: 82577124431583784}
+  - {fileID: 82577124431583784}
   Getting_Hit_Lines_List: []
   Injured: 0
   extraWaitTime: 0
   Shield_Bubble: {fileID: 0}
   myType: 2
-  specialAttackSound: {fileID: 82479439613918162}
+  specialAttackSound: {fileID: 82862008180043372}
   poisonGas: {fileID: 114959469959674676, guid: d31fc1f2ac967d340b1a2990e1769a18,
     type: 2}
   specialAttackCounter: 0

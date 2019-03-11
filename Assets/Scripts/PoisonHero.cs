@@ -102,7 +102,9 @@ public class PoisonHero : HeroUnit {
                 {
                     if (crit_chance <= crit && miss_chance > miss)
                     {
-                        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().critSounds);
+                        int rand = Random.Range(0, 2);
+                        if (rand == 0)
+                            GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().critSounds);
                         damage = current_attack * crit_multiplier;
                         crit_happened = true;
                     }
@@ -137,7 +139,9 @@ public class PoisonHero : HeroUnit {
                 if (damage == 0)
                 {
                     damagetext.GetComponent<TextMesh>().text = "MISS";
-                    GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().missSounds);
+                    int rand = Random.Range(0, 2);
+                    if (rand == 0)
+                        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().missSounds);
                     damagetext.GetComponent<TextMesh>().color = Color.white;
                     damagetext.GetComponent<TextMesh>().characterSize = 0.06f;
                 }
@@ -384,7 +388,9 @@ public class PoisonHero : HeroUnit {
                 {
                     if (crit_chance <= crit && miss_chance > miss)
                     {
-                        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().critSounds);
+                        int rand = Random.Range(0, 2);
+                        if (rand == 0)
+                            GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().critSounds);
                         damage = current_attack * crit_multiplier;
                         crit_happened = true;
                     }
@@ -419,7 +425,9 @@ public class PoisonHero : HeroUnit {
                 if (damage == 0)
                 {
                     damagetext.GetComponent<TextMesh>().text = "MISS";
-                    GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().missSounds);
+                    int rand = Random.Range(0, 2);
+                    if (rand == 0)
+                        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().PlayOneFromList(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundManager>().missSounds);
                     damagetext.GetComponent<TextMesh>().color = Color.white;
                     damagetext.GetComponent<TextMesh>().characterSize = 0.06f;
                 }

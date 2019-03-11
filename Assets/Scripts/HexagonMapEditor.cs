@@ -694,7 +694,7 @@ public class HexagonMapEditor : MonoBehaviour
                         //Debug.Log("hazard time left: " + h.timeLeft--.ToString());
                         //Debug.Log("x: " + h.x + " z: " + h.z);
                         StartCoroutine(Snap_To_Hazard(h.x, h.z, h.type.anim_time));
-                        StartCoroutine(HandleStatus(statusCount, 1));
+                        StartCoroutine(HandleStatus(statusCount, 2));
 
                     }
                 }

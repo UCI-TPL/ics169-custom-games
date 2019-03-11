@@ -475,7 +475,6 @@ GameObject:
   - component: {fileID: 114054560079207568}
   - component: {fileID: 95104800906713728}
   - component: {fileID: 114545511519140204}
-  - component: {fileID: 82490579078420208}
   - component: {fileID: 82105596089271836}
   - component: {fileID: 82195049442743424}
   - component: {fileID: 114288329425283148}
@@ -485,6 +484,7 @@ GameObject:
   - component: {fileID: 82690820145804364}
   - component: {fileID: 82528394788757598}
   - component: {fileID: 82194906289266400}
+  - component: {fileID: 82478574035435936}
   m_Layer: 0
   m_Name: Blue_Assassin_Hero 1
   m_TagString: Player 1
@@ -1084,9 +1084,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 0bdb47d685c4641e991148b03845767c, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 08b45b08724c4a743af6f1a7661c5133, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.6
+  m_Volume: 0.97
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1369,7 +1369,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 68227813222334da2a5c767c3067cbf0, type: 3}
+  m_audioClip: {fileID: 8300000, guid: dccb20b5b917131409caff6a22fba3ed, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1464,7 +1464,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f7ce4e5d3749c492e989e79be51e8b78, type: 3}
+  m_audioClip: {fileID: 8300000, guid: ea0451b4283a58b4a927990c3bf0395e, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1645,7 +1645,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!82 &82490579078420208
+--- !u!82 &82478574035435936
 AudioSource:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1654,9 +1654,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: dab90bd61196849ba8c9d123d00dbaf2, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 58f62b5149d713c4687e0c3fa6c586be, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.6
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2641,11 +2641,12 @@ MonoBehaviour:
   Unit_Getting_Attacked: {fileID: 0}
   Hit_Effect: {fileID: 0}
   attackSound: {fileID: 82105596089271836}
-  hitSound: {fileID: 82360846988707684}
-  moveSound: {fileID: 82490579078420208}
+  hitSound: {fileID: 82354934670368874}
+  moveSound: {fileID: 82690820145804364}
   selection_arrow: {fileID: 1554258054423126}
   Moving_Lines_List:
-  - {fileID: 82195049442743424}
+  - {fileID: 82478574035435936}
+  - {fileID: 82222253394137108}
   Attacking_Lines_List: []
   Getting_Hit_Lines_List:
   - {fileID: 82360846988707684}
