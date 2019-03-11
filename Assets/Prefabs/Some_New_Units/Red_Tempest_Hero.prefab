@@ -1053,7 +1053,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 5db93db80e4a5e4458e4a1a573548bfc, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 72acbdfaa33fcc1409829f4ec35051cd, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1148,7 +1148,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 10ddb3d20bb7847a1b1856a362cdae35, type: 3}
+  m_audioClip: {fileID: 8300000, guid: ca57e3d467daef444ba5b9c9cb4392ba, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.6
   m_Pitch: 1
@@ -1528,7 +1528,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 3eb0835f582ad4a798d39458af1a37ea, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 19f8583d063254f4ebc9301def4c4734, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.6
   m_Pitch: 1
@@ -1623,7 +1623,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: c9def78e9e367ee40954b43c6417d2d3, type: 3}
+  m_audioClip: {fileID: 8300000, guid: a39211cf27debaf4dbd9b37fbea6b766, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1718,7 +1718,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: c090a93b21910944b8dc316649683aca, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 496c40126e05d4840a41c046e9d5f325, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -2845,14 +2845,15 @@ MonoBehaviour:
   moveSound: {fileID: 82457938062188014}
   selection_arrow: {fileID: 1386002402443952}
   Moving_Lines_List:
-  - {fileID: 82019629787089468}
+  - {fileID: 82847286396084940}
+  - {fileID: 82946552587423848}
   Attacking_Lines_List: []
   Getting_Hit_Lines_List: []
   Injured: 0
   extraWaitTime: 0
   Shield_Bubble: {fileID: 0}
   myType: 2
-  specialAttackSound: {fileID: 82847286396084940}
+  specialAttackSound: {fileID: 82019629787089468}
   specialAttackCounter: 0
   possibleHazards:
   - {fileID: 114567593438135374, guid: 6c8ad155576b2d4478a8d6464d2cde8f, type: 2}
