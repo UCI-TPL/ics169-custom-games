@@ -362,7 +362,7 @@ public class StartUnit : MonoBehaviour
             }
             else
             {
-                if (unitCell.coords.FindDistanceTo(attacked_cell.coords) <= attacked_cell.unitOnTile.attackRange)
+                if (unitCell.coords.FindDistanceTo(attacked_cell.coords) <= attacked_cell.unitOnTile.attackRange && attacked_unit.gameObject.GetComponent<FortressHero>() == null)
                 {
                     end_attack_without_retaliate = false;
                 }
@@ -370,7 +370,10 @@ public class StartUnit : MonoBehaviour
                 {
                     end_attack_without_retaliate = true;
                 }
-                
+                if (current_health - 20 <= 0)
+                {
+                    end_attack_without_retaliate = true;
+                }
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 yield return new WaitForSeconds(0.3f);
 
@@ -406,6 +409,7 @@ public class StartUnit : MonoBehaviour
                     StartCoroutine(Blink(editor.Unit_Hurt_Color, this, Time.time + 1f));
                     if (current_health <= 0)// pretty sure there's more code needed here but i'll ask christophe later
                     {
+                        
                         editor.Units_To_Delete.Add(unitCell);
                         dead = true;
                     }
