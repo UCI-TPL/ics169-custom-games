@@ -72,6 +72,8 @@ public class StartUnit : MonoBehaviour
 
     public GameObject Shield_Bubble;
 
+    public Color32 color_should_be;
+
     // Use this for initialization
     public void Start()
     {
@@ -90,6 +92,7 @@ public class StartUnit : MonoBehaviour
         move_buff = false;
         fortress_def_buff = false;
         health_color = health_bar.GetComponent<Image>().color;
+        color_should_be = Color.white;
     }
 
     // Update is called once per frame
@@ -846,6 +849,12 @@ public class StartUnit : MonoBehaviour
             }
 
             yield return new WaitForSeconds(0.2f);
+        }
+
+        for (int i = 0; i < Unit_Meshes.Length; i++)
+        {
+            Unit_Meshes[i].color = color_should_be;
+            //Debug.Log("Color_Changed");
         }
 
     }
