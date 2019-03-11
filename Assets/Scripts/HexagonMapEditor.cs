@@ -1278,6 +1278,8 @@ public class HexagonMapEditor : MonoBehaviour
     {
         //needs to be rewritten using neighbours to improve efficiency
         int range = SelectedUnit.attackRange;
+        if (SelectedUnit.GetComponent<KidnapperHero>() != null && SelectedUnit.GetComponent<KidnapperHero>().specialAttackCounter == 0)
+            range += 2;
         int width = hexGrid.width;
         int height = hexGrid.height;
 

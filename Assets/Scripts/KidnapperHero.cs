@@ -11,8 +11,8 @@ public class KidnapperHero : HeroUnit {
 
     private void Update()
     {
-        if (specialAttackCounter == 0)
-            attackRange = specialRange;
+        //if (specialAttackCounter == 0)
+        //    attackRange = specialRange;
     }
     public override IEnumerator BasicAttack(Grid hexGrid, HexagonCell unitCell)
     {
@@ -37,7 +37,7 @@ public class KidnapperHero : HeroUnit {
         attacked_unit_has_died = false;
 
         string name = unitCell.unitOnTile.unit_name;
-
+        attackRange = specialRange;
 
         //add a call to a retaliate function on the other unit   
         List<HexagonCell> targetable = new List<HexagonCell>();
@@ -342,6 +342,10 @@ public class KidnapperHero : HeroUnit {
 
                 //attacked_unit.Fade_Out_Body();
                 //Should start some sort of DEATH ANIMATION COROUTINE HERE
+                specialAttackCounter = 3;
+                attackRange = 1;
+                temp_attacked_cell = null;
+                temp_attacked_unit = null;
             }
             else
             {
@@ -404,6 +408,7 @@ public class KidnapperHero : HeroUnit {
         else
         {
             specialAttackCounter = 0;
+            attackRange = 1;
             currently_attacking = false;
         }
 
