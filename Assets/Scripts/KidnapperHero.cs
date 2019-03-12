@@ -357,8 +357,12 @@ public class KidnapperHero : HeroUnit {
                 {
                     end_attack_without_retaliate = true;
                 }
+                if (current_health - 20 <= 0 && attacked_unit.gameObject.GetComponent<FortressHero>() != null)
+                {
+                    end_attack_without_retaliate = true;
+                }
 
-                StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
+                    StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 yield return new WaitForSeconds(0.3f);
                 //if (attacked_unit.gameObject.GetComponent<FortressHero>() != null && damage != 0) // handling of if attacking fortress hero 
                 //{
@@ -639,7 +643,7 @@ public class KidnapperHero : HeroUnit {
                 {
                     end_attack_without_retaliate = true;
                 }
-                if (current_health - 20 <= 0)
+                if (current_health - 20 <= 0 && attacked_unit.gameObject.GetComponent<FortressHero>() != null)
                 {
                     end_attack_without_retaliate = true;
                 }

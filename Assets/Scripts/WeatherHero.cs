@@ -151,52 +151,52 @@ public class WeatherHero : HeroUnit
                 }
             }
 
-            //if (attacked_unit.FloatingTextPrefab)
-            //{
-            //    GameObject damagetext = Instantiate(attacked_unit.FloatingTextPrefab, attacked_unit.transform.position, Quaternion.identity, attacked_unit.transform);
-            //    if (damage == 0)
-            //    {
-            //        damagetext.GetComponent<TextMesh>().text = "MISS";
-            //        damagetext.GetComponent<TextMesh>().color = Color.white;
-            //        damagetext.GetComponent<TextMesh>().characterSize = 0.06f;
-            //    }
+            if (attacked_unit.FloatingTextPrefab)
+            {
+                GameObject damagetext = Instantiate(attacked_unit.FloatingTextPrefab, attacked_unit.transform.position, Quaternion.identity, attacked_unit.transform);
+                if (damage == 0)
+                {
+                    damagetext.GetComponent<TextMesh>().text = "MISS";
+                    damagetext.GetComponent<TextMesh>().color = Color.white;
+                    damagetext.GetComponent<TextMesh>().characterSize = 0.06f;
+                }
 
 
-            //    if (damage != 0)
-            //    {
-            //        damagetext.GetComponent<TextMesh>().text = dmg_txt.ToString();
-            //        if (crit_happened)
-            //        {
-            //            damagetext.GetComponent<TextMesh>().color = Color.red;
-            //            damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * ((float)dmg_txt / 75f));
-            //        }
-            //        else
-            //        {
-            //            damagetext.GetComponent<TextMesh>().color = Color.yellow;
-            //            damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * ((float)dmg_txt / 75f));
-            //        }
-            //    }
+                if (damage != 0)
+                {
+                    damagetext.GetComponent<TextMesh>().text = dmg_txt.ToString();
+                    if (crit_happened)
+                    {
+                        damagetext.GetComponent<TextMesh>().color = Color.red;
+                        damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * ((float)dmg_txt / 75f));
+                    }
+                    else
+                    {
+                        damagetext.GetComponent<TextMesh>().color = Color.yellow;
+                        damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * ((float)dmg_txt / 75f));
+                    }
+                }
 
-            //    if (Mathf.Sign(damagetext.transform.parent.localScale.x) == -1 && Mathf.Sign(damagetext.transform.localScale.x) == 1)
-            //    {
-            //        damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
-            //            damagetext.transform.localScale.z);
+                if (Mathf.Sign(damagetext.transform.parent.localScale.x) == -1 && Mathf.Sign(damagetext.transform.localScale.x) == 1)
+                {
+                    damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
+                        damagetext.transform.localScale.z);
 
-            //        //damagetext.GetComponent<TextMesh>().color = Color.green;
-            //        //Debug.Log("BackWards Text");
-            //    }
-            //    else
-            //    {
-            //        if (Mathf.Sign(damagetext.transform.parent.localScale.x) == 1 && Mathf.Sign(damagetext.transform.localScale.x) == -1)
-            //        {
-            //            damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
-            //                damagetext.transform.localScale.z);
-            //        }
-            //    }
+                    //damagetext.GetComponent<TextMesh>().color = Color.green;
+                    //Debug.Log("BackWards Text");
+                }
+                else
+                {
+                    if (Mathf.Sign(damagetext.transform.parent.localScale.x) == 1 && Mathf.Sign(damagetext.transform.localScale.x) == -1)
+                    {
+                        damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
+                            damagetext.transform.localScale.z);
+                    }
+                }
 
-            //}
+            }
             Debug.Log(name + " attacked " + attacked_unit.unit_name + " for " + damage);
-            //TakeDamage(attacked_unit, damage);
+            TakeDamage(attacked_unit, damage);
 
             if (specialAttackCounter <= 0)
             {
@@ -301,8 +301,11 @@ public class WeatherHero : HeroUnit
                 {
                     end_attack_without_retaliate = true;
                 }
-
-                StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
+                if (current_health - 20 <= 0 && attacked_unit.gameObject.GetComponent<FortressHero>() != null)
+                {
+                    end_attack_without_retaliate = true;
+                }
+                    StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 yield return new WaitForSeconds(0.3f);
                 //SHOULD THORNMAIL BE ACTIVATED ON SPECIAL ATTACKS?
                 if (attacked_unit.gameObject.GetComponent<FortressHero>() != null && damage != 0) // handling of if attacking fortress hero 
@@ -580,7 +583,7 @@ public class WeatherHero : HeroUnit
                 {
                     end_attack_without_retaliate = true;
                 }
-                if (attacked_unit.current_health - 20 <= 0)
+                if (current_health - 20 <= 0 && attacked_unit.gameObject.GetComponent<FortressHero>() != null)
                 {
                     end_attack_without_retaliate = true;
                 }
