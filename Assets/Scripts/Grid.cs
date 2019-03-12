@@ -146,13 +146,7 @@ public class Grid : MonoBehaviour {
         }
     
         cell.tag = "Floor";
-        //cell.color = defaultColor;
 
-        //Text label = Instantiate<Text>(cellLabelPrefab);
-        //label.rectTransform.SetParent(gridCanvas.transform);
-        //label.rectTransform.anchoredPosition = new Vector2(position.x, position.y);
-        //label.text = cell.coords.ToStringSeparateLines();
-        //cell.Create_Rain();
     }
 
 
@@ -207,19 +201,10 @@ public class Grid : MonoBehaviour {
                 else
                     distance += 1;
 
-                //distance += 1;
-                //if (neighbor.Distance == int.MaxValue)
-                //{
-                //    neighbor.spriteRenderer.color = color_m;
-                //    neighbor.Distance = distance;
-                //    neighbor.PathFrom = curr;
-                //    frontier.Add(neighbor);
-                //}
                 if (distance > mobility)
                     continue;
                 if (distance < neighbor.Distance)
                 {
-                    //neighbor.spriteRenderer.color = color_m;
                     neighbor.Show_Move_Icon();
                     neighbor.Distance = distance;
                     frontier.Add(neighbor);
@@ -234,7 +219,6 @@ public class Grid : MonoBehaviour {
     {
         for (int i = 0; i < (width * height); i++)
         {
-            //cells[i].spriteRenderer.color = defaultColor;
             cells[i].Hide_Move_Icon();
             cells[i].Hide_Cross_Icon();
             cells[i].Hide_Selected_Icon();
@@ -341,38 +325,7 @@ public class Grid : MonoBehaviour {
         {
             for (int i = 0; i < powercells_.Count; i++)
             {
-                /* old code
-                int randval = Random.Range(1, 5);
-                cells_[powercells_[i]].gameObject.AddComponent<TeamPowerupTiles>();
-                //cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().PoweredDownSprite = PoweredDown;
-                //cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().discovered = true;
-                cells_[powercells_[i]].tag = "TeamBuff";
-                if (randval == 1)
-                {
-                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = AttackBuff; //Need attack buff sprite
-                    cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().attackBuff = true;
-                }
-                if (randval == 2)
-                {
-                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = Healthbuff; //Need health buff sprite
-                    cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().healthBuff = true;
-                }
-                if (randval == 3)
-                {
-                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = MobilityBuff; //Need mobility buff sprite
-                    cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().mobilityBuff = true;
-                }
-                if (randval == 4)
-                {
-                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = CritBuff; // Need crit buff sprite
-                    cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().critBuff = true;
-                }
-                if (randval == 5)
-                {
-                    cells_[powercells_[i]].gameObject.GetComponent<SpriteRenderer>().sprite = AttackRangebuff; //Need Range buff sprite
-                    cells_[powercells_[i]].gameObject.GetComponent<TeamPowerupTiles>().attackrangeBuff = true;
-                }
-                */
+
                 GameObject GO = Instantiate(buffPrefab);
                 GO.transform.position = cells[powercells_[i]].transform.position;
                 cells[powercells_[i]].occupied = true;
