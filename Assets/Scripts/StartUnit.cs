@@ -373,7 +373,7 @@ public class StartUnit : MonoBehaviour
                 {
                     end_attack_without_retaliate = true;
                 }
-                if (current_health - 20 <= 0)
+                if (current_health - 20 <= 0 && attacked_unit.gameObject.GetComponent<FortressHero>() != null)
                 {
                     end_attack_without_retaliate = true;
                 }

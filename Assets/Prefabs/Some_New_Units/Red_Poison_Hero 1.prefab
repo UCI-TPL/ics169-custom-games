@@ -1952,7 +1952,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ec17ceaa560940e9bf0dbeafc3a1971, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SpriteMesh: {fileID: 11400000, guid: 2a991a167b39e4fcc84fc895a0c2eb1b, type: 2}
+  m_SpriteMesh: {fileID: 11400000, guid: 1c2e8a7ea07684b4ba7e78a8f02e5b86, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
@@ -2045,6 +2045,9 @@ MonoBehaviour:
   Injured: 0
   extraWaitTime: 0
   Shield_Bubble: {fileID: 0}
+  color_should_be:
+    serializedVersion: 2
+    rgba: 0
   myType: 2
   specialAttackSound: {fileID: 82957732719247574}
   poisonGas: {fileID: 114959469959674676, guid: 0e7aaf4e54326884bb8920046574a797,
@@ -2220,7 +2223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ec17ceaa560940e9bf0dbeafc3a1971, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SpriteMesh: {fileID: 0}
+  m_SpriteMesh: {fileID: 11400000, guid: 1c486a126d1804adfb09682d19235492, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
@@ -2477,7 +2480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ec17ceaa560940e9bf0dbeafc3a1971, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SpriteMesh: {fileID: 11400000, guid: ff8e84a9b79184f1eae6ec1037dca019, type: 2}
+  m_SpriteMesh: {fileID: 11400000, guid: dc962186840904203b94ee7eab9e0c59, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
@@ -2823,7 +2826,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ec17ceaa560940e9bf0dbeafc3a1971, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SpriteMesh: {fileID: 11400000, guid: 5691a8b7de588234ab8aa3e3ef9f08f3, type: 2}
+  m_SpriteMesh: {fileID: 11400000, guid: 26867ffc51a7a463bbaa5b087b031aaf, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
@@ -2843,7 +2846,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a394e4901b78a4e04a0a05a8faf4f0dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Frame: 4
+  m_Frame: 2
   m_Frames:
   - {fileID: 11400000, guid: 6140348d303b0490d8b5a6f4b1554c98, type: 2}
   - {fileID: 11400000, guid: 3f21b4464021c48c4b67c0d638b0f6ce, type: 2}
@@ -2861,7 +2864,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a394e4901b78a4e04a0a05a8faf4f0dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Frame: 4
+  m_Frame: 2
   m_Frames:
   - {fileID: 11400000, guid: 3f3563414b95a4e3ebba9c549c83ba2f, type: 2}
   - {fileID: 11400000, guid: 9bd42c70e53034f0d8b444e67b8994ae, type: 2}
@@ -2994,7 +2997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a394e4901b78a4e04a0a05a8faf4f0dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Frame: 0
+  m_Frame: 2
   m_Frames:
   - {fileID: 11400000, guid: 2a991a167b39e4fcc84fc895a0c2eb1b, type: 2}
   - {fileID: 11400000, guid: 3683b04c56465483e8de4d3cbc4a3634, type: 2}
@@ -3135,7 +3138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a394e4901b78a4e04a0a05a8faf4f0dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Frame: 4
+  m_Frame: 2
   m_Frames:
   - {fileID: 11400000, guid: dbd299d1a2f4e4bfbb6336b0b5115829, type: 2}
   - {fileID: 11400000, guid: d55d0fee96b7641f698fe0b01e030dc6, type: 2}
@@ -3181,7 +3184,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 43709454997972542, guid: ff8e84a9b79184f1eae6ec1037dca019, type: 2}
+  m_Mesh: {fileID: 43671357996141982, guid: dc962186840904203b94ee7eab9e0c59, type: 2}
   m_Bones:
   - {fileID: 4158788744553638}
   - {fileID: 4401953881843004}
@@ -3232,7 +3235,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 43069669627706378, guid: 1c486a126d1804adfb09682d19235492, type: 2}
   m_Bones:
   - {fileID: 4645541108105410}
   m_BlendShapeWeights: []
@@ -3280,7 +3283,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 43862472353444994, guid: 2a991a167b39e4fcc84fc895a0c2eb1b, type: 2}
+  m_Mesh: {fileID: 43965967889194614, guid: 1c2e8a7ea07684b4ba7e78a8f02e5b86, type: 2}
   m_Bones:
   - {fileID: 4132728528744978}
   m_BlendShapeWeights: []
@@ -3328,7 +3331,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 43460388250516874, guid: 5691a8b7de588234ab8aa3e3ef9f08f3, type: 2}
+  m_Mesh: {fileID: 43343465974451422, guid: 26867ffc51a7a463bbaa5b087b031aaf, type: 2}
   m_Bones:
   - {fileID: 4935804090147942}
   m_BlendShapeWeights: []

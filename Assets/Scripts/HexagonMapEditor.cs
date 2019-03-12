@@ -263,7 +263,7 @@ public class HexagonMapEditor : MonoBehaviour
                             incoming_in = hazardList[hazard].timeToCome; // how long before it lands on the board
                             whichHazard = hazard; // decides type of hazard that is coming
                             int randRange = Random.Range(0, hexGrid.cells.Length);
-                            size = Random.Range(1, 3);
+                            size = Random.Range(2, 5);
 
                             hazardSpot = hexGrid.cells[randRange].coords;
                             List<HexagonCell> tilesToEffect = new List<HexagonCell>();
