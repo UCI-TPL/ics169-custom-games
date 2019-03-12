@@ -365,7 +365,7 @@ public class StartUnit : MonoBehaviour
             }
             else
             {
-                if (unitCell.coords.FindDistanceTo(attacked_cell.coords) <= attacked_cell.unitOnTile.attackRange && attacked_unit.gameObject.GetComponent<FortressHero>() == null)
+                if (unitCell.coords.FindDistanceTo(attacked_cell.coords) <= attacked_cell.unitOnTile.attackRange)
                 {
                     end_attack_without_retaliate = false;
                 }
