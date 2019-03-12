@@ -1338,7 +1338,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: e9f83d3d4ee9a4dbfadbc360bb0aca88, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 1abb4796db1172643bd86fb2c7967cb4, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1346,7 +1346,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 89
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -2840,7 +2840,7 @@ MonoBehaviour:
   fortress_def_buff: 0
   Unit_Getting_Attacked: {fileID: 0}
   Hit_Effect: {fileID: 0}
-  attackSound: {fileID: 82587040027733682}
+  attackSound: {fileID: 82282147843915664}
   hitSound: {fileID: 82098340632467032}
   moveSound: {fileID: 82457938062188014}
   selection_arrow: {fileID: 1386002402443952}
@@ -2852,6 +2852,9 @@ MonoBehaviour:
   Injured: 0
   extraWaitTime: 0
   Shield_Bubble: {fileID: 0}
+  color_should_be:
+    serializedVersion: 2
+    rgba: 0
   myType: 2
   specialAttackSound: {fileID: 82019629787089468}
   specialAttackCounter: 0

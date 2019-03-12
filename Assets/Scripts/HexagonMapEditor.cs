@@ -231,8 +231,7 @@ public class HexagonMapEditor : MonoBehaviour
                         for (int j = 0; j < tilesToEffect.Count; j++)
                         {
                             // HERE IS WHERE WE CHANGE THE EFFECT FOR THE HAZARD EFFECT COUNTER ON THE MAP
-                            // ex) tilesToEffect[j].stopWatch[incoming_in].enabled = true;
-                            //     tilesToEffect[j].stopWatch[incoming_in+1].enabled = false;
+
                             tilesToEffect[j].Stop_Watch_Tile.SetActive(true);
                             tilesToEffect[j].timer_text_canvas.GetComponent<Text>().text = incoming_in.ToString();
                         }
@@ -244,7 +243,7 @@ public class HexagonMapEditor : MonoBehaviour
                             for (int j = 0; j < tilesToEffect.Count; j++)
                             {
                                 // HERE IS WHERE WE CHANGE THE EFFECT FOR THE HAZARD EFFECT COUNTER ON THE MAP
-                                // ex) tilesToEffect[j].stopWatch[incoming_in].enabled = false;
+
                                 tilesToEffect[j].Stop_Watch_Tile.SetActive(false);
                             }
 
@@ -279,8 +278,8 @@ public class HexagonMapEditor : MonoBehaviour
                             }
                             for (int j = 0; j < tilesToEffect.Count; j++)
                             {
-                                // USE tilesToEffect LIST TO EDIT 
-                                // ex) tilesToEffect[j].stopWatch[incoming_in].enabled = true;
+                                // PLACE HAZARD EFFECT 
+
                                 tilesToEffect[j].Stop_Watch_Tile.SetActive(true);
                                 tilesToEffect[j].timer_text_canvas.GetComponent<Text>().text = incoming_in.ToString();
 
@@ -299,8 +298,7 @@ public class HexagonMapEditor : MonoBehaviour
                             if (hazardsOnGrid[i].timeLeft <= 0)
                             {
                                 EnvironmentalHazard.HazardInfo h = hazardsOnGrid[i];
-                                //Debug.Log("hazard x:" + h.x + " y:" + h.y + " z:" + h.z);
-                                //Debug.Log("going into remove hazard: "  + h.placedWeatherVane);
+
                                 h.type.RemoveHazard(hexGrid, h.x, h.z, h.size, h.placedWeatherVane);
                                 hazardsOnGrid.Remove(hazardsOnGrid[i]);
                             }
@@ -317,9 +315,7 @@ public class HexagonMapEditor : MonoBehaviour
                         EnvironmentalHazard.HazardInfo h = hazardsOnGrid[hazardCount];
                         print("type: " + h.type + "timeLeft: " + h.timeLeft + "p1: " + h.p1 + "turn1: " + h.turn1);
                         hazardsOnGrid[hazardCount] = new EnvironmentalHazard.HazardInfo(h.type, h.x, h.y, h.z, h.timeLeft-1, h.size, h.placedWeatherVane);
-                        //Debug.Log("hazard time left: " + h.timeLeft--.ToString());
-                        //Debug.Log("x: " + h.x + " z: " + h.z);
-                        //Debug.Log("placed weather vane:" + h.placedWeatherVane);
+
                         if (h.timeLeft <= 0)
                         {
                             hazardsExecuting = false;
@@ -383,6 +379,7 @@ public class HexagonMapEditor : MonoBehaviour
                     //Turn Units Back To Normal Color
                     for (int i = 0; i < MoveableUnits.Count; i++)
                     {
+                        MoveableUnits[i].color_should_be = Color.white;
                         Anima2D.SpriteMeshInstance[] Unit_Sprites = MoveableUnits[i].gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
                         for (int k = 0; k < Unit_Sprites.Length; k++)
                         {
@@ -425,10 +422,7 @@ public class HexagonMapEditor : MonoBehaviour
                             attack_count += 1;
                             StartCoroutine(P1Team[attack_count].BasicAttack(hexGrid, hexGrid.GetCell(P1Team[attack_count].transform.position)));
                         }
-                        //else
-                        //{
-                        //    //unit is still attacking so do nothing I guess
-                        //}
+
                     }
                     if (P1Team[P1Team.Count - 1] == null || P1Team[P1Team.Count - 1].currently_attacking == false) 
                     {
@@ -515,8 +509,7 @@ public class HexagonMapEditor : MonoBehaviour
                         EnvironmentalHazard.HazardInfo h = P1StatusOnGrid[statusCount];
 
                         P1StatusOnGrid[statusCount] = new EnvironmentalHazard.HazardInfo(h.type, h.x, h.y, h.z, h.timeLeft - 1, h.size);
-                        //Debug.Log("hazard time left: " + h.timeLeft--.ToString());
-                        //Debug.Log("x: " + h.x + " z: " + h.z);
+
                         StartCoroutine(Snap_To_Hazard(h.x, h.z, h.type.anim_time));
                         StartCoroutine(HandleStatus(statusCount,1));
 
@@ -558,6 +551,7 @@ public class HexagonMapEditor : MonoBehaviour
                     MoveableUnits = new List<StartUnit>(P1Team);
                     for (int i = 0; i < MoveableUnits.Count; i++)
                     {
+                        MoveableUnits[i].color_should_be = Color.white;
                         Anima2D.SpriteMeshInstance[] Unit_Sprites = MoveableUnits[i].gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
                         for (int k = 0; k < Unit_Sprites.Length; k++)
                         {
@@ -607,10 +601,7 @@ public class HexagonMapEditor : MonoBehaviour
                             
                             StartCoroutine(P2Team[attack_count].BasicAttack(hexGrid, hexGrid.GetCell(P2Team[attack_count].transform.position)));
                         }
-                        else
-                        {
-                            //unit is still attacking so do nothing I guess
-                        }
+
                     }
 
                     if (P2Team[P2Team.Count - 1] == null || P2Team[P2Team.Count - 1].currently_attacking == false) // where the index out of range is being thrown
@@ -691,8 +682,7 @@ public class HexagonMapEditor : MonoBehaviour
                         EnvironmentalHazard.HazardInfo h = P2StatusOnGrid[statusCount];
 
                         P2StatusOnGrid[statusCount] = new EnvironmentalHazard.HazardInfo(h.type, h.x, h.y, h.z, h.timeLeft - 1, h.size);
-                        //Debug.Log("hazard time left: " + h.timeLeft--.ToString());
-                        //Debug.Log("x: " + h.x + " z: " + h.z);
+
                         StartCoroutine(Snap_To_Hazard(h.x, h.z, h.type.anim_time));
                         StartCoroutine(HandleStatus(statusCount, 2));
 
@@ -782,10 +772,6 @@ public class HexagonMapEditor : MonoBehaviour
         //application.datapath returns a different place in build vs in editor
         //place text in root directory where executable is located when creating the actual build for this to work as is
         //string path_proper = Application.dataPath + "/proper.txt";
-        //Debug.Log(path_proper);
-        //Debug.Log(Application.dataPath);
-        //string path_adjectives = Application.dataPath + "/adjectives.txt";
-        //Debug.Log(path_adjectives);
 
         //TextAsset names_proper_ass = Resources.Load<TextAsset>("proper");
         //string[] names_proper = names_proper_ass.text.Split(new char[] { '\n' });
@@ -880,21 +866,20 @@ public class HexagonMapEditor : MonoBehaviour
             //BUG: Possible bug occuring here where you can't hit a or b on occassion;S
 
 
-            //if (!EventSystem.current.IsPointerOverGameObject())
-            //{
-                if (Input.GetButtonDown(joystick + "A Button"))
-                {
-                    HandleInput();
-                    Dynamic_Controls_list.update_current_controls();
-                }
+
+            if (Input.GetButtonDown(joystick + "A Button"))
+            {
+                HandleInput();
+                Dynamic_Controls_list.update_current_controls();
+            }
                     
-                if (Input.GetButtonDown(joystick + "B Button"))
-                {
-                    select_sound.Play();
-                    DeselectUnit();
-                    Dynamic_Controls_list.update_current_controls();
-                }
-           //}
+            if (Input.GetButtonDown(joystick + "B Button"))
+            {
+                select_sound.Play();
+                DeselectUnit();
+                Dynamic_Controls_list.update_current_controls();
+            }
+
 
 
             if (Input.GetButtonDown(joystick + "R Bumper"))
@@ -960,16 +945,6 @@ public class HexagonMapEditor : MonoBehaviour
 
     }
 
-    //void HandleAttack() // similar to HandleInput() but for the attack phase only
-    //{
-    //    HexagonCell currentCell = GetCellUnderCursor2D();
-    //    int index = currentCell.coords.X_coord + currentCell.coords.Z_coord * hexGrid.width + currentCell.coords.Z_coord / 2;
-    //    if (currentCell.occupied && attacking) // if attacking and cell is occupied
-    //    {
-    //        if (!whileAttacking)
-    //            StartCoroutine(AttackUnit());
-    //    }
-    //}
 
     void SelectUnit(HexagonCell current, int index) // sets variables to the clicked position's unit
     {
@@ -1114,7 +1089,6 @@ public class HexagonMapEditor : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(cursor.point.transform.position, Vector2.zero, 0f);
         if (hit)
         {
-            //Debug.Log(hit.transform.gameObject.GetComponent<HexagonCell>()); // debug stuff
             return hit.transform.gameObject.GetComponent<HexagonCell>();
         }
         else return null;
@@ -1122,10 +1096,6 @@ public class HexagonMapEditor : MonoBehaviour
 
     void CreateUnit(int index, StartUnit unit, string name)
     {   
-        //if(unit == null)
-        //{
-        //    return;
-        //}
         SelectedUnit = Instantiate(unit);
         isUnitSelected = true;
         unitCell = hexGrid.cells[index];
@@ -1169,10 +1139,12 @@ public class HexagonMapEditor : MonoBehaviour
             {
                 //basically just staying in the same spot
                 MoveableUnits.Remove(SelectedUnit);
+                SelectedUnit.color_should_be = Greyed_Unit_Color;
                 Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
                 for (int i = 0; i < Unit_Meshes.Length; i++)
                 {
                     Unit_Meshes[i].color = Greyed_Unit_Color;
+                    
                     //Debug.Log("Color_Changed");
                 }
                 DeselectUnit();
@@ -1199,12 +1171,7 @@ public class HexagonMapEditor : MonoBehaviour
         //" = " + distance.ToString()); //for debugging distance
         if (SelectedUnit.current_mobility >= distance && MoveableUnits.Contains(SelectedUnit))
         {
-            //ask for confirmation
-            //move_confirmed = true;
-            //while (move_confirmed)
-            //{
-            //    //wait for move to confirm I guess??
-            //}
+
             Confirm_Window.GetComponent<Confirm_Window>().Activate_Conf_Win();
             while(move_confirmed == false)
             {
@@ -1236,10 +1203,12 @@ public class HexagonMapEditor : MonoBehaviour
                 }
 
                 MoveableUnits.Remove(SelectedUnit);
+                SelectedUnit.color_should_be = Greyed_Unit_Color;
                 Anima2D.SpriteMeshInstance[] Unit_Meshes = SelectedUnit.gameObject.GetComponentsInChildren<Anima2D.SpriteMeshInstance>();
                 for (int i = 0; i < Unit_Meshes.Length; i++)
                 {
                     Unit_Meshes[i].color = Greyed_Unit_Color;
+                    
                     //Debug.Log("Color_Changed");
                 }
                 DeselectUnit();
@@ -1272,6 +1241,8 @@ public class HexagonMapEditor : MonoBehaviour
     {
         //needs to be rewritten using neighbours to improve efficiency
         int range = SelectedUnit.attackRange;
+        if (SelectedUnit.GetComponent<KidnapperHero>() != null && SelectedUnit.GetComponent<KidnapperHero>().specialAttackCounter == 0)
+            range += 2;
         int width = hexGrid.width;
         int height = hexGrid.height;
 

@@ -72,6 +72,8 @@ public class StartUnit : MonoBehaviour
 
     public GameObject Shield_Bubble;
 
+    public Color32 color_should_be;
+
     // Use this for initialization
     public void Start()
     {
@@ -90,6 +92,7 @@ public class StartUnit : MonoBehaviour
         move_buff = false;
         fortress_def_buff = false;
         health_color = health_bar.GetComponent<Image>().color;
+        color_should_be = Color.white;
     }
 
     // Update is called once per frame
@@ -362,7 +365,7 @@ public class StartUnit : MonoBehaviour
             }
             else
             {
-                if (unitCell.coords.FindDistanceTo(attacked_cell.coords) <= attacked_cell.unitOnTile.attackRange)
+                if (unitCell.coords.FindDistanceTo(attacked_cell.coords) <= attacked_cell.unitOnTile.attackRange && attacked_unit.gameObject.GetComponent<FortressHero>() == null)
                 {
                     end_attack_without_retaliate = false;
                 }
@@ -370,7 +373,10 @@ public class StartUnit : MonoBehaviour
                 {
                     end_attack_without_retaliate = true;
                 }
-                
+                if (current_health - 20 <= 0)
+                {
+                    end_attack_without_retaliate = true;
+                }
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 yield return new WaitForSeconds(0.3f);
 
@@ -406,6 +412,7 @@ public class StartUnit : MonoBehaviour
                     StartCoroutine(Blink(editor.Unit_Hurt_Color, this, Time.time + 1f));
                     if (current_health <= 0)// pretty sure there's more code needed here but i'll ask christophe later
                     {
+                        
                         editor.Units_To_Delete.Add(unitCell);
                         dead = true;
                     }
@@ -842,6 +849,12 @@ public class StartUnit : MonoBehaviour
             }
 
             yield return new WaitForSeconds(0.2f);
+        }
+
+        for (int i = 0; i < Unit_Meshes.Length; i++)
+        {
+            Unit_Meshes[i].color = color_should_be;
+            //Debug.Log("Color_Changed");
         }
 
     }

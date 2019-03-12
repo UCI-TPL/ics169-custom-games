@@ -580,7 +580,10 @@ public class WeatherHero : HeroUnit
                 {
                     end_attack_without_retaliate = true;
                 }
-
+                if (attacked_unit.current_health - 20 <= 0)
+                {
+                    end_attack_without_retaliate = true;
+                }
                 StartCoroutine(Attack(hexGrid, unitCell, attacked_cell));
                 yield return new WaitForSeconds(0.3f);
 
