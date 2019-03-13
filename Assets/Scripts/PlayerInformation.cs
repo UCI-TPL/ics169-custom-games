@@ -153,7 +153,7 @@ public class PlayerInformation : MonoBehaviour
                         {
                             RandomPool();
                         }
-                        draftUI.ChoiceText.text = "Player 1 Select Your Hero";
+                        draftUI.ChoiceText.text = "Player 1 Select Your Warlord";
                         currentState = DraftStates.P1_Pick_1;
                     }
                     break;
@@ -198,7 +198,7 @@ public class PlayerInformation : MonoBehaviour
                             StartCoroutine(draftUI.Blink(draftUI.P2Choice1));
                         ChooseCharacter("P2", true);
                         DraftPick("P2", true);
-                        draftUI.ChoiceText.text = "Player 2 Select Your Hero";
+                        draftUI.ChoiceText.text = "Player 2 Select Your Warlord";
                         break;
                     }
                     if(Player2Chosen.Count == 1)
