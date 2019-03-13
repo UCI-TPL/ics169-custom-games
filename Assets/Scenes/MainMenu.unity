@@ -750,6 +750,13 @@ Prefab:
       propertyPath: FirstObject
       value: 
       objectReference: {fileID: 602337388}
+    - target: {fileID: 114096049721600312, guid: 003061ccc26348f4e96924c8c8b607c8,
+        type: 2}
+      propertyPath: m_Text
+      value: An indicator will appear on top of units that are in range. The attacking
+        unit will randomly choose one of the targets in range.  Attacking will occur
+        once all units have moved.
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 003061ccc26348f4e96924c8c8b607c8, type: 2}
   m_IsPrefabAsset: 0
@@ -4496,7 +4503,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Marlon Valladares - Lead Game Designer
+  m_Text: 'Marlon Valladares - Lead Designer / Programmer
 
 '
 --- !u!222 &1952094868
@@ -4573,7 +4580,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Jared Chun - Lead Programmer
+  m_Text: Jared Chun - Lead Programmer / Producer
 --- !u!222 &2007641868
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4871,7 +4878,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Christophe Saucier - Lead Artist
+  m_Text: Christophe Saucier - Lead Artist / Programmer
 --- !u!222 &2098743869
 CanvasRenderer:
   m_ObjectHideFlags: 0
