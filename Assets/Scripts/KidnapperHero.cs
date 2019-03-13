@@ -337,7 +337,7 @@ public class KidnapperHero : HeroUnit {
 
                 yield return new WaitForSeconds(0.3f);
 
-                StartCoroutine(targetable[selectedTarget].unitOnTile.Hit());
+                StartCoroutine(attacked_unit.Hit());
                 StartCoroutine(attacked_unit.Blink(editor.Unit_Hurt_Color, attacked_unit, Time.time + 1f));
 
                 //attacked_unit.Fade_Out_Body();

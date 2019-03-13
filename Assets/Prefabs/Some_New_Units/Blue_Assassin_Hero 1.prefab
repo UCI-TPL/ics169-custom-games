@@ -2653,10 +2653,13 @@ MonoBehaviour:
   Injured: 0
   extraWaitTime: 0
   Shield_Bubble: {fileID: 0}
+  color_should_be:
+    serializedVersion: 2
+    rgba: 0
   myType: 2
   specialAttackSound: {fileID: 0}
   specialAttackCounter: 0
-  specialRange: 4
+  specialRange: 3
 --- !u!114 &114580857289739038
 MonoBehaviour:
   m_ObjectHideFlags: 1
