@@ -8365,11 +8365,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114136113021631554, guid: 003061ccc26348f4e96924c8c8b607c8,
-        type: 2}
-      propertyPath: scrollItems.Array.size
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 224785933712850598, guid: 003061ccc26348f4e96924c8c8b607c8,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -8460,56 +8455,41 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114761669509074430, guid: 003061ccc26348f4e96924c8c8b607c8,
+        type: 2}
+      propertyPath: FirstObject
+      value: 
+      objectReference: {fileID: 536818806}
+    - target: {fileID: 114761669509074430, guid: 003061ccc26348f4e96924c8c8b607c8,
+        type: 2}
+      propertyPath: maincanvas
+      value: 
+      objectReference: {fileID: 406568318}
+    - target: {fileID: 114136113021631554, guid: 003061ccc26348f4e96924c8c8b607c8,
+        type: 2}
+      propertyPath: maincanvas
+      value: 
+      objectReference: {fileID: 406568318}
+    - target: {fileID: 114136113021631554, guid: 003061ccc26348f4e96924c8c8b607c8,
+        type: 2}
+      propertyPath: FirstObject
+      value: 
+      objectReference: {fileID: 536818806}
     - target: {fileID: 1436883076559302, guid: 003061ccc26348f4e96924c8c8b607c8, type: 2}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114136113021631554, guid: 003061ccc26348f4e96924c8c8b607c8,
+    - target: {fileID: 224620977040951808, guid: 003061ccc26348f4e96924c8c8b607c8,
         type: 2}
-      propertyPath: maincanvas
-      value: 
-      objectReference: {fileID: 406568318}
-    - target: {fileID: 114136113021631554, guid: 003061ccc26348f4e96924c8c8b607c8,
-        type: 2}
-      propertyPath: FirstObject
-      value: 
-      objectReference: {fileID: 536818806}
-    - target: {fileID: 114761669509074430, guid: 003061ccc26348f4e96924c8c8b607c8,
-        type: 2}
-      propertyPath: maincanvas
-      value: 
-      objectReference: {fileID: 406568318}
-    - target: {fileID: 114761669509074430, guid: 003061ccc26348f4e96924c8c8b607c8,
-        type: 2}
-      propertyPath: FirstObject
-      value: 
-      objectReference: {fileID: 536818806}
-    - target: {fileID: 114136113021631554, guid: 003061ccc26348f4e96924c8c8b607c8,
-        type: 2}
-      propertyPath: scrollItems.Array.data[5]
-      value: 
-      objectReference: {fileID: 585223880}
-    - target: {fileID: 114136113021631554, guid: 003061ccc26348f4e96924c8c8b607c8,
-        type: 2}
-      propertyPath: scrollItems.Array.data[6]
-      value: 
-      objectReference: {fileID: 585223879}
+      propertyPath: m_AnchoredPosition.x
+      value: -2.5000153
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 003061ccc26348f4e96924c8c8b607c8, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &585223878 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1436883076559302, guid: 003061ccc26348f4e96924c8c8b607c8,
-    type: 2}
-  m_PrefabInternal: {fileID: 585223877}
---- !u!1 &585223879 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1452518582752934, guid: 003061ccc26348f4e96924c8c8b607c8,
-    type: 2}
-  m_PrefabInternal: {fileID: 585223877}
---- !u!1 &585223880 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1499067022512480, guid: 003061ccc26348f4e96924c8c8b607c8,
     type: 2}
   m_PrefabInternal: {fileID: 585223877}
 --- !u!1 &596770315
