@@ -123,11 +123,35 @@ public class MedicUnit : StartUnit {
 
             }
             targetable[rand_index].unitOnTile.current_health += damage;
-            if(this.gameObject.GetComponent<StartUnit>().current_health - 40 >= 10)
+            if (this.gameObject.GetComponent<StartUnit>().current_health - 40 >= 40)
+            {
                 TakeDamage(this, 40f);
+                if (FloatingTextPrefab)
+                {
+                    GameObject damagetext = Instantiate(FloatingTextPrefab, transform.position, Quaternion.identity, transform);
+                    damagetext.GetComponent<TextMesh>().text = 40.ToString();
+                    damagetext.GetComponent<TextMesh>().color = Color.yellow;
+                    damagetext.GetComponent<TextMesh>().characterSize = 0.03f + (0.06f * (40f / 75f));
+                    if (Mathf.Sign(damagetext.transform.parent.localScale.x) == -1 && Mathf.Sign(damagetext.transform.localScale.x) == 1)
+                    {
+                        damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
+                            damagetext.transform.localScale.z);
+
+                    }
+                    else
+                    {
+                        if (Mathf.Sign(damagetext.transform.parent.localScale.x) == 1 && Mathf.Sign(damagetext.transform.localScale.x) == -1)
+                        {
+                            damagetext.gameObject.transform.localScale = new Vector3(damagetext.transform.localScale.x * -1, damagetext.transform.localScale.y,
+                                damagetext.transform.localScale.z);
+                        }
+                    }
+                }
+            }
+
 
             //this.GetComponent<StartUnit>().current_health -= 40;
-            if(targetable[rand_index].unitOnTile.current_health > (targetable[rand_index].unitOnTile.health * 0.4f))
+            if (targetable[rand_index].unitOnTile.current_health > (targetable[rand_index].unitOnTile.health * 0.4f))
             {
                 targetable[rand_index].unitOnTile.anim.SetBool("Injured", false);
                 targetable[rand_index].unitOnTile.Injured = false;
