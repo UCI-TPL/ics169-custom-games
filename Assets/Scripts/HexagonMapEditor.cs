@@ -409,7 +409,14 @@ public class HexagonMapEditor : MonoBehaviour
                         cur_attacking = true;
                         //get the ball rolling with attack_count
 
-                        StartCoroutine(P1Team[attack_count].BasicAttack(hexGrid, hexGrid.GetCell(P1Team[attack_count].transform.position)));
+                        if(P1Team[attack_count].dead == true)
+                        {
+                            P1Team[attack_count].currently_attacking = false;
+                        }
+                        else
+                        {
+                            StartCoroutine(P1Team[attack_count].BasicAttack(hexGrid, hexGrid.GetCell(P1Team[attack_count].transform.position)));
+                        }
                     }
 
                     //calls attack on each next unit after previous has attacked
@@ -420,7 +427,14 @@ public class HexagonMapEditor : MonoBehaviour
                             
                             //next unit attacks because prev has finished
                             attack_count += 1;
-                            StartCoroutine(P1Team[attack_count].BasicAttack(hexGrid, hexGrid.GetCell(P1Team[attack_count].transform.position)));
+                            if (P1Team[attack_count].dead)
+                            {
+                                P1Team[attack_count].currently_attacking = false;
+                            }
+                            else
+                            {
+                                StartCoroutine(P1Team[attack_count].BasicAttack(hexGrid, hexGrid.GetCell(P1Team[attack_count].transform.position)));
+                            }
                         }
 
                     }
@@ -586,8 +600,14 @@ public class HexagonMapEditor : MonoBehaviour
                         }
                         cur_attacking = true;
                         //get the ball rolling with attack_count
-                        
-                        StartCoroutine(P2Team[attack_count].BasicAttack(hexGrid, hexGrid.GetCell(P2Team[attack_count].transform.position)));
+                        if(P2Team[attack_count].dead == true)
+                        {
+                            P2Team[attack_count].currently_attacking = false;
+                        }
+                        else
+                        {
+                            StartCoroutine(P2Team[attack_count].BasicAttack(hexGrid, hexGrid.GetCell(P2Team[attack_count].transform.position)));
+                        }
                     }
 
                     //calls attack on each next unit after previous has attacked
@@ -598,8 +618,14 @@ public class HexagonMapEditor : MonoBehaviour
                             
                             //next unit attacks because prev has finished
                             attack_count += 1;
-                            
-                            StartCoroutine(P2Team[attack_count].BasicAttack(hexGrid, hexGrid.GetCell(P2Team[attack_count].transform.position)));
+                            if(P2Team[attack_count].dead == true)
+                            {
+                                P2Team[attack_count].currently_attacking = false;
+                            }
+                            else
+                            {
+                                StartCoroutine(P2Team[attack_count].BasicAttack(hexGrid, hexGrid.GetCell(P2Team[attack_count].transform.position)));
+                            }
                         }
 
                     }
@@ -1072,6 +1098,11 @@ public class HexagonMapEditor : MonoBehaviour
 
     public void RemoveUnitInfo(HexagonCell current, int index)  // when a unit dies use this function to remove it from the grid
     {
+        if(current.unitOnTile == null)
+        {
+            return;
+        }
+
         if (current.unitOnTile.tag == "Player 1")
             P1Team.Remove(current.unitOnTile);
         else
