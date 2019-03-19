@@ -198,7 +198,10 @@ public class WeatherHero : HeroUnit
             Debug.Log(name + " attacked " + attacked_unit.unit_name + " for " + damage);
             TakeDamage(attacked_unit, damage);
 
-            
+            if (specialAttackCounter <= 0)
+            {
+                WeatherVane(editor.hexGrid.GetCell(attacked_unit.transform.position));
+            }
 
 
             //Debug.Log("he dead");
@@ -287,10 +290,7 @@ public class WeatherHero : HeroUnit
 
                 //attacked_unit.Fade_Out_Body();
                 //Should start some sort of DEATH ANIMATION COROUTINE HERE
-                if (specialAttackCounter <= 0)
-                {
-                    WeatherVane(editor.hexGrid.GetCell(attacked_unit.transform.position));
-                }
+                
             }
             else
             {
